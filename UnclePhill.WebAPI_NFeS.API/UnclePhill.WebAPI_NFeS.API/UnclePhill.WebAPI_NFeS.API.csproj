@@ -45,6 +45,12 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="EntityFramework, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <HintPath>..\packages\EntityFramework.6.2.0\lib\net45\EntityFramework.dll</HintPath>
+    </Reference>
+    <Reference Include="EntityFramework.SqlServer, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <HintPath>..\packages\EntityFramework.6.2.0\lib\net45\EntityFramework.SqlServer.dll</HintPath>
+    </Reference>
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System" />
     <Reference Include="System.Data" />
@@ -183,6 +189,7 @@
     <Compile Include="Areas\HelpPage\SampleGeneration\TextSample.cs" />
     <Compile Include="Areas\HelpPage\XmlDocumentationProvider.cs" />
     <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Controllers\UserController.cs" />
     <Compile Include="Controllers\ValuesController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
@@ -275,6 +282,28 @@
     <None Include="packages.config" />
     <Content Include="Scripts\jquery-3.3.1.slim.min.map" />
     <Content Include="Scripts\jquery-3.3.1.min.map" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\UnclePhill.Common.Repository.Entity\UnclePhill.Common.Repository.Entity.csproj">
+      <Project>{4d57f28c-edd9-4a8a-a9e8-ddf93d725506}</Project>
+      <Name>UnclePhill.Common.Repository.Entity</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\UnclePhill.Common.Repository.Interface\UnclePhill.Common.Repository.Interface.csproj">
+      <Project>{a5ee9049-77fb-4b3e-826b-12b4987bab78}</Project>
+      <Name>UnclePhill.Common.Repository.Interface</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\UnclePhill.WebAPI_NFeS.DataAcess.Entity\UnclePhill.WebAPI_NFeS.DataAcess.Entity.csproj">
+      <Project>{e9d9920c-418c-4220-a8df-4b80041b17af}</Project>
+      <Name>UnclePhill.WebAPI_NFeS.DataAcess.Entity</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\UnclePhill.WebAPI_NFeS.Domain\UnclePhill.WebAPI_NFeS.Domain.csproj">
+      <Project>{5ec80e5a-907d-4892-abaf-fdae7be02f6f}</Project>
+      <Name>UnclePhill.WebAPI_NFeS.Domain</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\UnclePhill.WebAPI_NFeS.Repository.Entity\UnclePhill.WebAPI_NFeS.Repository.Entity.csproj">
+      <Project>{cebc5752-a000-4c86-8e85-7b762ebcd673}</Project>
+      <Name>UnclePhill.WebAPI_NFeS.Repository.Entity</Name>
+    </ProjectReference>
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
