@@ -25,5 +25,15 @@ namespace UnclePhill.WebAPI_NFeS.API.Controllers
         {
             return _repositoryUser.SelectByKey(id.Value);
         }
+
+        public void Delete(User user)
+        {
+            _repositoryUser.Delete(user);
+        }
+
+        public void DeleteByKey(long? id)
+        {
+            _repositoryUser.DeleteByKey(id.Value);
+        }
     }
 }
