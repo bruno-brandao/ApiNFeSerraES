@@ -48,6 +48,11 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Context\NFeS_DBContext.cs" />
+    <Compile Include="Migrations\201808080021125_CreateTableUser.cs" />
+    <Compile Include="Migrations\201808080021125_CreateTableUser.Designer.cs">
+      <DependentUpon>201808080021125_CreateTableUser.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -59,6 +64,11 @@
       <Project>{5ec80e5a-907d-4892-abaf-fdae7be02f6f}</Project>
       <Name>UnclePhill.WebAPI_NFeS.Domain</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Migrations\201808080021125_CreateTableUser.resx">
+      <DependentUpon>201808080021125_CreateTableUser.cs</DependentUpon>
+    </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
