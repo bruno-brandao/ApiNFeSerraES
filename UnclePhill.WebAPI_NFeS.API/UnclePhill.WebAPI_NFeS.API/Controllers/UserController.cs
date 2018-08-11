@@ -14,21 +14,54 @@ namespace UnclePhill.WebAPI_NFeS.API.Controllers
 
         private BD_NFeS Instace = new BD_NFeS();
 
-        public List<Users> Post()
+        public IHttpActionResult Get()
         {
-            return Instace.Users.ToList();
+            try
+            {
+                return Ok(Instace.Users.ToList());
+            }catch(Exception ex)
+            {
+                return InternalServerError(ex);
+            }            
         }
 
-        public Users Post(int? Id)
+        public IHttpActionResult Get(int? Id)
         {
-            return Instace.Users.Where(Func => Func.UserId == Id).First();
+            try
+            {
+                if (Id == null)
+                {
+                    return BadRequest();
+                }
+
+                Users user = Instace.Users.Where(Func => Func.UserId == Id).First();
+                if (user == null)
+                {
+                    return NotFound();
+                }
+                return Content(HttpStatusCode.Found, user);
+            }
+            catch (Exception ex)
+            {
+                return InternalServerError(ex);
+            }            
         }
 
-        public bool Put(Users users)
+        public IHttpActionResult Post([FromBody] Users users)
         {
-            Instace.Users.Add(users);
-            Instace.SaveChanges();
-            return true;
+            try
+            {
+                Instace.Users.Add(users);
+                Instace.SaveChanges();
+                return Created(Request.RequestUri + "/" + users.UserId,users);
+            }
+            catch (Exception ex)
+            {
+                return InternalServerError(ex);
+            }
+            
         }
+
+        
     }
 }
