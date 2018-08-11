@@ -14,6 +14,7 @@ namespace UnclePhill.WebAPI_NFeS.API.Controllers
 
         private BD_NFeS Instace = new BD_NFeS();
 
+        //Selecionar:
         public IHttpActionResult Get()
         {
             try
@@ -25,21 +26,22 @@ namespace UnclePhill.WebAPI_NFeS.API.Controllers
             }            
         }
 
+        //Selecionar Por ID:
         public IHttpActionResult Get(int? Id)
         {
             try
             {
-                if (Id == null)
+                if (!Id.HasValue)
                 {
                     return BadRequest();
                 }
 
-                Users user = Instace.Users.Where(Func => Func.UserId == Id).First();
-                if (user == null)
+                Users users = Instace.Users.Where(Func => Func.UserId == Id).First();
+                if (users == null)
                 {
                     return NotFound();
                 }
-                return Content(HttpStatusCode.Found, user);
+                return Content(HttpStatusCode.Found, users);
             }
             catch (Exception ex)
             {
@@ -47,6 +49,7 @@ namespace UnclePhill.WebAPI_NFeS.API.Controllers
             }            
         }
 
+        //Inserir:
         public IHttpActionResult Post([FromBody] Users users)
         {
             try
@@ -62,6 +65,55 @@ namespace UnclePhill.WebAPI_NFeS.API.Controllers
             
         }
 
-        
+        //Atualizar:
+        public IHttpActionResult Put(int? Id, [FromBody] Users users)
+        {
+            try
+            {
+                if (!Id.HasValue)
+                {
+                    return BadRequest();
+                }
+                users.UserId = Id.Value;
+                if (Instace.Users.Where(Func => Func.UserId == users.UserId).ToList().Count > 0)
+                {
+                    Users userNow = Instace.Users.Where(Func => Func.UserId == users.UserId).ToList().First();
+                    Instace.Entry(userNow).CurrentValues.SetValues(users);
+                    Instace.SaveChanges();
+                    return Ok();
+                }
+                return NotFound();           
+            }
+            catch (Exception ex)
+            {
+                return InternalServerError(ex);
+            }
+        }
+
+        //Excluir:
+        public IHttpActionResult Delete(int? Id)
+        {
+            try
+            {
+                if (!Id.HasValue)
+                {
+                    return BadRequest();
+                }
+
+                if (Instace.Users.Where(Func => Func.UserId == Id).ToList().Count > 0)
+                {
+                    Users users = Instace.Users.Where(Func => Func.UserId == Id).ToList().First();
+                    Instace.Entry(users).State = EntityState.Deleted;
+                    Instace.SaveChanges();
+                    return Ok();
+                }
+                return NotFound();
+            }
+            catch (Exception ex)
+            {
+                return InternalServerError(ex);
+            }
+        }
+
     }
 }
