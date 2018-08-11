@@ -5,11 +5,11 @@ using System.Runtime.InteropServices;
 // As informações gerais sobre um assembly são controladas por
 // conjunto de atributos. Altere estes valores de atributo para modificar as informações
 // associada a um assembly.
-[assembly: AssemblyTitle("UnclePhill.Common.Repository.Entity")]
+[assembly: AssemblyTitle("UnclePhill.WebAPI_NFeS.Repository")]
 [assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("")]
-[assembly: AssemblyProduct("UnclePhill.Common.Repository.Entity")]
+[assembly: AssemblyProduct("UnclePhill.WebAPI_NFeS.Repository")]
 [assembly: AssemblyCopyright("Copyright ©  2018")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
@@ -20,7 +20,7 @@ using System.Runtime.InteropServices;
 [assembly: ComVisible(false)]
 
 // O GUID a seguir será destinado à ID de typelib se este projeto for exposto para COM
-[assembly: Guid("4d57f28c-edd9-4a8a-a9e8-ddf93d725506")]
+[assembly: Guid("5b03c5ec-f4ad-4501-aeea-617b92c49fa9")]
 
 // As informações da versão de um assembly consistem nos quatro valores a seguir:
 //

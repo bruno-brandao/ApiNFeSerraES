@@ -1,39 +1,22 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data.Entity;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Web.Http;
-using UnclePhill.Common.Repository.Interface;
-using UnclePhill.WebAPI_NFeS.DataAcess.Entity.Context;
-using UnclePhill.WebAPI_NFeS.Domain;
-using UnclePhill.WebAPI_NFeS.Repository.Entity;
+using UnclePhill.WebAPI_NFeS.Repository;
 
 namespace UnclePhill.WebAPI_NFeS.API.Controllers
 {
     public class UserController : ApiController
     {
-        private IRepositoryUnclePhill<User, long> _repositoryUser 
-            = new RepositoryUser(new NFeS_DBContext());
 
-        public IEnumerable<User> Get()
-        {
-            return _repositoryUser.Select();
-        }
+        private BD_NFeS Instace = new BD_NFeS();
 
-        public User Get(long? id)
+        public List<Users> Get()
         {
-            return _repositoryUser.SelectByKey(id.Value);
-        }
-
-        public void Delete(User user)
-        {
-            _repositoryUser.Delete(user);
-        }
-
-        public void DeleteByKey(long? id)
-        {
-            _repositoryUser.DeleteByKey(id.Value);
+            return Instace.Users.ToList();
         }
     }
 }
