@@ -29,5 +29,6 @@ namespace UnclePhill.WebAPI_NFeS.Repository
         public virtual DbSet<Services> Services { get; set; }
         public virtual DbSet<Taker> Taker { get; set; }
         public virtual DbSet<Users> Users { get; set; }
+        public virtual DbSet<NFeS> NFeS { get; set; }
     }
 }

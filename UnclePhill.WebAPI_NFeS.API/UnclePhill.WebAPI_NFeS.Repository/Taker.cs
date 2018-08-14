@@ -25,5 +25,8 @@ namespace UnclePhill.WebAPI_NFeS.Repository
         public string City { get; set; }
         public string State { get; set; }
         public string Email { get; set; }
+        public bool Active { get; set; }
+        public System.DateTime DateInsert { get; set; }
+        public Nullable<System.DateTime> DateUpdate { get; set; }
     }
 }

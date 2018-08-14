@@ -32,5 +32,8 @@ namespace UnclePhill.WebAPI_NFeS.Repository
         public decimal COFINS { get; set; }
         public decimal CSLL { get; set; }
         public decimal INSS { get; set; }
+        public bool Active { get; set; }
+        public System.DateTime DateInsert { get; set; }
+        public Nullable<System.DateTime> DateUpdate { get; set; }
     }
 }

@@ -67,6 +67,9 @@
     <Compile Include="Company.cs">
       <DependentUpon>BD_NFeSContext.tt</DependentUpon>
     </Compile>
+    <Compile Include="NFeS.cs">
+      <DependentUpon>BD_NFeSContext.tt</DependentUpon>
+    </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Services.cs">
       <DependentUpon>BD_NFeSContext.tt</DependentUpon>

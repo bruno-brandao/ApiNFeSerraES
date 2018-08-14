@@ -7,8 +7,9 @@
       <Diagram DiagramId="45ff835a3e804620bb0914b8515156f7" Name="Diagram1" ZoomLevel="75">
         <EntityTypeShape EntityType="BD_NFeSModel.Company" Width="1.5" PointX="0.75" PointY="0.75" IsExpanded="true" />
         <EntityTypeShape EntityType="BD_NFeSModel.Services" Width="1.5" PointX="2.75" PointY="0.75" IsExpanded="true" />
-        <EntityTypeShape EntityType="BD_NFeSModel.Taker" Width="1.5" PointX="2.75" PointY="2.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="BD_NFeSModel.Taker" Width="1.5" PointX="6.875" PointY="1.25" IsExpanded="true" />
         <EntityTypeShape EntityType="BD_NFeSModel.Users" Width="1.5" PointX="4.75" PointY="0.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="BD_NFeSModel.NFeS" Width="1.5" PointX="9.125" PointY="0.875" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>
