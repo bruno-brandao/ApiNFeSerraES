@@ -9,21 +9,36 @@ using UnclePhill.WebAPI_NFeS.Repository;
 
 namespace UnclePhill.WebAPI_NFeS.API.Controllers
 {
-    public class UserController : ApiController
+    public class UserController : MasterController
     {
-
-        private BD_NFeS Instace = new BD_NFeS();
-
+        //Login:
+        [HttpGet]
+        public IHttpActionResult login(string email, string password)
+        {
+            try
+            {
+                if (string.IsNullOrEmpty(email) || string.IsNullOrEmpty(password))
+                {
+                    NotFound();
+                }
+                Users users = Instace.Users.Where(Func => Func.Email == email && Func.Password == password).First();
+                return Content(HttpStatusCode.Found,users);
+            }catch(Exception ex)
+            {
+                return InternalServerError(ex);
+            }
+        }
+        
         //Selecionar:
         public IHttpActionResult Get()
         {
             try
             {
                 return Ok(Instace.Users.ToList());
-            }catch(Exception ex)
+            } catch (Exception ex)
             {
                 return InternalServerError(ex);
-            }            
+            }
         }
 
         //Selecionar Por ID:
@@ -46,7 +61,7 @@ namespace UnclePhill.WebAPI_NFeS.API.Controllers
             catch (Exception ex)
             {
                 return InternalServerError(ex);
-            }            
+            }
         }
 
         //Inserir:
@@ -56,13 +71,13 @@ namespace UnclePhill.WebAPI_NFeS.API.Controllers
             {
                 Instace.Users.Add(users);
                 Instace.SaveChanges();
-                return Created(Request.RequestUri + "/" + users.UserId,users);
+                return Created(Request.RequestUri + "/" + users.UserId, users);
             }
             catch (Exception ex)
             {
                 return InternalServerError(ex);
             }
-            
+
         }
 
         //Atualizar:
@@ -82,7 +97,7 @@ namespace UnclePhill.WebAPI_NFeS.API.Controllers
                     Instace.SaveChanges();
                     return Ok();
                 }
-                return NotFound();           
+                return NotFound();
             }
             catch (Exception ex)
             {
@@ -114,6 +129,6 @@ namespace UnclePhill.WebAPI_NFeS.API.Controllers
                 return InternalServerError(ex);
             }
         }
-
+                
     }
 }
