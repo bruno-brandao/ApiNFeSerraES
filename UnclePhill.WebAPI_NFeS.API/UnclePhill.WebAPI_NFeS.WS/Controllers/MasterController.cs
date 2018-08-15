@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Web;
+using System.Web.Http;
 using System.Web.Mvc;
 using UnclePhill.WebAPI_NFeS.API.Models;
 
@@ -13,7 +14,6 @@ namespace UnclePhill.WebAPI_NFeS.API.Controllers
         protected ConnectionManager Conn = new ConnectionManager();
         protected StringBuilder SQL = new StringBuilder();
 
-        // GET: API
         public ActionResult Index()
         {
             return View();

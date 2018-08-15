@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web.Http;
 
-namespace UnclePhill.WebAPI_NFeS.API
+namespace UnclePhill.WebAPI_NFeS.WS
 {
     public static class WebApiConfig
     {
@@ -18,7 +18,7 @@ namespace UnclePhill.WebAPI_NFeS.API
                 name: "DefaultApi",
                 routeTemplate: "api/{controller}/{id}",
                 defaults: new { id = RouteParameter.Optional }
-            );            
+            );
         }
     }
 }
