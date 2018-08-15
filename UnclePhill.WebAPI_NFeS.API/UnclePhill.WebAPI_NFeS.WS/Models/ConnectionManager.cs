@@ -37,6 +37,25 @@ namespace UnclePhill.WebAPI_NFeS.API.Models
             this.ConnectionString = "Data Source=" + Server + ";MultipleActiveResultSets=true;Initial Catalog=" + Database + ";User ID=" + User + ";Password=" + Password;
         }
 
+        public bool Execute(string Query)
+        {
+            SqlConnection SqlConnection = new SqlConnection(this.ConnectionString);
+            try
+            {
+                SqlConnection.Open();
+                SqlCommand Command = new SqlCommand(Query, SqlConnection);
+                return Command.ExecuteNonQuery() > 0;                
+            }
+            catch (SqlException ex)
+            {
+                throw ex;
+            }
+            finally
+            {
+                if (SqlConnection != null && SqlConnection.State == ConnectionState.Open) { SqlConnection.Close(); }
+            }
+        }
+
         public DataTable GetDataTable(string Query, string TableName)
         {
             SqlConnection SqlConnection = new SqlConnection(this.ConnectionString);

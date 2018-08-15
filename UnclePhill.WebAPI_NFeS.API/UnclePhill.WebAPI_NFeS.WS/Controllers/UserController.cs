@@ -44,6 +44,67 @@ namespace UnclePhill.WebAPI_NFeS.API.Controllers
             } catch (Exception ex) {
                 return Json(new Feedback("erro", ex.Message), JsonRequestBehavior.AllowGet);
             }
-        }         
+        } 
+        
+        public JsonResult Create(Users user)
+        {
+            try
+            {
+                if (string.IsNullOrEmpty(user.Name))
+                {
+                    return Json(new Feedback("erro", "Informe o nome do usuário!"), JsonRequestBehavior.AllowGet);
+                }
+
+                if (string.IsNullOrEmpty(user.LastName))
+                {
+                    return Json(new Feedback("erro", "Informe o Sobrenome do usuário!"), JsonRequestBehavior.AllowGet);
+                }
+
+                if (string.IsNullOrEmpty(user.CPF))
+                {
+                    return Json(new Feedback("erro", "Informe o CPF do usuário!"), JsonRequestBehavior.AllowGet);
+                }
+
+                if (string.IsNullOrEmpty(user.Email))
+                {
+                    return Json(new Feedback("erro", "Informe o Email do usuário!"), JsonRequestBehavior.AllowGet);
+                }
+
+                if (string.IsNullOrEmpty(user.Password))
+                {
+                    return Json(new Feedback("erro", "Informe a senha do usuário!"), JsonRequestBehavior.AllowGet);
+                }
+
+                SQL.AppendLine(" Insert Into Users ");
+                SQL.AppendLine("   (Name, ");
+                SQL.AppendLine("    LastName, ");
+                SQL.AppendLine("    CPF, ");
+                SQL.AppendLine("    Email, ");
+                SQL.AppendLine("    Password, ");
+                SQL.AppendLine("    Active, ");
+                SQL.AppendLine("    DateInsert, ");
+                SQL.AppendLine("    DateUpdate) ");
+                SQL.AppendLine(" Values( ");
+                SQL.AppendLine("    '" + user.Name + "',");
+                SQL.AppendLine("    '" + user.LastName + "',");
+                SQL.AppendLine("    '" + user.CPF + "',");
+                SQL.AppendLine("    '" + user.Email + "',");
+                SQL.AppendLine("    '" + user.Password + "',");
+                SQL.AppendLine("    1,");
+                SQL.AppendLine("    GetDate(),");
+                SQL.AppendLine("    GetDate() ");
+                SQL.AppendLine(" ) ");
+
+                if (Conn.Execute(SQL.ToString()))
+                {
+                    return Json(new Feedback("ok", "Usuário criado com sucesso!"), JsonRequestBehavior.AllowGet);
+                }
+                return Json(new Feedback("erro", "Houve um problema ao cadastrar um usuário. Tente novamente!"), JsonRequestBehavior.AllowGet);
+            }
+            catch(Exception ex)
+            {
+                return Json(new Feedback("erro", ex.Message), JsonRequestBehavior.AllowGet);
+            }
+        }
     }
 }

@@ -18,11 +18,6 @@ namespace UnclePhill.WebAPI_NFeS.WS
                 url: "{controller}/{action}/{id}",
                 defaults: new { controller = "Home", action = "Index", id = UrlParameter.Optional }
             );
-            routes.MapRoute(
-                name: "Login",
-                url: "{controller}/{action}/{Email}/{Password}",
-                defaults: new { controller = "User", action = "Login", Email = UrlParameter.Optional,Password = UrlParameter.Optional }
-            );
         }
     }
 }
