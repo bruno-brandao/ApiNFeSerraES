@@ -112,7 +112,7 @@ namespace UnclePhill.WebAPI_NFeS.API.Controllers
         {
             try
             {
-                if (user.UserId < 0)
+                if (user.UserId <= 0)
                 {
                     return Json(new Feedback("erro","Informe o código do usuário!"),JsonRequestBehavior.AllowGet);
                 }
