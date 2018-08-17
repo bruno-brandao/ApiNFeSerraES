@@ -23,5 +23,10 @@ namespace UnclePhill.WebAPI_NFeS.API.Controllers
         {
             return Value.Replace("'", "''");
         }
+
+        protected JsonResult Response(object Param)
+        {
+            return Json(Param, JsonRequestBehavior.AllowGet);
+        }
     }
 }

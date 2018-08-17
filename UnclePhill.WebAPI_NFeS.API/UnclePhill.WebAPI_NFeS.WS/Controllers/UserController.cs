@@ -18,7 +18,7 @@ namespace UnclePhill.WebAPI_NFeS.API.Controllers
             {
                 if (string.IsNullOrEmpty(Email) || string.IsNullOrEmpty(Password))
                 {
-                    return Json(new Feedback("erro", "Email ou senha não informado!"));
+                    return Response(new Feedback("erro", "Email ou senha não informado!"));
                 }
 
                 SQL.AppendLine(" Select * From Users ");
@@ -40,9 +40,9 @@ namespace UnclePhill.WebAPI_NFeS.API.Controllers
                     user.DateUpdate = data.AsEnumerable().First().Field<DateTime>("DateUpdate").ToString("dd-MM-yyyy");
                     return Json(user, JsonRequestBehavior.AllowGet);
                 }
-                return Json(new Feedback("erro", "Email ou senha inválidos!"), JsonRequestBehavior.AllowGet);
+                return Response(new Feedback("erro", "Email ou senha inválidos!"));
             } catch (Exception ex) {
-                return Json(new Feedback("erro", ex.Message), JsonRequestBehavior.AllowGet);
+                return Response(new Feedback("erro", ex.Message));
             }
         } 
         
@@ -52,27 +52,27 @@ namespace UnclePhill.WebAPI_NFeS.API.Controllers
             {
                 if (string.IsNullOrEmpty(user.Name))
                 {
-                    return Json(new Feedback("erro", "Informe o nome do usuário!"), JsonRequestBehavior.AllowGet);
+                    return Response(new Feedback("erro", "Informe o nome do usuário!"));
                 }
 
                 if (string.IsNullOrEmpty(user.LastName))
                 {
-                    return Json(new Feedback("erro", "Informe o Sobrenome do usuário!"), JsonRequestBehavior.AllowGet);
+                    return Response(new Feedback("erro", "Informe o Sobrenome do usuário!"));
                 }
 
                 if (string.IsNullOrEmpty(user.CPF))
                 {
-                    return Json(new Feedback("erro", "Informe o CPF do usuário!"), JsonRequestBehavior.AllowGet);
+                    return Response(new Feedback("erro", "Informe o CPF do usuário!"));
                 }
 
                 if (string.IsNullOrEmpty(user.Email))
                 {
-                    return Json(new Feedback("erro", "Informe o Email do usuário!"), JsonRequestBehavior.AllowGet);
+                    return Response(new Feedback("erro", "Informe o Email do usuário!"));
                 }
 
                 if (string.IsNullOrEmpty(user.Password))
                 {
-                    return Json(new Feedback("erro", "Informe a senha do usuário!"), JsonRequestBehavior.AllowGet);
+                    return Response(new Feedback("erro", "Informe a senha do usuário!"));
                 }
 
                 SQL.AppendLine(" Insert Into Users ");
@@ -97,14 +97,14 @@ namespace UnclePhill.WebAPI_NFeS.API.Controllers
 
                 if (Conn.Execute(SQL.ToString()))
                 {
-                    return Json(new Feedback("ok", "Usuário criado com sucesso!"), JsonRequestBehavior.AllowGet);
+                    return Response(new Feedback("ok", "Usuário criado com sucesso!"));
                 }
 
-                return Json(new Feedback("erro", "Houve um problema ao cadastrar um usuário. Tente novamente!"), JsonRequestBehavior.AllowGet);
+                return Response(new Feedback("erro", "Houve um problema ao cadastrar um usuário. Tente novamente!"));
             }
             catch(Exception ex)
             {
-                return Json(new Feedback("erro", ex.Message), JsonRequestBehavior.AllowGet);
+                return Response(new Feedback("erro", ex.Message));
             }
         }
 
@@ -114,32 +114,32 @@ namespace UnclePhill.WebAPI_NFeS.API.Controllers
             {
                 if (user.UserId <= 0)
                 {
-                    return Json(new Feedback("erro","Informe o código do usuário!"),JsonRequestBehavior.AllowGet);
+                    return Response(new Feedback("erro","Informe o código do usuário!"));
                 }
 
                 if (string.IsNullOrEmpty(user.Name))
                 {
-                    return Json(new Feedback("erro", "Informe o nome do usuário!"), JsonRequestBehavior.AllowGet);
+                    return Response(new Feedback("erro", "Informe o nome do usuário!"));
                 }
 
                 if (string.IsNullOrEmpty(user.LastName))
                 {
-                    return Json(new Feedback("erro", "Informe o Sobrenome do usuário!"), JsonRequestBehavior.AllowGet);
+                    return Response(new Feedback("erro", "Informe o Sobrenome do usuário!"));
                 }
 
                 if (string.IsNullOrEmpty(user.CPF))
                 {
-                    return Json(new Feedback("erro", "Informe o CPF do usuário!"), JsonRequestBehavior.AllowGet);
+                    return Response(new Feedback("erro", "Informe o CPF do usuário!"));
                 }
 
                 if (string.IsNullOrEmpty(user.Email))
                 {
-                    return Json(new Feedback("erro", "Informe o Email do usuário!"), JsonRequestBehavior.AllowGet);
+                    return Response(new Feedback("erro", "Informe o Email do usuário!"));
                 }
 
                 if (string.IsNullOrEmpty(user.Password))
                 {
-                    return Json(new Feedback("erro", "Informe a senha do usuário!"), JsonRequestBehavior.AllowGet);
+                    return Response(new Feedback("erro", "Informe a senha do usuário!"));
                 }
 
                 SQL.AppendLine(" Update Users Set ");
@@ -154,14 +154,14 @@ namespace UnclePhill.WebAPI_NFeS.API.Controllers
                
                 if (Conn.Execute(SQL.ToString()))
                 {
-                    return Json(new Feedback("ok","Usuário atualizado com sucesso!"));
+                    return Response(new Feedback("ok","Usuário atualizado com sucesso!"));
                 }
 
-                return Json(new Feedback("erro", "Houve um problema ao cadastrar um usuário. Tente novamente!"), JsonRequestBehavior.AllowGet);
+                return Response(new Feedback("erro", "Houve um problema ao cadastrar um usuário. Tente novamente!"));
             }
             catch(Exception ex)
             {
-                return Json(new Feedback("erro",ex.Message),JsonRequestBehavior.AllowGet);
+                return Response(new Feedback("erro",ex.Message));
             }
         }
     }
