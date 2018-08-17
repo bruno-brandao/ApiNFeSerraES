@@ -18,7 +18,7 @@ namespace UnclePhill.WebAPI_NFeS.API.Controllers
         {
             return View();
         }
-
+        
         protected string R(string Value)
         {
             return Value.Replace("'", "''");
