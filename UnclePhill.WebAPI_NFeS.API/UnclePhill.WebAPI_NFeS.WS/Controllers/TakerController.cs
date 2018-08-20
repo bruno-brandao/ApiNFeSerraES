@@ -38,23 +38,23 @@ namespace UnclePhill.WebAPI_NFeS.WS.Controllers
                 DataTable data = Conn.GetDataTable(SQL.ToString(), "Takers");
                 if (data != null && data.Rows.Count > 0 )
                 {
-                    foreach (DataRow drTaker in data.Rows)
+                    foreach (DataRow row in data.Rows)
                     {
                         Takers taker = new Takers();
-                        taker.TakerId = long.Parse(drTaker["TakerId"].ToString());
-                        taker.IM = drTaker["IM"].ToString();
-                        taker.CPF_CNPJ = drTaker["CPF_CNPJ"].ToString();
-                        taker.RG_IE = drTaker["RG_IE"].ToString();
-                        taker.Name = drTaker["Name"].ToString();
-                        taker.CEP = drTaker["CEP"].ToString();
-                        taker.Street = drTaker["Street"].ToString();
-                        taker.Neighborhood = drTaker["Neighborhood"].ToString();
-                        taker.City = drTaker["City"].ToString();
-                        taker.State = drTaker["State"].ToString();
-                        taker.Email = drTaker["Email"].ToString();
-                        taker.Active = bool.Parse(drTaker["Active"].ToString());
-                        taker.DateInsert = DateTime.Parse(drTaker["DateInsert"].ToString());
-                        taker.DateUpdate = DateTime.Parse(drTaker["DateUpdate"].ToString());
+                        taker.TakerId = long.Parse(row["TakerId"].ToString());
+                        taker.IM = row["IM"].ToString();
+                        taker.CPF_CNPJ = row["CPF_CNPJ"].ToString();
+                        taker.RG_IE = row["RG_IE"].ToString();
+                        taker.Name = row["Name"].ToString();
+                        taker.CEP = row["CEP"].ToString();
+                        taker.Street = row["Street"].ToString();
+                        taker.Neighborhood = row["Neighborhood"].ToString();
+                        taker.City = row["City"].ToString();
+                        taker.State = row["State"].ToString();
+                        taker.Email = row["Email"].ToString();
+                        taker.Active = bool.Parse(row["Active"].ToString());
+                        taker.DateInsert = row.Field<DateTime>("DateInsert").ToString("dd-MM-yyyy");
+                        taker.DateUpdate = row.Field<DateTime>("DateUpdate").ToString("dd-MM-yyyy");
                         lTakers.Add(taker);
                     }
                     return Response(lTakers);
@@ -71,26 +71,11 @@ namespace UnclePhill.WebAPI_NFeS.WS.Controllers
         {
             try
             {
-                if (string.IsNullOrEmpty(takers.IM))
+                Feedback feedback = Validate(takers);
+                if (feedback.Status.Equals("erro"))
                 {
-                    return Response(new Feedback("erro", "Informe a inscrição municipal!"));
+                    return Response(feedback);
                 }
-
-                if (string.IsNullOrEmpty(takers.CPF_CNPJ))
-                {
-                    return Response(new Feedback("erro", "Informe o CPF/CNPJ!"));
-                }
-
-                if (string.IsNullOrEmpty(takers.RG_IE))
-                {
-                    return Response(new Feedback("erro", "Informe a inscrição estadual!"));
-                }
-
-                if (string.IsNullOrEmpty(takers.RG_IE))
-                {
-                    return Response(new Feedback("erro", "Informe a inscrição estadual!"));
-                }
-
 
                 SQL.AppendLine(" Insert Into Takers ");
                 SQL.AppendLine("    IM, ");
@@ -107,16 +92,16 @@ namespace UnclePhill.WebAPI_NFeS.WS.Controllers
                 SQL.AppendLine("    DateInsert, ");
                 SQL.AppendLine("    DateUpdate ");
                 SQL.AppendLine(" Values ");
-                SQL.AppendLine("    ('" + R(takers.IM) + ",");
-                SQL.AppendLine("     '" + R(takers.CPF_CNPJ) + ",");
-                SQL.AppendLine("     '" + R(takers.RG_IE) + ",");
-                SQL.AppendLine("     '" + R(takers.Name) + ",");
-                SQL.AppendLine("     '" + R(takers.CEP) + ",");
-                SQL.AppendLine("     '" + R(takers.Street) + ",");
-                SQL.AppendLine("     '" + R(takers.Neighborhood) + ",");
-                SQL.AppendLine("     '" + R(takers.City) + ",");
-                SQL.AppendLine("     '" + R(takers.State) + ",");
-                SQL.AppendLine("     '" + R(takers.Email) + ",");
+                SQL.AppendLine("    ('" + NoInjection(takers.IM) + ",");
+                SQL.AppendLine("     '" + NoInjection(takers.CPF_CNPJ) + ",");
+                SQL.AppendLine("     '" + NoInjection(takers.RG_IE) + ",");
+                SQL.AppendLine("     '" + NoInjection(takers.Name) + ",");
+                SQL.AppendLine("     '" + NoInjection(takers.CEP) + ",");
+                SQL.AppendLine("     '" + NoInjection(takers.Street) + ",");
+                SQL.AppendLine("     '" + NoInjection(takers.Neighborhood) + ",");
+                SQL.AppendLine("     '" + NoInjection(takers.City) + ",");
+                SQL.AppendLine("     '" + NoInjection(takers.State) + ",");
+                SQL.AppendLine("     '" + NoInjection(takers.Email) + ",");
                 SQL.AppendLine("     1 ,");
                 SQL.AppendLine("     GetDate(), ");
                 SQL.AppendLine("     GetDate() ");
@@ -139,9 +124,10 @@ namespace UnclePhill.WebAPI_NFeS.WS.Controllers
         {
             try
             {
-                if (takers.TakerId <= 0)
+                Feedback feedback = Validate(takers);
+                if (feedback.Status.Equals("erro"))
                 {
-                    return Json(new Feedback("erro","Informe o código do tomador!"), JsonRequestBehavior.AllowGet);
+                    return Response(feedback);
                 }
 
                 SQL.AppendLine("");
@@ -181,6 +167,66 @@ namespace UnclePhill.WebAPI_NFeS.WS.Controllers
             {
                 return Json(new Feedback("erro", ex.Message), JsonRequestBehavior.AllowGet);
             }
-        }        
+        }
+        
+        private Feedback Validate(Takers takers)
+        {
+            if (string.IsNullOrEmpty(takers.IM))
+            {
+                return new Feedback("erro", "Informe a inscrição municipal!");
+            }
+
+            if (string.IsNullOrEmpty(takers.CPF_CNPJ))
+            {
+                return new Feedback("erro", "Informe o CPF/CNPJ!");
+            }
+
+            if (string.IsNullOrEmpty(takers.RG_IE))
+            {
+                return new Feedback("erro", "Informe a inscrição estadual!");
+            }
+
+            if (string.IsNullOrEmpty(takers.RG_IE))
+            {
+                return new Feedback("erro", "Informe a inscrição estadual!");
+            }
+
+            if (string.IsNullOrEmpty(takers.Name))
+            {
+                return new Feedback("erro", "Informe o nome do tomador!");
+            }
+
+            if (string.IsNullOrEmpty(takers.CEP))
+            {
+                return new Feedback("erro", "Informe o CEP!");
+            }
+
+            if (string.IsNullOrEmpty(takers.Street))
+            {
+                return new Feedback("erro", "Informe a Rua!");
+            }
+
+            if (string.IsNullOrEmpty(takers.Neighborhood))
+            {
+                return new Feedback("erro", "Informe o bairro!");
+            }
+
+            if (string.IsNullOrEmpty(takers.City))
+            {
+                return new Feedback("erro", "Informe a cidade!");
+            }
+
+            if (string.IsNullOrEmpty(takers.State))
+            {
+                return new Feedback("erro", "Informe a UF!");
+            }
+
+            if (string.IsNullOrEmpty(takers.Email))
+            {
+                return new Feedback("erro", "Informe o CEP!");
+            }
+
+            return new Feedback("ok", "Sucesso");
+        }
     }
 }

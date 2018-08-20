@@ -23,21 +23,22 @@ namespace UnclePhill.WebAPI_NFeS.API.Controllers
 
                 SQL.AppendLine(" Select * From Users ");
                 SQL.AppendLine(" Where Active = 1 ");
-                SQL.AppendLine(" And Email Like '" + Email + "'");
-                SQL.AppendLine(" And Password Like '" + Password + "'");
+                SQL.AppendLine(" And Email Like '" + NoInjection(Email) + "'");
+                SQL.AppendLine(" And Password Like '" + NoInjection(Password) + "'");
 
-                DataTable data = Conn.GetDataTable(SQL.ToString(), "Users");
+                DataTable data = Conn.GetDataTable(SQL.ToString(), "Users");                
                 if (data != null && data.Rows.Count > 0) {
+                    DataRow row = data.AsEnumerable().First();
                     Users user = new Users();
-                    user.UserId = data.AsEnumerable().First().Field<long>("UserId");
-                    user.Name = data.AsEnumerable().First().Field<string>("Name");
-                    user.LastName = data.AsEnumerable().First().Field<string>("LastName");
-                    user.CPF = data.AsEnumerable().First().Field<string>("CPF");
-                    user.Email = data.AsEnumerable().First().Field<string>("Email");
-                    user.Password = data.AsEnumerable().First().Field<string>("Password");
-                    user.Active = data.AsEnumerable().First().Field<bool>("Active");
-                    user.DateInsert = data.AsEnumerable().First().Field<DateTime>("DateInsert").ToString("dd-MM-yyyy");
-                    user.DateUpdate = data.AsEnumerable().First().Field<DateTime>("DateUpdate").ToString("dd-MM-yyyy");
+                    user.UserId = row.Field<long>("UserId");
+                    user.Name = row.Field<string>("Name");
+                    user.LastName = row.Field<string>("LastName");
+                    user.CPF = row.Field<string>("CPF");
+                    user.Email = row.Field<string>("Email");
+                    user.Password = row.Field<string>("Password");
+                    user.Active = row.Field<bool>("Active");
+                    user.DateInsert = row.Field<DateTime>("DateInsert").ToString("dd-MM-yyyy");
+                    user.DateUpdate = row.Field<DateTime>("DateUpdate").ToString("dd-MM-yyyy");
                     return Json(user, JsonRequestBehavior.AllowGet);
                 }
                 return Response(new Feedback("erro", "Email ou senha inválidos!"));
@@ -50,29 +51,10 @@ namespace UnclePhill.WebAPI_NFeS.API.Controllers
         {
             try
             {
-                if (string.IsNullOrEmpty(user.Name))
+                Feedback feedback = Validate(user);
+                if (feedback.Status.Equals("erro"))
                 {
-                    return Response(new Feedback("erro", "Informe o nome do usuário!"));
-                }
-
-                if (string.IsNullOrEmpty(user.LastName))
-                {
-                    return Response(new Feedback("erro", "Informe o Sobrenome do usuário!"));
-                }
-
-                if (string.IsNullOrEmpty(user.CPF))
-                {
-                    return Response(new Feedback("erro", "Informe o CPF do usuário!"));
-                }
-
-                if (string.IsNullOrEmpty(user.Email))
-                {
-                    return Response(new Feedback("erro", "Informe o Email do usuário!"));
-                }
-
-                if (string.IsNullOrEmpty(user.Password))
-                {
-                    return Response(new Feedback("erro", "Informe a senha do usuário!"));
+                    return Response(feedback);
                 }
 
                 SQL.AppendLine(" Insert Into Users ");
@@ -85,11 +67,11 @@ namespace UnclePhill.WebAPI_NFeS.API.Controllers
                 SQL.AppendLine("    DateInsert, ");
                 SQL.AppendLine("    DateUpdate) ");
                 SQL.AppendLine(" Values( ");
-                SQL.AppendLine("    '" + R(user.Name) + "',");
-                SQL.AppendLine("    '" + R(user.LastName) + "',");
-                SQL.AppendLine("    '" + R(user.CPF) + "',");
-                SQL.AppendLine("    '" + R(user.Email) + "',");
-                SQL.AppendLine("    '" + R(user.Password) + "',");
+                SQL.AppendLine("    '" + NoInjection(user.Name) + "',");
+                SQL.AppendLine("    '" + NoInjection(user.LastName) + "',");
+                SQL.AppendLine("    '" + NoInjection(user.CPF) + "',");
+                SQL.AppendLine("    '" + NoInjection(user.Email) + "',");
+                SQL.AppendLine("    '" + NoInjection(user.Password) + "',");
                 SQL.AppendLine("    1,");
                 SQL.AppendLine("    GetDate(),");
                 SQL.AppendLine("    GetDate() ");
@@ -117,37 +99,18 @@ namespace UnclePhill.WebAPI_NFeS.API.Controllers
                     return Response(new Feedback("erro","Informe o código do usuário!"));
                 }
 
-                if (string.IsNullOrEmpty(user.Name))
+                Feedback feedback = Validate(user);
+                if (feedback.Status.Equals("erro"))
                 {
-                    return Response(new Feedback("erro", "Informe o nome do usuário!"));
-                }
-
-                if (string.IsNullOrEmpty(user.LastName))
-                {
-                    return Response(new Feedback("erro", "Informe o Sobrenome do usuário!"));
-                }
-
-                if (string.IsNullOrEmpty(user.CPF))
-                {
-                    return Response(new Feedback("erro", "Informe o CPF do usuário!"));
-                }
-
-                if (string.IsNullOrEmpty(user.Email))
-                {
-                    return Response(new Feedback("erro", "Informe o Email do usuário!"));
-                }
-
-                if (string.IsNullOrEmpty(user.Password))
-                {
-                    return Response(new Feedback("erro", "Informe a senha do usuário!"));
+                    return Response(feedback);
                 }
 
                 SQL.AppendLine(" Update Users Set ");
-                SQL.AppendLine("    Name = '" + R(user.Name) + "',");
-                SQL.AppendLine("    LastName = '" + R(user.LastName) + "',");
-                SQL.AppendLine("    CPF = '" + R(user.CPF) + "',");
-                SQL.AppendLine("    Email = '" + R(user.Email) + "',");
-                SQL.AppendLine("    Password = '" + R(user.Password) + "',");
+                SQL.AppendLine("    Name = '" + NoInjection(user.Name) + "',");
+                SQL.AppendLine("    LastName = '" + NoInjection(user.LastName) + "',");
+                SQL.AppendLine("    CPF = '" + NoInjection(user.CPF) + "',");
+                SQL.AppendLine("    Email = '" + NoInjection(user.Email) + "',");
+                SQL.AppendLine("    Password = '" + NoInjection(user.Password) + "',");
                 SQL.AppendLine("    Active = 1,");
                 SQL.AppendLine("    DateUpdate = GetDate() ");
                 SQL.AppendLine(" Where UserId = " + user.UserId);
@@ -163,6 +126,37 @@ namespace UnclePhill.WebAPI_NFeS.API.Controllers
             {
                 return Response(new Feedback("erro",ex.Message));
             }
+        }
+
+        private Feedback Validate(Users users)
+        {            
+
+            if (string.IsNullOrEmpty(users.Name))
+            {
+                return new Feedback("erro", "Informe o nome do usuário!");
+            }
+
+            if (string.IsNullOrEmpty(users.LastName))
+            {
+                return new Feedback("erro", "Informe o Sobrenome do usuário!");
+            }
+
+            if (string.IsNullOrEmpty(users.CPF))
+            {
+                return new Feedback("erro", "Informe o CPF do usuário!");
+            }
+
+            if (string.IsNullOrEmpty(users.Email))
+            {
+                return new Feedback("erro", "Informe o Email do usuário!");
+            }
+
+            if (string.IsNullOrEmpty(users.Password))
+            {
+                return new Feedback("erro", "Informe a senha do usuário!");
+            }
+
+            return new Feedback("ok", "Sucesso");
         }
     }
 }

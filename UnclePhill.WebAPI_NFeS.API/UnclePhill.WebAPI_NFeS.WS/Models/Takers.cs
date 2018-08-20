@@ -30,7 +30,7 @@ namespace UnclePhill.WebAPI_NFeS.WS.Models
         public string State { get; set; }
         public string Email { get; set; }
         public bool Active { get; set; }
-        public DateTime DateInsert { get; set; }
-        public DateTime DateUpdate { get; set; }
+        public string DateInsert { get; set; }
+        public string DateUpdate { get; set; }
     }
 }
