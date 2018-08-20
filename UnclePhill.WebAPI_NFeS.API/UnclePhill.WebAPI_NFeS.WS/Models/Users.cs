@@ -7,6 +7,8 @@ namespace UnclePhill.WebAPI_NFeS.API.Models
 {
     public class Users
     {
+        private Users user = new Users();
+
         public Users()
         {
 
@@ -20,9 +22,15 @@ namespace UnclePhill.WebAPI_NFeS.API.Models
             this.CPF = CPF;
             this.Email = Email;
             this.Password = Password;
+            this.SessionHash = string.Empty;
             this.Active = Active;
             this.DateInsert = DateInsert;
             this.DateUpdate = DateUpdate;
+        }
+
+        public Users GetSession()
+        {
+            return this.user;
         }
 
         public long UserId { get; set; }
@@ -31,6 +39,7 @@ namespace UnclePhill.WebAPI_NFeS.API.Models
         public string CPF { get; set; }
         public string Email { get; set; }
         public string Password { get; set; }
+        public string SessionHash { get; set; }
         public bool Active { get; set; }
         public string DateInsert { get; set; }
         public string DateUpdate { get; set; }

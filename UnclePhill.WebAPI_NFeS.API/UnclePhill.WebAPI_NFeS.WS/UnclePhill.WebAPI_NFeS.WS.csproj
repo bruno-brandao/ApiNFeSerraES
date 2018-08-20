@@ -190,6 +190,7 @@
     </Compile>
     <Compile Include="Models\ConnectionManager.cs" />
     <Compile Include="Models\Feedback.cs" />
+    <Compile Include="Models\Session.cs" />
     <Compile Include="Models\Takers.cs" />
     <Compile Include="Models\Users.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

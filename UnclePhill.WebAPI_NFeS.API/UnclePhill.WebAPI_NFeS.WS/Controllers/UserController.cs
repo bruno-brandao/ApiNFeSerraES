@@ -3,9 +3,11 @@ using System.Collections.Generic;
 using System.Data;
 using System.Linq;
 using System.Net;
+using System.Text;
 using System.Web.Http.Results;
 using System.Web.Mvc;
 using UnclePhill.WebAPI_NFeS.API.Models;
+using UnclePhill.WebAPI_NFeS.WS.Models;
 
 namespace UnclePhill.WebAPI_NFeS.API.Controllers
 {
@@ -21,6 +23,7 @@ namespace UnclePhill.WebAPI_NFeS.API.Controllers
                     return Response(new Feedback("erro", "Email ou senha não informado!"));
                 }
 
+                SQL = new StringBuilder();
                 SQL.AppendLine(" Select * From Users ");
                 SQL.AppendLine(" Where Active = 1 ");
                 SQL.AppendLine(" And Email Like '" + NoInjection(Email) + "'");
@@ -29,17 +32,19 @@ namespace UnclePhill.WebAPI_NFeS.API.Controllers
                 DataTable data = Conn.GetDataTable(SQL.ToString(), "Users");                
                 if (data != null && data.Rows.Count > 0) {
                     DataRow row = data.AsEnumerable().First();
-                    Users user = new Users();
-                    user.UserId = row.Field<long>("UserId");
-                    user.Name = row.Field<string>("Name");
-                    user.LastName = row.Field<string>("LastName");
-                    user.CPF = row.Field<string>("CPF");
-                    user.Email = row.Field<string>("Email");
-                    user.Password = row.Field<string>("Password");
-                    user.Active = row.Field<bool>("Active");
-                    user.DateInsert = row.Field<DateTime>("DateInsert").ToString("dd-MM-yyyy");
-                    user.DateUpdate = row.Field<DateTime>("DateUpdate").ToString("dd-MM-yyyy");
-                    return Json(user, JsonRequestBehavior.AllowGet);
+                    Users users = new Users();
+                    users.UserId = row.Field<long>("UserId");
+                    users.Name = row.Field<string>("Name");
+                    users.LastName = row.Field<string>("LastName");
+                    users.CPF = row.Field<string>("CPF");
+                    users.Email = row.Field<string>("Email");                    
+                    users.Password = row.Field<string>("Password");
+                    users.Active = row.Field<bool>("Active");
+                    users.DateInsert = row.Field<DateTime>("DateInsert").ToString("dd-MM-yyyy");
+                    users.DateUpdate = row.Field<DateTime>("DateUpdate").ToString("dd-MM-yyyy");
+                    users.SessionHash = NewSession(users).SessionHash;
+
+                    return Response(users);
                 }
                 return Response(new Feedback("erro", "Email ou senha inválidos!"));
             } catch (Exception ex) {
@@ -47,16 +52,22 @@ namespace UnclePhill.WebAPI_NFeS.API.Controllers
             }
         } 
         
-        public JsonResult Insert(Users user)
+        public JsonResult Insert(string Session, Users users)
         {
             try
             {
-                Feedback feedback = Validate(user);
+                if (!base.CheckSession(Session))
+                {
+                    return Response(new Feedback("erro", "Sessão inválida!"));
+                }
+
+                Feedback feedback = Validate(users);
                 if (feedback.Status.Equals("erro"))
                 {
                     return Response(feedback);
                 }
 
+                SQL = new StringBuilder();
                 SQL.AppendLine(" Insert Into Users ");
                 SQL.AppendLine("   (Name, ");
                 SQL.AppendLine("    LastName, ");
@@ -67,11 +78,11 @@ namespace UnclePhill.WebAPI_NFeS.API.Controllers
                 SQL.AppendLine("    DateInsert, ");
                 SQL.AppendLine("    DateUpdate) ");
                 SQL.AppendLine(" Values( ");
-                SQL.AppendLine("    '" + NoInjection(user.Name) + "',");
-                SQL.AppendLine("    '" + NoInjection(user.LastName) + "',");
-                SQL.AppendLine("    '" + NoInjection(user.CPF) + "',");
-                SQL.AppendLine("    '" + NoInjection(user.Email) + "',");
-                SQL.AppendLine("    '" + NoInjection(user.Password) + "',");
+                SQL.AppendLine("    '" + NoInjection(users.Name) + "',");
+                SQL.AppendLine("    '" + NoInjection(users.LastName) + "',");
+                SQL.AppendLine("    '" + NoInjection(users.CPF) + "',");
+                SQL.AppendLine("    '" + NoInjection(users.Email) + "',");
+                SQL.AppendLine("    '" + NoInjection(users.Password) + "',");
                 SQL.AppendLine("    1,");
                 SQL.AppendLine("    GetDate(),");
                 SQL.AppendLine("    GetDate() ");
@@ -90,30 +101,36 @@ namespace UnclePhill.WebAPI_NFeS.API.Controllers
             }
         }
 
-        public JsonResult Update(Users user)
+        public JsonResult Update(string Session, Users users)
         {
             try
             {
-                if (user.UserId <= 0)
+                if (!base.CheckSession(Session))
+                {
+                    return Response(new Feedback("erro", "Sessão inválida!"));
+                }
+
+                if (users.UserId <= 0)
                 {
                     return Response(new Feedback("erro","Informe o código do usuário!"));
                 }
 
-                Feedback feedback = Validate(user);
+                Feedback feedback = Validate(users);
                 if (feedback.Status.Equals("erro"))
                 {
                     return Response(feedback);
                 }
 
+                SQL = new StringBuilder();
                 SQL.AppendLine(" Update Users Set ");
-                SQL.AppendLine("    Name = '" + NoInjection(user.Name) + "',");
-                SQL.AppendLine("    LastName = '" + NoInjection(user.LastName) + "',");
-                SQL.AppendLine("    CPF = '" + NoInjection(user.CPF) + "',");
-                SQL.AppendLine("    Email = '" + NoInjection(user.Email) + "',");
-                SQL.AppendLine("    Password = '" + NoInjection(user.Password) + "',");
+                SQL.AppendLine("    Name = '" + NoInjection(users.Name) + "',");
+                SQL.AppendLine("    LastName = '" + NoInjection(users.LastName) + "',");
+                SQL.AppendLine("    CPF = '" + NoInjection(users.CPF) + "',");
+                SQL.AppendLine("    Email = '" + NoInjection(users.Email) + "',");
+                SQL.AppendLine("    Password = '" + NoInjection(users.Password) + "',");
                 SQL.AppendLine("    Active = 1,");
                 SQL.AppendLine("    DateUpdate = GetDate() ");
-                SQL.AppendLine(" Where UserId = " + user.UserId);
+                SQL.AppendLine(" Where UserId = " + users.UserId);
                
                 if (Conn.Execute(SQL.ToString()))
                 {
@@ -157,6 +174,21 @@ namespace UnclePhill.WebAPI_NFeS.API.Controllers
             }
 
             return new Feedback("ok", "Sucesso");
+        }
+
+        private Session NewSession(Users users)
+        {
+            if (users.UserId <= 0)
+            {
+                throw new Exception("Usuario não encontrado!");
+            }
+
+            SQL = new StringBuilder();
+            SQL.AppendLine("");
+
+            Conn.Execute(SQL.ToString());
+
+            return new Session();
         }
     }
 }

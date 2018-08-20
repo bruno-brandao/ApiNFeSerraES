@@ -12,10 +12,15 @@ namespace UnclePhill.WebAPI_NFeS.WS.Controllers
 {
     public class TakerController : MasterController
     {       
-        public JsonResult Select()
+        public JsonResult Select(string Session)
         {
             try
             {
+                if (!base.CheckSession(Session))
+                {
+                    return Response(new Feedback("erro", "Sessão inválida!"));
+                }
+
                 List<Takers> lTakers = new List<Takers>();
 
                 SQL.AppendLine(" Select ");
@@ -67,10 +72,15 @@ namespace UnclePhill.WebAPI_NFeS.WS.Controllers
             }            
         }
 
-        public JsonResult Insert(Takers takers)
+        public JsonResult Insert(string Session, Takers takers)
         {
             try
             {
+                if (!base.CheckSession(Session))
+                {
+                    return Response(new Feedback("erro", "Sessão inválida!"));
+                }
+
                 Feedback feedback = Validate(takers);
                 if (feedback.Status.Equals("erro"))
                 {
@@ -120,10 +130,15 @@ namespace UnclePhill.WebAPI_NFeS.WS.Controllers
             }            
         }
 
-        public JsonResult Update(Takers takers)
+        public JsonResult Update(string Session, Takers takers)
         {
             try
             {
+                if (!base.CheckSession(Session))
+                {
+                    return Response(new Feedback("erro", "Sessão inválida!"));
+                }
+
                 Feedback feedback = Validate(takers);
                 if (feedback.Status.Equals("erro"))
                 {
@@ -145,11 +160,16 @@ namespace UnclePhill.WebAPI_NFeS.WS.Controllers
             }
         }
 
-        public JsonResult Delete(long TakerId)
+        public JsonResult Delete(string Session, long TakerId)
         {
             try
             {
-                if(TakerId <= 0)
+                if (!base.CheckSession(Session))
+                {
+                    return Response(new Feedback("erro", "Sessão inválida!"));
+                }
+
+                if (TakerId <= 0)
                 {
                     return Json(new Feedback("erro", "Informe o código do tomador!"), JsonRequestBehavior.AllowGet);
                 }
