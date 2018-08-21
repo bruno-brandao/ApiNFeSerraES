@@ -32,10 +32,13 @@ namespace UnclePhill.WebAPI_NFeS.API.Controllers
             return Json(Param, JsonRequestBehavior.AllowGet);
         }
 
-        protected bool CheckSession(string Session)
+        protected bool CheckSession()
         {
             try
             {
+                string Session = Request.Headers.Get("SessionHash");
+                if (string.IsNullOrEmpty(Session)) { return false; }
+
                 SQL = new StringBuilder();
                 SQL.AppendLine(" Select ");
                 SQL.AppendLine("    SessionId, ");

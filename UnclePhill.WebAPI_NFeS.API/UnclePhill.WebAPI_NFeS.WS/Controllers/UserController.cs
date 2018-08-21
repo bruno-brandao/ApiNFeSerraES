@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Data;
 using System.Linq;
 using System.Net;
+using System.Runtime.Remoting.Messaging;
 using System.Security.Cryptography;
 using System.Text;
 using System.Web.Http.Results;
@@ -102,11 +103,11 @@ namespace UnclePhill.WebAPI_NFeS.API.Controllers
             }
         }
 
-        public JsonResult Update(string Session, Users users)
+        public JsonResult Update(Users users)
         {
             try
-            {
-                if (!base.CheckSession(Session))
+            {            
+                if (!base.CheckSession())
                 {
                     return Response(new Feedback("erro", "Sessão inválida ou inexistente!"));
                 }

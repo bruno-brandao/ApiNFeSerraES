@@ -12,11 +12,11 @@ namespace UnclePhill.WebAPI_NFeS.WS.Controllers
 {
     public class TakerController : MasterController
     {       
-        public JsonResult Select(string Session)
+        public JsonResult Select()
         {
             try
             {
-                if (!base.CheckSession(Session))
+                if (!base.CheckSession())
                 {
                     return Response(new Feedback("erro", "Sessão inválida!"));
                 }
@@ -72,11 +72,11 @@ namespace UnclePhill.WebAPI_NFeS.WS.Controllers
             }            
         }
 
-        public JsonResult Insert(string Session, Takers takers)
+        public JsonResult Insert(Takers takers)
         {
             try
             {
-                if (!base.CheckSession(Session))
+                if (!base.CheckSession())
                 {
                     return Response(new Feedback("erro", "Sessão inválida!"));
                 }
@@ -130,11 +130,11 @@ namespace UnclePhill.WebAPI_NFeS.WS.Controllers
             }            
         }
 
-        public JsonResult Update(string Session, Takers takers)
+        public JsonResult Update(Takers takers)
         {
             try
             {
-                if (!base.CheckSession(Session))
+                if (!base.CheckSession())
                 {
                     return Response(new Feedback("erro", "Sessão inválida!"));
                 }
@@ -160,11 +160,11 @@ namespace UnclePhill.WebAPI_NFeS.WS.Controllers
             }
         }
 
-        public JsonResult Delete(string Session, long TakerId)
+        public JsonResult Delete(long TakerId)
         {
             try
             {
-                if (!base.CheckSession(Session))
+                if (!base.CheckSession())
                 {
                     return Response(new Feedback("erro", "Sessão inválida!"));
                 }
