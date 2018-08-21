@@ -33,21 +33,20 @@ namespace UnclePhill.WebAPI_NFeS.API.Controllers
                 DataTable data = Conn.GetDataTable(SQL.ToString(), "Users");                
                 if (data != null && data.Rows.Count > 0) {
                     DataRow row = data.AsEnumerable().First();
-                    Users users = new Users();
-                    users.UserId = row.Field<long>("UserId");
-                    users.Name = row.Field<string>("Name");
-                    users.LastName = row.Field<string>("LastName");
-                    users.CPF = row.Field<string>("CPF");
-                    users.Email = row.Field<string>("Email");                    
-                    users.Password = row.Field<string>("Password");
-                    users.Active = row.Field<bool>("Active");
-                    users.DateInsert = row.Field<DateTime>("DateInsert").ToString("dd-MM-yyyy");
-                    users.DateUpdate = row.Field<DateTime>("DateUpdate").ToString("dd-MM-yyyy");
-                    
-                    Session session = NewSession(users);
+                    Session session = NewSession(row.Field<long>("UserId"));                 
                     if (session.SessionId > 0)
                     {
+                        Users users = new Users();
+                        users.UserId = row.Field<long>("UserId");
+                        users.Name = row.Field<string>("Name");
+                        users.LastName = row.Field<string>("LastName");
+                        users.CPF = row.Field<string>("CPF");
+                        users.Email = row.Field<string>("Email");
+                        users.Password = row.Field<string>("Password");
                         users.SessionHash = session.SessionHash;
+                        users.Active = row.Field<bool>("Active");
+                        users.DateInsert = row.Field<DateTime>("DateInsert").ToString("dd-MM-yyyy");
+                        users.DateUpdate = row.Field<DateTime>("DateUpdate").ToString("dd-MM-yyyy");
                         return Response(users);
                     }
 
@@ -183,69 +182,77 @@ namespace UnclePhill.WebAPI_NFeS.API.Controllers
             return new Feedback("ok", "Sucesso");
         }
 
-        private Session NewSession(Users users)
+        private Session NewSession(long UserId)
         {
-            if (users.UserId <= 0)
+            try
             {
-                throw new Exception("Usuario não encontrado!");
-            }
-
-            string Hash = GenerateHash(users.Email + users.Password);
-
-            SQL = new StringBuilder();           
-            SQL.AppendLine(" Insert Into Session ");
-            SQL.AppendLine("    (UserId, ");
-            SQL.AppendLine("     SessionHash,");
-            SQL.AppendLine("     DateStart, ");
-            SQL.AppendLine("     DateEnd, ");
-            SQL.AppendLine("     Active, ");
-            SQL.AppendLine("     DateInsert, ");
-            SQL.AppendLine("     DateUpdate)");
-            SQL.AppendLine(" Values ");
-            SQL.AppendLine("    ( " + users.UserId + ",");
-            SQL.AppendLine("     '" + Hash + "',");
-            SQL.AppendLine("     GetDate(),");
-            SQL.AppendLine("     Dateadd(MI,5,GetDate()),");
-            SQL.AppendLine("     1, ");
-            SQL.AppendLine("     GetDate(), ");
-            SQL.AppendLine("     GetDate()) ");
-
-            Session session = new Session();
-            session.SessionId = Conn.Insert(SQL.ToString());
-
-            if (session.SessionId > 0)
-            {
-                SQL = new StringBuilder();
-                SQL.AppendLine(" Select ");
-                SQL.AppendLine("    SessionId, ");
-                SQL.AppendLine("    UserId, ");
-                SQL.AppendLine("    SessionHash, ");
-                SQL.AppendLine("    DateStart, ");
-                SQL.AppendLine("    DateEnd, ");
-                SQL.AppendLine("    Active, ");
-                SQL.AppendLine("    DateInsert, ");
-                SQL.AppendLine("    DateUpdate ");
-                SQL.AppendLine(" From Session ");
-                SQL.AppendLine(" Where Session.SessionId = " + session.SessionId);
-
-                DataTable data = Conn.GetDataTable(SQL.ToString(), "Session");
-                if (data != null && data.Rows.Count > 0)
+                if (UserId <= 0)
                 {
-                    foreach (DataRow row in data.Rows)
-                    {
-                        session.SessionId = row.Field<long>("SessionId");
-                        session.UserId = row.Field<long>("UserId");
-                        session.SessionHash = row.Field<string>("SessionHash");
-                        session.DateStart = row.Field<string>("DateStart");
-                        session.DateEnd = row.Field<string>("DateEnd").ToString("yyyy-MM-dd");
-                        session.Active = row.Field<bool>("Active");
-                        session.DateInsert = row.Field<string>("DateInsert");
-                        session.DateUpdate = row.Field<string>("DateUpdate");
-                    }
-                }              
-            }
+                    throw new Exception("Usuario não encontrado!");
+                }
 
-            return new Session();
+                string Hash = GenerateHash(UserId.ToString());
+
+                SQL = new StringBuilder();
+                SQL.AppendLine(" Insert Into Session ");
+                SQL.AppendLine("    (UserId, ");
+                SQL.AppendLine("     SessionHash,");
+                SQL.AppendLine("     DateStart, ");
+                SQL.AppendLine("     DateEnd, ");
+                SQL.AppendLine("     Active, ");
+                SQL.AppendLine("     DateInsert, ");
+                SQL.AppendLine("     DateUpdate)");
+                SQL.AppendLine(" Values ");
+                SQL.AppendLine("    ( " + UserId + ",");
+                SQL.AppendLine("     '" + Hash + "',");
+                SQL.AppendLine("     GetDate(),");
+                SQL.AppendLine("     Dateadd(MI,5,GetDate()),");
+                SQL.AppendLine("     1, ");
+                SQL.AppendLine("     GetDate(), ");
+                SQL.AppendLine("     GetDate()) ");
+
+                Session session = new Session();
+                session.SessionId = Conn.Insert(SQL.ToString());
+
+                if (session.SessionId > 0)
+                {
+                    SQL = new StringBuilder();
+                    SQL.AppendLine(" Select ");
+                    SQL.AppendLine("    SessionId, ");
+                    SQL.AppendLine("    UserId, ");
+                    SQL.AppendLine("    SessionHash, ");
+                    SQL.AppendLine("    DateStart, ");
+                    SQL.AppendLine("    DateEnd, ");
+                    SQL.AppendLine("    Active, ");
+                    SQL.AppendLine("    DateInsert, ");
+                    SQL.AppendLine("    DateUpdate ");
+                    SQL.AppendLine(" From Session ");
+                    SQL.AppendLine(" Where Session.SessionId = " + session.SessionId);
+
+                    DataTable data = Conn.GetDataTable(SQL.ToString(), "Session");
+                    if (data != null && data.Rows.Count > 0)
+                    {
+                        foreach (DataRow row in data.Rows)
+                        {
+                            session.SessionId = row.Field<long>("SessionId");
+                            session.UserId = row.Field<long>("UserId");
+                            session.SessionHash = row.Field<string>("SessionHash");
+                            session.DateStart = row.Field<string>("DateStart");
+                            session.DateEnd = row.Field<DateTime>("DateEnd").ToString("dd-MM-yyyy");
+                            session.Active = row.Field<bool>("Active");
+                            session.DateInsert = row.Field<DateTime>("DateInsert").ToString("dd-MM-yyyy");
+                            session.DateUpdate = row.Field<DateTime>("DateUpdate").ToString("dd-MM-yyyy");
+                        }
+                        return session;
+                    }
+                    throw new Exception("Não foi possivel criar uma sessão para o usuário!");
+                }
+                throw new Exception("Não foi possivel criar uma sessão para o usuário!");
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }            
         }
     }
 }
