@@ -188,7 +188,9 @@ namespace UnclePhill.WebAPI_NFeS.API.Controllers
             if (users.UserId <= 0)
             {
                 throw new Exception("Usuario não encontrado!");
-            }                
+            }
+
+            string Hash = GenerateHash(users.Email + users.Password);
 
             SQL = new StringBuilder();           
             SQL.AppendLine(" Insert Into Session ");
@@ -201,14 +203,47 @@ namespace UnclePhill.WebAPI_NFeS.API.Controllers
             SQL.AppendLine("     DateUpdate)");
             SQL.AppendLine(" Values ");
             SQL.AppendLine("    ( " + users.UserId + ",");
-            SQL.AppendLine("     '" + GenerateHash(users.Email + users.Password) + "',");
+            SQL.AppendLine("     '" + Hash + "',");
             SQL.AppendLine("     GetDate(),");
             SQL.AppendLine("     Dateadd(MI,5,GetDate()),");
             SQL.AppendLine("     1, ");
             SQL.AppendLine("     GetDate(), ");
             SQL.AppendLine("     GetDate()) ");
 
-            Conn.Insert(SQL.ToString());
+            Session session = new Session();
+            session.SessionId = Conn.Insert(SQL.ToString());
+
+            if (session.SessionId > 0)
+            {
+                SQL = new StringBuilder();
+                SQL.AppendLine(" Select ");
+                SQL.AppendLine("    SessionId, ");
+                SQL.AppendLine("    UserId, ");
+                SQL.AppendLine("    SessionHash, ");
+                SQL.AppendLine("    DateStart, ");
+                SQL.AppendLine("    DateEnd, ");
+                SQL.AppendLine("    Active, ");
+                SQL.AppendLine("    DateInsert, ");
+                SQL.AppendLine("    DateUpdate ");
+                SQL.AppendLine(" From Session ");
+                SQL.AppendLine(" Where Session.SessionId = " + session.SessionId);
+
+                DataTable data = Conn.GetDataTable(SQL.ToString(), "Session");
+                if (data != null && data.Rows.Count > 0)
+                {
+                    foreach (DataRow row in data.Rows)
+                    {
+                        session.SessionId = row.Field<long>("SessionId");
+                        session.UserId = row.Field<long>("UserId");
+                        session.SessionHash = row.Field<string>("SessionHash");
+                        session.DateStart = row.Field<string>("DateStart");
+                        session.DateEnd = row.Field<string>("DateEnd").ToString("yyyy-MM-dd");
+                        session.Active = row.Field<bool>("Active");
+                        session.DateInsert = row.Field<string>("DateInsert");
+                        session.DateUpdate = row.Field<string>("DateUpdate");
+                    }
+                }              
+            }
 
             return new Session();
         }
