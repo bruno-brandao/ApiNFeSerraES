@@ -36,6 +36,40 @@ namespace UnclePhill.WebAPI_NFeS.API.Models
             this.Password = "M1n3Rv@7";
             this.ConnectionString = "Data Source=" + Server + ";MultipleActiveResultSets=true;Initial Catalog=" + Database + ";User ID=" + User + ";Password=" + Password;
         }
+            
+        public long Insert(string Query)
+        {
+            SqlConnection SqlConnection = new SqlConnection(this.ConnectionString);
+            try
+            {
+                SqlConnection.Open();
+                SqlCommand Command = new SqlCommand(Query, SqlConnection);
+                if(Command.ExecuteNonQuery() > 0)
+                {
+                    Command = new SqlCommand("Select @@Indentity;",SqlConnection);
+                    return long.Parse(Command.ExecuteScalar().ToString());
+                }
+                return 0;
+            }
+            catch (SqlException ex)
+            {
+                throw ex;
+            }
+            finally
+            {
+                if (SqlConnection != null && SqlConnection.State == ConnectionState.Open) { SqlConnection.Close(); }
+            }
+        }
+        
+        public bool Delete(string Query)
+        {
+            return Execute(Query);
+        }
+
+        public bool Update(string Query)
+        {
+            return Execute(Query);
+        }
 
         public bool Execute(string Query)
         {
@@ -43,7 +77,7 @@ namespace UnclePhill.WebAPI_NFeS.API.Models
             try
             {
                 SqlConnection.Open();
-                SqlCommand Command = new SqlCommand(Query, SqlConnection);
+                SqlCommand Command = new SqlCommand(Query, SqlConnection);                
                 return Command.ExecuteNonQuery() > 0;                
             }
             catch (SqlException ex)
@@ -98,7 +132,6 @@ namespace UnclePhill.WebAPI_NFeS.API.Models
             {
                 if (SqlConnection != null && SqlConnection.State == ConnectionState.Closed) { SqlConnection.Close(); }
             }
-        }       
-
+        }
     }
 }

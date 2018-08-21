@@ -7,8 +7,6 @@ namespace UnclePhill.WebAPI_NFeS.API.Models
 {
     public class Users
     {
-        private Users user = new Users();
-
         public Users()
         {
 
@@ -26,11 +24,6 @@ namespace UnclePhill.WebAPI_NFeS.API.Models
             this.Active = Active;
             this.DateInsert = DateInsert;
             this.DateUpdate = DateUpdate;
-        }
-
-        public Users GetSession()
-        {
-            return this.user;
         }
 
         public long UserId { get; set; }

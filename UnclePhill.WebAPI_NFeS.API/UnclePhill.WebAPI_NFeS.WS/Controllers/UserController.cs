@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Data;
 using System.Linq;
 using System.Net;
+using System.Security.Cryptography;
 using System.Text;
 using System.Web.Http.Results;
 using System.Web.Mvc;
@@ -42,9 +43,15 @@ namespace UnclePhill.WebAPI_NFeS.API.Controllers
                     users.Active = row.Field<bool>("Active");
                     users.DateInsert = row.Field<DateTime>("DateInsert").ToString("dd-MM-yyyy");
                     users.DateUpdate = row.Field<DateTime>("DateUpdate").ToString("dd-MM-yyyy");
-                    users.SessionHash = NewSession(users).SessionHash;
+                    
+                    Session session = NewSession(users);
+                    if (session.SessionId > 0)
+                    {
+                        users.SessionHash = session.SessionHash;
+                        return Response(users);
+                    }
 
-                    return Response(users);
+                    return Response(new Feedback("erro","Não foi possivel gerar uma sessão para o usuário!"));
                 }
                 return Response(new Feedback("erro", "Email ou senha inválidos!"));
             } catch (Exception ex) {
@@ -88,7 +95,7 @@ namespace UnclePhill.WebAPI_NFeS.API.Controllers
                 SQL.AppendLine("    GetDate() ");
                 SQL.AppendLine(" ) ");
 
-                if (Conn.Execute(SQL.ToString()))
+                if (Conn.Insert(SQL.ToString()) > 0)
                 {
                     return Response(new Feedback("ok", "Usuário criado com sucesso!"));
                 }
@@ -132,7 +139,7 @@ namespace UnclePhill.WebAPI_NFeS.API.Controllers
                 SQL.AppendLine("    DateUpdate = GetDate() ");
                 SQL.AppendLine(" Where UserId = " + users.UserId);
                
-                if (Conn.Execute(SQL.ToString()))
+                if (Conn.Update(SQL.ToString()))
                 {
                     return Response(new Feedback("ok","Usuário atualizado com sucesso!"));
                 }
@@ -181,12 +188,27 @@ namespace UnclePhill.WebAPI_NFeS.API.Controllers
             if (users.UserId <= 0)
             {
                 throw new Exception("Usuario não encontrado!");
-            }
+            }                
 
-            SQL = new StringBuilder();
-            SQL.AppendLine("");
+            SQL = new StringBuilder();           
+            SQL.AppendLine(" Insert Into Session ");
+            SQL.AppendLine("    (UserId, ");
+            SQL.AppendLine("     SessionHash,");
+            SQL.AppendLine("     DateStart, ");
+            SQL.AppendLine("     DateEnd, ");
+            SQL.AppendLine("     Active, ");
+            SQL.AppendLine("     DateInsert, ");
+            SQL.AppendLine("     DateUpdate)");
+            SQL.AppendLine(" Values ");
+            SQL.AppendLine("    ( " + users.UserId + ",");
+            SQL.AppendLine("     '" + GenerateHash(users.Email + users.Password) + "',");
+            SQL.AppendLine("     GetDate(),");
+            SQL.AppendLine("     Dateadd(MI,5,GetDate()),");
+            SQL.AppendLine("     1, ");
+            SQL.AppendLine("     GetDate(), ");
+            SQL.AppendLine("     GetDate()) ");
 
-            Conn.Execute(SQL.ToString());
+            Conn.Insert(SQL.ToString());
 
             return new Session();
         }

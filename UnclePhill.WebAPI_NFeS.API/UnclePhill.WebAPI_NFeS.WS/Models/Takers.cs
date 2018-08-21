@@ -7,8 +7,6 @@ namespace UnclePhill.WebAPI_NFeS.WS.Models
 {
     public class Takers
     {
-        private Takers takers = new Takers();
-
         public Takers()
         {
 
@@ -31,13 +29,7 @@ namespace UnclePhill.WebAPI_NFeS.WS.Models
             this.DateInsert = DateInsert;
             this.DateUpdate = DateUpdate;
         }
-
-        public Takers GetSession()
-        {
-            return this.takers;
-        }
-
-
+                
         public long TakerId { get; set; }
         public string IM { get; set; }
         public string CPF_CNPJ { get; set; }

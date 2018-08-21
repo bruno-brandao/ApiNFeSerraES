@@ -117,7 +117,7 @@ namespace UnclePhill.WebAPI_NFeS.WS.Controllers
                 SQL.AppendLine("     GetDate() ");
                 SQL.AppendLine("    ) ");
 
-                if (Conn.Execute(SQL.ToString()))
+                if (Conn.Insert(SQL.ToString())> 0)
                 {
                     return Response(new Feedback("ok", "Tomador criado com sucesso!"));
                 }
@@ -147,7 +147,7 @@ namespace UnclePhill.WebAPI_NFeS.WS.Controllers
 
                 SQL.AppendLine("");
 
-                if (Conn.Execute(SQL.ToString()))
+                if (Conn.Update(SQL.ToString()))
                 {
                     return Json(new Feedback("ok","Tomador atualizado com sucesso!"));
                 }
@@ -176,7 +176,7 @@ namespace UnclePhill.WebAPI_NFeS.WS.Controllers
 
                 SQL.AppendLine("");
 
-                if (Conn.Execute(SQL.ToString()))
+                if (Conn.Delete(SQL.ToString()))
                 {
                     return Json(new Feedback("ok","Tomador deletado com sucesso!"));
                 }

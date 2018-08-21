@@ -7,8 +7,7 @@ namespace UnclePhill.WebAPI_NFeS.WS.Models
 {
     public class Session
     {
-        private Session session = new Session();
-
+        
         public Session()
         {
 
@@ -25,12 +24,7 @@ namespace UnclePhill.WebAPI_NFeS.WS.Models
             this.DateInsert = DateInsert;
             this.DateUpdate = DateUpdate;
         }
-
-        public Session GetSession()
-        {
-            return this.session;
-        }
-
+        
         public long SessionId { get; set; }
         public string SessionHash { get; set; }
         public long UserId { get; set; }
