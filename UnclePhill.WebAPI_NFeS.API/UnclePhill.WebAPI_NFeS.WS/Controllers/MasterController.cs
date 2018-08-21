@@ -36,12 +36,27 @@ namespace UnclePhill.WebAPI_NFeS.API.Controllers
         {
             try
             {
-
                 SQL = new StringBuilder();
-                SQL.AppendLine("  ");
-
-
-                return true;
+                SQL.AppendLine(" Select ");
+                SQL.AppendLine("    SessionId, ");
+                SQL.AppendLine("    UserId, ");
+                SQL.AppendLine("    SessionHash, ");
+                SQL.AppendLine("    DateStart, ");
+                SQL.AppendLine("    DateEnd, ");
+                SQL.AppendLine("    Active, ");
+                SQL.AppendLine("    DateInsert, ");
+                SQL.AppendLine("    DateUpdate ");
+                SQL.AppendLine(" From Session ");
+                SQL.AppendLine(" Where Active = 1 ");
+                SQL.AppendLine(" And DateDiff(MI, DateStart, DateEnd) <= 5 ");
+                SQL.AppendLine(" And Session.SessionHash Like '" + NoInjection(Session) + "'");
+                
+                if (Conn.GetDataTable(SQL.ToString(), "Session").Rows.Count > 0)
+                {
+                    return true;
+                }
+                
+                return false;
             }catch(Exception ex)
             {
                 throw new Exception(ex.Message);

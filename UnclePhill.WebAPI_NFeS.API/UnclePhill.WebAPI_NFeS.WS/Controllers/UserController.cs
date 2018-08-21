@@ -58,15 +58,10 @@ namespace UnclePhill.WebAPI_NFeS.API.Controllers
             }
         } 
         
-        public JsonResult Insert(string Session, Users users)
+        public JsonResult Insert(Users users)
         {
             try
             {
-                if (!base.CheckSession(Session))
-                {
-                    return Response(new Feedback("erro", "Sessão inválida!"));
-                }
-
                 Feedback feedback = Validate(users);
                 if (feedback.Status.Equals("erro"))
                 {
@@ -113,7 +108,7 @@ namespace UnclePhill.WebAPI_NFeS.API.Controllers
             {
                 if (!base.CheckSession(Session))
                 {
-                    return Response(new Feedback("erro", "Sessão inválida!"));
+                    return Response(new Feedback("erro", "Sessão inválida ou inexistente!"));
                 }
 
                 if (users.UserId <= 0)
@@ -206,7 +201,7 @@ namespace UnclePhill.WebAPI_NFeS.API.Controllers
                 SQL.AppendLine("    ( " + UserId + ",");
                 SQL.AppendLine("     '" + Hash + "',");
                 SQL.AppendLine("     GetDate(),");
-                SQL.AppendLine("     Dateadd(MI,5,GetDate()),");
+                SQL.AppendLine("     DateAdd(MI,5,GetDate()),");
                 SQL.AppendLine("     1, ");
                 SQL.AppendLine("     GetDate(), ");
                 SQL.AppendLine("     GetDate()) ");
