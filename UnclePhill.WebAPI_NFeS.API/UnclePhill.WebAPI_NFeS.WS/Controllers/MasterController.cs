@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Linq;
 using System.Security.Cryptography;
 using System.Text;
@@ -21,7 +22,7 @@ namespace UnclePhill.WebAPI_NFeS.API.Controllers
         {
             return View();
         }
-        
+
         protected string NoInjection(string Value)
         {
             return Value.Replace("'", "''");
@@ -37,7 +38,10 @@ namespace UnclePhill.WebAPI_NFeS.API.Controllers
             try
             {
                 string Session = Request.Headers.Get("SessionHash");
-                if (string.IsNullOrEmpty(Session)) { return false; }
+                if (string.IsNullOrEmpty(Session))
+                {
+                    return false;
+                }
 
                 SQL = new StringBuilder();
                 SQL.AppendLine(" Select ");
@@ -53,14 +57,24 @@ namespace UnclePhill.WebAPI_NFeS.API.Controllers
                 SQL.AppendLine(" Where Active = 1 ");
                 SQL.AppendLine(" And DateDiff(MI, DateStart, DateEnd) <= 5 ");
                 SQL.AppendLine(" And Session.SessionHash Like '" + NoInjection(Session) + "'");
-                
-                if (Conn.GetDataTable(SQL.ToString(), "Session").Rows.Count > 0)
+
+                DataTable data = Conn.GetDataTable(SQL.ToString(), "Session");
+                if (data.Rows.Count > 0)
                 {
+                    DataRow row = data.AsEnumerable().First();
+                    SQL = new StringBuilder();
+                    SQL.AppendLine(" Update Session Set ");
+                    SQL.AppendLine("    DateStart = GetDate(), ");
+                    SQL.AppendLine("    DateEnd = DateAdd(MI,5,GetDate()) ");
+                    SQL.AppendLine(" Where SessionId = " + row.Field<long>("SessionId"));
+
+                    Conn.Execute(SQL.ToString());
+
                     return true;
                 }
-                
-                return false;
-            }catch(Exception ex)
+                throw new Exception("Não foram encontradas sessões para esse usuário!");
+            }
+            catch (Exception ex)
             {
                 throw new Exception(ex.Message);
             }
@@ -82,7 +96,7 @@ namespace UnclePhill.WebAPI_NFeS.API.Controllers
                 }
                 return hash;
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 throw new Exception(ex.Message);
             }

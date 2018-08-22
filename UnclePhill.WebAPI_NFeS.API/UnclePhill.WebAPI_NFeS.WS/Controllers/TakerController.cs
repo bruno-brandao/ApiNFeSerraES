@@ -145,18 +145,31 @@ namespace UnclePhill.WebAPI_NFeS.WS.Controllers
                     return Response(feedback);
                 }
 
-                SQL.AppendLine("");
-
+                SQL.AppendLine(" Update Takers ");
+                SQL.AppendLine("    IM = '" + NoInjection(takers.IM) + "',");
+                SQL.AppendLine("    CPF_CNPJ = '" + NoInjection(takers.CPF_CNPJ) +"',");
+                SQL.AppendLine("    RG_IE = '" + NoInjection(takers.RG_IE) + "',");
+                SQL.AppendLine("    Name = '" + NoInjection(takers.Name) + "',");
+                SQL.AppendLine("    CEP = '" + NoInjection(takers.CEP) + "',");
+                SQL.AppendLine("    Street = '" + NoInjection(takers.Street) + "',");
+                SQL.AppendLine("    Neighborhood = '" + NoInjection(takers.Neighborhood) + "',");
+                SQL.AppendLine("    City = '" + NoInjection(takers.City) + "', ");
+                SQL.AppendLine("    State = '" + NoInjection(takers.State) + "',");
+                SQL.AppendLine("    Email = '" + NoInjection(takers.Email) + "',");
+                SQL.AppendLine("    Active = 1, ");   
+                SQL.AppendLine("    DateUpdate = GetDate() ");
+                SQL.AppendLine(" Where TakerId = " + takers.TakerId);
+                
                 if (Conn.Update(SQL.ToString()))
                 {
-                    return Json(new Feedback("ok","Tomador atualizado com sucesso!"));
+                    return Response(new Feedback("ok","Tomador atualizado com sucesso!"));
                 }
 
-                return Json(new Feedback("erro","Houve um erro ao atualizar o tomador. Tente novamente!"));
+                return Response(new Feedback("erro","Houve um erro ao atualizar o tomador. Tente novamente!"));
             }
             catch (Exception ex)
             {
-                return Json(new Feedback("erro", ex.Message), JsonRequestBehavior.AllowGet);
+                return Response(new Feedback("erro", ex.Message));
             }
         }
 
@@ -171,21 +184,23 @@ namespace UnclePhill.WebAPI_NFeS.WS.Controllers
 
                 if (TakerId <= 0)
                 {
-                    return Json(new Feedback("erro", "Informe o código do tomador!"), JsonRequestBehavior.AllowGet);
+                    return Response(new Feedback("erro", "Informe o código do tomador!"));
                 }
 
-                SQL.AppendLine("");
-
+                SQL.AppendLine(" Update Takers Set ");
+                SQL.AppendLine("    Active = 0 ");
+                SQL.AppendLine(" Where TakerId = " + TakerId);
+                
                 if (Conn.Delete(SQL.ToString()))
                 {
-                    return Json(new Feedback("ok","Tomador deletado com sucesso!"));
+                    return Response(new Feedback("ok","Tomador deletado com sucesso!"));
                 }
 
-                return Json(new Feedback("erro", "Houve um erro ao excluir o tomador. Tente novamente!"));
+                return Response(new Feedback("erro", "Houve um erro ao excluir o tomador. Tente novamente!"));
             }
             catch (Exception ex)
             {
-                return Json(new Feedback("erro", ex.Message), JsonRequestBehavior.AllowGet);
+                return Response(new Feedback("erro", ex.Message));
             }
         }
         
