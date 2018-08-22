@@ -12,7 +12,13 @@ namespace UnclePhill.WebAPI_NFeS.WS.Models
 
         }
 
-        public Takers(long TakerId, string IM, string CPF_CNPJ, string RG_IE, string Name, string CEP, string Street, string Neighborhood, string City, string State, string Email, bool Active, string DateInsert, string DateUpdate)
+        public Takers(long TakerId, string IM, 
+            string CPF_CNPJ, string RG_IE, 
+            string Name, string CEP, 
+            string Street, string Neighborhood, 
+            string City, string State, 
+            string Email, bool Active, 
+            string DateInsert, string DateUpdate)
         {
             this.TakerId = TakerId;
             this.IM = IM;

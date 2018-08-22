@@ -12,7 +12,8 @@ namespace UnclePhill.WebAPI_NFeS.API.Models
 
         }
 
-        public Feedback(string Status, string Message)
+        public Feedback(string Status, 
+            string Message)
         {
             this.Status = Status;
             this.Message = Message;

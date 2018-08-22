@@ -12,7 +12,11 @@ namespace UnclePhill.WebAPI_NFeS.API.Models
 
         }
 
-        public Users(long UserId,string Name, string LastName, string CPF, string Email, string Password, bool Active, string DateInsert, string DateUpdate)
+        public Users(long UserId,string Name, 
+            string LastName, string CPF, 
+            string Email, string Password, 
+            bool Active, string DateInsert, 
+            string DateUpdate)
         {
             this.UserId = UserId;
             this.Name = Name;
