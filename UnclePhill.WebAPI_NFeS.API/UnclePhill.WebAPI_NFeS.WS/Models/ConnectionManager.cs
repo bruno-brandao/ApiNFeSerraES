@@ -17,14 +17,15 @@ namespace UnclePhill.WebAPI_NFeS.API.Models
         public string Password { get; set; }
         public string ConnectionString { get; set; }
 
-        public ConnectionManager(string Server, string Database, string Port, string User, string Password, string ConnectionString)
+        public ConnectionManager(string Server, string Database, string Port, string User, string Password)
         {
             this.Server = Server;
             this.Database = Database;
             this.Port = Port;
             this.User = User;
             this.Password = Password;
-            this.ConnectionString = ConnectionString;
+            this.Port = Port == string.Empty ? "" : "," + Port; 
+            this.ConnectionString = "Data Source=" + this.Server + this.Port + ";MultipleActiveResultSets=true;Initial Catalog=" + this.Database + ";User ID=" + this.User + ";Password=" + this.Password;
         }
 
         public ConnectionManager()
@@ -46,7 +47,7 @@ namespace UnclePhill.WebAPI_NFeS.API.Models
                 SqlCommand Command = new SqlCommand(Query, SqlConnection);
                 if(Command.ExecuteNonQuery() > 0)
                 {
-                    Command = new SqlCommand("Select @@Indentity;",SqlConnection);
+                    Command = new SqlCommand("Select @@Identity;", SqlConnection);
                     return long.Parse(Command.ExecuteScalar().ToString());
                 }
                 return 0;
@@ -132,6 +133,6 @@ namespace UnclePhill.WebAPI_NFeS.API.Models
             {
                 if (SqlConnection != null && SqlConnection.State == ConnectionState.Closed) { SqlConnection.Close(); }
             }
-        }
+        }       
     }
 }

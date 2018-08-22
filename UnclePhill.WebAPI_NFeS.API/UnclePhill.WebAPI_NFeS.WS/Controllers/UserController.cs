@@ -20,6 +20,8 @@ namespace UnclePhill.WebAPI_NFeS.API.Controllers
         {
             try
             {
+                UpdateSession();
+
                 if (string.IsNullOrEmpty(Email) || string.IsNullOrEmpty(Password))
                 {
                     return Response(new Feedback("erro", "Email ou senha não informado!"));
@@ -31,10 +33,11 @@ namespace UnclePhill.WebAPI_NFeS.API.Controllers
                 SQL.AppendLine(" And Email Like '" + NoInjection(Email) + "'");
                 SQL.AppendLine(" And Password Like '" + NoInjection(Password) + "'");
 
-                DataTable data = Conn.GetDataTable(SQL.ToString(), "Users");                
-                if (data != null && data.Rows.Count > 0) {
+                DataTable data = Conn.GetDataTable(SQL.ToString(), "Users");
+                if (data != null && data.Rows.Count > 0)
+                {
                     DataRow row = data.AsEnumerable().First();
-                    Session session = NewSession(row.Field<long>("UserId"));                 
+                    Session session = NewSession(row.Field<long>("UserId"));
                     if (session.SessionId > 0)
                     {
                         Users users = new Users();
@@ -51,18 +54,22 @@ namespace UnclePhill.WebAPI_NFeS.API.Controllers
                         return Response(users);
                     }
 
-                    return Response(new Feedback("erro","Não foi possivel gerar uma sessão para o usuário!"));
+                    return Response(new Feedback("erro", "Não foi possivel gerar uma sessão para o usuário!"));
                 }
                 return Response(new Feedback("erro", "Email ou senha inválidos!"));
-            } catch (Exception ex) {
+            }
+            catch (Exception ex)
+            {
                 return Response(new Feedback("erro", ex.Message));
             }
-        } 
-        
+        }
+
         public JsonResult Insert(Users users)
         {
             try
             {
+                UpdateSession();
+
                 Feedback feedback = Validate(users);
                 if (feedback.Status.Equals("erro"))
                 {
@@ -97,7 +104,7 @@ namespace UnclePhill.WebAPI_NFeS.API.Controllers
 
                 return Response(new Feedback("erro", "Houve um problema ao cadastrar um usuário. Tente novamente!"));
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 return Response(new Feedback("erro", ex.Message));
             }
@@ -106,7 +113,7 @@ namespace UnclePhill.WebAPI_NFeS.API.Controllers
         public JsonResult Update(Users users)
         {
             try
-            {            
+            {
                 if (!base.CheckSession())
                 {
                     return Response(new Feedback("erro", "Sessão inválida ou inexistente!"));
@@ -114,7 +121,7 @@ namespace UnclePhill.WebAPI_NFeS.API.Controllers
 
                 if (users.UserId <= 0)
                 {
-                    return Response(new Feedback("erro","Informe o código do usuário!"));
+                    return Response(new Feedback("erro", "Informe o código do usuário!"));
                 }
 
                 Feedback feedback = Validate(users);
@@ -133,22 +140,22 @@ namespace UnclePhill.WebAPI_NFeS.API.Controllers
                 SQL.AppendLine("    Active = 1,");
                 SQL.AppendLine("    DateUpdate = GetDate() ");
                 SQL.AppendLine(" Where UserId = " + users.UserId);
-               
+
                 if (Conn.Update(SQL.ToString()))
                 {
-                    return Response(new Feedback("ok","Usuário atualizado com sucesso!"));
+                    return Response(new Feedback("ok", "Usuário atualizado com sucesso!"));
                 }
 
                 return Response(new Feedback("erro", "Houve um problema ao cadastrar um usuário. Tente novamente!"));
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
-                return Response(new Feedback("erro",ex.Message));
+                return Response(new Feedback("erro", ex.Message));
             }
         }
 
         private Feedback Validate(Users users)
-        {            
+        {
 
             if (string.IsNullOrEmpty(users.Name))
             {
@@ -185,6 +192,22 @@ namespace UnclePhill.WebAPI_NFeS.API.Controllers
                 if (UserId <= 0)
                 {
                     throw new Exception("Usuario não encontrado!");
+                }
+
+                DataTable data;
+
+                SQL = new StringBuilder();
+                SQL.AppendLine(" Select ");
+                SQL.AppendLine("    Count(SessionId) As Sessions ");
+                SQL.AppendLine(" From Session ");
+                SQL.AppendLine(" Where Active = 1 ");
+                SQL.AppendLine(" And DateDiff(MI, DateStart, Getdate()) <= 5 ");
+                SQL.AppendLine(" And Session.UserId = " + UserId);
+
+                data = Conn.GetDataTable(SQL.ToString(), "Session");
+                if (data != null && data.Rows.Count > 0 && data.AsEnumerable().First().Field<int>("Sessions") > 0)
+                {
+                    throw new Exception("Já existe sessão aberta para o usuário atual!");
                 }
 
                 string Hash = GenerateHash(UserId.ToString());
@@ -225,20 +248,18 @@ namespace UnclePhill.WebAPI_NFeS.API.Controllers
                     SQL.AppendLine(" From Session ");
                     SQL.AppendLine(" Where Session.SessionId = " + session.SessionId);
 
-                    DataTable data = Conn.GetDataTable(SQL.ToString(), "Session");
+                    data = Conn.GetDataTable(SQL.ToString(), "Session");
                     if (data != null && data.Rows.Count > 0)
                     {
-                        foreach (DataRow row in data.Rows)
-                        {
-                            session.SessionId = row.Field<long>("SessionId");
-                            session.UserId = row.Field<long>("UserId");
-                            session.SessionHash = row.Field<string>("SessionHash");
-                            session.DateStart = row.Field<string>("DateStart");
-                            session.DateEnd = row.Field<DateTime>("DateEnd").ToString("dd-MM-yyyy");
-                            session.Active = row.Field<bool>("Active");
-                            session.DateInsert = row.Field<DateTime>("DateInsert").ToString("dd-MM-yyyy");
-                            session.DateUpdate = row.Field<DateTime>("DateUpdate").ToString("dd-MM-yyyy");
-                        }
+                        DataRow row = data.AsEnumerable().First();                        
+                        session.SessionId = row.Field<long>("SessionId");
+                        session.UserId = row.Field<long>("UserId");
+                        session.SessionHash = row.Field<string>("SessionHash") ;
+                        session.DateStart = row.Field<DateTime>("DateStart").ToString("dd-MM-yyyy"); ;
+                        session.DateEnd = row.Field<DateTime>("DateEnd").ToString("dd-MM-yyyy");
+                        session.Active = row.Field<bool>("Active");
+                        session.DateInsert = row.Field<DateTime>("DateInsert").ToString("dd-MM-yyyy");
+                        session.DateUpdate = row.Field<DateTime>("DateUpdate").ToString("dd-MM-yyyy");                        
                         return session;
                     }
                     throw new Exception("Não foi possivel criar uma sessão para o usuário!");
@@ -248,7 +269,7 @@ namespace UnclePhill.WebAPI_NFeS.API.Controllers
             catch (Exception ex)
             {
                 throw new Exception(ex.Message);
-            }            
+            }
         }
     }
 }

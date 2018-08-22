@@ -14,7 +14,7 @@ namespace UnclePhill.WebAPI_NFeS.API.Controllers
 {
     public class MasterController : Controller
     {
-        protected ConnectionManager Conn = new ConnectionManager();
+        protected ConnectionManager Conn = new ConnectionManager("unclephill.database.windows.net","BD_NFeS","1433","Administrador","M1n3Rv@7");
         protected StringBuilder SQL = new StringBuilder();
         protected Session Session = new Session();
 
@@ -37,6 +37,8 @@ namespace UnclePhill.WebAPI_NFeS.API.Controllers
         {
             try
             {
+                UpdateSession();
+
                 string Session = Request.Headers.Get("SessionHash");
                 if (string.IsNullOrEmpty(Session))
                 {
@@ -55,7 +57,7 @@ namespace UnclePhill.WebAPI_NFeS.API.Controllers
                 SQL.AppendLine("    DateUpdate ");
                 SQL.AppendLine(" From Session ");
                 SQL.AppendLine(" Where Active = 1 ");
-                SQL.AppendLine(" And DateDiff(MI, DateStart, DateEnd) <= 5 ");
+                SQL.AppendLine(" And DateDiff(MI, DateStart, GetDate()) <= 5 ");
                 SQL.AppendLine(" And Session.SessionHash Like '" + NoInjection(Session) + "'");
 
                 DataTable data = Conn.GetDataTable(SQL.ToString(), "Session");
@@ -80,12 +82,31 @@ namespace UnclePhill.WebAPI_NFeS.API.Controllers
             }
         }
 
+        protected void UpdateSession()
+        {
+            try
+            {
+                SQL = new StringBuilder();
+                SQL.AppendLine(" Update Session Set ");
+                SQL.AppendLine("    Active = 0 ");
+                SQL.AppendLine(" Where Active = 1 ");
+                SQL.AppendLine(" And DateDiff(MI,DateStart,GetDate()) > 5 ");
+
+                Conn.Update(SQL.ToString());
+
+            }
+            catch(Exception ex)
+            {
+                
+            }
+        }
+
         protected string GenerateHash(string Password)
         {
             try
             {
                 UnicodeEncoding unicode = new UnicodeEncoding();
-                byte[] passwordByte = unicode.GetBytes(Password);
+                byte[] passwordByte = unicode.GetBytes(Password + DateTime.Now.ToString());
                 SHA1Managed SHA = new SHA1Managed();
                 byte[] hashByte = SHA.ComputeHash(passwordByte);
                 string hash = string.Empty;
