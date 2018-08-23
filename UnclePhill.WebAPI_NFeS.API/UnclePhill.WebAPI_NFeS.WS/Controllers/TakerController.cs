@@ -16,10 +16,7 @@ namespace UnclePhill.WebAPI_NFeS.WS.Controllers
         {
             try
             {
-                if (!base.CheckSession())
-                {
-                    return Response(new Feedbacks("erro", "Sessão inválida!"));
-                }
+                if (!base.CheckSession()) return Response(new Feedbacks("erro", "Sessão inválida!"));
 
                 List<Takers> lTakers = new List<Takers>();
 
