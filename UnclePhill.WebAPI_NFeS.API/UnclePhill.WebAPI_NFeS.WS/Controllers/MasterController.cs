@@ -16,7 +16,7 @@ namespace UnclePhill.WebAPI_NFeS.API.Controllers
     {
         protected ConnectionManager Conn = new ConnectionManager("unclephill.database.windows.net","BD_NFeS","1433","Administrador","M1n3Rv@7");
         protected StringBuilder SQL = new StringBuilder();
-        protected Session Session = new Session();
+        protected Sessions Session = new Sessions();
 
         public ActionResult Index()
         {

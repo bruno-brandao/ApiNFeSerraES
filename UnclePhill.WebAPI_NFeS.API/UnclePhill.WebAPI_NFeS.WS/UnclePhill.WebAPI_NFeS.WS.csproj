@@ -184,15 +184,17 @@
     <Compile Include="Areas\HelpPage\XmlDocumentationProvider.cs" />
     <Compile Include="Controllers\CompanyController.cs" />
     <Compile Include="Controllers\MasterController.cs" />
+    <Compile Include="Controllers\ServiceController.cs" />
     <Compile Include="Controllers\TakerController.cs" />
     <Compile Include="Controllers\UserController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Models\Companys.cs" />
-    <Compile Include="Models\ConnectionManager.cs" />
-    <Compile Include="Models\Feedback.cs" />
-    <Compile Include="Models\Session.cs" />
+    <Compile Include="Models\Connection\ConnectionManager.cs" />
+    <Compile Include="Models\Feedbacks.cs" />
+    <Compile Include="Models\Services.cs" />
+    <Compile Include="Models\Sessions.cs" />
     <Compile Include="Models\Takers.cs" />
     <Compile Include="Models\Users.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -254,6 +256,7 @@
   <ItemGroup>
     <Folder Include="App_Data\" />
     <Folder Include="Views\Company\" />
+    <Folder Include="Views\Service\" />
     <Folder Include="Views\Taker\" />
   </ItemGroup>
   <ItemGroup>

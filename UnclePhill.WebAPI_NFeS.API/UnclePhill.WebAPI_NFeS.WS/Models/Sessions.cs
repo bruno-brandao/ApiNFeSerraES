@@ -5,15 +5,15 @@ using System.Web;
 
 namespace UnclePhill.WebAPI_NFeS.WS.Models
 {
-    public class Session
+    public class Sessions
     {
         
-        public Session()
+        public Sessions()
         {
 
         }
 
-        public Session(long SessionId, string SessionHash, long UserId, string DateStart, string DateEnd, bool Active , string DateInsert, string DateUpdate)
+        public Sessions(long SessionId, string SessionHash, long UserId, string DateStart, string DateEnd, bool Active , string DateInsert, string DateUpdate)
         {
             this.SessionId = SessionId;
             this.SessionHash = SessionHash;

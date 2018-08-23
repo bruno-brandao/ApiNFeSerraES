@@ -37,7 +37,7 @@ namespace UnclePhill.WebAPI_NFeS.API.Controllers
                 if (data != null && data.Rows.Count > 0)
                 {
                     DataRow row = data.AsEnumerable().First();
-                    Session session = NewSession(row.Field<long>("UserId"));
+                    Sessions session = NewSession(row.Field<long>("UserId"));
                     if (session.SessionId > 0)
                     {
                         Users users = new Users();
@@ -185,7 +185,7 @@ namespace UnclePhill.WebAPI_NFeS.API.Controllers
             return new Feedback("ok", "Sucesso");
         }
 
-        private Session NewSession(long UserId)
+        private Sessions NewSession(long UserId)
         {
             try
             {
@@ -230,7 +230,7 @@ namespace UnclePhill.WebAPI_NFeS.API.Controllers
                 SQL.AppendLine("     GetDate(), ");
                 SQL.AppendLine("     GetDate()) ");
 
-                Session session = new Session();
+                Sessions session = new Sessions();
                 session.SessionId = Conn.Insert(SQL.ToString());
 
                 if (session.SessionId > 0)
