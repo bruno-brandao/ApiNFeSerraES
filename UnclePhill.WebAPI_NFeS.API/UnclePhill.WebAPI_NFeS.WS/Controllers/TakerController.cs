@@ -79,10 +79,7 @@ namespace UnclePhill.WebAPI_NFeS.WS.Controllers
         {
             try
             {
-                if (!base.CheckSession())
-                {
-                    return Response(new Feedback("erro", "Sessão inválida!"));
-                }
+                if (!base.CheckSession()){ return Response(new Feedback("erro", "Sessão inválida!"));}
 
                 Feedback feedback = Validate(takers);
                 if (feedback.Status.Equals("erro"))
@@ -105,16 +102,16 @@ namespace UnclePhill.WebAPI_NFeS.WS.Controllers
                 SQL.AppendLine("    DateInsert, ");
                 SQL.AppendLine("    DateUpdate ");
                 SQL.AppendLine(" Values ");
-                SQL.AppendLine("    ('" + NoInjection(takers.IM) + ",");
-                SQL.AppendLine("     '" + NoInjection(takers.CPF_CNPJ) + ",");
-                SQL.AppendLine("     '" + NoInjection(takers.RG_IE) + ",");
-                SQL.AppendLine("     '" + NoInjection(takers.Name) + ",");
-                SQL.AppendLine("     '" + NoInjection(takers.CEP) + ",");
-                SQL.AppendLine("     '" + NoInjection(takers.Street) + ",");
-                SQL.AppendLine("     '" + NoInjection(takers.Neighborhood) + ",");
-                SQL.AppendLine("     '" + NoInjection(takers.City) + ",");
-                SQL.AppendLine("     '" + NoInjection(takers.State) + ",");
-                SQL.AppendLine("     '" + NoInjection(takers.Email) + ",");
+                SQL.AppendLine("    ('" + NoInjection(takers.IM) + "',");
+                SQL.AppendLine("     '" + NoInjection(takers.CPF_CNPJ) + "',");
+                SQL.AppendLine("     '" + NoInjection(takers.RG_IE) + "',");
+                SQL.AppendLine("     '" + NoInjection(takers.Name) + "',");
+                SQL.AppendLine("     '" + NoInjection(takers.CEP) + "',");
+                SQL.AppendLine("     '" + NoInjection(takers.Street) + "',");
+                SQL.AppendLine("     '" + NoInjection(takers.Neighborhood) + "',");
+                SQL.AppendLine("     '" + NoInjection(takers.City) + "',");
+                SQL.AppendLine("     '" + NoInjection(takers.State) + "',");
+                SQL.AppendLine("     '" + NoInjection(takers.Email) + "',");
                 SQL.AppendLine("     1 ,");
                 SQL.AppendLine("     GetDate(), ");
                 SQL.AppendLine("     GetDate() ");
@@ -137,10 +134,7 @@ namespace UnclePhill.WebAPI_NFeS.WS.Controllers
         {
             try
             {
-                if (!base.CheckSession())
-                {
-                    return Response(new Feedback("erro", "Sessão inválida!"));
-                }
+                if (!base.CheckSession()) { return Response(new Feedback("erro", "Sessão inválida!")); }
 
                 Feedback feedback = Validate(takers);
                 if (feedback.Status.Equals("erro"))
@@ -180,10 +174,7 @@ namespace UnclePhill.WebAPI_NFeS.WS.Controllers
         {
             try
             {
-                if (!base.CheckSession())
-                {
-                    return Response(new Feedback("erro", "Sessão inválida!"));
-                }
+                if (!base.CheckSession()) { return Response(new Feedback("erro", "Sessão inválida!")); }
 
                 if (TakerId <= 0)
                 {

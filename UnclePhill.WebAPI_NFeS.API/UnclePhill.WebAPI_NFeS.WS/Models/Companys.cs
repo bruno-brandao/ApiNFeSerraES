@@ -15,7 +15,8 @@ namespace UnclePhill.WebAPI_NFeS.WS.Models
         public Companys(long CompanyId, 
             string CNPJ, string IM, 
             string IE, string Name, 
-            string CEP, string City, 
+            string CEP, string Street,
+            string Neighborhood, string City, 
             string State, string Telephone, 
             string Email, string Logo,
             decimal IRRF, decimal PIS,
@@ -29,6 +30,8 @@ namespace UnclePhill.WebAPI_NFeS.WS.Models
             this.IE = IE;
             this.Name = Name;
             this.CEP = CEP;
+            this.Street = Street;
+            this.Neighborhood = Neighborhood;
             this.City = City;
             this.State = State;
             this.Telephone = Telephone;
