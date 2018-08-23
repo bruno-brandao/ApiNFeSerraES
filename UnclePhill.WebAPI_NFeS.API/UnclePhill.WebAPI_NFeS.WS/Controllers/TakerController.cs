@@ -18,7 +18,7 @@ namespace UnclePhill.WebAPI_NFeS.WS.Controllers
             {
                 if (!base.CheckSession())
                 {
-                    return Response(new Feedback("erro", "Sessão inválida!"));
+                    return Response(new Feedbacks("erro", "Sessão inválida!"));
                 }
 
                 List<Takers> lTakers = new List<Takers>();
@@ -67,11 +67,11 @@ namespace UnclePhill.WebAPI_NFeS.WS.Controllers
                     }
                     return Response(lTakers);
                 }
-                return Response(new Feedback("erro", "Não foram encontrados registros!"));
+                return Response(new Feedbacks("erro", "Não foram encontrados registros!"));
             }
             catch(Exception ex)
             {
-                return Response(new Feedback("erro", ex.Message));
+                return Response(new Feedbacks("erro", ex.Message));
             }            
         }
 
@@ -79,9 +79,9 @@ namespace UnclePhill.WebAPI_NFeS.WS.Controllers
         {
             try
             {
-                if (!base.CheckSession()){ return Response(new Feedback("erro", "Sessão inválida!"));}
+                if (!base.CheckSession()){ return Response(new Feedbacks("erro", "Sessão inválida!"));}
 
-                Feedback feedback = Validate(takers);
+                Feedbacks feedback = Validate(takers);
                 if (feedback.Status.Equals("erro"))
                 {
                     return Response(feedback);
@@ -119,14 +119,14 @@ namespace UnclePhill.WebAPI_NFeS.WS.Controllers
 
                 if (Conn.Insert(SQL.ToString())> 0)
                 {
-                    return Response(new Feedback("ok", "Tomador criado com sucesso!"));
+                    return Response(new Feedbacks("ok", "Tomador criado com sucesso!"));
                 }
 
-                return Response(new Feedback("erro", "Houve um problema o tomador um usuário. Tente novamente!"));
+                return Response(new Feedbacks("erro", "Houve um problema o tomador um usuário. Tente novamente!"));
             }
             catch(Exception ex)
             {
-                return Response(new Feedback("erro", ex.Message));
+                return Response(new Feedbacks("erro", ex.Message));
             }            
         }
 
@@ -134,9 +134,9 @@ namespace UnclePhill.WebAPI_NFeS.WS.Controllers
         {
             try
             {
-                if (!base.CheckSession()) { return Response(new Feedback("erro", "Sessão inválida!")); }
+                if (!base.CheckSession()) { return Response(new Feedbacks("erro", "Sessão inválida!")); }
 
-                Feedback feedback = Validate(takers);
+                Feedbacks feedback = Validate(takers);
                 if (feedback.Status.Equals("erro"))
                 {
                     return Response(feedback);
@@ -144,7 +144,7 @@ namespace UnclePhill.WebAPI_NFeS.WS.Controllers
 
                 if (takers.TakerId <= 0)
                 {
-                    return Response(new Feedback("erro", "Informe o código do tomador!"));
+                    return Response(new Feedbacks("erro", "Informe o código do tomador!"));
                 }
 
                 SQL.AppendLine(" Update Takers Set ");
@@ -163,14 +163,14 @@ namespace UnclePhill.WebAPI_NFeS.WS.Controllers
                 
                 if (Conn.Update(SQL.ToString()))
                 {
-                    return Response(new Feedback("ok","Tomador atualizado com sucesso!"));
+                    return Response(new Feedbacks("ok","Tomador atualizado com sucesso!"));
                 }
 
-                return Response(new Feedback("erro","Houve um erro ao atualizar o tomador. Tente novamente!"));
+                return Response(new Feedbacks("erro","Houve um erro ao atualizar o tomador. Tente novamente!"));
             }
             catch (Exception ex)
             {
-                return Response(new Feedback("erro", ex.Message));
+                return Response(new Feedbacks("erro", ex.Message));
             }
         }
 
@@ -178,11 +178,11 @@ namespace UnclePhill.WebAPI_NFeS.WS.Controllers
         {
             try
             {
-                if (!base.CheckSession()) { return Response(new Feedback("erro", "Sessão inválida!")); }
+                if (!base.CheckSession()) { return Response(new Feedbacks("erro", "Sessão inválida!")); }
 
                 if (TakerId <= 0)
                 {
-                    return Response(new Feedback("erro", "Informe o código do tomador!"));
+                    return Response(new Feedbacks("erro", "Informe o código do tomador!"));
                 }
 
                 SQL.AppendLine(" Update Takers Set ");
@@ -191,75 +191,75 @@ namespace UnclePhill.WebAPI_NFeS.WS.Controllers
                 
                 if (Conn.Delete(SQL.ToString()))
                 {
-                    return Response(new Feedback("ok","Tomador deletado com sucesso!"));
+                    return Response(new Feedbacks("ok","Tomador deletado com sucesso!"));
                 }
 
-                return Response(new Feedback("erro", "Houve um erro ao excluir o tomador. Tente novamente!"));
+                return Response(new Feedbacks("erro", "Houve um erro ao excluir o tomador. Tente novamente!"));
             }
             catch (Exception ex)
             {
-                return Response(new Feedback("erro", ex.Message));
+                return Response(new Feedbacks("erro", ex.Message));
             }
         }
         
-        private Feedback Validate(Takers takers)
+        private Feedbacks Validate(Takers takers)
         {
             if (string.IsNullOrEmpty(takers.IM))
             {
-                return new Feedback("erro", "Informe a inscrição municipal!");
+                return new Feedbacks("erro", "Informe a inscrição municipal!");
             }
 
             if (string.IsNullOrEmpty(takers.CPF_CNPJ))
             {
-                return new Feedback("erro", "Informe o CPF/CNPJ!");
+                return new Feedbacks("erro", "Informe o CPF/CNPJ!");
             }
 
             if (string.IsNullOrEmpty(takers.RG_IE))
             {
-                return new Feedback("erro", "Informe a inscrição estadual!");
+                return new Feedbacks("erro", "Informe a inscrição estadual!");
             }
 
             if (string.IsNullOrEmpty(takers.RG_IE))
             {
-                return new Feedback("erro", "Informe a inscrição estadual!");
+                return new Feedbacks("erro", "Informe a inscrição estadual!");
             }
 
             if (string.IsNullOrEmpty(takers.Name))
             {
-                return new Feedback("erro", "Informe o nome do tomador!");
+                return new Feedbacks("erro", "Informe o nome do tomador!");
             }
 
             if (string.IsNullOrEmpty(takers.CEP))
             {
-                return new Feedback("erro", "Informe o CEP!");
+                return new Feedbacks("erro", "Informe o CEP!");
             }
 
             if (string.IsNullOrEmpty(takers.Street))
             {
-                return new Feedback("erro", "Informe a Rua!");
+                return new Feedbacks("erro", "Informe a Rua!");
             }
 
             if (string.IsNullOrEmpty(takers.Neighborhood))
             {
-                return new Feedback("erro", "Informe o bairro!");
+                return new Feedbacks("erro", "Informe o bairro!");
             }
 
             if (string.IsNullOrEmpty(takers.City))
             {
-                return new Feedback("erro", "Informe a cidade!");
+                return new Feedbacks("erro", "Informe a cidade!");
             }
 
             if (string.IsNullOrEmpty(takers.State))
             {
-                return new Feedback("erro", "Informe a UF!");
+                return new Feedbacks("erro", "Informe a UF!");
             }
 
             if (string.IsNullOrEmpty(takers.Email))
             {
-                return new Feedback("erro", "Informe o CEP!");
+                return new Feedbacks("erro", "Informe o CEP!");
             }
 
-            return new Feedback("ok", "Sucesso");
+            return new Feedbacks("ok", "Sucesso");
         }
     }
 }

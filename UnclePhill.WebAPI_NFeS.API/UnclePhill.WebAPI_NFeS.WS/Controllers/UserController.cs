@@ -24,7 +24,7 @@ namespace UnclePhill.WebAPI_NFeS.API.Controllers
 
                 if (string.IsNullOrEmpty(Email) || string.IsNullOrEmpty(Password))
                 {
-                    return Response(new Feedback("erro", "Email ou senha não informado!"));
+                    return Response(new Feedbacks("erro", "Email ou senha não informado!"));
                 }
 
                 SQL = new StringBuilder();
@@ -54,13 +54,13 @@ namespace UnclePhill.WebAPI_NFeS.API.Controllers
                         return Response(users);
                     }
 
-                    return Response(new Feedback("erro", "Não foi possivel gerar uma sessão para o usuário!"));
+                    return Response(new Feedbacks("erro", "Não foi possivel gerar uma sessão para o usuário!"));
                 }
-                return Response(new Feedback("erro", "Email ou senha inválidos!"));
+                return Response(new Feedbacks("erro", "Email ou senha inválidos!"));
             }
             catch (Exception ex)
             {
-                return Response(new Feedback("erro", ex.Message));
+                return Response(new Feedbacks("erro", ex.Message));
             }
         }
 
@@ -70,7 +70,7 @@ namespace UnclePhill.WebAPI_NFeS.API.Controllers
             {
                 UpdateSession();
 
-                Feedback feedback = Validate(users);
+                Feedbacks feedback = Validate(users);
                 if (feedback.Status.Equals("erro"))
                 {
                     return Response(feedback);
@@ -99,14 +99,14 @@ namespace UnclePhill.WebAPI_NFeS.API.Controllers
 
                 if (Conn.Insert(SQL.ToString()) > 0)
                 {
-                    return Response(new Feedback("ok", "Usuário criado com sucesso!"));
+                    return Response(new Feedbacks("ok", "Usuário criado com sucesso!"));
                 }
 
-                return Response(new Feedback("erro", "Houve um problema ao cadastrar um usuário. Tente novamente!"));
+                return Response(new Feedbacks("erro", "Houve um problema ao cadastrar um usuário. Tente novamente!"));
             }
             catch (Exception ex)
             {
-                return Response(new Feedback("erro", ex.Message));
+                return Response(new Feedbacks("erro", ex.Message));
             }
         }
 
@@ -116,15 +116,15 @@ namespace UnclePhill.WebAPI_NFeS.API.Controllers
             {
                 if (!base.CheckSession())
                 {
-                    return Response(new Feedback("erro", "Sessão inválida ou inexistente!"));
+                    return Response(new Feedbacks("erro", "Sessão inválida ou inexistente!"));
                 }
 
                 if (users.UserId <= 0)
                 {
-                    return Response(new Feedback("erro", "Informe o código do usuário!"));
+                    return Response(new Feedbacks("erro", "Informe o código do usuário!"));
                 }
 
-                Feedback feedback = Validate(users);
+                Feedbacks feedback = Validate(users);
                 if (feedback.Status.Equals("erro"))
                 {
                     return Response(feedback);
@@ -143,46 +143,46 @@ namespace UnclePhill.WebAPI_NFeS.API.Controllers
 
                 if (Conn.Update(SQL.ToString()))
                 {
-                    return Response(new Feedback("ok", "Usuário atualizado com sucesso!"));
+                    return Response(new Feedbacks("ok", "Usuário atualizado com sucesso!"));
                 }
 
-                return Response(new Feedback("erro", "Houve um problema ao cadastrar um usuário. Tente novamente!"));
+                return Response(new Feedbacks("erro", "Houve um problema ao cadastrar um usuário. Tente novamente!"));
             }
             catch (Exception ex)
             {
-                return Response(new Feedback("erro", ex.Message));
+                return Response(new Feedbacks("erro", ex.Message));
             }
         }
 
-        private Feedback Validate(Users users)
+        private Feedbacks Validate(Users users)
         {
 
             if (string.IsNullOrEmpty(users.Name))
             {
-                return new Feedback("erro", "Informe o nome do usuário!");
+                return new Feedbacks("erro", "Informe o nome do usuário!");
             }
 
             if (string.IsNullOrEmpty(users.LastName))
             {
-                return new Feedback("erro", "Informe o Sobrenome do usuário!");
+                return new Feedbacks("erro", "Informe o Sobrenome do usuário!");
             }
 
             if (string.IsNullOrEmpty(users.CPF))
             {
-                return new Feedback("erro", "Informe o CPF do usuário!");
+                return new Feedbacks("erro", "Informe o CPF do usuário!");
             }
 
             if (string.IsNullOrEmpty(users.Email))
             {
-                return new Feedback("erro", "Informe o Email do usuário!");
+                return new Feedbacks("erro", "Informe o Email do usuário!");
             }
 
             if (string.IsNullOrEmpty(users.Password))
             {
-                return new Feedback("erro", "Informe a senha do usuário!");
+                return new Feedbacks("erro", "Informe a senha do usuário!");
             }
 
-            return new Feedback("ok", "Sucesso");
+            return new Feedbacks("ok", "Sucesso");
         }
 
         private Sessions NewSession(long UserId)

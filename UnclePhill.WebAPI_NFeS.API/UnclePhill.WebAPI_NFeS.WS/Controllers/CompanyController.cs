@@ -16,7 +16,7 @@ namespace UnclePhill.WebAPI_NFeS.WS.Controllers
         {
             try
             {
-                if (!base.CheckSession()) return Response(new Feedback("erro", "Sessão inválida!"));
+                if (!base.CheckSession()) return Response(new Feedbacks("erro", "Sessão inválida!"));
 
                 List<Companys> lCompanys = new List<Companys>();
 
@@ -78,7 +78,7 @@ namespace UnclePhill.WebAPI_NFeS.WS.Controllers
                     }
                     return Response(lCompanys);
                 }
-                return Response(new Feedback("erro", "Não foram encontrados registros!"));
+                return Response(new Feedbacks("erro", "Não foram encontrados registros!"));
             }
             catch (Exception ex)
             {
@@ -90,9 +90,9 @@ namespace UnclePhill.WebAPI_NFeS.WS.Controllers
         {
             try
             {
-                if (!base.CheckSession()) return Response(new Feedback("erro", "Sessão inválida!"));
+                if (!base.CheckSession()) return Response(new Feedbacks("erro", "Sessão inválida!"));
 
-                Feedback feedback = Validate(companys);
+                Feedbacks feedback = Validate(companys);
                 if (feedback.Status.Equals("erro"))
                 {
                     return Response(feedback);
@@ -144,10 +144,10 @@ namespace UnclePhill.WebAPI_NFeS.WS.Controllers
 
                 if (Conn.Insert(SQL.ToString()) > 0)
                 {
-                    return Response(new Feedback("ok", "Tomador criado com sucesso!"));
+                    return Response(new Feedbacks("ok", "Tomador criado com sucesso!"));
                 }
 
-                return Response(new Feedback("erro", "Houve um problema o tomador um usuário. Tente novamente!"));
+                return Response(new Feedbacks("erro", "Houve um problema o tomador um usuário. Tente novamente!"));
             }
             catch(Exception ex)
             {
@@ -159,9 +159,9 @@ namespace UnclePhill.WebAPI_NFeS.WS.Controllers
         {
             try
             {
-                if (!base.CheckSession()) return Response(new Feedback("erro", "Sessão inválida!"));
+                if (!base.CheckSession()) return Response(new Feedbacks("erro", "Sessão inválida!"));
 
-                Feedback feedback = Validate(companys);
+                Feedbacks feedback = Validate(companys);
                 if (feedback.Status.Equals("erro"))
                 {
                     return Response(feedback);
@@ -169,7 +169,7 @@ namespace UnclePhill.WebAPI_NFeS.WS.Controllers
 
                 if (companys.CompanyId <= 0)
                 {
-                    return Response(new Feedback("erro", "Informe o código da empresa!"));
+                    return Response(new Feedbacks("erro", "Informe o código da empresa!"));
                 }
 
                 SQL.AppendLine(" Update CompanyId Set ");
@@ -196,10 +196,10 @@ namespace UnclePhill.WebAPI_NFeS.WS.Controllers
 
                 if (Conn.Update(SQL.ToString()))
                 {
-                    return Response(new Feedback("ok", "Empresa atualizada com sucesso!"));
+                    return Response(new Feedbacks("ok", "Empresa atualizada com sucesso!"));
                 }
 
-                return Response(new Feedback("erro", "Houve um erro ao atualizar a empresa. Tente novamente!"));
+                return Response(new Feedbacks("erro", "Houve um erro ao atualizar a empresa. Tente novamente!"));
             }
             catch(Exception ex)
             {
@@ -211,11 +211,11 @@ namespace UnclePhill.WebAPI_NFeS.WS.Controllers
         {
             try
             {
-                if (!base.CheckSession()) return Response(new Feedback("erro", "Sessão inválida!"));
+                if (!base.CheckSession()) return Response(new Feedbacks("erro", "Sessão inválida!"));
 
                 if (CompanyId <= 0)
                 {
-                    return Response(new Feedback("erro", "Informe o código da empresa!"));
+                    return Response(new Feedbacks("erro", "Informe o código da empresa!"));
                 }
 
                 SQL.AppendLine(" Update Company Set ");
@@ -224,10 +224,10 @@ namespace UnclePhill.WebAPI_NFeS.WS.Controllers
 
                 if (Conn.Delete(SQL.ToString()))
                 {
-                    return Response(new Feedback("ok", "Empresa deletada com sucesso!"));
+                    return Response(new Feedbacks("ok", "Empresa deletada com sucesso!"));
                 }
 
-                return Response(new Feedback("erro", "Houve um erro ao excluir a empresa. Tente novamente!"));
+                return Response(new Feedbacks("erro", "Houve um erro ao excluir a empresa. Tente novamente!"));
             }
             catch (Exception ex)
             {
@@ -235,64 +235,64 @@ namespace UnclePhill.WebAPI_NFeS.WS.Controllers
             }            
         }
 
-        private Feedback Validate(Companys companys)
+        private Feedbacks Validate(Companys companys)
         {
             if (string.IsNullOrEmpty(companys.CNPJ))
             {
-                return new Feedback("erro", "Informe o CNPJ!");
+                return new Feedbacks("erro", "Informe o CNPJ!");
             }
 
             if (string.IsNullOrEmpty(companys.IM))
             {
-                return new Feedback("erro", "Informe a inscrição municipal!");
+                return new Feedbacks("erro", "Informe a inscrição municipal!");
             }
 
             if (string.IsNullOrEmpty(companys.IE))
             {
-                return new Feedback("erro", "Informe a inscrição estadual!");
+                return new Feedbacks("erro", "Informe a inscrição estadual!");
             }
 
             if (string.IsNullOrEmpty(companys.Name))
             {
-                return new Feedback("erro", "Informe o nome da empresa!");
+                return new Feedbacks("erro", "Informe o nome da empresa!");
             }
 
             if (string.IsNullOrEmpty(companys.CEP))
             {
-                return new Feedback("erro", "Informe o CEP!");
+                return new Feedbacks("erro", "Informe o CEP!");
             }
 
             if (string.IsNullOrEmpty(companys.Street))
             {
-                return new Feedback("erro", "Informe a rua!");
+                return new Feedbacks("erro", "Informe a rua!");
             }
 
             if (string.IsNullOrEmpty(companys.Neighborhood))
             {
-                return new Feedback("erro", "Informe o bairro!");
+                return new Feedbacks("erro", "Informe o bairro!");
             }
 
             if (string.IsNullOrEmpty(companys.City))
             {
-                return new Feedback("erro", "Informe a cidade!");
+                return new Feedbacks("erro", "Informe a cidade!");
             }
 
             if (string.IsNullOrEmpty(companys.State))
             {
-                return new Feedback("erro", "Informe o estado!");
+                return new Feedbacks("erro", "Informe o estado!");
             }
 
             if (string.IsNullOrEmpty(companys.Telephone))
             {
-                return new Feedback("erro", "Informe o telefone!");
+                return new Feedbacks("erro", "Informe o telefone!");
             }
 
             if (string.IsNullOrEmpty(companys.Email))
             {
-                return new Feedback("erro", "Informe o email!");
+                return new Feedbacks("erro", "Informe o email!");
             }
                       
-            return new Feedback("ok","Sucesso");
+            return new Feedbacks("ok","Sucesso");
         }
     }
 }

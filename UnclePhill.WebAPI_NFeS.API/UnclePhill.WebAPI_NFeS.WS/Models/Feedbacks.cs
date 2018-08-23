@@ -5,14 +5,14 @@ using System.Web;
 
 namespace UnclePhill.WebAPI_NFeS.API.Models
 {
-    public class Feedback
+    public class Feedbacks
     {
-        public Feedback()
+        public Feedbacks()
         {
 
         }
 
-        public Feedback(string Status, 
+        public Feedbacks(string Status, 
             string Message)
         {
             this.Status = Status;
