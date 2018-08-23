@@ -12,7 +12,7 @@ namespace UnclePhill.WebAPI_NFeS.WS.Controllers
 {
     public class TakerController : MasterController
     {       
-        public JsonResult Select()
+        public JsonResult Select(long? TakerId = 0)
         {
             try
             {
@@ -39,6 +39,9 @@ namespace UnclePhill.WebAPI_NFeS.WS.Controllers
                 SQL.AppendLine("    DateInsert, ");
                 SQL.AppendLine("    DateUpdate ");
                 SQL.AppendLine(" From Takers ");
+                SQL.AppendLine(" Where Active = 1 ");
+                if (TakerId > 0) { SQL.AppendLine(" And TakerId = " + TakerId); }
+
                 
                 DataTable data = Conn.GetDataTable(SQL.ToString(), "Takers");
                 if (data != null && data.Rows.Count > 0 )

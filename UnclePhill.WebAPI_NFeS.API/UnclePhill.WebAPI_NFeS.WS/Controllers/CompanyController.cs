@@ -13,25 +13,62 @@ namespace UnclePhill.WebAPI_NFeS.WS.Controllers
     {
         public JsonResult Select()
         {
-            return Response(null);
+            try
+            {
+                if (!base.CheckSession()) return Response(new Feedback("erro", "Sessão inválida!"));
+                
+                return Response(null);
+            }
+            catch (Exception ex)
+            {
+                return Response(ex.Message);
+            }            
         }
 
         public JsonResult Insert(Companys companys)
         {
-            return Response(null);
+            try
+            {
+                if (!base.CheckSession()) return Response(new Feedback("erro", "Sessão inválida!"));
+                
+
+                return Response(null);
+            }
+            catch(Exception ex)
+            {
+                return Response(ex.Message);
+            }            
         }
 
         public JsonResult Update(Companys companys)
         {
-            return Response(null);
+            try
+            {
+                if (!base.CheckSession()) return Response(new Feedback("erro", "Sessão inválida!"));
+
+                return Response(null);
+            }
+            catch(Exception ex)
+            {
+                return Response(ex.Message);
+            }            
         }
 
         public JsonResult Delete(long CompanyId)
         {
-            return Response(null);
+            try
+            {
+                if (!base.CheckSession()) return Response(new Feedback("erro", "Sessão inválida!"));
+
+                return Response(null);
+            }
+            catch(Exception ex)
+            {
+                return Response(ex.Message);
+            }            
         }
 
-        private Feedback Validade(Companys companys)
+        private Feedback Validate(Companys companys)
         {
             return new Feedback("","");
         }
