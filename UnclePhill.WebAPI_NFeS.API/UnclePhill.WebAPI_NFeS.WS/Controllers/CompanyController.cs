@@ -161,7 +161,45 @@ namespace UnclePhill.WebAPI_NFeS.WS.Controllers
             {
                 if (!base.CheckSession()) return Response(new Feedback("erro", "Sessão inválida!"));
 
-                return Response(null);
+                Feedback feedback = Validate(companys);
+                if (feedback.Status.Equals("erro"))
+                {
+                    return Response(feedback);
+                }
+
+                if (companys.CompanyId <= 0)
+                {
+                    return Response(new Feedback("erro", "Informe o código da empresa!"));
+                }
+
+                SQL.AppendLine(" Update CompanyId Set ");
+                SQL.AppendLine("    CNPJ = '" + NoInjection(companys.CNPJ) + "',");
+                SQL.AppendLine("    IM = '" + NoInjection(companys.IM) + "',");                
+                SQL.AppendLine("    IE = '" + NoInjection(companys.IE) + "',");
+                SQL.AppendLine("    Name = '" + NoInjection(companys.Name) + "',");
+                SQL.AppendLine("    CEP = '" + NoInjection(companys.CEP) + "',");
+                SQL.AppendLine("    Street = '" + NoInjection(companys.Street) + "',");
+                SQL.AppendLine("    Neighborhood = '" + NoInjection(companys.Neighborhood) + "',");
+                SQL.AppendLine("    City = '" + NoInjection(companys.City) + "', ");
+                SQL.AppendLine("    State = '" + NoInjection(companys.State) + "',");
+                SQL.AppendLine("    Telephone = '" + NoInjection(companys.Telephone) + "',");
+                SQL.AppendLine("    Email = '" + NoInjection(companys.Email) + "',");
+                SQL.AppendLine("    Logo = '" + NoInjection(companys.Logo) + "',");
+                SQL.AppendLine("    IRRF = " + FormatNumber(companys.IRRF) + ",");
+                SQL.AppendLine("    PIS = " + FormatNumber(companys.PIS) + ",");
+                SQL.AppendLine("    COFINS = " + FormatNumber(companys.COFINS) + ",");
+                SQL.AppendLine("    CSLL = " + FormatNumber(companys.CSLL) + ",");
+                SQL.AppendLine("    INSS = " + FormatNumber(companys.INSS) + ",");
+                SQL.AppendLine("    DateUpdate = GetDate() ");
+                SQL.AppendLine(" Where Active = 1 ");
+                SQL.AppendLine(" And CompanyId = " + companys.CompanyId);
+
+                if (Conn.Update(SQL.ToString()))
+                {
+                    return Response(new Feedback("ok", "Empresa atualizada com sucesso!"));
+                }
+
+                return Response(new Feedback("erro", "Houve um erro ao atualizar a empresa. Tente novamente!"));
             }
             catch(Exception ex)
             {
@@ -175,9 +213,23 @@ namespace UnclePhill.WebAPI_NFeS.WS.Controllers
             {
                 if (!base.CheckSession()) return Response(new Feedback("erro", "Sessão inválida!"));
 
-                return Response(null);
+                if (CompanyId <= 0)
+                {
+                    return Response(new Feedback("erro", "Informe o código da empresa!"));
+                }
+
+                SQL.AppendLine(" Update Company Set ");
+                SQL.AppendLine("    Active = 0 ");
+                SQL.AppendLine(" Where CompanyId = " + CompanyId);
+
+                if (Conn.Delete(SQL.ToString()))
+                {
+                    return Response(new Feedback("ok", "Empresa deletada com sucesso!"));
+                }
+
+                return Response(new Feedback("erro", "Houve um erro ao excluir a empresa. Tente novamente!"));
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 return Response(ex.Message);
             }            

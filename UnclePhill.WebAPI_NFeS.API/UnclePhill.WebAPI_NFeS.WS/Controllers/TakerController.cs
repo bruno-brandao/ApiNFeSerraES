@@ -142,7 +142,12 @@ namespace UnclePhill.WebAPI_NFeS.WS.Controllers
                     return Response(feedback);
                 }
 
-                SQL.AppendLine(" Update Takers ");
+                if (takers.TakerId <= 0)
+                {
+                    return Response(new Feedback("erro", "Informe o código do tomador!"));
+                }
+
+                SQL.AppendLine(" Update Takers Set ");
                 SQL.AppendLine("    IM = '" + NoInjection(takers.IM) + "',");
                 SQL.AppendLine("    CPF_CNPJ = '" + NoInjection(takers.CPF_CNPJ) +"',");
                 SQL.AppendLine("    RG_IE = '" + NoInjection(takers.RG_IE) + "',");
@@ -153,7 +158,6 @@ namespace UnclePhill.WebAPI_NFeS.WS.Controllers
                 SQL.AppendLine("    City = '" + NoInjection(takers.City) + "', ");
                 SQL.AppendLine("    State = '" + NoInjection(takers.State) + "',");
                 SQL.AppendLine("    Email = '" + NoInjection(takers.Email) + "',");
-                SQL.AppendLine("    Active = 1, ");   
                 SQL.AppendLine("    DateUpdate = GetDate() ");
                 SQL.AppendLine(" Where TakerId = " + takers.TakerId);
                 

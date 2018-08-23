@@ -137,9 +137,9 @@ namespace UnclePhill.WebAPI_NFeS.API.Controllers
                 SQL.AppendLine("    CPF = '" + NoInjection(users.CPF) + "',");
                 SQL.AppendLine("    Email = '" + NoInjection(users.Email) + "',");
                 SQL.AppendLine("    Password = '" + NoInjection(users.Password) + "',");
-                SQL.AppendLine("    Active = 1,");
                 SQL.AppendLine("    DateUpdate = GetDate() ");
-                SQL.AppendLine(" Where UserId = " + users.UserId);
+                SQL.AppendLine(" Where Active = 1 ");
+                SQL.AppendLine(" And UserId = " + users.UserId);
 
                 if (Conn.Update(SQL.ToString()))
                 {
@@ -246,7 +246,8 @@ namespace UnclePhill.WebAPI_NFeS.API.Controllers
                     SQL.AppendLine("    DateInsert, ");
                     SQL.AppendLine("    DateUpdate ");
                     SQL.AppendLine(" From Session ");
-                    SQL.AppendLine(" Where Session.SessionId = " + session.SessionId);
+                    SQL.AppendLine(" Where Active = 1 ");
+                    SQL.AppendLine(" And Session.SessionId = " + session.SessionId);
 
                     data = Conn.GetDataTable(SQL.ToString(), "Session");
                     if (data != null && data.Rows.Count > 0)
