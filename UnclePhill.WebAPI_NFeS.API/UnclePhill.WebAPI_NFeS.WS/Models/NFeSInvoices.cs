@@ -5,15 +5,15 @@ using System.Web;
 
 namespace UnclePhill.WebAPI_NFeS.WS.Models
 {
-    public class NFeSInvoice
+    public class NFeSInvoices
     {
 
-        public NFeSInvoice()
+        public NFeSInvoices()
         {
 
         }
 
-        public NFeSInvoice(long NFeSInvoiceId, long NFeSId, 
+        public NFeSInvoices(long NFeSInvoiceId, long NFeSId, 
             decimal Number, string Maturity, 
             decimal Value, bool Active,
             string DateInsert, string DateUpdate)
