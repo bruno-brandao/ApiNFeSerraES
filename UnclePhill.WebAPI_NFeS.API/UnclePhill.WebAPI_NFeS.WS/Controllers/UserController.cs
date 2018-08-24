@@ -15,7 +15,6 @@ namespace UnclePhill.WebAPI_NFeS.API.Controllers
 {
     public class UserController : MasterController
     {
-        //Login:
         public JsonResult Login(string Email, string Password)
         {
             try
@@ -102,7 +101,7 @@ namespace UnclePhill.WebAPI_NFeS.API.Controllers
                     return Response(new Feedbacks("ok", "Usuário criado com sucesso!"));
                 }
 
-                return Response(new Feedbacks("erro", "Houve um problema ao cadastrar um usuário. Tente novamente!"));
+                return Response(new Feedbacks("erro", "Houve um problema ao criar um usuário. Tente novamente!"));
             }
             catch (Exception ex)
             {
