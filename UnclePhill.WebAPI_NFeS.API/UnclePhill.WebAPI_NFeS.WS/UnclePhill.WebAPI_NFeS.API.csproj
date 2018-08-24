@@ -193,6 +193,9 @@
     <Compile Include="Models\Companys.cs" />
     <Compile Include="Models\Connection\ConnectionManager.cs" />
     <Compile Include="Models\Feedbacks.cs" />
+    <Compile Include="Models\NFeS.cs" />
+    <Compile Include="Models\NFeSInvoice.cs" />
+    <Compile Include="Models\NFeSItens.cs" />
     <Compile Include="Models\Services.cs" />
     <Compile Include="Models\Sessions.cs" />
     <Compile Include="Models\Takers.cs" />
