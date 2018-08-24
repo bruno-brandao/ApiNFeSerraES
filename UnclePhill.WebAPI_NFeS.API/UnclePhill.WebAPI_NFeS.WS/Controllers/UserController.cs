@@ -15,7 +15,6 @@ namespace UnclePhill.WebAPI_NFeS.API.Controllers
 {
     public class UserController : MasterController
     {
-        //Login:
         public JsonResult Login(string Email, string Password)
         {
             try
