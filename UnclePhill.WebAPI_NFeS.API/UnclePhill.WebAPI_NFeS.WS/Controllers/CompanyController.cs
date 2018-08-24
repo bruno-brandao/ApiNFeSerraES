@@ -224,7 +224,7 @@ namespace UnclePhill.WebAPI_NFeS.WS.Controllers
 
                 if (Conn.Delete(SQL.ToString()))
                 {
-                    return Response(new Feedbacks("ok", "Empresa deletada com sucesso!"));
+                    return Response(new Feedbacks("ok", "Empresa excluido com sucesso!"));
                 }
 
                 return Response(new Feedbacks("erro", "Houve um erro ao excluir a empresa. Tente novamente!"));

@@ -119,7 +119,7 @@ namespace UnclePhill.WebAPI_NFeS.WS.Controllers
                     return Response(new Feedbacks("ok", "Tomador criado com sucesso!"));
                 }
 
-                return Response(new Feedbacks("erro", "Houve um problema o tomador um usuário. Tente novamente!"));
+                return Response(new Feedbacks("erro", "Houve um problema ao criar um tomador. Tente novamente!"));
             }
             catch(Exception ex)
             {
@@ -188,7 +188,7 @@ namespace UnclePhill.WebAPI_NFeS.WS.Controllers
                 
                 if (Conn.Delete(SQL.ToString()))
                 {
-                    return Response(new Feedbacks("ok","Tomador deletado com sucesso!"));
+                    return Response(new Feedbacks("ok","Tomador excluido com sucesso!"));
                 }
 
                 return Response(new Feedbacks("erro", "Houve um erro ao excluir o tomador. Tente novamente!"));
