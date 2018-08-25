@@ -15,6 +15,7 @@ namespace UnclePhill.WebAPI_NFeS.API.Controllers
 {
     public class UserController : MasterController
     {
+        [HttpPost]
         public JsonResult Login(string Email, string Password)
         {
             try
@@ -63,6 +64,7 @@ namespace UnclePhill.WebAPI_NFeS.API.Controllers
             }
         }
 
+        [HttpPost]
         public JsonResult Insert(Users users)
         {
             try
@@ -109,6 +111,7 @@ namespace UnclePhill.WebAPI_NFeS.API.Controllers
             }
         }
 
+        [HttpPut]
         public JsonResult Update(Users users)
         {
             try

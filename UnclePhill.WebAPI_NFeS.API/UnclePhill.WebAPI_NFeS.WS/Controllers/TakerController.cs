@@ -11,7 +11,8 @@ using UnclePhill.WebAPI_NFeS.WS.Models;
 namespace UnclePhill.WebAPI_NFeS.WS.Controllers
 {
     public class TakerController : MasterController
-    {       
+    {
+        [HttpGet]
         public JsonResult Select(long? TakerId = 0)
         {
             try
@@ -72,6 +73,7 @@ namespace UnclePhill.WebAPI_NFeS.WS.Controllers
             }            
         }
 
+        [HttpPost]
         public JsonResult Insert(Takers takers)
         {
             try
@@ -127,6 +129,7 @@ namespace UnclePhill.WebAPI_NFeS.WS.Controllers
             }            
         }
 
+        [HttpPut]
         public JsonResult Update(Takers takers)
         {
             try
@@ -171,6 +174,7 @@ namespace UnclePhill.WebAPI_NFeS.WS.Controllers
             }
         }
 
+        [HttpDelete]
         public JsonResult Delete(long TakerId)
         {
             try

@@ -12,6 +12,7 @@ namespace UnclePhill.WebAPI_NFeS.WS.Controllers
 {
     public class ServiceController : MasterController
     {
+        [HttpGet]
         public JsonResult Select(long? ServicesId)
         {
             try
@@ -67,6 +68,7 @@ namespace UnclePhill.WebAPI_NFeS.WS.Controllers
             }
         }
 
+        [HttpPost]
         public JsonResult Insert(Services services)
         {
             try
@@ -118,6 +120,7 @@ namespace UnclePhill.WebAPI_NFeS.WS.Controllers
             }
         }
 
+        [HttpPut]
         public JsonResult Update(Services services)
         {
             try
@@ -160,6 +163,7 @@ namespace UnclePhill.WebAPI_NFeS.WS.Controllers
             }
         }
 
+        [HttpDelete]
         public JsonResult Delete(long ServicesId)
         {
             try

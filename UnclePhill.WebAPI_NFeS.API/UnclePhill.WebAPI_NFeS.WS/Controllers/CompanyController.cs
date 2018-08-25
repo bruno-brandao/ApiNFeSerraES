@@ -12,7 +12,8 @@ namespace UnclePhill.WebAPI_NFeS.WS.Controllers
 {
     public class CompanyController : MasterController
     {
-        public JsonResult Select(long? CompanyId)
+        [HttpGet]
+        public JsonResult Select(long? CompanyId = 0)
         {
             try
             {
@@ -86,6 +87,7 @@ namespace UnclePhill.WebAPI_NFeS.WS.Controllers
             }            
         }
 
+        [HttpPost]
         public JsonResult Insert(Companys companys)
         {
             try
@@ -155,6 +157,7 @@ namespace UnclePhill.WebAPI_NFeS.WS.Controllers
             }            
         }
 
+        [HttpPut]
         public JsonResult Update(Companys companys)
         {
             try
@@ -207,6 +210,7 @@ namespace UnclePhill.WebAPI_NFeS.WS.Controllers
             }            
         }
 
+        [HttpDelete]
         public JsonResult Delete(long CompanyId)
         {
             try

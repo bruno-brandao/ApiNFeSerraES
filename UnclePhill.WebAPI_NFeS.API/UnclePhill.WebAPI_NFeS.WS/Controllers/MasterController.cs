@@ -14,6 +14,7 @@ namespace UnclePhill.WebAPI_NFeS.API.Controllers
 {
     public class MasterController : Controller
     {
+        //Opções Default para as controllers:
         protected ConnectionManager Conn = new ConnectionManager("unclephill.database.windows.net","BD_NFeS","1433","Administrador","M1n3Rv@7");
         protected StringBuilder SQL = new StringBuilder();
         protected Sessions Session = new Sessions();
@@ -23,21 +24,7 @@ namespace UnclePhill.WebAPI_NFeS.API.Controllers
             return View();
         }
 
-        protected string NoInjection(string Value)
-        {
-            return Value.Replace("'", "''");
-        }
-
-        protected string FormatNumber(decimal Value)
-        {
-            return Value.ToString().Replace(".","").Replace(",",".");
-        }
-
-        protected JsonResult Response(object Param)
-        {
-            return Json(Param, JsonRequestBehavior.AllowGet);
-        }
-
+        //Funções de sessão:
         protected bool CheckSession()
         {
             try
@@ -100,9 +87,9 @@ namespace UnclePhill.WebAPI_NFeS.API.Controllers
                 Conn.Update(SQL.ToString());
 
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
-                
+
             }
         }
 
@@ -112,8 +99,8 @@ namespace UnclePhill.WebAPI_NFeS.API.Controllers
             {
                 UnicodeEncoding unicode = new UnicodeEncoding();
                 byte[] passwordByte = unicode.GetBytes(Password + DateTime.Now.ToString());
-                SHA1Managed SHA = new SHA1Managed();
-                byte[] hashByte = SHA.ComputeHash(passwordByte);
+                SHA1Managed SHA1 = new SHA1Managed();
+                byte[] hashByte = SHA1.ComputeHash(passwordByte);
                 string hash = string.Empty;
 
                 foreach (byte b in hashByte)
@@ -127,6 +114,21 @@ namespace UnclePhill.WebAPI_NFeS.API.Controllers
                 throw new Exception(ex.Message);
             }
         }
-   
+
+        //Funções diversas:
+        protected string NoInjection(string Value)
+        {
+            return Value.Replace("'", "''");
+        }
+
+        protected string FormatNumber(decimal Value)
+        {
+            return Value.ToString().Replace(".","").Replace(",",".");
+        }
+
+        protected JsonResult Response(object Param)
+        {
+            return Json(Param, JsonRequestBehavior.AllowGet);
+        }
     }
 }
