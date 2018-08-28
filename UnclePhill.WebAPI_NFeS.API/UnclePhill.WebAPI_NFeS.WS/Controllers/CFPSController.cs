@@ -56,5 +56,27 @@ namespace UnclePhill.WebAPI_NFeS.WS.Controllers
                 return Response(new Feedbacks("erro", ex.Message));
             }
         }
+
+        [HttpGet]
+        public JsonResult SelectCodigoContribuinte()
+        {
+            try
+            {
+                WSEntrada.WSEntrada Entrada = new WSEntrada.WSEntradaClient();
+                WSEntrada.consultarAtividadesRequest Request = new WSEntrada.consultarAtividadesRequest();
+                Request.Body = new WSEntrada.consultarAtividadesRequestBody();
+                Request.Body.cpfUsuario = "555.555.555-55";
+                Request.Body.hashSenha = "cRDtpNCeBiql5KOQsKVyrA0sAiA=";
+                Request.Body.inscricaoMunicipal = "99999";
+                Request.Body.codigoMunicipio = 3;        
+
+                WSEntrada.consultarAtividadesResponse ApiResponse = Entrada.consultarAtividades(Request);
+
+                return Response(new Feedbacks("ok", ApiResponse.Body.@return));
+            }catch(Exception ex)
+            {
+                return Response(new Feedbacks("erro", ex.Message));
+            }
+        }
     }
-}
+}   
