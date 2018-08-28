@@ -64,12 +64,27 @@ namespace UnclePhill.WebAPI_NFeS.API.Models
         
         public bool Delete(string Query)
         {
-            return Execute(Query);
+            try
+            {
+                return Execute(Query);
+            }
+            catch(Exception ex)
+            {
+                throw ex;
+            }
+            
         }
 
         public bool Update(string Query)
         {
-            return Execute(Query);
+            try
+            {
+                return Execute(Query);
+            }
+            catch(Exception ex)
+            {
+                throw ex;
+            }            
         }
 
         public bool Execute(string Query)
