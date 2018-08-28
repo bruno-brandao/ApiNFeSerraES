@@ -27,6 +27,8 @@ namespace UnclePhill.WebAPI_NFeS.WS.Controllers
                 SQL.AppendLine("    CPF_CNPJ, ");
                 SQL.AppendLine("    RG_IE, ");
                 SQL.AppendLine("    Name, ");
+                SQL.AppendLine("    NameFantasy, ");
+                SQL.AppendLine("    TypePerson, ");
                 SQL.AppendLine("    CEP, ");
                 SQL.AppendLine("    Street, ");
                 SQL.AppendLine("    Neighborhood, ");
@@ -39,8 +41,7 @@ namespace UnclePhill.WebAPI_NFeS.WS.Controllers
                 SQL.AppendLine(" From Takers ");
                 SQL.AppendLine(" Where Active = 1 ");
                 if (TakerId > 0) { SQL.AppendLine(" And TakerId = " + TakerId); }
-
-                
+                                
                 DataTable data = Conn.GetDataTable(SQL.ToString(), "Takers");
                 if (data != null && data.Rows.Count > 0 )
                 {
@@ -52,6 +53,8 @@ namespace UnclePhill.WebAPI_NFeS.WS.Controllers
                         taker.CPF_CNPJ = row["CPF_CNPJ"].ToString();
                         taker.RG_IE = row["RG_IE"].ToString();
                         taker.Name = row["Name"].ToString();
+                        taker.NameFantasy = row["NameFantasy"].ToString();
+                        taker.TypePerson = row["TypePerson"].ToString();
                         taker.CEP = row["CEP"].ToString();
                         taker.Street = row["Street"].ToString();
                         taker.Neighborhood = row["Neighborhood"].ToString();
@@ -87,10 +90,12 @@ namespace UnclePhill.WebAPI_NFeS.WS.Controllers
                 }
 
                 SQL.AppendLine(" Insert Into Takers ");
-                SQL.AppendLine("    IM, ");
+                SQL.AppendLine("    (IM, ");
                 SQL.AppendLine("    CPF_CNPJ, ");
                 SQL.AppendLine("    RG_IE, ");
                 SQL.AppendLine("    Name, ");
+                SQL.AppendLine("    NameFantasy, ");
+                SQL.AppendLine("    TypePerson, ");
                 SQL.AppendLine("    CEP, ");
                 SQL.AppendLine("    Street, ");
                 SQL.AppendLine("    Neighborhood, ");
@@ -99,12 +104,14 @@ namespace UnclePhill.WebAPI_NFeS.WS.Controllers
                 SQL.AppendLine("    Email, ");
                 SQL.AppendLine("    Active, ");
                 SQL.AppendLine("    DateInsert, ");
-                SQL.AppendLine("    DateUpdate ");
+                SQL.AppendLine("    DateUpdate) ");
                 SQL.AppendLine(" Values ");
                 SQL.AppendLine("    ('" + NoInjection(takers.IM) + "',");
                 SQL.AppendLine("     '" + NoInjection(takers.CPF_CNPJ) + "',");
                 SQL.AppendLine("     '" + NoInjection(takers.RG_IE) + "',");
                 SQL.AppendLine("     '" + NoInjection(takers.Name) + "',");
+                SQL.AppendLine("     '" + NoInjection(takers.NameFantasy) + "',");
+                SQL.AppendLine("     '" + NoInjection(takers.TypePerson) + "',");
                 SQL.AppendLine("     '" + NoInjection(takers.CEP) + "',");
                 SQL.AppendLine("     '" + NoInjection(takers.Street) + "',");
                 SQL.AppendLine("     '" + NoInjection(takers.Neighborhood) + "',");
@@ -152,6 +159,8 @@ namespace UnclePhill.WebAPI_NFeS.WS.Controllers
                 SQL.AppendLine("    CPF_CNPJ = '" + NoInjection(takers.CPF_CNPJ) +"',");
                 SQL.AppendLine("    RG_IE = '" + NoInjection(takers.RG_IE) + "',");
                 SQL.AppendLine("    Name = '" + NoInjection(takers.Name) + "',");
+                SQL.AppendLine("    NameFantasy = '" + NoInjection(takers.NameFantasy) + "',");
+                SQL.AppendLine("    TypePerson = '" + NoInjection(takers.TypePerson) + "',");
                 SQL.AppendLine("    CEP = '" + NoInjection(takers.CEP) + "',");
                 SQL.AppendLine("    Street = '" + NoInjection(takers.Street) + "',");
                 SQL.AppendLine("    Neighborhood = '" + NoInjection(takers.Neighborhood) + "',");
@@ -228,6 +237,16 @@ namespace UnclePhill.WebAPI_NFeS.WS.Controllers
             if (string.IsNullOrEmpty(takers.Name))
             {
                 return new Feedbacks("erro", "Informe o nome do tomador!");
+            }
+
+            if (string.IsNullOrEmpty(takers.NameFantasy))
+            {
+                return new Feedbacks("erro", "Informe o nome nome fantasia do tomador!");
+            }
+
+            if (string.IsNullOrEmpty(takers.TypePerson))
+            {
+                return new Feedbacks("erro", "Informe o tipo de pessoa do tomador!");
             }
 
             if (string.IsNullOrEmpty(takers.CEP))

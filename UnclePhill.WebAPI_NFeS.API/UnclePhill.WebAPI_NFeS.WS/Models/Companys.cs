@@ -15,6 +15,7 @@ namespace UnclePhill.WebAPI_NFeS.WS.Models
         public Companys(long CompanyId, 
             string CNPJ, string IM, 
             string IE, string Name, 
+            string NameFantasy,
             string CEP, string Street,
             string Neighborhood, string City, 
             string State, string Telephone, 
@@ -29,6 +30,7 @@ namespace UnclePhill.WebAPI_NFeS.WS.Models
             this.IM = IM;
             this.IE = IE;
             this.Name = Name;
+            this.NameFantasy = NameFantasy;
             this.CEP = CEP;
             this.Street = Street;
             this.Neighborhood = Neighborhood;
@@ -53,6 +55,7 @@ namespace UnclePhill.WebAPI_NFeS.WS.Models
         public string IM { get; set; }
         public string IE { get; set; }
         public string Name { get; set; }
+        public string NameFantasy { get; set; }
         public string CEP { get; set; }
         public string Street { get; set; }
         public string Neighborhood { get; set; }

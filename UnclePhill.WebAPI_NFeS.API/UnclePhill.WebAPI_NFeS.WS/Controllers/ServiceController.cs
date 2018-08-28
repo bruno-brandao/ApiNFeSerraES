@@ -64,7 +64,7 @@ namespace UnclePhill.WebAPI_NFeS.WS.Controllers
             }
             catch(Exception ex)
             {
-                return Response(ex.Message);
+                return Response(new Feedbacks("erro", ex.Message));
             }
         }
 
@@ -82,7 +82,7 @@ namespace UnclePhill.WebAPI_NFeS.WS.Controllers
                 }
 
                 SQL.AppendLine(" Insert Into Services ");
-                SQL.AppendLine("    Unity, ");
+                SQL.AppendLine("    (Unity, ");
                 SQL.AppendLine("    Value, ");
                 SQL.AppendLine("    Description, ");
                 SQL.AppendLine("    IRRF, ");
@@ -92,7 +92,7 @@ namespace UnclePhill.WebAPI_NFeS.WS.Controllers
                 SQL.AppendLine("    COFINS, ");
                 SQL.AppendLine("    Active, ");
                 SQL.AppendLine("    DateInsert, ");
-                SQL.AppendLine("    DateUpdate ");
+                SQL.AppendLine("    DateUpdate) ");
                 SQL.AppendLine(" Values ");
                 SQL.AppendLine("    ('" + NoInjection(services.Unity) + "',");
                 SQL.AppendLine("     " + FormatNumber(services.Value) + ",");

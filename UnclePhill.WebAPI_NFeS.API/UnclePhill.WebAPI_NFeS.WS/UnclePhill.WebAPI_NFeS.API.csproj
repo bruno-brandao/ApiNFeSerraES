@@ -182,10 +182,12 @@
     <Compile Include="Areas\HelpPage\SampleGeneration\SampleDirection.cs" />
     <Compile Include="Areas\HelpPage\SampleGeneration\TextSample.cs" />
     <Compile Include="Areas\HelpPage\XmlDocumentationProvider.cs" />
+    <Compile Include="Controllers\CFPSController.cs" />
     <Compile Include="Controllers\CompanyController.cs" />
     <Compile Include="Controllers\MasterController.cs" />
     <Compile Include="Controllers\NFeSController.cs" />
     <Compile Include="Controllers\ServiceController.cs" />
+    <Compile Include="Controllers\ShippingCompanyController.cs" />
     <Compile Include="Controllers\TakerController.cs" />
     <Compile Include="Controllers\UserController.cs" />
     <Compile Include="Global.asax.cs">
@@ -200,6 +202,7 @@
     <Compile Include="Models\NFeSItens.cs" />
     <Compile Include="Models\Services.cs" />
     <Compile Include="Models\Sessions.cs" />
+    <Compile Include="Models\ShippingCompany.cs" />
     <Compile Include="Models\Takers.cs" />
     <Compile Include="Models\Users.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -261,9 +264,11 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
+    <Folder Include="Views\CFPS\" />
     <Folder Include="Views\Company\" />
     <Folder Include="Views\NFeS\" />
     <Folder Include="Views\Service\" />
+    <Folder Include="Views\ShippingCompany\" />
     <Folder Include="Views\Taker\" />
   </ItemGroup>
   <ItemGroup>

@@ -27,6 +27,7 @@ namespace UnclePhill.WebAPI_NFeS.WS.Controllers
                 SQL.AppendLine("    IM, ");
                 SQL.AppendLine("    IE, ");
                 SQL.AppendLine("    Name, ");
+                SQL.AppendLine("    NameFantasy, ");
                 SQL.AppendLine("    CEP, ");
                 SQL.AppendLine("    Street, ");
                 SQL.AppendLine("    Neighborhood, ");
@@ -59,6 +60,7 @@ namespace UnclePhill.WebAPI_NFeS.WS.Controllers
                         company.IM = row["IM"].ToString();                       
                         company.IE = row["IE"].ToString();
                         company.Name = row["Name"].ToString();
+                        company.NameFantasy = row["NameFantasy"].ToString();
                         company.CEP = row["CEP"].ToString();
                         company.Street = row["Street"].ToString();
                         company.Neighborhood = row["Neighborhood"].ToString();
@@ -83,7 +85,7 @@ namespace UnclePhill.WebAPI_NFeS.WS.Controllers
             }
             catch (Exception ex)
             {
-                return Response(ex.Message);
+                return Response(new Feedbacks("erro", ex.Message));
             }            
         }
 
@@ -101,10 +103,11 @@ namespace UnclePhill.WebAPI_NFeS.WS.Controllers
                 }
 
                 SQL.AppendLine(" Insert Into Companys ");
-                SQL.AppendLine("    CNPJ, ");
+                SQL.AppendLine("    (CNPJ, ");
                 SQL.AppendLine("    IM, ");
                 SQL.AppendLine("    IE, ");
                 SQL.AppendLine("    Name, ");
+                SQL.AppendLine("    NameFantasy, ");
                 SQL.AppendLine("    CEP, ");
                 SQL.AppendLine("    Street, ");
                 SQL.AppendLine("    Neighborhood, ");
@@ -120,12 +123,13 @@ namespace UnclePhill.WebAPI_NFeS.WS.Controllers
                 SQL.AppendLine("    INSS, ");
                 SQL.AppendLine("    Active, ");
                 SQL.AppendLine("    DateInsert, ");
-                SQL.AppendLine("    DateUpdate ");
+                SQL.AppendLine("    DateUpdate) ");
                 SQL.AppendLine(" Values ");
                 SQL.AppendLine("    ('" + NoInjection(companys.CNPJ) + "',");
                 SQL.AppendLine("     '" + NoInjection(companys.IM) + "',");
                 SQL.AppendLine("     '" + NoInjection(companys.IE) + "',");
-                SQL.AppendLine("     '" + NoInjection(companys.Name) + ",");
+                SQL.AppendLine("     '" + NoInjection(companys.Name) + "',");
+                SQL.AppendLine("     '" + NoInjection(companys.NameFantasy) + "',");
                 SQL.AppendLine("     '" + NoInjection(companys.CEP) + "',");
                 SQL.AppendLine("     '" + NoInjection(companys.Street) + ",");
                 SQL.AppendLine("     '" + NoInjection(companys.Neighborhood) + "',");
@@ -153,7 +157,7 @@ namespace UnclePhill.WebAPI_NFeS.WS.Controllers
             }
             catch(Exception ex)
             {
-                return Response(ex.Message);
+                return Response(new Feedbacks("erro", ex.Message));
             }            
         }
 
@@ -180,6 +184,7 @@ namespace UnclePhill.WebAPI_NFeS.WS.Controllers
                 SQL.AppendLine("    IM = '" + NoInjection(companys.IM) + "',");                
                 SQL.AppendLine("    IE = '" + NoInjection(companys.IE) + "',");
                 SQL.AppendLine("    Name = '" + NoInjection(companys.Name) + "',");
+                SQL.AppendLine("    NameFantasy = '" + NoInjection(companys.NameFantasy) + "',");
                 SQL.AppendLine("    CEP = '" + NoInjection(companys.CEP) + "',");
                 SQL.AppendLine("    Street = '" + NoInjection(companys.Street) + "',");
                 SQL.AppendLine("    Neighborhood = '" + NoInjection(companys.Neighborhood) + "',");
@@ -206,7 +211,7 @@ namespace UnclePhill.WebAPI_NFeS.WS.Controllers
             }
             catch(Exception ex)
             {
-                return Response(ex.Message);
+                return Response(new Feedbacks("erro", ex.Message));
             }            
         }
 
@@ -235,7 +240,7 @@ namespace UnclePhill.WebAPI_NFeS.WS.Controllers
             }
             catch (Exception ex)
             {
-                return Response(ex.Message);
+                return Response(new Feedbacks("erro", ex.Message));
             }            
         }
 
@@ -260,6 +265,11 @@ namespace UnclePhill.WebAPI_NFeS.WS.Controllers
             {
                 return new Feedbacks("erro", "Informe o nome da empresa!");
             }
+
+            if (string.IsNullOrEmpty(companys.NameFantasy))
+            {
+                return new Feedbacks("erro", "Informe o nome fantasia da empresa!");
+            } 
 
             if (string.IsNullOrEmpty(companys.CEP))
             {
