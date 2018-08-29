@@ -66,8 +66,8 @@ namespace UnclePhill.WebAPI_NFeS.WS.Controllers
                 WSEntrada.consultarAtividadesRequest Request = new WSEntrada.consultarAtividadesRequest();
                 Request.Body = new WSEntrada.consultarAtividadesRequestBody();
                 Request.Body.cpfUsuario = "555.555.555-55";
-                Request.Body.hashSenha = "cRDtpNCeBiql5KOQsKVyrA0sAiA=";
                 Request.Body.inscricaoMunicipal = "99999";
+                Request.Body.hashSenha = "cRDtpNCeBiql5KOQsKVyrA0sAiA=";                
                 Request.Body.codigoMunicipio = 3;        
 
                 WSEntrada.consultarAtividadesResponse ApiResponse = Entrada.consultarAtividades(Request);
