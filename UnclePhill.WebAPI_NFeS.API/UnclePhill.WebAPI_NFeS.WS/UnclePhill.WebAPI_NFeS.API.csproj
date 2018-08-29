@@ -220,6 +220,7 @@
     <Compile Include="Models\Sessions.cs" />
     <Compile Include="Models\ShippingCompany.cs" />
     <Compile Include="Models\Takers.cs" />
+    <Compile Include="Models\TaxpayerActivities.cs" />
     <Compile Include="Models\Users.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

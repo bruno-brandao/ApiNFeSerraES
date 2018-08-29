@@ -4,6 +4,7 @@ using System.Data;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using System.Xml;
 using UnclePhill.WebAPI_NFeS.API.Controllers;
 using UnclePhill.WebAPI_NFeS.API.Models;
 using UnclePhill.WebAPI_NFeS.WS.Models;
@@ -58,7 +59,7 @@ namespace UnclePhill.WebAPI_NFeS.WS.Controllers
         }
 
         [HttpGet]
-        public JsonResult SelectCodigoContribuinte()
+        public JsonResult ConsultaAtividadesContribuinte()
         {
             try
             {
@@ -66,11 +67,21 @@ namespace UnclePhill.WebAPI_NFeS.WS.Controllers
                 WSEntrada.consultarAtividadesRequest Request = new WSEntrada.consultarAtividadesRequest();
                 Request.Body = new WSEntrada.consultarAtividadesRequestBody();
                 Request.Body.cpfUsuario = "555.555.555-55";
-                Request.Body.inscricaoMunicipal = "99999";
-                Request.Body.hashSenha = "cRDtpNCeBiql5KOQsKVyrA0sAiA=";                
+                Request.Body.hashSenha = "cRDtpNCeBiql5KOQsKVyrA0sAiA=";
+                Request.Body.inscricaoMunicipal = "4546565";
                 Request.Body.codigoMunicipio = 3;        
 
                 WSEntrada.consultarAtividadesResponse ApiResponse = Entrada.consultarAtividades(Request);
+
+                XmlTextReader XML = new XmlTextReader(ApiResponse.Body.@return);
+
+                while (XML.Read())
+                {
+                    if (XML.Name.Equals("Atividade"))
+                    {
+
+                    }
+                }
 
                 return Response(new Feedbacks("ok", ApiResponse.Body.@return));
             }catch(Exception ex)
