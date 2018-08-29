@@ -58,7 +58,7 @@ namespace UnclePhill.WebAPI_NFeS.WS.Controllers
         }
 
         [HttpGet]
-        public JsonResult SelectCodigoContribuinte()
+        public JsonResult ConsultaAtividadesContribuinte()
         {
             try
             {
