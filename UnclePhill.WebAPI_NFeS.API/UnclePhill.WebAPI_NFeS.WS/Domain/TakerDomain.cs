@@ -3,45 +3,81 @@ using System.Collections.Generic;
 using System.Data;
 using System.Linq;
 using System.Web;
-using System.Web.Mvc;
-using UnclePhill.WebAPI_NFeS.API.Controllers;
 using UnclePhill.WebAPI_NFeS.API.Models;
-using UnclePhill.WebAPI_NFeS.WS.Domain;
 using UnclePhill.WebAPI_NFeS.WS.Models;
 
-namespace UnclePhill.WebAPI_NFeS.WS.Controllers
+namespace UnclePhill.WebAPI_NFeS.WS.Domain
 {
-    public class TakerController : MasterController
+    public class TakerDomain : MasterDomain
     {
-
-        private TakerDomain takerDomain = new TakerDomain();
-
-        [HttpGet]
-        public JsonResult Select(long? TakerId = 0)
+        public List<Takers> Select(long? TakerId = 0)
         {
             try
             {
-                if (!base.CheckSession()) return Response(new Feedbacks("erro", "Sessão inválida!"));
+                List<Takers> lTakers = new List<Takers>();
 
-                return Response(takerDomain.Select(TakerId));
-            }
-            catch(Exception ex)
+                SQL.AppendLine(" Select ");
+                SQL.AppendLine("    TakerId, ");
+                SQL.AppendLine("    IM, ");
+                SQL.AppendLine("    CPF_CNPJ, ");
+                SQL.AppendLine("    RG_IE, ");
+                SQL.AppendLine("    Name, ");
+                SQL.AppendLine("    NameFantasy, ");
+                SQL.AppendLine("    TypePerson, ");
+                SQL.AppendLine("    CEP, ");
+                SQL.AppendLine("    Street, ");
+                SQL.AppendLine("    Neighborhood, ");
+                SQL.AppendLine("    City, ");
+                SQL.AppendLine("    State, ");
+                SQL.AppendLine("    Email, ");
+                SQL.AppendLine("    Active, ");
+                SQL.AppendLine("    DateInsert, ");
+                SQL.AppendLine("    DateUpdate ");
+                SQL.AppendLine(" From Takers ");
+                SQL.AppendLine(" Where Active = 1 ");
+                if (TakerId > 0) { SQL.AppendLine(" And TakerId = " + TakerId); }
+
+                DataTable data = Conn.GetDataTable(SQL.ToString(), "Takers");
+                if (data != null && data.Rows.Count > 0)
+                {
+                    foreach (DataRow row in data.Rows)
+                    {
+                        Takers taker = new Takers();
+                        taker.TakerId = long.Parse(row["TakerId"].ToString());
+                        taker.IM = row["IM"].ToString();
+                        taker.CPF_CNPJ = row["CPF_CNPJ"].ToString();
+                        taker.RG_IE = row["RG_IE"].ToString();
+                        taker.Name = row["Name"].ToString();
+                        taker.NameFantasy = row["NameFantasy"].ToString();
+                        taker.TypePerson = row["TypePerson"].ToString();
+                        taker.CEP = row["CEP"].ToString();
+                        taker.Street = row["Street"].ToString();
+                        taker.Neighborhood = row["Neighborhood"].ToString();
+                        taker.City = row["City"].ToString();
+                        taker.State = row["State"].ToString();
+                        taker.Email = row["Email"].ToString();
+                        taker.Active = bool.Parse(row["Active"].ToString());
+                        taker.DateInsert = row.Field<DateTime>("DateInsert").ToString("dd-MM-yyyy");
+                        taker.DateUpdate = row.Field<DateTime>("DateUpdate").ToString("dd-MM-yyyy");
+                        lTakers.Add(taker);
+                    }
+                    return lTakers;
+                }
+                throw new Exception("Não foram encontrados registros!");
+            }catch(Exception ex)
             {
-                return Response(new Feedbacks("erro", ex.Message));
-            }            
+                throw ex;
+            }
         }
 
-        [HttpPost]
-        public JsonResult Insert(Takers takers)
+        public bool Insert(Takers takers)
         {
             try
             {
-                if (!base.CheckSession()){ return Response(new Feedbacks("erro", "Sessão inválida!"));}
-
                 Feedbacks feedback = Validate(takers);
                 if (feedback.Status.Equals("erro"))
                 {
-                    return Response(feedback);
+                     throw new Exception(feedback.Message);
                 }
 
                 SQL.AppendLine(" Insert Into Takers ");
@@ -78,68 +114,89 @@ namespace UnclePhill.WebAPI_NFeS.WS.Controllers
                 SQL.AppendLine("     GetDate() ");
                 SQL.AppendLine("    ) ");
 
-                if (Conn.Insert(SQL.ToString())> 0)
+                if (Conn.Insert(SQL.ToString()) > 0)
                 {
-                    return Response(new Feedbacks("ok", "Tomador criado com sucesso!"));
+                    return true;
                 }
 
-                return Response(new Feedbacks("erro", "Houve um problema ao criar um tomador. Tente novamente!"));
-            }
-            catch(Exception ex)
-            {
-                return Response(new Feedbacks("erro", ex.Message));
-            }            
-        }
-
-        [HttpPut]
-        public JsonResult Update(Takers takers)
-        {
-            try
-            {
-                if (!base.CheckSession()) { return Response(new Feedbacks("erro", "Sessão inválida!")); }
-
-                if (takerDomain.Update(takers))
-                {
-                    return Response(new Feedbacks("ok","Tomador atualizado com sucesso!"));
-                }
-
-                return Response(new Feedbacks("erro","Houve um erro ao atualizar o tomador. Tente novamente!"));
+                return false;
             }
             catch (Exception ex)
             {
-                return Response(new Feedbacks("erro", ex.Message));
+                throw ex;
             }
         }
 
-        [HttpDelete]
-        public JsonResult Delete(long TakerId)
+        public bool Update(Takers takers)
         {
             try
             {
-                if (!base.CheckSession()) { return Response(new Feedbacks("erro", "Sessão inválida!")); }
+                Feedbacks feedback = Validate(takers);
+                if (feedback.Status.Equals("erro"))
+                {
+                    throw new Exception(feedback.Message);
+                }
 
+                if (takers.TakerId <= 0)
+                {
+                    throw new Exception("Informe o código do tomador!");
+                }
+
+                SQL.AppendLine(" Update Takers Set ");
+                SQL.AppendLine("    IM = '" + NoInjection(takers.IM) + "',");
+                SQL.AppendLine("    CPF_CNPJ = '" + NoInjection(takers.CPF_CNPJ) + "',");
+                SQL.AppendLine("    RG_IE = '" + NoInjection(takers.RG_IE) + "',");
+                SQL.AppendLine("    Name = '" + NoInjection(takers.Name) + "',");
+                SQL.AppendLine("    NameFantasy = '" + NoInjection(takers.NameFantasy) + "',");
+                SQL.AppendLine("    TypePerson = '" + NoInjection(takers.TypePerson) + "',");
+                SQL.AppendLine("    CEP = '" + NoInjection(takers.CEP) + "',");
+                SQL.AppendLine("    Street = '" + NoInjection(takers.Street) + "',");
+                SQL.AppendLine("    Neighborhood = '" + NoInjection(takers.Neighborhood) + "',");
+                SQL.AppendLine("    City = '" + NoInjection(takers.City) + "', ");
+                SQL.AppendLine("    State = '" + NoInjection(takers.State) + "',");
+                SQL.AppendLine("    Email = '" + NoInjection(takers.Email) + "',");
+                SQL.AppendLine("    DateUpdate = GetDate() ");
+                SQL.AppendLine(" Where TakerId = " + takers.TakerId);
+
+                if (Conn.Update(SQL.ToString()))
+                {
+                    return true;
+                }
+
+                return false;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+
+        public bool Delete(long TakerId)
+        {
+            try
+            {
                 if (TakerId <= 0)
                 {
-                    return Response(new Feedbacks("erro", "Informe o código do tomador!"));
+                    throw new Exception("Informe o código do tomador!");
                 }
 
                 SQL.AppendLine(" Update Takers Set ");
                 SQL.AppendLine("    Active = 0 ");
                 SQL.AppendLine(" Where TakerId = " + TakerId);
-                
+
                 if (Conn.Delete(SQL.ToString()))
                 {
-                    return Response(new Feedbacks("ok","Tomador excluido com sucesso!"));
+                    return true;
                 }
 
-                return Response(new Feedbacks("erro", "Houve um erro ao excluir o tomador. Tente novamente!"));
+                return false;
             }
             catch (Exception ex)
             {
-                return Response(new Feedbacks("erro", ex.Message));
+                throw ex;
             }
         }
-        
+
         private Feedbacks Validate(Takers takers)
         {
             if (string.IsNullOrEmpty(takers.IM))

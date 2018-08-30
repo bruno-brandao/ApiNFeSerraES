@@ -21,6 +21,7 @@ namespace UnclePhill.WebAPI_NFeS.WS.Controllers
             try
             {
                 if (!base.CheckSession()) return Response(new Feedbacks("erro", "Sessão inválida!"));
+
                 return Response(companyDomain.Select(CompanyId));
             }
             catch (Exception ex)
