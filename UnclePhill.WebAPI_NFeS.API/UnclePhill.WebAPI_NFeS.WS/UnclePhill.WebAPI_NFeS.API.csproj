@@ -207,6 +207,8 @@
     <Compile Include="Controllers\TakerController.cs" />
     <Compile Include="Controllers\TaxpayerActivitiesController.cs" />
     <Compile Include="Controllers\UserController.cs" />
+    <Compile Include="Domain\MasterDomain.cs" />
+    <Compile Include="Domain\UsersDomain.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
