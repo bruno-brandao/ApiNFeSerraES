@@ -56,38 +56,6 @@ namespace UnclePhill.WebAPI_NFeS.WS.Controllers
             {
                 return Response(new Feedbacks("erro", ex.Message));
             }
-        }
-
-        [HttpGet]
-        public JsonResult ConsultaAtividadesContribuinte()
-        {
-            try
-            {
-                WSEntrada.WSEntrada Entrada = new WSEntrada.WSEntradaClient();
-                WSEntrada.consultarAtividadesRequest Request = new WSEntrada.consultarAtividadesRequest();
-                Request.Body = new WSEntrada.consultarAtividadesRequestBody();
-                Request.Body.cpfUsuario = "555.555.555-55";
-                Request.Body.hashSenha = "cRDtpNCeBiql5KOQsKVyrA0sAiA=";
-                Request.Body.inscricaoMunicipal = "4546565";
-                Request.Body.codigoMunicipio = 3;        
-
-                WSEntrada.consultarAtividadesResponse ApiResponse = Entrada.consultarAtividades(Request);
-
-                XmlTextReader XML = new XmlTextReader(ApiResponse.Body.@return);
-
-                while (XML.Read())
-                {
-                    if (XML.Name.Equals("Atividade"))
-                    {
-
-                    }
-                }
-
-                return Response(new Feedbacks("ok", ApiResponse.Body.@return));
-            }catch(Exception ex)
-            {
-                return Response(new Feedbacks("erro", ex.Message));
-            }
-        }
+        }        
     }
 }   

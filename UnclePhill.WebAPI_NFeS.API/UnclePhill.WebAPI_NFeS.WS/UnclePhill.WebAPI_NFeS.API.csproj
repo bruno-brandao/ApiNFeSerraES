@@ -205,6 +205,7 @@
     <Compile Include="Controllers\ServiceController.cs" />
     <Compile Include="Controllers\ShippingCompanyController.cs" />
     <Compile Include="Controllers\TakerController.cs" />
+    <Compile Include="Controllers\TaxpayerActivitiesController.cs" />
     <Compile Include="Controllers\UserController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
