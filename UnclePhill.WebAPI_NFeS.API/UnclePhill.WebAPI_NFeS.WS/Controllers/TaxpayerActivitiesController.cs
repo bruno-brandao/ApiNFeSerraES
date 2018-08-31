@@ -10,6 +10,7 @@ using System.Xml;
 using System.Xml.Serialization;
 using UnclePhill.WebAPI_NFeS.API.Controllers;
 using UnclePhill.WebAPI_NFeS.API.Models;
+using UnclePhill.WebAPI_NFeS.WS.Domain;
 using UnclePhill.WebAPI_NFeS.WS.Models;
 
 namespace UnclePhill.WebAPI_NFeS.WS.Controllers
@@ -30,7 +31,12 @@ namespace UnclePhill.WebAPI_NFeS.WS.Controllers
                 //hashSenha: cRDtpNCeBiql5KOQsKVyrA0sAiA=
                 //inscricaoMunicipal = 4546565
                 //codigoMunicipio = 3
-                              
+                                
+                if(CompanyId > 0 &&  new CompanyDomain().Select(CompanyId).Count() <= 0)
+                {
+                    return Response(new Feedbacks("erro","Empresa inválida!"));
+                }
+                                
                 WSEntrada.WSEntrada Entrada = new WSEntrada.WSEntradaClient();
                 WSEntrada.consultarAtividadesRequest Request = new WSEntrada.consultarAtividadesRequest();
                 WSEntrada.consultarAtividadesRequestBody Body = new WSEntrada.consultarAtividadesRequestBody();
@@ -49,32 +55,38 @@ namespace UnclePhill.WebAPI_NFeS.WS.Controllers
                     XmlSerializer xmlSerializer = new XmlSerializer(typeof(AtividadesContribuinte));
                     StringReader stringReader = new StringReader(TaxpayerActivities);
                     AtividadesContribuinte atividadesContribuinte = (AtividadesContribuinte)xmlSerializer.Deserialize(stringReader);
-                    foreach(Atividade atividade in atividadesContribuinte.Atividade)
+                    if (atividadesContribuinte.Atividade.Count() > 0)
                     {
-                        SQL = new StringBuilder();
-                        SQL.AppendLine(" Insert Into TaxpayerActivities ");
-                        SQL.AppendLine("    ( ");
-                        SQL.AppendLine("        CompanyId, ");
-                        SQL.AppendLine("        CNAE, ");
-                        SQL.AppendLine("        Description, ");
-                        SQL.AppendLine("        Aliquot, ");
-                        SQL.AppendLine("        Active, ");
-                        SQL.AppendLine("        DateInsert, ");
-                        SQL.AppendLine("        DateUpdate ");
-                        SQL.AppendLine("    ) ");
-                        SQL.AppendLine(" Values ");
-                        SQL.AppendLine("    ( ");
-                        SQL.AppendLine("      1,");
-                        SQL.AppendLine("      '" + NoInjection(atividade.CodigoCnae) + "', ");
-                        SQL.AppendLine("      '" + NoInjection(atividade.Descricao) + "', ");
-                        SQL.AppendLine("       " + FormatNumber(decimal.Parse((atividade.Aliquota == string.Empty? "0" : atividade.Aliquota))) + ", ");
-                        SQL.AppendLine("       1, ");
-                        SQL.AppendLine("       Getdate(), ");
-                        SQL.AppendLine("       Getdate() ");
-                        SQL.AppendLine("    ) ");
 
-                        Conn.Insert(SQL.ToString());
+                        foreach (Atividade atividade in atividadesContribuinte.Atividade)
+                        {
+                            SQL = new StringBuilder();
+                            SQL.AppendLine(" Insert Into TaxpayerActivities ");
+                            SQL.AppendLine("    ( ");
+                            SQL.AppendLine("        CompanyId, ");
+                            SQL.AppendLine("        CNAE, ");
+                            SQL.AppendLine("        Description, ");
+                            SQL.AppendLine("        Aliquot, ");
+                            SQL.AppendLine("        Active, ");
+                            SQL.AppendLine("        DateInsert, ");
+                            SQL.AppendLine("        DateUpdate ");
+                            SQL.AppendLine("    ) ");
+                            SQL.AppendLine(" Values ");
+                            SQL.AppendLine("    ( ");
+                            SQL.AppendLine("      " + CompanyId + ",");
+                            SQL.AppendLine("      '" + NoInjection(atividade.CodigoCnae) + "', ");
+                            SQL.AppendLine("      '" + NoInjection(atividade.Descricao) + "', ");
+                            SQL.AppendLine("       " + FormatNumber(decimal.Parse((atividade.Aliquota == string.Empty ? "0" : atividade.Aliquota))) + ", ");
+                            SQL.AppendLine("       1, ");
+                            SQL.AppendLine("       Getdate(), ");
+                            SQL.AppendLine("       Getdate() ");
+                            SQL.AppendLine("    ) ");
+
+                            Conn.Insert(SQL.ToString());
+                        }
+
                     }
+                    return Response(new Feedbacks("erro", "Não foram encontradas atividades do contribuinte!"));
                 }             
                 return Response(new Feedbacks("ok", "Sucesso"));
             }
