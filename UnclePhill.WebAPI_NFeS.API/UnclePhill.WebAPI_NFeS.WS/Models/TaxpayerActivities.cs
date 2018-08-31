@@ -13,9 +13,10 @@ namespace UnclePhill.WebAPI_NFeS.WS.Models
 
         }
 
-        public TaxpayerActivities(long TaxpayerActivitiesId, string CNAE, string Description, decimal Aliquot, bool Active, string DateInsert, string DateUpdate)
+        public TaxpayerActivities(long TaxpayerActivitiesId, long CompanyId, string CNAE, string Description, decimal Aliquot, bool Active, string DateInsert, string DateUpdate)
         {
             this.TaxpayerActivitiesId = TaxpayerActivitiesId;
+            this.CompanyId = CompanyId;
             this.CNAE = CNAE;
             this.Description = Description;
             this.Aliquot = Aliquot;
@@ -25,6 +26,7 @@ namespace UnclePhill.WebAPI_NFeS.WS.Models
         }
 
         public long TaxpayerActivitiesId { get; set; }
+        public long CompanyId { get; set; }
         public string CNAE { get; set; }
         public string Description { get; set; }
         public decimal Aliquot { get; set; }

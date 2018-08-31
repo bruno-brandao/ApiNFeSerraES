@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data;
 using System.IO;
 using System.Linq;
 using System.Text;
@@ -12,7 +13,7 @@ namespace UnclePhill.WebAPI_NFeS.WS.Domain
 {
     public class TaxpayerActivitiesDomain : MasterDomain
     {
-        public bool Insert(string CPF,
+        public bool Reload(string CPF,
             string Password,
             string IM,
             int CodeCity,
@@ -93,8 +94,42 @@ namespace UnclePhill.WebAPI_NFeS.WS.Domain
         {
             try
             {
-                return null;
-            }catch(Exception ex)
+                List<TaxpayerActivities> lTaxpayerActivities = new List<TaxpayerActivities>();
+
+                SQL = new StringBuilder();
+                SQL.AppendLine(" Select ");
+                SQL.AppendLine("    TaxpayerActivitiesId, ");
+                SQL.AppendLine("    CompanyId, ");
+                SQL.AppendLine("    CNAE, ");
+                SQL.AppendLine("    Description, ");
+                SQL.AppendLine("    Aliquot, ");
+                SQL.AppendLine("    Active, ");
+                SQL.AppendLine("    DateInsert, ");
+                SQL.AppendLine("    DateUpdate ");
+                SQL.AppendLine(" From TaxpayerActivities ");
+                SQL.AppendLine(" Where Active = 1 ");
+
+                DataTable data = Conn.GetDataTable(SQL.ToString(), "TaxpayerActivities");
+                if (data != null && data.Rows.Count > 0)
+                {
+                    foreach (DataRow row in data.Rows)
+                    {
+                        TaxpayerActivities taxpayerActivities = new TaxpayerActivities();
+                        taxpayerActivities.TaxpayerActivitiesId = long.Parse(row["TaxpayerActivitiesId"].ToString());
+                        taxpayerActivities.CompanyId = long.Parse(row["CompanyId"].ToString());
+                        taxpayerActivities.CNAE = row["CNAE"].ToString();
+                        taxpayerActivities.Description = row["Description"].ToString();
+                        taxpayerActivities.Aliquot = decimal.Parse(row["Aliquot"].ToString());
+                        taxpayerActivities.Active = bool.Parse(row["Active"].ToString());
+                        taxpayerActivities.DateInsert = row.Field<DateTime>("DateInsert").ToString("dd-MM-yyyy");
+                        taxpayerActivities.DateUpdate = row.Field<DateTime>("DateUpdate").ToString("dd-MM-yyyy");
+                        lTaxpayerActivities.Add(taxpayerActivities);
+                    }
+                    return lTaxpayerActivities;
+                }
+                throw new Exception("Não foram encontrados registros!");
+            }
+            catch (Exception ex)
             {
                 throw ex;
             }
