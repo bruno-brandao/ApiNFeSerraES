@@ -183,6 +183,26 @@
     <Compile Include="Areas\HelpPage\SampleGeneration\SampleDirection.cs" />
     <Compile Include="Areas\HelpPage\SampleGeneration\TextSample.cs" />
     <Compile Include="Areas\HelpPage\XmlDocumentationProvider.cs" />
+    <Compile Include="Connected Services\NFeS.API.Serra.Entrada\Reference.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </Compile>
+    <Compile Include="Connected Services\NFeS.API.Serra.Interface\Reference.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </Compile>
+    <Compile Include="Connected Services\NFeS.API.Serra.Saida\Reference.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </Compile>
+    <Compile Include="Connected Services\NFeS.API.Serra.Util\Reference.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </Compile>
     <Compile Include="Controllers\CFPSController.cs" />
     <Compile Include="Controllers\CompanyController.cs" />
     <Compile Include="Controllers\MasterController.cs" />
@@ -199,6 +219,37 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Areas\HelpPage\HelpPage.css" />
+    <None Include="Connected Services\NFeS.API.Serra.Entrada\configuration91.svcinfo" />
+    <None Include="Connected Services\NFeS.API.Serra.Entrada\configuration.svcinfo" />
+    <None Include="Connected Services\NFeS.API.Serra.Entrada\Reference.svcmap">
+      <Generator>WCF Proxy Generator</Generator>
+      <LastGenOutput>Reference.cs</LastGenOutput>
+    </None>
+    <Content Include="Connected Services\NFeS.API.Serra.Interface\UnclePhill.WebAPI_NFeS.WS.NFeS.API.Serra.Interface.executeResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </Content>
+    <None Include="Connected Services\NFeS.API.Serra.Interface\WSInterface.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Connected Services\NFeS.API.Serra.Interface\WSInterfaceService.wsdl" />
+    <None Include="Connected Services\NFeS.API.Serra.Saida\configuration91.svcinfo" />
+    <None Include="Connected Services\NFeS.API.Serra.Saida\configuration.svcinfo" />
+    <None Include="Connected Services\NFeS.API.Serra.Saida\Reference.svcmap">
+      <Generator>WCF Proxy Generator</Generator>
+      <LastGenOutput>Reference.cs</LastGenOutput>
+    </None>
+    <None Include="Connected Services\NFeS.API.Serra.Util\configuration91.svcinfo" />
+    <None Include="Connected Services\NFeS.API.Serra.Util\configuration.svcinfo" />
+    <None Include="Connected Services\NFeS.API.Serra.Util\Reference.svcmap">
+      <Generator>WCF Proxy Generator</Generator>
+      <LastGenOutput>Reference.cs</LastGenOutput>
+    </None>
+    <None Include="Connected Services\NFeS.API.Serra.Interface\configuration91.svcinfo" />
+    <None Include="Connected Services\NFeS.API.Serra.Interface\configuration.svcinfo" />
+    <None Include="Connected Services\NFeS.API.Serra.Interface\Reference.svcmap">
+      <Generator>WCF Proxy Generator</Generator>
+      <LastGenOutput>Reference.cs</LastGenOutput>
+    </None>
     <Content Include="Content\bootstrap-theme.css" />
     <Content Include="Content\bootstrap-theme.min.css" />
     <Content Include="Content\bootstrap.css" />
@@ -230,6 +281,33 @@
     <Content Include="ApplicationInsights.config">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
+    <Content Include="Connected Services\NFeS.API.Serra.Entrada\UnclePhill.WebAPI_NFeS.WS.NFeS.API.Serra.Entrada.consultarAtividadesResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </Content>
+    <Content Include="Connected Services\NFeS.API.Serra.Entrada\UnclePhill.WebAPI_NFeS.WS.NFeS.API.Serra.Entrada.nfdEntradaCancelarResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </Content>
+    <Content Include="Connected Services\NFeS.API.Serra.Entrada\UnclePhill.WebAPI_NFeS.WS.NFeS.API.Serra.Entrada.nfdEntradaResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </Content>
+    <None Include="Connected Services\NFeS.API.Serra.Entrada\WSEntrada.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Connected Services\NFeS.API.Serra.Entrada\WSEntradaService.wsdl" />
+    <Content Include="Connected Services\NFeS.API.Serra.Saida\UnclePhill.WebAPI_NFeS.WS.NFeS.API.Serra.Saida.nfdSaidaResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </Content>
+    <None Include="Connected Services\NFeS.API.Serra.Saida\WSSaida.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Connected Services\NFeS.API.Serra.Saida\WSSaidaService.wsdl" />
+    <Content Include="Connected Services\NFeS.API.Serra.Util\UnclePhill.WebAPI_NFeS.WS.NFeS.API.Serra.Util.urlNfdResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </Content>
+    <None Include="Connected Services\NFeS.API.Serra.Util\WSUtil.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Connected Services\NFeS.API.Serra.Util\WSUtilService.wsdl" />
     <None Include="Properties\PublishProfiles\UnclePhillWebAPINFeS - Web Deploy.pubxml" />
     <None Include="Scripts\jquery-3.3.1.intellisense.js" />
     <Content Include="Scripts\jquery-3.3.1.js" />
@@ -292,6 +370,12 @@
       <Project>{c7c5df2f-2693-4284-b8a8-c08f8c878a19}</Project>
       <Name>UnclePhill.WebAPI_NFeS.Models</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <WCFMetadataStorage Include="Connected Services\NFeS.API.Serra.Entrada\" />
+    <WCFMetadataStorage Include="Connected Services\NFeS.API.Serra.Interface\" />
+    <WCFMetadataStorage Include="Connected Services\NFeS.API.Serra.Saida\" />
+    <WCFMetadataStorage Include="Connected Services\NFeS.API.Serra.Util\" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

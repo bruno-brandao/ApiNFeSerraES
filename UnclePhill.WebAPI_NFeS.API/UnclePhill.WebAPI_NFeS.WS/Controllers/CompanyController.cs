@@ -33,10 +33,10 @@ namespace UnclePhill.WebAPI_NFeS.API.Controllers
                             
                 if (companyDomain.Insert(companys,GetUserSession()))
                 {
-                    return Response(new Feedbacks("ok", "Tomador criado com sucesso!"));
+                    return Response(new Feedbacks("ok", "Empresa criada com sucesso!"));
                 }
 
-                return Response(new Feedbacks("erro", "Houve um problema o tomador um usuário. Tente novamente!"));
+                return Response(new Feedbacks("erro", "Houve um problema ao cadastrar uma empresa. Tente novamente!"));
             }
             catch(Exception ex)
             {

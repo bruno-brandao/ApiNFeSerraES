@@ -5,8 +5,8 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Xml.Serialization;
+using UnclePhill.WebAPI_NFeS.Domain.NFeS.API.Serra.Entrada;
 using UnclePhill.WebAPI_NFeS.Models;
-using UnclePhill.WebAPI_NFeS.Domain.NFeS_API_Entrada;
 
 namespace UnclePhill.WebAPI_NFeS.Domain
 {
@@ -47,9 +47,16 @@ namespace UnclePhill.WebAPI_NFeS.Domain
                     AtividadesContribuinte atividadesContribuinte = (AtividadesContribuinte)xmlSerializer.Deserialize(stringReader);
                     if (atividadesContribuinte.Atividade.Count() > 0)
                     {
-                        foreach(Companys company in companyDomain.Select())
+                        try
                         {
-                            companyDomain.Delete(company.CompanyId);
+                            List<TaxpayerActivities> ltaxpayerActivities = this.Select(CompanyId);
+                            foreach (TaxpayerActivities taxpayerActivities in ltaxpayerActivities)
+                            {
+                                this.Delete(taxpayerActivities.TaxpayerActivitiesId);
+                            }
+                        }
+                        catch
+                        {
                         }
                         
                         foreach (Atividade atividade in atividadesContribuinte.Atividade)
@@ -79,9 +86,15 @@ namespace UnclePhill.WebAPI_NFeS.Domain
                             Conn.Insert(SQL.ToString());
                         }
                     }
-                    throw new Exception("Não foram encontradas atividades do contribuinte!");
+                    else
+                    {
+                        throw new Exception("Não foram encontradas atividades do contribuinte!");
+                    }
                 }
-                throw new Exception(TaxpayerActivities);                
+                else
+                {
+                    throw new Exception(TaxpayerActivities);
+                }                                
             }
             catch (Exception ex)
             {
@@ -89,14 +102,15 @@ namespace UnclePhill.WebAPI_NFeS.Domain
             }
         }
         
-        public List<TaxpayerActivities> Select(string CPF,
-            string Password,
-            string IM,
-            int CodeCity,
-            long CompanyId)
+        public List<TaxpayerActivities> Select(long CompanyId)
         {
             try
             {
+                if (CompanyId <= 0)
+                {
+                    throw new Exception("Informe a empresa!");
+                }
+
                 List<TaxpayerActivities> lTaxpayerActivities = new List<TaxpayerActivities>();
 
                 SQL = new StringBuilder();
@@ -111,6 +125,7 @@ namespace UnclePhill.WebAPI_NFeS.Domain
                 SQL.AppendLine("    DateUpdate ");
                 SQL.AppendLine(" From TaxpayerActivities ");
                 SQL.AppendLine(" Where Active = 1 ");
+                SQL.AppendLine(" And CompanyId = " + CompanyId);
 
                 DataTable data = Conn.GetDataTable(SQL.ToString(), "TaxpayerActivities");
                 if (data != null && data.Rows.Count > 0)
@@ -133,6 +148,23 @@ namespace UnclePhill.WebAPI_NFeS.Domain
                 throw new Exception("Não foram encontrados registros!");
             }
             catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+
+
+        public bool Delete(long? TaxpayerActivitiesId)
+        {
+            try
+            {
+                SQL = new StringBuilder();
+                SQL.AppendLine(" Delete From TaxpayerActivities ");
+                SQL.AppendLine(" Where TaxpayerActivitiesId = " + TaxpayerActivitiesId);
+
+                return Conn.Delete(SQL.ToString());
+            }
+            catch(Exception ex)
             {
                 throw ex;
             }

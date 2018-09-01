@@ -9,12 +9,8 @@ namespace UnclePhill.WebAPI_NFeS.API.Controllers
     {
         TaxpayerActivitiesDomain taxpayerActivitiesDomain = new TaxpayerActivitiesDomain();
 
-        [HttpPost]
-        public JsonResult Select(string CPF = "55555555555",
-            string Password = "cRDtpNCeBiql5KOQsKVyrA0sAiA=",
-            string IM = "4546565",
-            int CodeCity = 3,
-            long CompanyId = 0)
+        [HttpGet]
+        public JsonResult Select(long CompanyId)
         {
             try
             {
@@ -25,8 +21,9 @@ namespace UnclePhill.WebAPI_NFeS.API.Controllers
                   inscricaoMunicipal = 4546565
                   codigoMunicipio = 3
                 *****/
+                if (!base.CheckSession()) return Response(new Feedbacks("erro", "Sessão inválida!"));
 
-                return Response(taxpayerActivitiesDomain.Select(CPF, Password, IM, CodeCity, CompanyId));                
+                return Response(taxpayerActivitiesDomain.Select(CompanyId));                
             }
             catch (Exception ex)
             {

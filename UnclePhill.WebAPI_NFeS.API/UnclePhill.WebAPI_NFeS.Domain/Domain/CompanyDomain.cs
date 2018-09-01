@@ -120,7 +120,7 @@ namespace UnclePhill.WebAPI_NFeS.Domain
                 SQL.AppendLine("     '" + NoInjection(companys.Name) + "',");
                 SQL.AppendLine("     '" + NoInjection(companys.NameFantasy) + "',");
                 SQL.AppendLine("     '" + NoInjection(companys.CEP) + "',");
-                SQL.AppendLine("     '" + NoInjection(companys.Street) + ",");
+                SQL.AppendLine("     '" + NoInjection(companys.Street) + "',");
                 SQL.AppendLine("     '" + NoInjection(companys.Neighborhood) + "',");
                 SQL.AppendLine("     '" + NoInjection(companys.City) + "',");
                 SQL.AppendLine("     '" + NoInjection(companys.State) + "',");
@@ -137,7 +137,8 @@ namespace UnclePhill.WebAPI_NFeS.Domain
                 SQL.AppendLine("     GetDate() ");
                 SQL.AppendLine("    ) ");
 
-                if (Conn.Insert(SQL.ToString()) > 0)
+                companys.CompanyId = Conn.Insert(SQL.ToString());
+                if (companys.CompanyId > 0)
                 {
                     TaxpayerActivitiesDomain taxpayerActivitiesDomain = new TaxpayerActivitiesDomain();
                     taxpayerActivitiesDomain.Reload(usersSession.CPF,usersSession.Password,companys.IM,3,companys.CompanyId);
@@ -167,7 +168,7 @@ namespace UnclePhill.WebAPI_NFeS.Domain
                      throw new Exception("Informe o código da empresa!");
                 }
 
-                SQL.AppendLine(" Update CompanyId Set ");
+                SQL.AppendLine(" Update Companys Set ");
                 SQL.AppendLine("    CNPJ = '" + NoInjection(companys.CNPJ) + "',");
                 SQL.AppendLine("    IM = '" + NoInjection(companys.IM) + "',");
                 SQL.AppendLine("    IE = '" + NoInjection(companys.IE) + "',");
@@ -217,7 +218,7 @@ namespace UnclePhill.WebAPI_NFeS.Domain
                     throw new Exception("Informe o código da empresa!");
                 }
 
-                SQL.AppendLine(" Update Company Set ");
+                SQL.AppendLine(" Update Companys Set ");
                 SQL.AppendLine("    Active = 0 ");
                 SQL.AppendLine(" Where CompanyId = " + CompanyId);
 

@@ -107,7 +107,7 @@ namespace UnclePhill.WebAPI_NFeS.API.Controllers
                 SQL.AppendLine("    UserId ");
                 SQL.AppendLine(" From Session ");
                 SQL.AppendLine(" Where Active = 1 ");
-                SQL.AppendLine(" And SessionHash Like '" + Session + "'");
+                SQL.AppendLine(" And SessionHash Like '" + SessionHash + "'");
 
                 data = Conn.GetDataTable(SQL.ToString(),"Session");
 

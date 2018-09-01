@@ -32,8 +32,10 @@
   <ItemGroup>
     <Reference Include="System" />
     <Reference Include="System.Core" />
+    <Reference Include="System.EnterpriseServices" />
     <Reference Include="System.Runtime.Serialization" />
     <Reference Include="System.ServiceModel" />
+    <Reference Include="System.Web.Services" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -42,17 +44,22 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Connected Services\NFeS_API_Entrada\Reference.cs">
+    <Compile Include="Connected Services\NFeS.API.Serra.Entrada\Reference.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>Reference.svcmap</DependentUpon>
     </Compile>
-    <Compile Include="Connected Services\NFeS_API_Saida\Reference.cs">
+    <Compile Include="Connected Services\NFeS.API.Serra.Interface\Reference.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>Reference.svcmap</DependentUpon>
     </Compile>
-    <Compile Include="Connected Services\NFeS_API_Util\Reference.cs">
+    <Compile Include="Connected Services\NFeS.API.Serra.Saida\Reference.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </Compile>
+    <Compile Include="Connected Services\NFeS.API.Serra.Util\Reference.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>Reference.svcmap</DependentUpon>
@@ -67,6 +74,11 @@
     <Compile Include="Domain\TaxpayerActivitiesDomain.cs" />
     <Compile Include="Domain\UsersDomain.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Properties\Settings.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTimeSharedInput>True</DesignTimeSharedInput>
+      <DependentUpon>Settings.settings</DependentUpon>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\UnclePhill.WebAPI_NFeS.Models\UnclePhill.WebAPI_NFeS.Models.csproj">
@@ -79,71 +91,98 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />
-    <None Include="Connected Services\NFeS_API_Entrada\UnclePhill.WebAPI_NFeS.Domain.NFeS_API_Entrada.consultarAtividadesResponse.datasource">
+    <None Include="Connected Services\NFeS.API.Serra.Entrada\UnclePhill.WebAPI_NFeS.Domain.NFeS.API.Serra.Entrada.consultarAtividadesResponse.datasource">
       <DependentUpon>Reference.svcmap</DependentUpon>
     </None>
-    <None Include="Connected Services\NFeS_API_Entrada\UnclePhill.WebAPI_NFeS.Domain.NFeS_API_Entrada.nfdEntradaCancelarResponse.datasource">
+    <None Include="Connected Services\NFeS.API.Serra.Entrada\UnclePhill.WebAPI_NFeS.Domain.NFeS.API.Serra.Entrada.nfdEntradaCancelarResponse.datasource">
       <DependentUpon>Reference.svcmap</DependentUpon>
     </None>
-    <None Include="Connected Services\NFeS_API_Entrada\UnclePhill.WebAPI_NFeS.Domain.NFeS_API_Entrada.nfdEntradaResponse.datasource">
+    <None Include="Connected Services\NFeS.API.Serra.Entrada\UnclePhill.WebAPI_NFeS.Domain.NFeS.API.Serra.Entrada.nfdEntradaResponse.datasource">
       <DependentUpon>Reference.svcmap</DependentUpon>
     </None>
-    <None Include="Connected Services\NFeS_API_Entrada\WSEntrada.xsd">
+    <None Include="Connected Services\NFeS.API.Serra.Entrada\WSEntrada.xsd">
       <SubType>Designer</SubType>
     </None>
-    <None Include="Connected Services\NFeS_API_Entrada\WSEntradaService.wsdl" />
-    <None Include="Connected Services\NFeS_API_Saida\UnclePhill.WebAPI_NFeS.Domain.NFeS_API_Saida.nfdSaidaResponse.datasource">
+    <None Include="Connected Services\NFeS.API.Serra.Entrada\WSEntradaService.wsdl" />
+    <None Include="Connected Services\NFeS.API.Serra.Interface\UnclePhill.WebAPI_NFeS.Domain.NFeS.API.Serra.Interface.executeResponse.datasource">
       <DependentUpon>Reference.svcmap</DependentUpon>
     </None>
-    <None Include="Connected Services\NFeS_API_Saida\WSSaida.xsd">
+    <None Include="Connected Services\NFeS.API.Serra.Interface\WSInterface.xsd">
       <SubType>Designer</SubType>
     </None>
-    <None Include="Connected Services\NFeS_API_Saida\WSSaidaService.wsdl" />
-    <None Include="Connected Services\NFeS_API_Util\UnclePhill.WebAPI_NFeS.Domain.NFeS_API_Util.urlNfdResponse.datasource">
+    <None Include="Connected Services\NFeS.API.Serra.Interface\WSInterfaceService.wsdl" />
+    <None Include="Connected Services\NFeS.API.Serra.Saida\UnclePhill.WebAPI_NFeS.Domain.NFeS.API.Serra.Saida.nfdSaidaResponse.datasource">
       <DependentUpon>Reference.svcmap</DependentUpon>
     </None>
-    <None Include="Connected Services\NFeS_API_Util\WSUtil.xsd">
+    <None Include="Connected Services\NFeS.API.Serra.Saida\WSSaida.xsd">
       <SubType>Designer</SubType>
     </None>
-    <None Include="Connected Services\NFeS_API_Util\WSUtilService.wsdl" />
+    <None Include="Connected Services\NFeS.API.Serra.Saida\WSSaidaService.wsdl" />
+    <None Include="Connected Services\NFeS.API.Serra.Util\UnclePhill.WebAPI_NFeS.Domain.NFeS.API.Serra.Util.urlNfdResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Connected Services\NFeS.API.Serra.Util\WSUtil.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Connected Services\NFeS.API.Serra.Util\WSUtilService.wsdl" />
+    <None Include="Properties\Settings.settings">
+      <Generator>SettingsSingleFileGenerator</Generator>
+      <LastGenOutput>Settings.Designer.cs</LastGenOutput>
+    </None>
   </ItemGroup>
   <ItemGroup>
-    <WCFMetadataStorage Include="Connected Services\NFeS_API_Entrada\" />
-    <WCFMetadataStorage Include="Connected Services\NFeS_API_Saida\" />
-    <WCFMetadataStorage Include="Connected Services\NFeS_API_Util\" />
+    <WebReferences Include="Web References\" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Connected Services\NFeS_API_Entrada\configuration91.svcinfo" />
+    <WCFMetadataStorage Include="Connected Services\NFeS.API.Serra.Entrada\" />
+    <WCFMetadataStorage Include="Connected Services\NFeS.API.Serra.Interface\" />
+    <WCFMetadataStorage Include="Connected Services\NFeS.API.Serra.Saida\" />
+    <WCFMetadataStorage Include="Connected Services\NFeS.API.Serra.Util\" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Connected Services\NFeS_API_Entrada\configuration.svcinfo" />
+    <None Include="Connected Services\NFeS.API.Serra.Saida\configuration91.svcinfo" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Connected Services\NFeS_API_Entrada\Reference.svcmap">
+    <None Include="Connected Services\NFeS.API.Serra.Saida\configuration.svcinfo" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Connected Services\NFeS.API.Serra.Saida\Reference.svcmap">
       <Generator>WCF Proxy Generator</Generator>
       <LastGenOutput>Reference.cs</LastGenOutput>
     </None>
   </ItemGroup>
   <ItemGroup>
-    <None Include="Connected Services\NFeS_API_Saida\configuration91.svcinfo" />
+    <None Include="Connected Services\NFeS.API.Serra.Util\configuration91.svcinfo" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Connected Services\NFeS_API_Saida\configuration.svcinfo" />
+    <None Include="Connected Services\NFeS.API.Serra.Util\configuration.svcinfo" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Connected Services\NFeS_API_Saida\Reference.svcmap">
+    <None Include="Connected Services\NFeS.API.Serra.Util\Reference.svcmap">
       <Generator>WCF Proxy Generator</Generator>
       <LastGenOutput>Reference.cs</LastGenOutput>
     </None>
   </ItemGroup>
   <ItemGroup>
-    <None Include="Connected Services\NFeS_API_Util\configuration91.svcinfo" />
+    <None Include="Connected Services\NFeS.API.Serra.Interface\configuration91.svcinfo" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Connected Services\NFeS_API_Util\configuration.svcinfo" />
+    <None Include="Connected Services\NFeS.API.Serra.Interface\configuration.svcinfo" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Connected Services\NFeS_API_Util\Reference.svcmap">
+    <None Include="Connected Services\NFeS.API.Serra.Interface\Reference.svcmap">
+      <Generator>WCF Proxy Generator</Generator>
+      <LastGenOutput>Reference.cs</LastGenOutput>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Connected Services\NFeS.API.Serra.Entrada\configuration91.svcinfo" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Connected Services\NFeS.API.Serra.Entrada\configuration.svcinfo" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Connected Services\NFeS.API.Serra.Entrada\Reference.svcmap">
       <Generator>WCF Proxy Generator</Generator>
       <LastGenOutput>Reference.cs</LastGenOutput>
     </None>
