@@ -37,7 +37,7 @@ namespace UnclePhill.WebAPI_NFeS.WS.Controllers
             {
                 if (!base.CheckSession()) return Response(new Feedbacks("erro", "Sessão inválida!"));
                             
-                if (companyDomain.Insert(companys))
+                if (companyDomain.Insert(companys,GetUserSession()))
                 {
                     return Response(new Feedbacks("ok", "Tomador criado com sucesso!"));
                 }
@@ -57,7 +57,7 @@ namespace UnclePhill.WebAPI_NFeS.WS.Controllers
             {
                 if (!base.CheckSession()) return Response(new Feedbacks("erro", "Sessão inválida!"));
                                 
-                if (companyDomain.Update(companys))
+                if (companyDomain.Update(companys,GetUserSession()))
                 {
                     return Response(new Feedbacks("ok", "Empresa atualizada com sucesso!"));
                 }

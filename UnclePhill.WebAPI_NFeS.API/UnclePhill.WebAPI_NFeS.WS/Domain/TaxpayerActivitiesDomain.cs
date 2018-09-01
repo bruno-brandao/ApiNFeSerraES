@@ -13,15 +13,17 @@ namespace UnclePhill.WebAPI_NFeS.WS.Domain
 {
     public class TaxpayerActivitiesDomain : MasterDomain
     {
-        public bool Reload(string CPF,
+        public void Reload(string CPF,
             string Password,
             string IM,
             int CodeCity,
             long CompanyId)            
         {
             try
-            {              
-                if (CompanyId > 0 && new CompanyDomain().Select(CompanyId).Count() <= 0)
+            {
+                CompanyDomain companyDomain = new CompanyDomain();
+
+                if (CompanyId > 0 && companyDomain.Select(CompanyId).Count() <= 0)
                 {
                     throw new Exception("Empresa inválida!");
                 }
@@ -46,7 +48,11 @@ namespace UnclePhill.WebAPI_NFeS.WS.Domain
                     AtividadesContribuinte atividadesContribuinte = (AtividadesContribuinte)xmlSerializer.Deserialize(stringReader);
                     if (atividadesContribuinte.Atividade.Count() > 0)
                     {
-
+                        foreach(Companys company in companyDomain.Select())
+                        {
+                            companyDomain.Delete(company.CompanyId);
+                        }
+                        
                         foreach (Atividade atividade in atividadesContribuinte.Atividade)
                         {
                             SQL = new StringBuilder();
@@ -73,7 +79,6 @@ namespace UnclePhill.WebAPI_NFeS.WS.Domain
 
                             Conn.Insert(SQL.ToString());
                         }
-                        return true;
                     }
                     throw new Exception("Não foram encontradas atividades do contribuinte!");
                 }
@@ -84,8 +89,7 @@ namespace UnclePhill.WebAPI_NFeS.WS.Domain
                 throw ex;
             }
         }
-
-
+        
         public List<TaxpayerActivities> Select(string CPF,
             string Password,
             string IM,

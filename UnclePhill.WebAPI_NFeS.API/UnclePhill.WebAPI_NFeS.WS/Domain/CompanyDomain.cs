@@ -84,7 +84,7 @@ namespace UnclePhill.WebAPI_NFeS.WS.Domain
             }
         }
 
-        public bool Insert(Companys companys)
+        public bool Insert(Companys companys, Users usersSession)
         {
             try
             {
@@ -142,6 +142,9 @@ namespace UnclePhill.WebAPI_NFeS.WS.Domain
 
                 if (Conn.Insert(SQL.ToString()) > 0)
                 {
+                    TaxpayerActivitiesDomain taxpayerActivitiesDomain = new TaxpayerActivitiesDomain();
+                    taxpayerActivitiesDomain.Reload(usersSession.CPF,usersSession.Password,companys.IM,3,companys.CompanyId);
+
                     return true;
                 }
                 return false;
@@ -152,7 +155,7 @@ namespace UnclePhill.WebAPI_NFeS.WS.Domain
             }
         }
 
-        public bool Update(Companys companys)
+        public bool Update(Companys companys, Users usersSession)
         {
             try
             {
@@ -192,6 +195,9 @@ namespace UnclePhill.WebAPI_NFeS.WS.Domain
 
                 if (Conn.Insert(SQL.ToString()) > 0)
                 {
+                    TaxpayerActivitiesDomain taxpayerActivitiesDomain = new TaxpayerActivitiesDomain();
+                    taxpayerActivitiesDomain.Reload(usersSession.CPF, usersSession.Password, companys.IM, 3, companys.CompanyId);
+
                     return true;
                 }
 
@@ -206,6 +212,9 @@ namespace UnclePhill.WebAPI_NFeS.WS.Domain
         {
             try
             {
+                //Provisório...
+                return false;
+
                 if (CompanyId <= 0)
                 {
                     throw new Exception("Informe o código da empresa!");

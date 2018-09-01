@@ -253,6 +253,5 @@ namespace UnclePhill.WebAPI_NFeS.WS.Domain
 
             return new Feedbacks("ok", "Sucesso");
         }
-
     }
 }

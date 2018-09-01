@@ -96,6 +96,64 @@ namespace UnclePhill.WebAPI_NFeS.API.Controllers
             }
         }
 
+        protected Users GetUserSession()
+        {
+            try
+            {
+                string SessionHash = Request.Headers.Get("SessionHash");
+
+                if (string.IsNullOrEmpty(SessionHash))
+                {
+                    throw new Exception("Variavel de Sessão não informada!");
+                }
+
+                DataTable data;
+
+                SQL = new StringBuilder();
+                SQL.AppendLine(" Select ");
+                SQL.AppendLine("    UserId ");
+                SQL.AppendLine(" From Session ");
+                SQL.AppendLine(" Where Active = 1 ");
+                SQL.AppendLine(" And SessionHash Like '" + Session + "'");
+
+                data = Conn.GetDataTable(SQL.ToString(),"Session");
+
+                if (data != null && data.Rows.Count > 0)
+                {
+                    SQL = new StringBuilder();
+                    SQL.AppendLine(" Select * From Users ");
+                    SQL.AppendLine(" Where Active = 1 ");
+                    SQL.AppendLine(" And UserId = " + data.AsEnumerable().First().Field<long>("UserId"));
+
+                    data = Conn.GetDataTable(SQL.ToString(), "Users");
+                    if (data != null && data.Rows.Count > 0)
+                    {
+                        DataRow row = data.AsEnumerable().First();
+                        
+                        Users users = new Users();
+                        users.UserId = row.Field<long>("UserId");
+                        users.Name = row.Field<string>("Name");
+                        users.LastName = row.Field<string>("LastName");
+                        users.CPF = row.Field<string>("CPF");
+                        users.Email = row.Field<string>("Email");
+                        users.Password = row.Field<string>("Password");
+                        users.SessionHash = string.Empty;
+                        users.Active = row.Field<bool>("Active");
+                        users.DateInsert = row.Field<DateTime>("DateInsert").ToString("dd-MM-yyyy");
+                        users.DateUpdate = row.Field<DateTime>("DateUpdate").ToString("dd-MM-yyyy");
+
+                        return users;                        
+                    }
+                    throw new Exception("Usuário não encontrado!");
+                }
+                throw new Exception("Sessão não encontrada!");
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }            
+        }
+
         protected string GenerateHash(string Password)
         {
             try
@@ -133,19 +191,5 @@ namespace UnclePhill.WebAPI_NFeS.API.Controllers
         {
             return Json(Param, JsonRequestBehavior.AllowGet);
         }
-
-        protected bool IsXml(string parameter)
-        {
-            try
-            {
-                XmlDocument XML = new XmlDocument();
-                XML.LoadXml(parameter);
-                return true;
-            }
-            catch(Exception ex)
-            {
-                return false;
-            }            
-        }      
     }
 }
