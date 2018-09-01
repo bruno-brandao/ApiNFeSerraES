@@ -1,16 +1,7 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Data;
-using System.Linq;
-using System.Net;
-using System.Runtime.Remoting.Messaging;
-using System.Security.Cryptography;
-using System.Text;
-using System.Web.Http.Results;
 using System.Web.Mvc;
-using UnclePhill.WebAPI_NFeS.API.Models;
-using UnclePhill.WebAPI_NFeS.WS.Domain;
-using UnclePhill.WebAPI_NFeS.WS.Models;
+using UnclePhill.WebAPI_NFeS.Models;
+using UnclePhill.WebAPI_NFeS.Domain;
 
 namespace UnclePhill.WebAPI_NFeS.API.Controllers
 {

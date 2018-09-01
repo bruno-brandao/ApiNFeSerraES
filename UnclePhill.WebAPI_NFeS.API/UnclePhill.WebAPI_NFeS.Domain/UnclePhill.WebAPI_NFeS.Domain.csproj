@@ -1,0 +1,152 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{038F0842-9657-4396-A89E-79BD32F23BE0}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>UnclePhill.WebAPI_NFeS.Domain</RootNamespace>
+    <AssemblyName>UnclePhill.WebAPI_NFeS.Domain</AssemblyName>
+    <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Runtime.Serialization" />
+    <Reference Include="System.ServiceModel" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Net.Http" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Connected Services\NFeS_API_Entrada\Reference.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </Compile>
+    <Compile Include="Connected Services\NFeS_API_Saida\Reference.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </Compile>
+    <Compile Include="Connected Services\NFeS_API_Util\Reference.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </Compile>
+    <Compile Include="Domain\CFPSDomain.cs" />
+    <Compile Include="Domain\CompanyDomain.cs" />
+    <Compile Include="Domain\MasterDomain.cs" />
+    <Compile Include="Domain\NFeSDomain.cs" />
+    <Compile Include="Domain\ServiceDomain.cs" />
+    <Compile Include="Domain\ShippingCompanyDomain.cs" />
+    <Compile Include="Domain\TakerDomain.cs" />
+    <Compile Include="Domain\TaxpayerActivitiesDomain.cs" />
+    <Compile Include="Domain\UsersDomain.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\UnclePhill.WebAPI_NFeS.Models\UnclePhill.WebAPI_NFeS.Models.csproj">
+      <Project>{c7c5df2f-2693-4284-b8a8-c08f8c878a19}</Project>
+      <Name>UnclePhill.WebAPI_NFeS.Models</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <WCFMetadata Include="Connected Services\" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="app.config" />
+    <None Include="Connected Services\NFeS_API_Entrada\UnclePhill.WebAPI_NFeS.Domain.NFeS_API_Entrada.consultarAtividadesResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Connected Services\NFeS_API_Entrada\UnclePhill.WebAPI_NFeS.Domain.NFeS_API_Entrada.nfdEntradaCancelarResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Connected Services\NFeS_API_Entrada\UnclePhill.WebAPI_NFeS.Domain.NFeS_API_Entrada.nfdEntradaResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Connected Services\NFeS_API_Entrada\WSEntrada.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Connected Services\NFeS_API_Entrada\WSEntradaService.wsdl" />
+    <None Include="Connected Services\NFeS_API_Saida\UnclePhill.WebAPI_NFeS.Domain.NFeS_API_Saida.nfdSaidaResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Connected Services\NFeS_API_Saida\WSSaida.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Connected Services\NFeS_API_Saida\WSSaidaService.wsdl" />
+    <None Include="Connected Services\NFeS_API_Util\UnclePhill.WebAPI_NFeS.Domain.NFeS_API_Util.urlNfdResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Connected Services\NFeS_API_Util\WSUtil.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Connected Services\NFeS_API_Util\WSUtilService.wsdl" />
+  </ItemGroup>
+  <ItemGroup>
+    <WCFMetadataStorage Include="Connected Services\NFeS_API_Entrada\" />
+    <WCFMetadataStorage Include="Connected Services\NFeS_API_Saida\" />
+    <WCFMetadataStorage Include="Connected Services\NFeS_API_Util\" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Connected Services\NFeS_API_Entrada\configuration91.svcinfo" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Connected Services\NFeS_API_Entrada\configuration.svcinfo" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Connected Services\NFeS_API_Entrada\Reference.svcmap">
+      <Generator>WCF Proxy Generator</Generator>
+      <LastGenOutput>Reference.cs</LastGenOutput>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Connected Services\NFeS_API_Saida\configuration91.svcinfo" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Connected Services\NFeS_API_Saida\configuration.svcinfo" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Connected Services\NFeS_API_Saida\Reference.svcmap">
+      <Generator>WCF Proxy Generator</Generator>
+      <LastGenOutput>Reference.cs</LastGenOutput>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Connected Services\NFeS_API_Util\configuration91.svcinfo" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Connected Services\NFeS_API_Util\configuration.svcinfo" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Connected Services\NFeS_API_Util\Reference.svcmap">
+      <Generator>WCF Proxy Generator</Generator>
+      <LastGenOutput>Reference.cs</LastGenOutput>
+    </None>
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+</Project>

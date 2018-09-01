@@ -1,19 +1,9 @@
-﻿using Newtonsoft.Json;
-using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Text;
-using System.Web;
+﻿using System;
 using System.Web.Mvc;
-using System.Xml;
-using System.Xml.Serialization;
-using UnclePhill.WebAPI_NFeS.API.Controllers;
-using UnclePhill.WebAPI_NFeS.API.Models;
-using UnclePhill.WebAPI_NFeS.WS.Domain;
-using UnclePhill.WebAPI_NFeS.WS.Models;
+using UnclePhill.WebAPI_NFeS.Models;
+using UnclePhill.WebAPI_NFeS.Domain;
 
-namespace UnclePhill.WebAPI_NFeS.WS.Controllers
+namespace UnclePhill.WebAPI_NFeS.API.Controllers
 {
     public class TaxpayerActivitiesController : MasterController
     {

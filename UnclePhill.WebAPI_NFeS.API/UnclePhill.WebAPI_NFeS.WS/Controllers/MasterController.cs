@@ -1,17 +1,10 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Data;
-using System.IO;
 using System.Linq;
 using System.Security.Cryptography;
 using System.Text;
-using System.Web;
-using System.Web.Http;
 using System.Web.Mvc;
-using System.Xml;
-using System.Xml.Serialization;
-using UnclePhill.WebAPI_NFeS.API.Models;
-using UnclePhill.WebAPI_NFeS.WS.Models;
+using UnclePhill.WebAPI_NFeS.Models;
 
 namespace UnclePhill.WebAPI_NFeS.API.Controllers
 {

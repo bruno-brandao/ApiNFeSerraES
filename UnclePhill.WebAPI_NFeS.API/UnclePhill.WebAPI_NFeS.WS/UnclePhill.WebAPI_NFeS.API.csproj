@@ -183,21 +183,6 @@
     <Compile Include="Areas\HelpPage\SampleGeneration\SampleDirection.cs" />
     <Compile Include="Areas\HelpPage\SampleGeneration\TextSample.cs" />
     <Compile Include="Areas\HelpPage\XmlDocumentationProvider.cs" />
-    <Compile Include="Connected Services\WSEntrada\Reference.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>Reference.svcmap</DependentUpon>
-    </Compile>
-    <Compile Include="Connected Services\WSSaida\Reference.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>Reference.svcmap</DependentUpon>
-    </Compile>
-    <Compile Include="Connected Services\WSUtil\Reference.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>Reference.svcmap</DependentUpon>
-    </Compile>
     <Compile Include="Controllers\CFPSController.cs" />
     <Compile Include="Controllers\CompanyController.cs" />
     <Compile Include="Controllers\MasterController.cs" />
@@ -207,53 +192,13 @@
     <Compile Include="Controllers\TakerController.cs" />
     <Compile Include="Controllers\TaxpayerActivitiesController.cs" />
     <Compile Include="Controllers\UserController.cs" />
-    <Compile Include="Domain\CFPSDomain.cs" />
-    <Compile Include="Domain\CompanyDomain.cs" />
-    <Compile Include="Domain\MasterDomain.cs" />
-    <Compile Include="Domain\NFeSDomain.cs" />
-    <Compile Include="Domain\ServiceDomain.cs" />
-    <Compile Include="Domain\ShippingCompanyDomain.cs" />
-    <Compile Include="Domain\TakerDomain.cs" />
-    <Compile Include="Domain\TaxpayerActivitiesDomain.cs" />
-    <Compile Include="Domain\UsersDomain.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
-    <Compile Include="Models\CFPS.cs" />
-    <Compile Include="Models\Companys.cs" />
-    <Compile Include="Models\Connection\ConnectionManager.cs" />
-    <Compile Include="Models\Feedbacks.cs" />
-    <Compile Include="Models\NFeS.cs" />
-    <Compile Include="Models\NFeSInvoices.cs" />
-    <Compile Include="Models\NFeSItens.cs" />
-    <Compile Include="Models\Services.cs" />
-    <Compile Include="Models\Sessions.cs" />
-    <Compile Include="Models\ShippingCompany.cs" />
-    <Compile Include="Models\Takers.cs" />
-    <Compile Include="Models\TaxpayerActivities.cs" />
-    <Compile Include="Models\Users.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Areas\HelpPage\HelpPage.css" />
-    <None Include="Connected Services\WSEntrada\configuration91.svcinfo" />
-    <None Include="Connected Services\WSEntrada\configuration.svcinfo" />
-    <None Include="Connected Services\WSEntrada\Reference.svcmap">
-      <Generator>WCF Proxy Generator</Generator>
-      <LastGenOutput>Reference.cs</LastGenOutput>
-    </None>
-    <None Include="Connected Services\WSSaida\configuration91.svcinfo" />
-    <None Include="Connected Services\WSSaida\configuration.svcinfo" />
-    <None Include="Connected Services\WSSaida\Reference.svcmap">
-      <Generator>WCF Proxy Generator</Generator>
-      <LastGenOutput>Reference.cs</LastGenOutput>
-    </None>
-    <None Include="Connected Services\WSUtil\configuration91.svcinfo" />
-    <None Include="Connected Services\WSUtil\configuration.svcinfo" />
-    <None Include="Connected Services\WSUtil\Reference.svcmap">
-      <Generator>WCF Proxy Generator</Generator>
-      <LastGenOutput>Reference.cs</LastGenOutput>
-    </None>
     <Content Include="Content\bootstrap-theme.css" />
     <Content Include="Content\bootstrap-theme.min.css" />
     <Content Include="Content\bootstrap.css" />
@@ -285,33 +230,6 @@
     <Content Include="ApplicationInsights.config">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="Connected Services\WSEntrada\UnclePhill.WebAPI_NFeS.WS.WSEntrada.consultarAtividadesResponse.datasource">
-      <DependentUpon>Reference.svcmap</DependentUpon>
-    </Content>
-    <Content Include="Connected Services\WSEntrada\UnclePhill.WebAPI_NFeS.WS.WSEntrada.nfdEntradaCancelarResponse.datasource">
-      <DependentUpon>Reference.svcmap</DependentUpon>
-    </Content>
-    <Content Include="Connected Services\WSEntrada\UnclePhill.WebAPI_NFeS.WS.WSEntrada.nfdEntradaResponse.datasource">
-      <DependentUpon>Reference.svcmap</DependentUpon>
-    </Content>
-    <None Include="Connected Services\WSEntrada\WSEntrada.xsd">
-      <SubType>Designer</SubType>
-    </None>
-    <None Include="Connected Services\WSEntrada\WSEntradaService.wsdl" />
-    <Content Include="Connected Services\WSSaida\UnclePhill.WebAPI_NFeS.WS.WSSaida.nfdSaidaResponse.datasource">
-      <DependentUpon>Reference.svcmap</DependentUpon>
-    </Content>
-    <None Include="Connected Services\WSSaida\WSSaida.xsd">
-      <SubType>Designer</SubType>
-    </None>
-    <None Include="Connected Services\WSSaida\WSSaidaService.wsdl" />
-    <Content Include="Connected Services\WSUtil\UnclePhill.WebAPI_NFeS.WS.WSUtil.urlNfdResponse.datasource">
-      <DependentUpon>Reference.svcmap</DependentUpon>
-    </Content>
-    <None Include="Connected Services\WSUtil\WSUtil.xsd">
-      <SubType>Designer</SubType>
-    </None>
-    <None Include="Connected Services\WSUtil\WSUtilService.wsdl" />
     <None Include="Properties\PublishProfiles\UnclePhillWebAPINFeS - Web Deploy.pubxml" />
     <None Include="Scripts\jquery-3.3.1.intellisense.js" />
     <Content Include="Scripts\jquery-3.3.1.js" />
@@ -319,7 +237,6 @@
     <Content Include="Scripts\jquery-3.3.1.slim.js" />
     <Content Include="Scripts\jquery-3.3.1.slim.min.js" />
     <Content Include="Scripts\modernizr-2.8.3.js" />
-    <Content Include="SQL\Script_BD_NFeS.sql" />
     <Content Include="Web.config" />
     <Content Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
@@ -367,9 +284,14 @@
     <WCFMetadata Include="Connected Services\" />
   </ItemGroup>
   <ItemGroup>
-    <WCFMetadataStorage Include="Connected Services\WSEntrada\" />
-    <WCFMetadataStorage Include="Connected Services\WSSaida\" />
-    <WCFMetadataStorage Include="Connected Services\WSUtil\" />
+    <ProjectReference Include="..\UnclePhill.WebAPI_NFeS.Domain\UnclePhill.WebAPI_NFeS.Domain.csproj">
+      <Project>{038f0842-9657-4396-a89e-79bd32f23be0}</Project>
+      <Name>UnclePhill.WebAPI_NFeS.Domain</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\UnclePhill.WebAPI_NFeS.Models\UnclePhill.WebAPI_NFeS.Models.csproj">
+      <Project>{c7c5df2f-2693-4284-b8a8-c08f8c878a19}</Project>
+      <Name>UnclePhill.WebAPI_NFeS.Models</Name>
+    </ProjectReference>
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

@@ -5,11 +5,10 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using UnclePhill.WebAPI_NFeS.API.Controllers;
-using UnclePhill.WebAPI_NFeS.API.Models;
-using UnclePhill.WebAPI_NFeS.WS.Domain;
-using UnclePhill.WebAPI_NFeS.WS.Models;
+using UnclePhill.WebAPI_NFeS.Models;
+using UnclePhill.WebAPI_NFeS.Domain;
 
-namespace UnclePhill.WebAPI_NFeS.WS.Controllers
+namespace UnclePhill.WebAPI_NFeS.Controllers
 {
     public class TakerController : MasterController
     {
