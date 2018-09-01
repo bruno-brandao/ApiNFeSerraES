@@ -310,6 +310,7 @@
       <SubType>Designer</SubType>
     </None>
     <None Include="Connected Services\NFeS.API.Serra.Util\WSUtilService.wsdl" />
+    <None Include="Properties\PublishProfiles\UnclePhillWebAPINFeS - Web Deploy.pubxml" />
     <None Include="Scripts\jquery-3.3.1.intellisense.js" />
     <Content Include="Scripts\jquery-3.3.1.js" />
     <Content Include="Scripts\jquery-3.3.1.min.js" />
