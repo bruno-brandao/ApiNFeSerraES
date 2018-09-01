@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Web.Mvc;
 using UnclePhill.WebAPI_NFeS.Models;
-using UnclePhill.WebAPI_NFeS.WS.Domain;
+using UnclePhill.WebAPI_NFeS.Domain;
 
 namespace UnclePhill.WebAPI_NFeS.API.Controllers
 {
