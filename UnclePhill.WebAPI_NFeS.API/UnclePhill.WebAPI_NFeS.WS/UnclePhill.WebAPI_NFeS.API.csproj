@@ -210,7 +210,9 @@
     <Compile Include="Domain\CFPSDomain.cs" />
     <Compile Include="Domain\CompanyDomain.cs" />
     <Compile Include="Domain\MasterDomain.cs" />
+    <Compile Include="Domain\NFeSDomain.cs" />
     <Compile Include="Domain\ServiceDomain.cs" />
+    <Compile Include="Domain\ShippingCompanyDomain.cs" />
     <Compile Include="Domain\TakerDomain.cs" />
     <Compile Include="Domain\TaxpayerActivitiesDomain.cs" />
     <Compile Include="Domain\UsersDomain.cs" />
