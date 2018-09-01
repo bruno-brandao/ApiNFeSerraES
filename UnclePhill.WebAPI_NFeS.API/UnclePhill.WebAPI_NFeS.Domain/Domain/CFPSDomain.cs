@@ -7,7 +7,6 @@ namespace UnclePhill.WebAPI_NFeS.Domain
 {
     public class CFPSDomain : MasterDomain
     {
-
         public List<CFPS> Select(long? CFPSId = 0)
         {
             try
