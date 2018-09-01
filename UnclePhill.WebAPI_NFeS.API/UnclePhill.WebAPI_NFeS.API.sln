@@ -3,11 +3,11 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
 VisualStudioVersion = 15.0.27703.2042
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UnclePhill.WebAPI_NFeS.API", "UnclePhill.WebAPI_NFeS.WS\UnclePhill.WebAPI_NFeS.API.csproj", "{A7367A81-7991-4F66-A5FB-2E916F4F6F49}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UnclePhill.WebAPI_NFeS.Domain", "UnclePhill.WebAPI_NFeS.Domain\UnclePhill.WebAPI_NFeS.Domain.csproj", "{038F0842-9657-4396-A89E-79BD32F23BE0}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UnclePhill.WebAPI_NFeS.Models", "UnclePhill.WebAPI_NFeS.Models\UnclePhill.WebAPI_NFeS.Models.csproj", "{C7C5DF2F-2693-4284-B8A8-C08F8C878A19}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UnclePhill.WebAPI_NFeS.API", "UnclePhill.WebAPI_NFeS.API\UnclePhill.WebAPI_NFeS.API.csproj", "{AF03C803-B13F-4F64-919A-815D7241CAF2}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -15,10 +15,6 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{A7367A81-7991-4F66-A5FB-2E916F4F6F49}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{A7367A81-7991-4F66-A5FB-2E916F4F6F49}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{A7367A81-7991-4F66-A5FB-2E916F4F6F49}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{A7367A81-7991-4F66-A5FB-2E916F4F6F49}.Release|Any CPU.Build.0 = Release|Any CPU
 		{038F0842-9657-4396-A89E-79BD32F23BE0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{038F0842-9657-4396-A89E-79BD32F23BE0}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{038F0842-9657-4396-A89E-79BD32F23BE0}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -27,6 +23,10 @@ Global
 		{C7C5DF2F-2693-4284-B8A8-C08F8C878A19}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{C7C5DF2F-2693-4284-B8A8-C08F8C878A19}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{C7C5DF2F-2693-4284-B8A8-C08F8C878A19}.Release|Any CPU.Build.0 = Release|Any CPU
+		{AF03C803-B13F-4F64-919A-815D7241CAF2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{AF03C803-B13F-4F64-919A-815D7241CAF2}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{AF03C803-B13F-4F64-919A-815D7241CAF2}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{AF03C803-B13F-4F64-919A-815D7241CAF2}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
