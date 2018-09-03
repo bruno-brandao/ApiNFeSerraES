@@ -258,7 +258,7 @@ namespace UnclePhill.WebAPI_NFeS.Domain
 
             if (string.IsNullOrEmpty(takers.Email))
             {
-                return new Feedbacks("erro", "Informe o CEP!");
+                return new Feedbacks("erro", "Informe o Email!");
             }
 
             return new Feedbacks("ok", "Sucesso");
