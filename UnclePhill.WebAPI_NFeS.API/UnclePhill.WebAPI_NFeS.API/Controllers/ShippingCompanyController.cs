@@ -11,13 +11,13 @@ namespace UnclePhill.WebAPI_NFeS.API.Controllers
         ShippingCompanyDomain shippingCompanyDomain = new ShippingCompanyDomain();
 
         [HttpGet]
-        public JsonResult Select(long? ShippingCompanyId)
+        public JsonResult Get(long? ShippingCompanyId)
         {
             try
             {
                 if (!base.CheckSession()) return Response(new Feedbacks("erro", "Sessão inválida!"));
 
-                return Response(shippingCompanyDomain.Select(ShippingCompanyId));
+                return Response(shippingCompanyDomain.Get(ShippingCompanyId));
             }
             catch (Exception ex)
             {
@@ -26,13 +26,13 @@ namespace UnclePhill.WebAPI_NFeS.API.Controllers
         }
 
         [HttpPost]
-        public JsonResult Insert(ShippingCompany shippingCompany)
+        public JsonResult Post(ShippingCompany shippingCompany)
         {
             try
             {
                 if (!base.CheckSession()) { return Response(new Feedbacks("erro", "Sessão inválida!")); }
                                 
-                if (shippingCompanyDomain.Insert(shippingCompany))
+                if (shippingCompanyDomain.Post(shippingCompany))
                 {
                     return Response(new Feedbacks("ok", "Transportadora criada com sucesso!"));
                 }
@@ -46,13 +46,13 @@ namespace UnclePhill.WebAPI_NFeS.API.Controllers
         }
 
         [HttpPut]
-        public JsonResult Update(ShippingCompany shippingCompany)
+        public JsonResult Put(ShippingCompany shippingCompany)
         {
             try
             {
                 if (!base.CheckSession()) { return Response(new Feedbacks("erro", "Sessão inválida!")); }
 
-                if (shippingCompanyDomain.Update(shippingCompany))
+                if (shippingCompanyDomain.Put(shippingCompany))
                 {
                     return Response(new Feedbacks("ok", "Serviço atualizado com sucesso!"));
                 }

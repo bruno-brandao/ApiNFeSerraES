@@ -53,7 +53,47 @@ namespace UnclePhill.WebAPI_NFeS.Domain
             }
         }
 
-        public bool Insert(Users users)
+        public Users Get(long UserId)
+        {
+            try
+            {
+                if (UserId <= 0)
+                {
+                    throw new Exception("Informe o código do usuário!");
+                }
+
+                SQL = new StringBuilder();
+                SQL.AppendLine(" Select * From Users ");
+                SQL.AppendLine(" Where Active = 1 ");
+                SQL.AppendLine(" And UserId = " + UserId);
+
+                DataTable data = Conn.GetDataTable(SQL.ToString(), "Users");
+                if (data != null && data.Rows.Count > 0)
+                {
+                    DataRow row = data.AsEnumerable().First();
+                    
+                    Users users = new Users();
+                    users.UserId = row.Field<long>("UserId");
+                    users.Name = row.Field<string>("Name");
+                    users.LastName = row.Field<string>("LastName");
+                    users.CPF = row.Field<string>("CPF");
+                    users.Email = row.Field<string>("Email");
+                    users.Password = row.Field<string>("Password");
+                    users.SessionHash = string.Empty;
+                    users.Active = row.Field<bool>("Active");
+                    users.DateInsert = row.Field<DateTime>("DateInsert").ToString("dd-MM-yyyy");
+                    users.DateUpdate = row.Field<DateTime>("DateUpdate").ToString("dd-MM-yyyy");
+                    return users;                    
+                }
+                throw new Exception("Não foi encontrado usuário!");
+            }
+            catch(Exception ex)
+            {
+                throw ex;
+            }
+        }
+
+        public bool Post(Users users)
         {
             try
             {
@@ -96,7 +136,7 @@ namespace UnclePhill.WebAPI_NFeS.Domain
             }           
         }
 
-        public bool Update(Users users)
+        public bool Put(Users users)
         {
             try
             {

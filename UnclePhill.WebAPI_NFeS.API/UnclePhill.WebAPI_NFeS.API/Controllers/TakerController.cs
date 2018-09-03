@@ -16,13 +16,13 @@ namespace UnclePhill.WebAPI_NFeS.Controllers
         private TakerDomain takerDomain = new TakerDomain();
 
         [HttpGet]
-        public JsonResult Select(long? TakerId = 0)
+        public JsonResult Get(long? TakerId = 0)
         {
             try
             {
                 if (!base.CheckSession()) return Response(new Feedbacks("erro", "Sessão inválida!"));
 
-                return Response(takerDomain.Select(TakerId));
+                return Response(takerDomain.Get(TakerId));
             }
             catch(Exception ex)
             {
@@ -31,13 +31,13 @@ namespace UnclePhill.WebAPI_NFeS.Controllers
         }
 
         [HttpPost]
-        public JsonResult Insert(Takers takers)
+        public JsonResult Post(Takers takers)
         {
             try
             {
                 if (!base.CheckSession()){ return Response(new Feedbacks("erro", "Sessão inválida!"));}
 
-                if (takerDomain.Insert(takers))
+                if (takerDomain.Post(takers))
                 { 
                     return Response(new Feedbacks("ok", "Tomador criado com sucesso!"));
                 }
@@ -51,13 +51,13 @@ namespace UnclePhill.WebAPI_NFeS.Controllers
         }
 
         [HttpPut]
-        public JsonResult Update(Takers takers)
+        public JsonResult Put(Takers takers)
         {
             try
             {
                 if (!base.CheckSession()) { return Response(new Feedbacks("erro", "Sessão inválida!")); }
 
-                if (takerDomain.Update(takers))
+                if (takerDomain.Put(takers))
                 {
                     return Response(new Feedbacks("ok","Tomador atualizado com sucesso!"));
                 }

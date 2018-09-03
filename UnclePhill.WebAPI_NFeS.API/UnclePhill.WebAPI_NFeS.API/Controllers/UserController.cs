@@ -24,14 +24,27 @@ namespace UnclePhill.WebAPI_NFeS.API.Controllers
             }
         }
 
+        public JsonResult Get(long UserId)
+        {
+            try
+            {
+                if (!base.CheckSession()) { return Response(new Feedbacks("erro", "Sessão inválida ou inexistente!")); }
+
+                return Response(usersDomain.Get(UserId));
+            }catch(Exception ex)
+            {
+                return Response(new Feedbacks("erro",ex.Message));
+            }
+        }
+
         [HttpPost]
-        public JsonResult Insert(Users users)
+        public JsonResult Post(Users users)
         {
             try
             {
                 UpdateSession();                              
                                 
-                if (usersDomain.Insert(users))
+                if (usersDomain.Post(users))
                 {
                     return Response(new Feedbacks("ok", "Usuário criado com sucesso!"));
                 }
@@ -45,13 +58,13 @@ namespace UnclePhill.WebAPI_NFeS.API.Controllers
         }
 
         [HttpPut]
-        public JsonResult Update(Users users)
+        public JsonResult Put(Users users)
         {
             try
             {
                 if (!base.CheckSession()){return Response(new Feedbacks("erro", "Sessão inválida ou inexistente!"));}
 
-                if (usersDomain.Update(users))
+                if (usersDomain.Put(users))
                 {
                     return Response(new Feedbacks("ok", "Usuário atualizado com sucesso!"));
                 }

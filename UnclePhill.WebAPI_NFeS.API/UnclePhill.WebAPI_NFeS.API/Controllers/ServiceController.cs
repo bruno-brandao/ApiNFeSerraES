@@ -10,13 +10,13 @@ namespace UnclePhill.WebAPI_NFeS.API.Controllers
         private ServiceDomain serviceDomain = new ServiceDomain();
 
         [HttpGet]
-        public JsonResult Select(long? ServicesId)
+        public JsonResult Get(long? ServicesId)
         {
             try
             {
                 if (!base.CheckSession()) return Response(new Feedbacks("erro", "Sessão inválida!"));
 
-                return Response(serviceDomain.Select(ServicesId));
+                return Response(serviceDomain.Get(ServicesId));
             }
             catch(Exception ex)
             {
@@ -25,13 +25,13 @@ namespace UnclePhill.WebAPI_NFeS.API.Controllers
         }
 
         [HttpPost]
-        public JsonResult Insert(Services services)
+        public JsonResult Post(Services services)
         {
             try
             {
                 if (!base.CheckSession()) { return Response(new Feedbacks("erro", "Sessão inválida!")); }
 
-                if(serviceDomain.Insert(services))
+                if(serviceDomain.Post(services))
                 {
                     return Response(new Feedbacks("ok", "Serviço criado com sucesso!"));
                 }
@@ -45,13 +45,13 @@ namespace UnclePhill.WebAPI_NFeS.API.Controllers
         }
 
         [HttpPut]
-        public JsonResult Update(Services services)
+        public JsonResult Put(Services services)
         {
             try
             {
                 if (!base.CheckSession()) { return Response(new Feedbacks("erro", "Sessão inválida!")); }
 
-                if (serviceDomain.Update(services))
+                if (serviceDomain.Put(services))
                 {
                     return Response(new Feedbacks("ok", "Serviço atualizado com sucesso!"));
                 }

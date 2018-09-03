@@ -7,7 +7,7 @@ namespace UnclePhill.WebAPI_NFeS.Domain
 {
     public class CompanyDomain : MasterDomain
     {
-        public List<Companys> Select(long? CompanyId = 0)
+        public List<Companys> Get(long? CompanyId = 0)
         {
             try
             {
@@ -81,7 +81,7 @@ namespace UnclePhill.WebAPI_NFeS.Domain
             }
         }
 
-        public bool Insert(Companys companys, Users usersSession)
+        public bool Post(Companys companys, Users usersSession)
         {
             try
             {
@@ -153,7 +153,7 @@ namespace UnclePhill.WebAPI_NFeS.Domain
             }
         }
 
-        public bool Update(Companys companys, Users usersSession)
+        public bool Put(Companys companys, Users usersSession)
         {
             try
             {

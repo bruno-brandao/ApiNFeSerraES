@@ -22,7 +22,7 @@ namespace UnclePhill.WebAPI_NFeS.Domain
             {
                 CompanyDomain companyDomain = new CompanyDomain();
 
-                if (CompanyId > 0 && companyDomain.Select(CompanyId).Count() <= 0)
+                if (CompanyId > 0 && companyDomain.Get(CompanyId).Count() <= 0)
                 {
                     throw new Exception("Empresa inválida!");
                 }
@@ -49,7 +49,7 @@ namespace UnclePhill.WebAPI_NFeS.Domain
                     {
                         try
                         {
-                            List<TaxpayerActivities> ltaxpayerActivities = this.Select(CompanyId);
+                            List<TaxpayerActivities> ltaxpayerActivities = this.Get(CompanyId);
                             foreach (TaxpayerActivities taxpayerActivities in ltaxpayerActivities)
                             {
                                 this.Delete(taxpayerActivities.TaxpayerActivitiesId);
@@ -102,7 +102,7 @@ namespace UnclePhill.WebAPI_NFeS.Domain
             }
         }
         
-        public List<TaxpayerActivities> Select(long CompanyId)
+        public List<TaxpayerActivities> Get(long CompanyId)
         {
             try
             {
@@ -152,8 +152,7 @@ namespace UnclePhill.WebAPI_NFeS.Domain
                 throw ex;
             }
         }
-
-
+        
         public bool Delete(long? TaxpayerActivitiesId)
         {
             try

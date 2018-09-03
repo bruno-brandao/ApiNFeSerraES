@@ -7,7 +7,7 @@ namespace UnclePhill.WebAPI_NFeS.Domain
 {
     public class TakerDomain : MasterDomain
     {
-        public List<Takers> Select(long? TakerId = 0)
+        public List<Takers> Get(long? TakerId = 0)
         {
             try
             {
@@ -67,7 +67,7 @@ namespace UnclePhill.WebAPI_NFeS.Domain
             }
         }
 
-        public bool Insert(Takers takers)
+        public bool Post(Takers takers)
         {
             try
             {
@@ -124,7 +124,7 @@ namespace UnclePhill.WebAPI_NFeS.Domain
             }
         }
 
-        public bool Update(Takers takers)
+        public bool Put(Takers takers)
         {
             try
             {

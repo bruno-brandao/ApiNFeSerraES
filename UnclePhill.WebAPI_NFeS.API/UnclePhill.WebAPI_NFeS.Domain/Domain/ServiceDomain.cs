@@ -7,7 +7,7 @@ namespace UnclePhill.WebAPI_NFeS.Domain
 {
     public class ServiceDomain : MasterDomain
     {
-        public List<Services> Select(long? ServicesId)
+        public List<Services> Get(long? ServicesId)
         {
             try
             {
@@ -60,7 +60,7 @@ namespace UnclePhill.WebAPI_NFeS.Domain
             }
         }
 
-        public bool Insert(Services services)
+        public bool Post(Services services)
         {
             try
             {
@@ -109,7 +109,7 @@ namespace UnclePhill.WebAPI_NFeS.Domain
             }
         }
 
-        public bool Update(Services services)
+        public bool Put(Services services)
         {
             try
             {

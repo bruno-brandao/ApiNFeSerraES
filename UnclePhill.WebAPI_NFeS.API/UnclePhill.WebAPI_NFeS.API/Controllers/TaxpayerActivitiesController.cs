@@ -10,7 +10,7 @@ namespace UnclePhill.WebAPI_NFeS.API.Controllers
         TaxpayerActivitiesDomain taxpayerActivitiesDomain = new TaxpayerActivitiesDomain();
 
         [HttpGet]
-        public JsonResult Select(long CompanyId)
+        public JsonResult Get(long CompanyId)
         {
             try
             {
@@ -23,7 +23,7 @@ namespace UnclePhill.WebAPI_NFeS.API.Controllers
                 *****/
                 if (!base.CheckSession()) return Response(new Feedbacks("erro", "Sessão inválida!"));
 
-                return Response(taxpayerActivitiesDomain.Select(CompanyId));                
+                return Response(taxpayerActivitiesDomain.Get(CompanyId));                
             }
             catch (Exception ex)
             {

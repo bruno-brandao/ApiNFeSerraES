@@ -10,13 +10,13 @@ namespace UnclePhill.WebAPI_NFeS.API.Controllers
         CompanyDomain companyDomain = new CompanyDomain();
 
         [HttpGet]
-        public JsonResult Select(long? CompanyId = 0)
+        public JsonResult Get(long? CompanyId = 0)
         {
             try
             {
                 if (!base.CheckSession()) return Response(new Feedbacks("erro", "Sessão inválida!"));
 
-                return Response(companyDomain.Select(CompanyId));
+                return Response(companyDomain.Get(CompanyId));
             }
             catch (Exception ex)
             {
@@ -25,13 +25,13 @@ namespace UnclePhill.WebAPI_NFeS.API.Controllers
         }
 
         [HttpPost]
-        public JsonResult Insert(Companys companys)
+        public JsonResult Post(Companys companys)
         {
             try
             {
                 if (!base.CheckSession()) return Response(new Feedbacks("erro", "Sessão inválida!"));
                             
-                if (companyDomain.Insert(companys,GetUserSession()))
+                if (companyDomain.Post(companys,GetUserSession()))
                 {
                     return Response(new Feedbacks("ok", "Empresa criada com sucesso!"));
                 }
@@ -45,13 +45,13 @@ namespace UnclePhill.WebAPI_NFeS.API.Controllers
         }
 
         [HttpPut]
-        public JsonResult Update(Companys companys)
+        public JsonResult Put(Companys companys)
         {
             try
             {
                 if (!base.CheckSession()) return Response(new Feedbacks("erro", "Sessão inválida!"));
                                 
-                if (companyDomain.Update(companys,GetUserSession()))
+                if (companyDomain.Put(companys,GetUserSession()))
                 {
                     return Response(new Feedbacks("ok", "Empresa atualizada com sucesso!"));
                 }
