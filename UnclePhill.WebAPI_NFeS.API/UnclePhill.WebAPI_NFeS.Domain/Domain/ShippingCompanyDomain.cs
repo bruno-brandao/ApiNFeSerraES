@@ -122,7 +122,7 @@ namespace UnclePhill.WebAPI_NFeS.Domain
                     throw new Exception("Informe o código da transportadora!");
                 }
 
-                SQL.AppendLine(" Update Services Set ");
+                SQL.AppendLine(" Update ShippingCompany Set ");
                 SQL.AppendLine("    CPF_CNPJ = '" + NoInjection(shippingCompany.CPF_CNPJ) + "',");
                 SQL.AppendLine("    Name = '" + NoInjection(shippingCompany.Name) + "',");
                 SQL.AppendLine("    NameFantasy = '" + NoInjection(shippingCompany.NameFantasy) + "',");
@@ -132,7 +132,7 @@ namespace UnclePhill.WebAPI_NFeS.Domain
                 SQL.AppendLine("    City = '" + NoInjection(shippingCompany.City) + "',");
                 SQL.AppendLine("    State = '" + NoInjection(shippingCompany.State) + "', ");
                 SQL.AppendLine("    DateUpdate = GetDate() ");
-                SQL.AppendLine(" Where ServicesId = " + shippingCompany.ShippingCompanyId);
+                SQL.AppendLine(" Where ShippingCompanyId = " + shippingCompany.ShippingCompanyId);
 
                 if (Conn.Insert(SQL.ToString()) > 0)
                 {
