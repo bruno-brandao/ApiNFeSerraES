@@ -18,6 +18,12 @@ namespace UnclePhill.WebAPI_NFeS.API
                 url: "{controller}/{action}/{id}",
                 defaults: new { controller = "Home", action = "Index", id = UrlParameter.Optional }
             );
+
+            routes.MapRoute(
+                name: "CFPS",
+                url: "{controller}/{action}/{CFPSId}",
+                defaults: new { controller = "CFPS", action = "Select", CFPSId = UrlParameter.Optional }
+            );
         }
     }
 }
