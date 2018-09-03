@@ -85,7 +85,7 @@ namespace UnclePhill.WebAPI_NFeS.Domain
                 SQL.AppendLine(" Values ");
                 SQL.AppendLine("    ('" + NoInjection(services.Unity) + "',");
                 SQL.AppendLine("     " + FormatNumber(services.Value) + ",");
-                SQL.AppendLine("     " + NoInjection(services.Description) + "',");
+                SQL.AppendLine("     '" + NoInjection(services.Description) + "',");
                 SQL.AppendLine("     " + FormatNumber(services.IRRF) + ",");
                 SQL.AppendLine("     " + FormatNumber(services.PIS) + ",");
                 SQL.AppendLine("     " + FormatNumber(services.CSLL) + ",");
