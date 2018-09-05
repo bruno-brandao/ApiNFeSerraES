@@ -32,14 +32,14 @@ namespace UnclePhill.WebAPI_NFeS.API
         }
 
         [WebMethod]
-        public bool Post(Users users)
+        public Feedbacks Post(Users users)
         {
             if (new UsersDomain().Post(users))
             {
-                return true;
+                return new Feedbacks("ok", "Usuário criado com sucesso!");
             }
 
-            return false;            
+            return new Feedbacks("erro", "Houve um problema ao criar um usuário. Tente novamente!");            
         }
     }
 }
