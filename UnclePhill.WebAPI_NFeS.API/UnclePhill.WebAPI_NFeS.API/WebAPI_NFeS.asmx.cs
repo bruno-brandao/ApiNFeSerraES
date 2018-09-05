@@ -30,5 +30,16 @@ namespace UnclePhill.WebAPI_NFeS.API
         {
             return new UsersDomain().Get(UserId);
         }
+
+        [WebMethod]
+        public bool Post(Users users)
+        {
+            if (new UsersDomain().Post(users))
+            {
+                return true;
+            }
+
+            return false;            
+        }
     }
 }
