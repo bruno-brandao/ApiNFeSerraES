@@ -15,7 +15,14 @@ namespace UnclePhill.WebAPI_NFeS.Controllers
     {
 
         private TakerDomain takerDomain = new TakerDomain();
-        
+
+        /// <summary>
+        /// Retorna uma lista de tomadores de serviço
+        /// </summary>
+        /// <param name="SessionHash">Paramentro passado no Header da requisição</param>
+        /// <param name="TakerId">Opcional: Código do tomador</param>
+        /// <returns code = "200">Sucesso</returns>
+        /// <returns code = "400">Erro</returns>        
         public IHttpActionResult Get(long? TakerId = 0)
         {
             try
@@ -29,7 +36,14 @@ namespace UnclePhill.WebAPI_NFeS.Controllers
                 return BadRequest(ex.Message);
             }            
         }
-        
+
+        /// <summary>
+        /// Cria um tomador
+        /// </summary>
+        /// <param name="SessionHash">Paramentro passado no Header da requisição</param>
+        /// <param name="takers">Objeto tomador</param>
+        /// <returns code = "200">Sucesso</returns>
+        /// <returns code = "400">Erro</returns>        
         public IHttpActionResult Post(Takers takers)
         {
             try
@@ -48,7 +62,14 @@ namespace UnclePhill.WebAPI_NFeS.Controllers
                 return BadRequest(ex.Message);
             }            
         }
-        
+
+        /// <summary>
+        /// Atualiza um tomador
+        /// </summary>
+        /// <param name="SessionHash">Paramentro passado no Header da requisição</param>
+        /// <param name="takers">Objeto tomador</param>
+        /// <returns code = "200">Sucesso</returns>
+        /// <returns code = "400">Erro</returns>        
         public IHttpActionResult Put(Takers takers)
         {
             try
@@ -67,7 +88,14 @@ namespace UnclePhill.WebAPI_NFeS.Controllers
                 return BadRequest(ex.Message);
             }
         }
-        
+
+        /// <summary>
+        /// Exclui um tomador pelo Id
+        /// </summary>
+        /// <param name="SessionHash">Paramentro passado no Header da requisição</param>
+        /// <param name="TakerId">Id do tomador</param>
+        /// <returns code = "200">Sucesso</returns>
+        /// <returns code = "400">Erro</returns>
         public IHttpActionResult Delete(long TakerId)
         {
             try

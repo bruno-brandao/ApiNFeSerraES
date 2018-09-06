@@ -10,6 +10,13 @@ namespace UnclePhill.WebAPI_NFeS.API.Controllers
     {
         private ServiceDomain serviceDomain = new ServiceDomain();
 
+        /// <summary>
+        /// Retorna uma lista as serviços
+        /// </summary>
+        /// <param name="SessionHash">Paramentro passado no Header da requisição</param>
+        /// <param name="ServicesId">Opcional: Código do serviço</param>
+        /// <returns code = "200">Sucesso</returns>
+        /// <returns code = "400">Erro</returns> 
         public IHttpActionResult Get(long? ServicesId)
         {
             try
@@ -24,6 +31,13 @@ namespace UnclePhill.WebAPI_NFeS.API.Controllers
             }
         }
 
+        /// <summary>
+        /// Cria uma serviço
+        /// </summary>
+        /// <param name="SessionHash">Paramentro passado no Header da requisição</param>
+        /// <param name="services">Objeto serviço</param>
+        /// <returns code = "200">Sucesso</returns>
+        /// <returns code = "400">Erro</returns>
         public IHttpActionResult Post(Services services)
         {
             try
@@ -43,6 +57,13 @@ namespace UnclePhill.WebAPI_NFeS.API.Controllers
             }
         }
 
+        /// <summary>
+        /// Atualiza um serviço
+        /// </summary>
+        /// <param name="SessionHash">Paramentro passado no Header da requisição</param>
+        /// <param name="services">Objeto serviço</param>
+        /// <returns code = "200">Sucesso</returns>
+        /// <returns code = "400">Erro</returns>
         public IHttpActionResult Put(Services services)
         {
             try
@@ -62,6 +83,13 @@ namespace UnclePhill.WebAPI_NFeS.API.Controllers
             }
         }
 
+        /// <summary>
+        /// Exclui um serviço pelo Id
+        /// </summary>
+        /// <param name="SessionHash">Paramentro passado no Header da requisição</param>
+        /// <param name="ServicesId">Id do serviço</param>
+        /// <returns code = "200">Sucesso</returns>
+        /// <returns code = "400">Erro</returns>
         public IHttpActionResult Delete(long ServicesId)
         {
             try

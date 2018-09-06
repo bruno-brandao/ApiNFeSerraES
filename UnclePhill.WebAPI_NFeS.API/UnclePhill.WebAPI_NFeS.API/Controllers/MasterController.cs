@@ -12,9 +12,8 @@ namespace UnclePhill.WebAPI_NFeS.API.Controllers
     public class MasterController : ApiController
     {
         //Opções Default para as controllers:
-        protected ConnectionManager Conn = new ConnectionManager("unclephill.database.windows.net","BD_NFeS","1433","Administrador","M1n3Rv@7");
-        protected StringBuilder SQL = new StringBuilder();
-        protected Sessions Session = new Sessions();
+        private ConnectionManager Conn = new ConnectionManager("unclephill.database.windows.net","BD_NFeS","1433","Administrador","M1n3Rv@7");
+        private StringBuilder SQL = new StringBuilder();
         
         //Funções de sessão:
         protected bool CheckSession()
@@ -42,7 +41,7 @@ namespace UnclePhill.WebAPI_NFeS.API.Controllers
                 SQL.AppendLine(" From Session ");
                 SQL.AppendLine(" Where Active = 1 ");
                 SQL.AppendLine(" And DateDiff(MI, DateStart, GetDate()) <= 5 ");
-                SQL.AppendLine(" And Session.SessionHash Like '" + NoInjection(Session) + "'");
+                SQL.AppendLine(" And Session.SessionHash Like '" + Session.Replace("'","''") + "'");
 
                 DataTable data = Conn.GetDataTable(SQL.ToString(), "Session");
                 if (data.Rows.Count > 0)
@@ -141,39 +140,6 @@ namespace UnclePhill.WebAPI_NFeS.API.Controllers
             {
                 throw ex;
             }            
-        }
-
-        protected string GenerateHash(string Password)
-        {
-            try
-            {
-                UnicodeEncoding unicode = new UnicodeEncoding();
-                byte[] passwordByte = unicode.GetBytes(Password + DateTime.Now.ToString());
-                SHA1Managed SHA1 = new SHA1Managed();
-                byte[] hashByte = SHA1.ComputeHash(passwordByte);
-                string hash = string.Empty;
-
-                foreach (byte b in hashByte)
-                {
-                    hash += b.ToString();
-                }
-                return hash;
-            }
-            catch (Exception ex)
-            {
-                throw new Exception(ex.Message);
-            }
-        }
-
-        //Funções diversas:
-        protected string NoInjection(string Value)
-        {
-            return Value.Replace("'", "''");
-        }
-
-        protected string FormatNumber(decimal Value)
-        {
-            return Value.ToString().Replace(".","").Replace(",",".");
-        }
+        }        
     }
 }

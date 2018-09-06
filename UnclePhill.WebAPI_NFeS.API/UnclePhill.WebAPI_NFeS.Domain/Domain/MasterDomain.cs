@@ -34,7 +34,6 @@ namespace UnclePhill.WebAPI_NFeS.Domain
             }
         }
 
-        //Funções diversas:
         protected string NoInjection(string Value)
         {
             return Value.Replace("'", "''");

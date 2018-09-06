@@ -9,7 +9,14 @@ namespace UnclePhill.WebAPI_NFeS.API.Controllers
     public class CompanyController : MasterController
     {
         CompanyDomain companyDomain = new CompanyDomain();
-        
+
+        /// <summary>
+        /// Retorna uma lista de empresas
+        /// </summary>
+        /// <param name="SessionHash">Paramentro passado no Header da requisição</param>
+        /// <param name="CompanyId">Opcional: Código da empresa</param>
+        /// <returns code = "200">Sucesso</returns>
+        /// <returns code = "400">Erro</returns> 
         public IHttpActionResult Get(long? CompanyId = 0)
         {
             try
@@ -23,7 +30,14 @@ namespace UnclePhill.WebAPI_NFeS.API.Controllers
                 return BadRequest(ex.Message);
             }            
         }
-        
+
+        /// <summary>
+        /// Cria uma empresa
+        /// </summary>
+        /// <param name="SessionHash">Paramentro passado no Header da requisição</param>
+        /// <param name="companys">Objeto empresa</param>
+        /// <returns code = "200">Sucesso</returns>
+        /// <returns code = "400">Erro</returns>
         public IHttpActionResult Post(Companys companys)
         {
             try
@@ -42,7 +56,14 @@ namespace UnclePhill.WebAPI_NFeS.API.Controllers
                 return BadRequest(ex.Message);
             }            
         }
-        
+
+        /// <summary>
+        /// Atualiza uma empresa
+        /// </summary>
+        /// <param name="SessionHash">Paramentro passado no Header da requisição</param>
+        /// <param name="companys">Objeto empresa</param>
+        /// <returns code = "200">Sucesso</returns>
+        /// <returns code = "400">Erro</returns>
         public IHttpActionResult Put(Companys companys)
         {
             try
@@ -62,6 +83,13 @@ namespace UnclePhill.WebAPI_NFeS.API.Controllers
             }            
         }
 
+        /// <summary>
+        /// Exclui uma empresa pelo Id
+        /// </summary>
+        /// <param name="SessionHash">Paramentro passado no Header da requisição</param>
+        /// <param name="CompanyId">Id da empresa</param>
+        /// <returns code = "200">Sucesso</returns>
+        /// <returns code = "400">Erro</returns>
         public IHttpActionResult Delete(long CompanyId)
         {
             try

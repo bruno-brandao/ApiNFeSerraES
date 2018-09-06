@@ -10,6 +10,13 @@ namespace UnclePhill.WebAPI_NFeS.API.Controllers
     {
         private UsersDomain usersDomain = new UsersDomain();
 
+        /// <summary>
+        /// Faz a autênticação do usuário
+        /// </summary>        
+        /// <param name="Email">Email do usuário</param>
+        /// <param name="Password">Senha do usuário</param>
+        /// <returns code = "200">Sucesso</returns>
+        /// <returns code = "400">Erro</returns>        
         [System.Web.Http.HttpPost]
         public IHttpActionResult Login(string Email, string Password)
         {
@@ -25,6 +32,12 @@ namespace UnclePhill.WebAPI_NFeS.API.Controllers
             }
         }
 
+        /// <summary>
+        /// Retorna o usuário por Id
+        /// </summary>
+        /// <param name="UserId">Id do usuário</param>
+        /// <returns code = "200">Sucesso</returns>
+        /// <returns code = "400">Erro</returns>
         public IHttpActionResult Get(long UserId)
         {
             try
@@ -37,7 +50,13 @@ namespace UnclePhill.WebAPI_NFeS.API.Controllers
                 return BadRequest(ex.Message);
             }
         }
-                
+
+        /// <summary>
+        /// Cria um novo usuário
+        /// </summary>
+        /// <param name="users">Objeto usuário</param>
+        /// <returns code = "200">Sucesso</returns>
+        /// <returns code = "400">Erro</returns>
         public IHttpActionResult Post(Users users)
         {
             try
@@ -56,7 +75,14 @@ namespace UnclePhill.WebAPI_NFeS.API.Controllers
                 return BadRequest(ex.Message);
             }
         }
-                
+
+        /// <summary>
+        /// Atualiza o usuário
+        /// </summary>
+        /// <param name="SessionHash">Paramentro passado no Header da requisição</param>
+        /// <param name="users">Objeto usuário</param>
+        /// <returns code = "200">Sucesso</returns>
+        /// <returns code = "400">Erro</returns>
         public IHttpActionResult Put(Users users)
         {
             try

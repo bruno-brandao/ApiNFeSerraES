@@ -11,6 +11,13 @@ namespace UnclePhill.WebAPI_NFeS.API.Controllers
     {
         ShippingCompanyDomain shippingCompanyDomain = new ShippingCompanyDomain();
 
+        /// <summary>
+        /// Retorna uma lista as transportadoras
+        /// </summary>
+        /// <param name="SessionHash">Paramentro passado no Header da requisição</param>
+        /// <param name="ShippingCompanyId">Opcional: Código da transportadora</param>
+        /// <returns code = "200">Sucesso</returns>
+        /// <returns code = "400">Erro</returns> 
         public IHttpActionResult Get(long? ShippingCompanyId)
         {
             try
@@ -25,6 +32,13 @@ namespace UnclePhill.WebAPI_NFeS.API.Controllers
             }
         }
 
+        /// <summary>
+        /// Cria uma transportadora
+        /// </summary>
+        /// <param name="SessionHash">Paramentro passado no Header da requisição</param>
+        /// <param name="shippingCompany">Objeto transportadora</param>
+        /// <returns code = "200">Sucesso</returns>
+        /// <returns code = "400">Erro</returns> 
         public IHttpActionResult Post(ShippingCompany shippingCompany)
         {
             try
@@ -44,6 +58,13 @@ namespace UnclePhill.WebAPI_NFeS.API.Controllers
             }
         }
 
+        /// <summary>
+        /// Atualiza uma transportadora
+        /// </summary>
+        /// <param name="SessionHash">Paramentro passado no Header da requisição</param>
+        /// <param name="shippingCompany">Objeto transportadora</param>
+        /// <returns code = "200">Sucesso</returns>
+        /// <returns code = "400">Erro</returns>
         public IHttpActionResult Put(ShippingCompany shippingCompany)
         {
             try
@@ -63,6 +84,13 @@ namespace UnclePhill.WebAPI_NFeS.API.Controllers
             }
         }
 
+        /// <summary>
+        /// Exclui uma transoportadora pelo Id
+        /// </summary>
+        /// <param name="SessionHash">Paramentro passado no Header da requisição</param>
+        /// <param name="ShippingCompanyId">Id da transportadora</param>
+        /// <returns code = "200">Sucesso</returns>
+        /// <returns code = "400">Erro</returns>
         public IHttpActionResult Delete(long ShippingCompanyId)
         {
             try
