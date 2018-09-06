@@ -97,11 +97,7 @@ namespace UnclePhill.WebAPI_NFeS.Domain
         {
             try
             {
-                Feedbacks feedback = Validate(users);
-                if (feedback.Status.Equals("erro"))
-                {
-                    throw new Exception(feedback.Message);
-                }
+                Validate(users);
 
                 SQL = new StringBuilder();
                 SQL.AppendLine(" Insert Into Users ");
@@ -145,8 +141,7 @@ namespace UnclePhill.WebAPI_NFeS.Domain
                     throw new Exception("Informe o código do usuário!");
                 }
 
-                Feedbacks feedback = Validate(users);
-                if (feedback.Status.Equals("erro")){ throw new Exception(feedback.Message);}
+                Validate(users);
 
                 SQL = new StringBuilder();
                 SQL.AppendLine(" Update Users Set ");
@@ -260,35 +255,32 @@ namespace UnclePhill.WebAPI_NFeS.Domain
             }
         }
 
-        private Feedbacks Validate(Users users)
+        private void Validate(Users users)
         {
-
             if (string.IsNullOrEmpty(users.Name))
             {
-                return new Feedbacks("erro", "Informe o nome do usuário!");
+                throw new Exception("Informe o nome do usuário!");
             }
 
             if (string.IsNullOrEmpty(users.LastName))
             {
-                return new Feedbacks("erro", "Informe o Sobrenome do usuário!");
+                 throw new Exception("Informe o Sobrenome do usuário!");
             }
 
             if (string.IsNullOrEmpty(users.CPF))
             {
-                return new Feedbacks("erro", "Informe o CPF do usuário!");
+                 throw new Exception("Informe o CPF do usuário!");
             }
 
             if (string.IsNullOrEmpty(users.Email))
             {
-                return new Feedbacks("erro", "Informe o Email do usuário!");
+                 throw new Exception("Informe o Email do usuário!");
             }
 
             if (string.IsNullOrEmpty(users.Password))
             {
-                return new Feedbacks("erro", "Informe a senha do usuário!");
+                 throw new Exception("Informe a senha do usuário!");
             }
-
-            return new Feedbacks("ok", "Sucesso");
         }
     }
 }

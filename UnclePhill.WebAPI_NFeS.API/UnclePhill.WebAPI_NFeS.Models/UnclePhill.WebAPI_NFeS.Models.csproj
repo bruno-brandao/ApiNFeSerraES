@@ -43,7 +43,6 @@
     <Compile Include="Models\CFPS.cs" />
     <Compile Include="Models\Companys.cs" />
     <Compile Include="Models\Connection\ConnectionManager.cs" />
-    <Compile Include="Models\Feedbacks.cs" />
     <Compile Include="Models\NFeS.cs" />
     <Compile Include="Models\NFeSInvoices.cs" />
     <Compile Include="Models\NFeSItens.cs" />

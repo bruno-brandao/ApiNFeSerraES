@@ -63,11 +63,7 @@ namespace UnclePhill.WebAPI_NFeS.Domain
         {
             try
             {
-                Feedbacks feedback = Validate(shippingCompany);
-                if (feedback.Status.Equals("erro"))
-                {
-                    throw new Exception(feedback.Message);
-                }
+                Validate(shippingCompany);                
 
                 SQL.AppendLine(" Insert Into ShippingCompany ");
                 SQL.AppendLine("    (CPF_CNPJ, ");
@@ -111,12 +107,8 @@ namespace UnclePhill.WebAPI_NFeS.Domain
         {
             try
             {
-                Feedbacks feedback = Validate(shippingCompany);
-                if (feedback.Status.Equals("erro"))
-                {
-                    throw new Exception(feedback.Message);
-                }
-
+                Validate(shippingCompany);
+                
                 if (shippingCompany.ShippingCompanyId <= 0)
                 {
                     throw new Exception("Informe o código da transportadora!");
@@ -172,49 +164,47 @@ namespace UnclePhill.WebAPI_NFeS.Domain
             }
         }
 
-        private Feedbacks Validate(ShippingCompany shippingCompany)
+        private void Validate(ShippingCompany shippingCompany)
         {
             if (string.IsNullOrEmpty(shippingCompany.CPF_CNPJ))
             {
-                return new Feedbacks("erro", "Informe o CPF/CNPJ da transportadora!");
+                  throw new Exception("Informe o CPF/CNPJ da transportadora!");
             }
 
             if (string.IsNullOrEmpty(shippingCompany.Name))
             {
-                return new Feedbacks("erro", "Informe a razão social/nome da trasportadora!");
+                  throw new Exception("Informe a razão social/nome da trasportadora!");
             }
 
             if (string.IsNullOrEmpty(shippingCompany.NameFantasy))
             {
-                return new Feedbacks("erro", "Informe a nome fantasia/apelido da trasportadora!");
+                  throw new Exception("Informe a nome fantasia/apelido da trasportadora!");
             }
 
             if (string.IsNullOrEmpty(shippingCompany.CEP))
             {
-                return new Feedbacks("erro", "Informe o CEP!");
+                  throw new Exception("Informe o CEP!");
             }
 
             if (string.IsNullOrEmpty(shippingCompany.Street))
             {
-                return new Feedbacks("erro", "Informe a rua!");
+                  throw new Exception("Informe a rua!");
             }
 
             if (string.IsNullOrEmpty(shippingCompany.Neighborhood))
             {
-                return new Feedbacks("erro", "Informe o bairro!");
+                  throw new Exception("Informe o bairro!");
             }
 
             if (string.IsNullOrEmpty(shippingCompany.City))
             {
-                return new Feedbacks("erro", "Informe a cidade!");
+                  throw new Exception("Informe a cidade!");
             }
 
             if (string.IsNullOrEmpty(shippingCompany.State))
             {
-                return new Feedbacks("erro", "Informe o estado!");
+                  throw new Exception("Informe o estado!");
             }
-
-            return new Feedbacks("ok", "Sucesso");
         }
     }
 }

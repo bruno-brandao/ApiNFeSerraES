@@ -64,12 +64,8 @@ namespace UnclePhill.WebAPI_NFeS.Domain
         {
             try
             {
-                Feedbacks feedback = Validate(services);
-                if (feedback.Status.Equals("erro"))
-                {
-                    throw new Exception(feedback.Message);
-                }
-
+                Validate(services);
+               
                 SQL.AppendLine(" Insert Into Services ");
                 SQL.AppendLine("    (Unity, ");
                 SQL.AppendLine("    Value, ");
@@ -113,11 +109,7 @@ namespace UnclePhill.WebAPI_NFeS.Domain
         {
             try
             {
-                Feedbacks feedback = Validate(services);
-                if (feedback.Status.Equals("erro"))
-                {
-                    throw new Exception(feedback.Message);
-                }
+                Validate(services);                
 
                 if (services.ServicesId <= 0)
                 {
@@ -174,24 +166,22 @@ namespace UnclePhill.WebAPI_NFeS.Domain
             }
         }
 
-        private Feedbacks Validate(Services services)
+        private void Validate(Services services)
         {
             if (string.IsNullOrEmpty(services.Unity))
             {
-                return new Feedbacks("erro", "Informe a unidade de medida do serviço!");
+                 throw new Exception("Informe a unidade de medida do serviço!");
             }
 
             if (services.Value <= 0)
             {
-                return new Feedbacks("erro", "Informe o valor do serviço!");
+                 throw new Exception("Informe o valor do serviço!");
             }
 
             if (string.IsNullOrEmpty(services.Description))
             {
-                return new Feedbacks("erro", "Informe o valor do serviço!");
+                 throw new Exception("Informe o valor do serviço!");
             }
-
-            return new Feedbacks("ok", "Sucesso");
         }
     }
 }

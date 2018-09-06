@@ -19,8 +19,6 @@ namespace UnclePhill.WebAPI_NFeS.API
                 routeTemplate: "api/{controller}/{id}",
                 defaults: new { id = RouteParameter.Optional }
             );
-
-            SwaggerConfig.Register();
         }
     }
 }

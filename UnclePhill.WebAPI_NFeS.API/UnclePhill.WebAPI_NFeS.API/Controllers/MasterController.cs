@@ -3,23 +3,19 @@ using System.Data;
 using System.Linq;
 using System.Security.Cryptography;
 using System.Text;
+using System.Web.Http;
 using System.Web.Mvc;
 using UnclePhill.WebAPI_NFeS.Models;
 
 namespace UnclePhill.WebAPI_NFeS.API.Controllers
 {
-    public class MasterController : Controller
+    public class MasterController : ApiController
     {
         //Opções Default para as controllers:
         protected ConnectionManager Conn = new ConnectionManager("unclephill.database.windows.net","BD_NFeS","1433","Administrador","M1n3Rv@7");
         protected StringBuilder SQL = new StringBuilder();
         protected Sessions Session = new Sessions();
-
-        public ActionResult Index()
-        {
-            return View();
-        }
-
+        
         //Funções de sessão:
         protected bool CheckSession()
         {
@@ -27,7 +23,7 @@ namespace UnclePhill.WebAPI_NFeS.API.Controllers
             {
                 UpdateSession();
 
-                string Session = Request.Headers.Get("SessionHash");
+                string Session = Request.Headers.GetValues("SessionHash").FirstOrDefault();
                 if (string.IsNullOrEmpty(Session))
                 {
                     return false;
@@ -93,7 +89,7 @@ namespace UnclePhill.WebAPI_NFeS.API.Controllers
         {
             try
             {
-                string SessionHash = Request.Headers.Get("SessionHash");
+                string SessionHash = Request.Headers.GetValues("SessionHash").FirstOrDefault();
 
                 if (string.IsNullOrEmpty(SessionHash))
                 {
@@ -178,11 +174,6 @@ namespace UnclePhill.WebAPI_NFeS.API.Controllers
         protected string FormatNumber(decimal Value)
         {
             return Value.ToString().Replace(".","").Replace(",",".");
-        }
-
-        protected JsonResult Response(object Param)
-        {
-            return Json(Param, JsonRequestBehavior.AllowGet);
         }
     }
 }

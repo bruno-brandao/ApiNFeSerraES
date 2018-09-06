@@ -71,11 +71,7 @@ namespace UnclePhill.WebAPI_NFeS.Domain
         {
             try
             {
-                Feedbacks feedback = Validate(takers);
-                if (feedback.Status.Equals("erro"))
-                {
-                     throw new Exception(feedback.Message);
-                }
+                Validate(takers);
 
                 SQL.AppendLine(" Insert Into Takers ");
                 SQL.AppendLine("    (IM, ");
@@ -128,11 +124,7 @@ namespace UnclePhill.WebAPI_NFeS.Domain
         {
             try
             {
-                Feedbacks feedback = Validate(takers);
-                if (feedback.Status.Equals("erro"))
-                {
-                    throw new Exception(feedback.Message);
-                }
+                Validate(takers);
 
                 if (takers.TakerId <= 0)
                 {
@@ -194,74 +186,72 @@ namespace UnclePhill.WebAPI_NFeS.Domain
             }
         }
 
-        private Feedbacks Validate(Takers takers)
+        private void Validate(Takers takers)
         {
             if (string.IsNullOrEmpty(takers.IM))
             {
-                return new Feedbacks("erro", "Informe a inscrição municipal!");
+                 throw new Exception("Informe a inscrição municipal!");
             }
 
             if (string.IsNullOrEmpty(takers.CPF_CNPJ))
             {
-                return new Feedbacks("erro", "Informe o CPF/CNPJ!");
+                 throw new Exception("Informe o CPF/CNPJ!");
             }
 
             if (string.IsNullOrEmpty(takers.RG_IE))
             {
-                return new Feedbacks("erro", "Informe a inscrição estadual!");
+                 throw new Exception("Informe a inscrição estadual!");
             }
 
             if (string.IsNullOrEmpty(takers.RG_IE))
             {
-                return new Feedbacks("erro", "Informe a inscrição estadual!");
+                 throw new Exception("Informe a inscrição estadual!");
             }
 
             if (string.IsNullOrEmpty(takers.Name))
             {
-                return new Feedbacks("erro", "Informe o nome do tomador!");
+                 throw new Exception("Informe o nome do tomador!");
             }
 
             if (string.IsNullOrEmpty(takers.NameFantasy))
             {
-                return new Feedbacks("erro", "Informe o nome nome fantasia do tomador!");
+                 throw new Exception("Informe o nome nome fantasia do tomador!");
             }
 
             if (string.IsNullOrEmpty(takers.TypePerson))
             {
-                return new Feedbacks("erro", "Informe o tipo de pessoa do tomador!");
+                 throw new Exception("Informe o tipo de pessoa do tomador!");
             }
 
             if (string.IsNullOrEmpty(takers.CEP))
             {
-                return new Feedbacks("erro", "Informe o CEP!");
+                 throw new Exception("Informe o CEP!");
             }
 
             if (string.IsNullOrEmpty(takers.Street))
             {
-                return new Feedbacks("erro", "Informe a Rua!");
+                 throw new Exception("Informe a Rua!");
             }
 
             if (string.IsNullOrEmpty(takers.Neighborhood))
             {
-                return new Feedbacks("erro", "Informe o bairro!");
+                 throw new Exception("Informe o bairro!");
             }
 
             if (string.IsNullOrEmpty(takers.City))
             {
-                return new Feedbacks("erro", "Informe a cidade!");
+                 throw new Exception("Informe a cidade!");
             }
 
             if (string.IsNullOrEmpty(takers.State))
             {
-                return new Feedbacks("erro", "Informe a UF!");
+                 throw new Exception("Informe a UF!");
             }
 
             if (string.IsNullOrEmpty(takers.Email))
             {
-                return new Feedbacks("erro", "Informe o Email!");
+                 throw new Exception("Informe o Email!");
             }
-
-            return new Feedbacks("ok", "Sucesso");
         }
     }
 }

@@ -2,15 +2,15 @@
 using System.Web.Mvc;
 using UnclePhill.WebAPI_NFeS.Models;
 using UnclePhill.WebAPI_NFeS.Domain;
+using System.Web.Http;
 
 namespace UnclePhill.WebAPI_NFeS.API.Controllers
 {
     public class TaxpayerActivitiesController : MasterController
     {
         TaxpayerActivitiesDomain taxpayerActivitiesDomain = new TaxpayerActivitiesDomain();
-
-        [HttpGet]
-        public JsonResult Get(long CompanyId)
+        
+        public IHttpActionResult Get(long CompanyId)
         {
             try
             {
@@ -21,13 +21,13 @@ namespace UnclePhill.WebAPI_NFeS.API.Controllers
                   inscricaoMunicipal = 4546565
                   codigoMunicipio = 3
                 *****/
-                if (!base.CheckSession()) return Response(new Feedbacks("erro", "Sessão inválida!"));
+                if (!base.CheckSession()) return BadRequest("Sessão inválida!");
 
-                return Response(taxpayerActivitiesDomain.Get(CompanyId));                
+                return Ok(taxpayerActivitiesDomain.Get(CompanyId));                
             }
             catch (Exception ex)
             {
-                return Response(new Feedbacks("erro", ex.Message));              
+                return BadRequest(ex.Message);              
             }
         }
     }

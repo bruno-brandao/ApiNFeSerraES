@@ -85,11 +85,7 @@ namespace UnclePhill.WebAPI_NFeS.Domain
         {
             try
             {
-                Feedbacks feedback = Validate(companys);
-                if (feedback.Status.Equals("erro"))
-                {
-                    throw new Exception(feedback.Message);
-                }
+                Validate(companys);               
 
                 SQL.AppendLine(" Insert Into Companys ");
                 SQL.AppendLine("    (CNPJ, ");
@@ -157,11 +153,7 @@ namespace UnclePhill.WebAPI_NFeS.Domain
         {
             try
             {
-                Feedbacks feedback = Validate(companys);
-                if (feedback.Status.Equals("erro"))
-                {
-                    throw new Exception(feedback.Message);
-                }
+                Validate(companys);                
 
                 if (companys.CompanyId <= 0)
                 {
@@ -235,69 +227,67 @@ namespace UnclePhill.WebAPI_NFeS.Domain
             }
         }
 
-        private Feedbacks Validate(Companys companys)
+        private void Validate(Companys companys)
         {
             if (string.IsNullOrEmpty(companys.CNPJ))
             {
-                return new Feedbacks("erro", "Informe o CNPJ!");
+                 throw new Exception("Informe o CNPJ!");
             }
 
             if (string.IsNullOrEmpty(companys.IM))
             {
-                return new Feedbacks("erro", "Informe a inscrição municipal!");
+                 throw new Exception("Informe a inscrição municipal!");
             }
 
             if (string.IsNullOrEmpty(companys.IE))
             {
-                return new Feedbacks("erro", "Informe a inscrição estadual!");
+                 throw new Exception("Informe a inscrição estadual!");
             }
 
             if (string.IsNullOrEmpty(companys.Name))
             {
-                return new Feedbacks("erro", "Informe o nome da empresa!");
+                 throw new Exception("Informe o nome da empresa!");
             }
 
             if (string.IsNullOrEmpty(companys.NameFantasy))
             {
-                return new Feedbacks("erro", "Informe o nome fantasia da empresa!");
+                 throw new Exception("Informe o nome fantasia da empresa!");
             }
 
             if (string.IsNullOrEmpty(companys.CEP))
             {
-                return new Feedbacks("erro", "Informe o CEP!");
+                 throw new Exception("Informe o CEP!");
             }
 
             if (string.IsNullOrEmpty(companys.Street))
             {
-                return new Feedbacks("erro", "Informe a rua!");
+                 throw new Exception("Informe a rua!");
             }
 
             if (string.IsNullOrEmpty(companys.Neighborhood))
             {
-                return new Feedbacks("erro", "Informe o bairro!");
+                 throw new Exception("Informe o bairro!");
             }
 
             if (string.IsNullOrEmpty(companys.City))
             {
-                return new Feedbacks("erro", "Informe a cidade!");
+                 throw new Exception("Informe a cidade!");
             }
 
             if (string.IsNullOrEmpty(companys.State))
             {
-                return new Feedbacks("erro", "Informe o estado!");
+                 throw new Exception("Informe o estado!");
             }
 
             if (string.IsNullOrEmpty(companys.Telephone))
             {
-                return new Feedbacks("erro", "Informe o telefone!");
+                 throw new Exception("Informe o telefone!");
             }
 
             if (string.IsNullOrEmpty(companys.Email))
             {
-                return new Feedbacks("erro", "Informe o email!");
+                 throw new Exception("Informe o email!");
             }
-
-            return new Feedbacks("ok", "Sucesso");
         }
     }
 }

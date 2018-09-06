@@ -2,6 +2,7 @@
 using System.Web.Mvc;
 using UnclePhill.WebAPI_NFeS.Models;
 using UnclePhill.WebAPI_NFeS.Domain;
+using System.Web.Http;
 
 namespace UnclePhill.WebAPI_NFeS.API.Controllers
 {
@@ -9,36 +10,35 @@ namespace UnclePhill.WebAPI_NFeS.API.Controllers
     {
         private UsersDomain usersDomain = new UsersDomain();
 
-        [HttpPost]
-        public JsonResult Login(string Email, string Password)
+        [System.Web.Http.HttpPost]
+        public IHttpActionResult Login(string Email, string Password)
         {
             try
             {
                 UpdateSession();                
 
-                return Response(usersDomain.Login(Email, Password));
+                return Ok(usersDomain.Login(Email, Password));
             }
             catch (Exception ex)
             {
-                return Response(new Feedbacks("erro", ex.Message));
+                return BadRequest(ex.Message);
             }
         }
 
-        public JsonResult Get(long UserId)
+        public IHttpActionResult Get(long UserId)
         {
             try
             {
-                if (!base.CheckSession()) { return Response(new Feedbacks("erro", "Sessão inválida ou inexistente!")); }
+                if (!base.CheckSession()) { return BadRequest("Sessão inválida ou inexistente!"); }
 
-                return Response(usersDomain.Get(UserId));
+                return Ok(usersDomain.Get(UserId));
             }catch(Exception ex)
             {
-                return Response(new Feedbacks("erro",ex.Message));
+                return BadRequest(ex.Message);
             }
         }
-
-        [HttpPost]
-        public JsonResult Post(Users users)
+                
+        public IHttpActionResult Post(Users users)
         {
             try
             {
@@ -46,34 +46,33 @@ namespace UnclePhill.WebAPI_NFeS.API.Controllers
                                 
                 if (usersDomain.Post(users))
                 {
-                    return Response(new Feedbacks("ok", "Usuário criado com sucesso!"));
+                    return Ok("Usuário criado com sucesso!");
                 }
 
-                return Response(new Feedbacks("erro", "Houve um problema ao criar um usuário. Tente novamente!"));
+                return BadRequest("Houve um problema ao criar um usuário. Tente novamente!");
             }
             catch (Exception ex)
             {
-                return Response(new Feedbacks("erro", ex.Message));
+                return BadRequest(ex.Message);
             }
         }
-
-        [HttpPut]
-        public JsonResult Put(Users users)
+                
+        public IHttpActionResult Put(Users users)
         {
             try
             {
-                if (!base.CheckSession()){return Response(new Feedbacks("erro", "Sessão inválida ou inexistente!"));}
+                if (!base.CheckSession()){return BadRequest("Sessão inválida ou inexistente!");}
 
                 if (usersDomain.Put(users))
                 {
-                    return Response(new Feedbacks("ok", "Usuário atualizado com sucesso!"));
+                    return Ok("Usuário atualizado com sucesso!");
                 }
 
-                return Response(new Feedbacks("erro", "Houve um problema ao cadastrar um usuário. Tente novamente!"));
+                return BadRequest("Houve um problema ao cadastrar um usuário. Tente novamente!");
             }
             catch (Exception ex)
             {
-                return Response(new Feedbacks("erro", ex.Message));
+                return BadRequest(ex.Message);
             }
         }               
     }
