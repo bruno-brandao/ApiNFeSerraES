@@ -151,9 +151,6 @@
     </None>
   </ItemGroup>
   <ItemGroup>
-    <WebReferences Include="Web References\" />
-  </ItemGroup>
-  <ItemGroup>
     <WCFMetadataStorage Include="Connected Services\NFeS.API.Serra.Entrada\" />
     <WCFMetadataStorage Include="Connected Services\NFeS.API.Serra.Interface\" />
     <WCFMetadataStorage Include="Connected Services\NFeS.API.Serra.Saida\" />

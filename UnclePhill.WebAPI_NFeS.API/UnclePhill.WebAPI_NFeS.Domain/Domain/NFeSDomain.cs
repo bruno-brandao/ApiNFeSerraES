@@ -7,5 +7,10 @@ namespace UnclePhill.WebAPI_NFeS.Domain
 {
     public class NFeSDomain
     {
+        public void EmitirNFeS()
+        {
+
+        }
+
     }
 }
