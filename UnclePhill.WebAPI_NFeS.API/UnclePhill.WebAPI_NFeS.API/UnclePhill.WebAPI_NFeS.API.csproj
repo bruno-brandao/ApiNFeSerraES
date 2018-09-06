@@ -212,7 +212,6 @@
     <Compile Include="Controllers\CFPSController.cs" />
     <Compile Include="Controllers\CompanyController.cs" />
     <Compile Include="Controllers\Default\HomeController.cs" />
-    <Compile Include="Controllers\Default\ValuesController.cs" />
     <Compile Include="Controllers\MasterController.cs" />
     <Compile Include="Controllers\NFeSController.cs" />
     <Compile Include="Controllers\ServiceController.cs" />

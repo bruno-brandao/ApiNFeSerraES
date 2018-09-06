@@ -10,7 +10,7 @@ namespace UnclePhill.WebAPI_NFeS.API.Controllers
     {
         public ActionResult Index()
         {
-            ViewBag.Title = "Home Page";
+            ViewBag.Title = "API NFeS - Serra/ES";
 
             return View();
         }
