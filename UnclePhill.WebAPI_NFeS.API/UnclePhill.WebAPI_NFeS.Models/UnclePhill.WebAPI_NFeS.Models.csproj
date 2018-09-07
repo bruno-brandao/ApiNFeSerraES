@@ -45,7 +45,13 @@
     <Compile Include="Models\Connection\ConnectionManager.cs" />
     <Compile Include="Models\NFeS.cs" />
     <Compile Include="Models\NFeSInvoices.cs" />
+    <Compile Include="Models\NFeSStructure\NFeSError.cs" />
+    <Compile Include="Models\NFeSStructure\NFeSIssueRequest.cs" />
     <Compile Include="Models\NFeSItens.cs" />
+    <Compile Include="Models\NFeSStructure\NFeSPreview.cs" />
+    <Compile Include="Models\NFeSStructure\NFeSProcessingResult.cs" />
+    <Compile Include="Models\NFeSStructure\NFeSReceipt.cs" />
+    <Compile Include="Models\NFeSStructure\NFeSTaxpayerActivities.cs" />
     <Compile Include="Models\Services.cs" />
     <Compile Include="Models\Sessions.cs" />
     <Compile Include="Models\ShippingCompany.cs" />
