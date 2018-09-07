@@ -11,7 +11,7 @@ namespace UnclePhill.WebAPI_NFeS.Domain
 {
     public class NFeSDomain
     {
-        public void EmitirNFeS()
+        public string EmitirNFeS()
         {
             try
             {
@@ -101,9 +101,10 @@ namespace UnclePhill.WebAPI_NFeS.Domain
                 NFeSIR.nfd.numerort = string.Empty;
                 NFeSIR.nfd.fatorgerador = DateTime.Now.Month.ToString() + "/" + DateTime.Now.Year.ToString();
 
-                FileStream fileStream = new FileStream("D:\\XML",FileMode.Create);
-                XmlSerializer xmlSerializer = new XmlSerializer(typeof(tbnfd));
-                xmlSerializer.Serialize(fileStream, this);
+                XmlSerializer xmlSerializer = new XmlSerializer(NFeSIR.GetType());
+                StringWriter stringWriter = new StringWriter();
+                xmlSerializer.Serialize(stringWriter, NFeSIR);
+                return stringWriter.ToString();
             }
             catch(Exception ex)
             {

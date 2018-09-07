@@ -15,6 +15,12 @@ namespace UnclePhill.WebAPI_NFeS.Models.Models.NFeSStructure.NFeSIssueRequest
     public partial class tbnfd
     {
 
+        public tbnfd()
+        {
+            nfdField = new tbnfdNfd();
+            signatureField = new Signature();
+        }
+
         private tbnfdNfd nfdField;
 
         private Signature signatureField;
