@@ -4,12 +4,12 @@ using System.IO;
 using System.Linq;
 using System.Web;
 using System.Xml.Serialization;
-using UnclePhill.WebAPI_NFeS.Models;
+using UnclePhill.WebAPI_NFeS.Domain.NFeS.API.Serra.Entrada;
 using UnclePhill.WebAPI_NFeS.Models.Models.NFeSStructure.NFeSIssueRequest;
 
 namespace UnclePhill.WebAPI_NFeS.Domain
 {
-    public class NFeSDomain
+    public class NFeSDomain : MasterDomain
     {
         public string EmitirNFeS()
         {
@@ -100,12 +100,20 @@ namespace UnclePhill.WebAPI_NFeS.Domain
                 NFeSIR.nfd.tributadonomunicipio = true;
                 NFeSIR.nfd.numerort = string.Empty;
                 NFeSIR.nfd.fatorgerador = DateTime.Now.Month.ToString() + "/" + DateTime.Now.Year.ToString();
+                
+                WSEntrada wsEntrada = new WSEntradaClient();
+                nfdEntradaRequest nfdEntradaRequest = new nfdEntradaRequest();
+                nfdEntradaRequestBody nfdEntradaRequestBody = new nfdEntradaRequestBody();
+                nfdEntradaResponse nfdEntradaResponse = new nfdEntradaResponse();
 
-                XmlSerializer xmlSerializer = new XmlSerializer(NFeSIR.GetType());
-                StringWriter stringWriter = new StringWriter();
-                xmlSerializer.Serialize(stringWriter, NFeSIR);
-                return stringWriter.ToString();
-            }
+                nfdEntradaRequestBody.codigoMunicipio = 3;
+                nfdEntradaRequestBody.cpfUsuario = "55555555555";
+                nfdEntradaRequestBody.hashSenha = "cRDtpNCeBiql5KOQsKVyrA0sAiA=";
+                nfdEntradaRequestBody.nfd = ParseXml(NFeSIR);
+                nfdEntradaRequest.Body = nfdEntradaRequestBody;
+                
+                nfdEntradaResponse = wsEntrada.nfdEntrada(nfdEntradaRequest);
+                return nfdEntradaResponse.Body.@return;            }
             catch(Exception ex)
             {
                 throw ex;

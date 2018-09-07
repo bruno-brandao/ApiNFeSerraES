@@ -1,7 +1,9 @@
 ﻿using System;
+using System.IO;
 using System.Security.Cryptography;
 using System.Text;
 using System.Xml;
+using System.Xml.Serialization;
 using UnclePhill.WebAPI_NFeS.Models;
 
 namespace UnclePhill.WebAPI_NFeS.Domain
@@ -56,6 +58,21 @@ namespace UnclePhill.WebAPI_NFeS.Domain
             {
                 return false;
             }
-        }      
+        }
+
+        protected string ParseXml(object obj)
+        {
+            try
+            {
+                XmlSerializer xmlSerializer = new XmlSerializer(obj.GetType());
+                StringWriter stringWriter = new StringWriter();
+                xmlSerializer.Serialize(stringWriter, obj);
+                return stringWriter.ToString();
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
     }
 }
