@@ -4,9 +4,8 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace UnclePhill.WebAPI_NFeS.Models.Models.NFeSStructure
+namespace UnclePhill.WebAPI_NFeS.Models.Models.NFeSStructure.NFeSReceipt
 {
-
     // OBSERVAÇÃO: o código gerado pode exigir pelo menos .NET Framework 4.5 ou .NET Core/Standard 2.0.
     /// <remarks/>
     [System.SerializableAttribute()]

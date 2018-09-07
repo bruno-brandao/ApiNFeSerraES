@@ -7,7 +7,7 @@ using System.Text;
 using System.Xml.Serialization;
 using UnclePhill.WebAPI_NFeS.Domain.NFeS.API.Serra.Entrada;
 using UnclePhill.WebAPI_NFeS.Models;
-using UnclePhill.WebAPI_NFeS.Models.Models.NFeSStructure;
+using UnclePhill.WebAPI_NFeS.Models.Models.NFeSStructure.NFeSTaxpayerActivities;
 
 namespace UnclePhill.WebAPI_NFeS.Domain
 {

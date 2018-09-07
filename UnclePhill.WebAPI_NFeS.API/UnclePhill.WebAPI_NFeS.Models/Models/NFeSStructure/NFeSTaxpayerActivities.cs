@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace UnclePhill.WebAPI_NFeS.Models.Models.NFeSStructure
+namespace UnclePhill.WebAPI_NFeS.Models.Models.NFeSStructure.NFeSTaxpayerActivities
 {
     /// <remarks/>
     [System.SerializableAttribute()]
