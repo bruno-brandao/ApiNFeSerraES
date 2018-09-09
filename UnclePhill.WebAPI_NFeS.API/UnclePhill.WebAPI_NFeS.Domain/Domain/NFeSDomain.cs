@@ -31,14 +31,14 @@ namespace UnclePhill.WebAPI_NFeS.Domain
                 NFeSIR.nfd.estadotomador = "SP";
                 NFeSIR.nfd.paistomador = "Brasil";
                 NFeSIR.nfd.fonetomador = 21119898;
-                NFeSIR.nfd.faxtomador = string.Empty;
+                NFeSIR.nfd.faxtomador = "";
                 NFeSIR.nfd.ceptomador = 79010100;
                 NFeSIR.nfd.bairrotomador = "Centro";
                 NFeSIR.nfd.emailtomador = "teste@smarapd.com.br";
                 NFeSIR.nfd.tppessoa = "J";
                 NFeSIR.nfd.cpfcnpjtomador = 30669959085741;
-                NFeSIR.nfd.inscricaoestadualtomador = string.Empty;
-                NFeSIR.nfd.inscricaomunicipaltomador = string.Empty;
+                NFeSIR.nfd.inscricaoestadualtomador = "";
+                NFeSIR.nfd.inscricaomunicipaltomador = "";
                 NFeSIR.nfd.tbfatura = new tbnfdNfdFatura[3];
                 NFeSIR.nfd.tbfatura[0] = new tbnfdNfdFatura
                 {
@@ -87,18 +87,18 @@ namespace UnclePhill.WebAPI_NFeS.Domain
                     impostoretido = "False"
                 };
                 NFeSIR.nfd.observacao = "Observação";
-                NFeSIR.nfd.razaotransportadora = string.Empty;
-                NFeSIR.nfd.cpfcnpjtransportadora = string.Empty;
-                NFeSIR.nfd.enderecotransportadora = string.Empty;
+                NFeSIR.nfd.razaotransportadora = "";
+                NFeSIR.nfd.cpfcnpjtransportadora = "";
+                NFeSIR.nfd.enderecotransportadora = "";
                 NFeSIR.nfd.pis = 0;
                 NFeSIR.nfd.cofins = 0;
                 NFeSIR.nfd.csll = 0;
                 NFeSIR.nfd.irrf = 0;
                 NFeSIR.nfd.inss = 0;
-                NFeSIR.nfd.descdeducoesconstrucao = string.Empty;
-                NFeSIR.nfd.totaldeducoesconstrucao = string.Empty;
+                NFeSIR.nfd.descdeducoesconstrucao = "";
+                NFeSIR.nfd.totaldeducoesconstrucao = "";
                 NFeSIR.nfd.tributadonomunicipio = true;
-                NFeSIR.nfd.numerort = string.Empty;
+                NFeSIR.nfd.numerort = "";
                 NFeSIR.nfd.fatorgerador = DateTime.Now.Month.ToString() + "/" + DateTime.Now.Year.ToString();
                 
                 WSEntrada wsEntrada = new WSEntradaClient();
@@ -111,7 +111,7 @@ namespace UnclePhill.WebAPI_NFeS.Domain
                 nfdEntradaRequestBody.hashSenha = "cRDtpNCeBiql5KOQsKVyrA0sAiA=";
                 nfdEntradaRequestBody.nfd = ParseXml(NFeSIR);
                 nfdEntradaRequest.Body = nfdEntradaRequestBody;
-                
+                                
                 nfdEntradaResponse = wsEntrada.nfdEntrada(nfdEntradaRequest);
                 return nfdEntradaResponse.Body.@return;            }
             catch(Exception ex)
