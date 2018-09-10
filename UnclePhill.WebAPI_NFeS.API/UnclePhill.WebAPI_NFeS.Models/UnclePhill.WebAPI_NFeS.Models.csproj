@@ -63,5 +63,16 @@
   <ItemGroup>
     <Content Include="SQL\Script_BD_NFeS.sql" />
   </ItemGroup>
+  <ItemGroup>
+    <WCFMetadata Include="Connected Services\" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Schemas\WSEntradaCancelar.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Schemas\WSEntradaNfd.xsd">
+      <SubType>Designer</SubType>
+    </None>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
