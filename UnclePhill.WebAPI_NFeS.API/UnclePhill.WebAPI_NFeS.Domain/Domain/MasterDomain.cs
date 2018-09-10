@@ -14,6 +14,9 @@ namespace UnclePhill.WebAPI_NFeS.Domain
         protected StringBuilder SQL = new StringBuilder();
         protected Sessions Session = new Sessions();
 
+        protected const string XSDInput = "http://apps.serra.es.gov.br:8080/tbw/docs/xsd/WSEntradaNfd.xsd";
+        protected const string XSDCancel = "http://apps.serra.es.gov.br:8080/tbw/docs/xsd/WSEntradaCancelar.xsd";
+
         protected string GenerateHash(string Password)
         {
             try
@@ -68,6 +71,23 @@ namespace UnclePhill.WebAPI_NFeS.Domain
                 StringWriter stringWriter = new StringWriter();
                 xmlSerializer.Serialize(stringWriter, obj);
                 return stringWriter.ToString();
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+
+        protected bool ValidateXml(string XSD,string XML)
+        {
+            try
+            {
+                XmlReaderSettings settings = new XmlReaderSettings();
+                settings.Schemas.Add(null, XSD);
+                settings.ValidationType = ValidationType.Schema;
+                XmlReader xmlReader = XmlReader.Create(new StringReader(XML), settings);
+                while (xmlReader.Read()) { }
+                return true;
             }
             catch (Exception ex)
             {
