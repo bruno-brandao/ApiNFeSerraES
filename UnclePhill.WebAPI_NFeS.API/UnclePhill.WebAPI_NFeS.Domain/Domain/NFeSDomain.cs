@@ -21,7 +21,7 @@ namespace UnclePhill.WebAPI_NFeS.Domain
                 NFeSIR.nfd.codseriedocumento = 7; 
                 NFeSIR.nfd.codnaturezaoperacao = 511;
                 NFeSIR.nfd.codigocidade = 3;
-                NFeSIR.nfd.inscricaomunicipalemissor = 99999;
+                NFeSIR.nfd.inscricaomunicipalemissor = 4546565;
                 NFeSIR.nfd.dataemissao = DateTime.Now.ToString("dd/MM/yyyy");
                 NFeSIR.nfd.razaotomador = "SMARapd - ltda";
                 NFeSIR.nfd.nomefantasiatomador = "SMARapd";
