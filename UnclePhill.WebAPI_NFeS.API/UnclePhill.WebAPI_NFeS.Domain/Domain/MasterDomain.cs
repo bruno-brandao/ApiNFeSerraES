@@ -67,12 +67,10 @@ namespace UnclePhill.WebAPI_NFeS.Domain
         {
             try
             {
-                MemoryStream memoryStream = new MemoryStream();
-                TextWriter stringWriter = new StreamWriter(memoryStream, System.Text.Encoding.UTF8);
+                StringWriter stringWriter = new StringWriter();
                 XmlSerializer serializer = new XmlSerializer(obj.GetType());
                 serializer.Serialize(stringWriter, obj);
-                string Xml = System.Text.Encoding.UTF8.GetString(memoryStream.ToArray());
-                return Xml;           
+                return stringWriter.ToString();           
             }
             catch (Exception ex)
             {
