@@ -37,13 +37,13 @@ namespace UnclePhill.WebAPI_NFeS.Domain
                 NFeSIR.nfd.estadotomador = "SP";
                 NFeSIR.nfd.paistomador = "Brasil";
                 NFeSIR.nfd.fonetomador = "21119898";
-                NFeSIR.nfd.faxtomador = "";
+                NFeSIR.nfd.faxtomador = string.Empty;
                 NFeSIR.nfd.ceptomador = "79010100";
                 NFeSIR.nfd.bairrotomador = "Centro";
                 NFeSIR.nfd.emailtomador = "teste@smarapd.com.br";
                 NFeSIR.nfd.cpfcnpjtomador = "30669959085741";
-                NFeSIR.nfd.inscricaoestadualtomador = "";
-                NFeSIR.nfd.inscricaomunicipaltomador = "";
+                NFeSIR.nfd.inscricaoestadualtomador = string.Empty;
+                NFeSIR.nfd.inscricaomunicipaltomador = string.Empty;
                 NFeSIR.nfd.tbfatura = new tbnfdNfdFatura[3];
                 NFeSIR.nfd.tbfatura[0] = new tbnfdNfdFatura
                 {
@@ -92,9 +92,9 @@ namespace UnclePhill.WebAPI_NFeS.Domain
                     impostoretido = "f"
                 };
                 NFeSIR.nfd.observacao = "Observação";
-                NFeSIR.nfd.razaotransportadora = "";
-                NFeSIR.nfd.cpfcnpjtransportadora = "";
-                NFeSIR.nfd.enderecotransportadora = "";
+                NFeSIR.nfd.razaotransportadora = string.Empty;
+                NFeSIR.nfd.cpfcnpjtransportadora = string.Empty;
+                NFeSIR.nfd.enderecotransportadora = string.Empty;
                 NFeSIR.nfd.tipofrete = "O";
                 NFeSIR.nfd.quantidade = "0,00";
                 NFeSIR.nfd.especie = "CAIXA";
@@ -105,13 +105,13 @@ namespace UnclePhill.WebAPI_NFeS.Domain
                 NFeSIR.nfd.csll = "0,00";
                 NFeSIR.nfd.irrf = "0,00";
                 NFeSIR.nfd.inss = "0,00";
-                NFeSIR.nfd.descdeducoesconstrucao = "";
-                NFeSIR.nfd.totaldeducoesconstrucao = "";
+                NFeSIR.nfd.descdeducoesconstrucao = string.Empty;
+                NFeSIR.nfd.totaldeducoesconstrucao = string.Empty;
                 NFeSIR.nfd.tributadonomunicipio = "true";
-                NFeSIR.nfd.numerort = "0";
-                NFeSIR.nfd.codigoseriert = "0";
-                NFeSIR.nfd.dataemissaort = DateTime.Now.ToString("dd/MM/yyyy");
-                NFeSIR.nfd.numerofatura = 1;
+                NFeSIR.nfd.numerort = string.Empty;
+                NFeSIR.nfd.codigoseriert = string.Empty;
+                NFeSIR.nfd.dataemissaort = string.Empty;
+                NFeSIR.nfd.numerofatura = 0;
 
                 string Xml = ParseXml(NFeSIR);
 
