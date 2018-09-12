@@ -17,25 +17,44 @@ namespace UnclePhill.WebAPI_NFeS.Domain
         protected const string XSDInput = "http://apps.serra.es.gov.br:8080/tbw/docs/xsd/WSEntradaNfd.xsd";
         protected const string XSDCancel = "http://apps.serra.es.gov.br:8080/tbw/docs/xsd/WSEntradaCancelar.xsd";
 
-        protected string GenerateHash(string Password)
+        protected string GenerateHash(string Value)
         {
             try
-            {
-                UnicodeEncoding unicode = new UnicodeEncoding();
-                byte[] passwordByte = unicode.GetBytes(Password + DateTime.Now.ToString());
-                SHA1Managed SHA1 = new SHA1Managed();
-                byte[] hashByte = SHA1.ComputeHash(passwordByte);
-                string hash = string.Empty;
-
-                foreach (byte b in hashByte)
-                {
-                    hash += b.ToString();
-                }
-                return hash;
+            {                
+                return Encript(Value + DateTime.Now.ToString());
             }
             catch (Exception ex)
             {
-                throw new Exception(ex.Message);
+                throw ex;
+            }
+        }
+
+        protected string Encript(string value)
+        {
+            try
+            {
+                value = value.ToUpper();
+                SHA1Managed SHA1 = new SHA1Managed();
+                Convert.ToBase64String(SHA1.ComputeHash(Encoding.ASCII.GetBytes(value)));
+                byte[] passwordByte = Encoding.ASCII.GetBytes(value);
+                return Convert.ToBase64String(passwordByte);
+            }
+            catch(Exception ex)
+            {
+                throw ex;
+            }
+        }
+
+        protected string Desencript(string value)
+        {
+            try
+            {
+                byte[] passwordByte = Convert.FromBase64String(value);
+                return ASCIIEncoding.ASCII.GetString(passwordByte);
+            }
+            catch (Exception ex)
+            {
+                throw ex;
             }
         }
 
@@ -93,6 +112,12 @@ namespace UnclePhill.WebAPI_NFeS.Domain
             {
                 throw ex;
             }
+        }
+
+        protected string ToUTF8(string value)
+        {
+            if (string.IsNullOrEmpty(value)) return value;
+            return Encoding.Default.GetString(Encoding.ASCII.GetBytes(value));
         }
     }
 }

@@ -21,7 +21,7 @@ namespace UnclePhill.WebAPI_NFeS.Domain
                 SQL.AppendLine(" Select * From Users ");
                 SQL.AppendLine(" Where Active = 1 ");
                 SQL.AppendLine(" And Email Like '" + NoInjection(Email) + "'");
-                SQL.AppendLine(" And Password Like '" + NoInjection(Password) + "'");
+                SQL.AppendLine(" And Password Like '" + Encript(NoInjection(Password)) + "'");
 
                 DataTable data = Conn.GetDataTable(SQL.ToString(), "Users");
                 if (data != null && data.Rows.Count > 0)
@@ -36,7 +36,7 @@ namespace UnclePhill.WebAPI_NFeS.Domain
                         users.LastName = row.Field<string>("LastName");
                         users.CPF = row.Field<string>("CPF");
                         users.Email = row.Field<string>("Email");
-                        users.Password = row.Field<string>("Password");
+                        users.Password = Desencript(row.Field<string>("Password"));
                         users.SessionHash = session.SessionHash;
                         users.Active = row.Field<bool>("Active");
                         users.DateInsert = row.Field<DateTime>("DateInsert").ToString("dd-MM-yyyy");
@@ -78,7 +78,7 @@ namespace UnclePhill.WebAPI_NFeS.Domain
                     users.LastName = row.Field<string>("LastName");
                     users.CPF = row.Field<string>("CPF");
                     users.Email = row.Field<string>("Email");
-                    users.Password = row.Field<string>("Password");
+                    users.Password = Desencript(row.Field<string>("Password"));
                     users.SessionHash = string.Empty;
                     users.Active = row.Field<bool>("Active");
                     users.DateInsert = row.Field<DateTime>("DateInsert").ToString("dd-MM-yyyy");
@@ -114,7 +114,7 @@ namespace UnclePhill.WebAPI_NFeS.Domain
                 SQL.AppendLine("    '" + NoInjection(users.LastName) + "',");
                 SQL.AppendLine("    '" + NoInjection(users.CPF) + "',");
                 SQL.AppendLine("    '" + NoInjection(users.Email) + "',");
-                SQL.AppendLine("    '" + NoInjection(users.Password) + "',");
+                SQL.AppendLine("    '" + Encript(NoInjection(users.Password)) + "',");
                 SQL.AppendLine("    1,");
                 SQL.AppendLine("    GetDate(),");
                 SQL.AppendLine("    GetDate() ");
@@ -149,7 +149,7 @@ namespace UnclePhill.WebAPI_NFeS.Domain
                 SQL.AppendLine("    LastName = '" + NoInjection(users.LastName) + "',");
                 SQL.AppendLine("    CPF = '" + NoInjection(users.CPF) + "',");
                 SQL.AppendLine("    Email = '" + NoInjection(users.Email) + "',");
-                SQL.AppendLine("    Password = '" + NoInjection(users.Password) + "',");
+                SQL.AppendLine("    Password = '" + Encript(NoInjection(users.Password)) + "',");
                 SQL.AppendLine("    DateUpdate = GetDate() ");
                 SQL.AppendLine(" Where Active = 1 ");
                 SQL.AppendLine(" And UserId = " + users.UserId);

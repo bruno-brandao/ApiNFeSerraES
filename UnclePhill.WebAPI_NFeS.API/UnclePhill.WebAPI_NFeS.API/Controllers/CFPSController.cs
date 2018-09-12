@@ -29,6 +29,6 @@ namespace UnclePhill.WebAPI_NFeS.API.Controllers
             {
                 return BadRequest(ex.Message);
             }
-        }        
+        }
     }
 }   
