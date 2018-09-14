@@ -272,6 +272,11 @@ namespace UnclePhill.WebAPI_NFeS.Domain
                  throw new Exception("Informe o CPF do usuário!");
             }
 
+            if (ExistsRegister(users.CPF,Type.Texto, "CPF", "Users"))
+            {
+                throw new Exception("Usuário já existe!");
+            }
+
             if (string.IsNullOrEmpty(users.Email))
             {
                  throw new Exception("Informe o Email do usuário!");

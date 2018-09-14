@@ -234,6 +234,11 @@ namespace UnclePhill.WebAPI_NFeS.Domain
                  throw new Exception("Informe o CNPJ!");
             }
 
+            if (ExistsRegister(companys.CNPJ, Type.Texto, "CNPJ", "Companys"))
+            {
+                throw new Exception("Tomador já existe!");
+            }
+
             if (string.IsNullOrEmpty(companys.IM))
             {
                  throw new Exception("Informe a inscrição municipal!");

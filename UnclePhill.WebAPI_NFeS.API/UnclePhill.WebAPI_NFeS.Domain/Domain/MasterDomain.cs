@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Data;
 using System.IO;
 using System.Security.Cryptography;
 using System.Text;
@@ -118,6 +119,41 @@ namespace UnclePhill.WebAPI_NFeS.Domain
         {
             if (string.IsNullOrEmpty(value)) return value;
             return Encoding.Default.GetString(Encoding.ASCII.GetBytes(value));
+        }
+
+        protected enum Type
+        {
+            Numero = 0,
+            Texto = 1
+        }
+
+        protected bool ExistsRegister(string Value,Type Type , string Field, string Table)
+        {
+            try
+            {
+                if (String.IsNullOrEmpty(Value)) { return true; }
+                if (String.IsNullOrEmpty(Field)) { return true; }
+                if (String.IsNullOrEmpty(Table)) { return true; }
+
+                Value = Type == Type.Texto ? "'" + Value + "'" : Value;
+
+                SQL = new StringBuilder();
+
+                SQL.AppendLine(" Select ");
+                SQL.AppendLine("    Count(*) As Qtd ");
+                SQL.AppendLine(" From " + Table);
+                SQL.AppendLine(" Where Active = 1 ");
+                SQL.AppendLine(" And " + Field + " = " + Value);
+
+                if (Conn.GetDataTable(SQL.ToString(), Table).Rows.Count > 0){
+                    return true;
+                }
+                return false;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
         }
     }
 }

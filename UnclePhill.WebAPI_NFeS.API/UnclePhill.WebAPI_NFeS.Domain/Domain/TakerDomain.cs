@@ -198,6 +198,11 @@ namespace UnclePhill.WebAPI_NFeS.Domain
                  throw new Exception("Informe o CPF/CNPJ!");
             }
 
+            if (ExistsRegister(takers.CPF_CNPJ, Type.Texto, "CPF_CNPJ", "Takers"))
+            {
+                throw new Exception("Tomador já existe!");
+            }
+
             if (string.IsNullOrEmpty(takers.RG_IE))
             {
                  throw new Exception("Informe a inscrição estadual!");

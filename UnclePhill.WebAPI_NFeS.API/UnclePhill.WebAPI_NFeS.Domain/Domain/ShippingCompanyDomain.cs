@@ -186,6 +186,11 @@ namespace UnclePhill.WebAPI_NFeS.Domain
                   throw new Exception("Informe o CEP!");
             }
 
+            if (ExistsRegister(shippingCompany.CEP, Type.Texto, "CEP", "ShippingCompany"))
+            {
+                throw new Exception("Tomador já existe!");
+            }
+
             if (string.IsNullOrEmpty(shippingCompany.Street))
             {
                   throw new Exception("Informe a rua!");
