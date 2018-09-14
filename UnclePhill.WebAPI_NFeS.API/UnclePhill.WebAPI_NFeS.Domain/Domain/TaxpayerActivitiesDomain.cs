@@ -28,19 +28,8 @@ namespace UnclePhill.WebAPI_NFeS.Domain
                     throw new Exception("Empresa inválida!");
                 }
 
-                WSEntrada Entrada = new WSEntradaClient();
-                consultarAtividadesRequest Request = new consultarAtividadesRequest();
-                consultarAtividadesRequestBody Body = new consultarAtividadesRequestBody();
-
-                Body.cpfUsuario = CPF;
-                Body.hashSenha = Password;
-                Body.inscricaoMunicipal = IM;
-                Body.codigoMunicipio = CodeCity;
-                Request.Body = Body;
-
-                consultarAtividadesResponse ApiResponse = Entrada.consultarAtividades(Request);
-
-                string TaxpayerActivities = ApiResponse.Body.@return;
+                WSEntradaClient Entrada = new WSEntradaClient();                
+                string TaxpayerActivities = Entrada.consultarAtividades(CPF, Password, IM, CodeCity);
                 if (IsXml(TaxpayerActivities))
                 {
                     XmlSerializer xmlSerializer = new XmlSerializer(typeof(AtividadesContribuinte));

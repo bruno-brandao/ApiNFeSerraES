@@ -48,15 +48,5 @@ namespace UnclePhill.WebAPI_NFeS.Domain
                 throw ex;
             }
         }
-
-        public string Encriptar(string value)
-        {
-            return base.Encript(value + DateTime.Now.ToString());
-        }
-
-        public string Desencriptar(string value)
-        {
-            return base.Desencript(value);
-        }
     }
 }

@@ -114,15 +114,19 @@ namespace UnclePhill.WebAPI_NFeS.Domain
                 NFeSIR.nfd.dataemissaort = string.Empty;
                 NFeSIR.nfd.numerofatura = 0;
 
-                string Xml = ParseXml(NFeSIR);
+                String Xml = ParseXml(NFeSIR);
 
                 if (ValidateXml(XSDInput, Xml))
                 {
-                    
-                    string Serra = EnviarPorSerra(Xml);
-                    string Cariacica = EnviarPorCariacica(Xml);
+                    string RetXml = string.Empty;
+                    NFeS.API.Serra.Entrada.WSEntradaClient wsEntradaSerra = new NFeS.API.Serra.Entrada.WSEntradaClient();
+                    wsEntradaSerra.Open();
+                    RetXml = wsEntradaSerra.nfdEntrada("55555555555", "cRDtpNCeBiql5KOQsKVyrA0sAiA=", 3, Xml);
 
-                    return Serra + "\n" + Cariacica;
+                    NFeS.API.Cariacica.Entrada.WSEntradaClient wsEntradaCariacica = new NFeS.API.Cariacica.Entrada.WSEntradaClient();
+                    RetXml = wsEntradaCariacica.nfdEntrada("55555555555", "cRDtpNCeBiql5KOQsKVyrA0sAiA=", 3, Xml);
+
+                    return RetXml;
                 }
                 throw new Exception("Nota fiscal inválida!");               
             }
@@ -130,40 +134,6 @@ namespace UnclePhill.WebAPI_NFeS.Domain
             {
                 throw ex;
             }
-        }  
-        
-        private string EnviarPorSerra(string Xml)
-        {
-            NFeS.API.Serra.Entrada.WSEntrada wsEntrada = new NFeS.API.Serra.Entrada.WSEntradaClient();
-            NFeS.API.Serra.Entrada.nfdEntradaRequest nfdEntradaRequest = new NFeS.API.Serra.Entrada.nfdEntradaRequest();
-            NFeS.API.Serra.Entrada.nfdEntradaRequestBody nfdEntradaRequestBody = new NFeS.API.Serra.Entrada.nfdEntradaRequestBody();
-            NFeS.API.Serra.Entrada.nfdEntradaResponse nfdEntradaResponse = new NFeS.API.Serra.Entrada.nfdEntradaResponse();
-
-            nfdEntradaRequestBody.codigoMunicipio = 3;
-            nfdEntradaRequestBody.cpfUsuario = "55555555555";
-            nfdEntradaRequestBody.hashSenha = "cRDtpNCeBiql5KOQsKVyrA0sAiA=";
-            nfdEntradaRequestBody.nfd = Xml;
-            nfdEntradaRequest.Body = nfdEntradaRequestBody;
-
-            nfdEntradaResponse = wsEntrada.nfdEntrada(nfdEntradaRequest);
-            return nfdEntradaResponse.Body.@return;
-        }
-
-        private string EnviarPorCariacica(string Xml)
-        {
-            NFeS.API.Cariacica.Entrada.WSEntrada wsEntrada = new NFeS.API.Cariacica.Entrada.WSEntradaClient();
-            NFeS.API.Cariacica.Entrada.nfdEntradaRequest nfdEntradaRequest = new NFeS.API.Cariacica.Entrada.nfdEntradaRequest();
-            NFeS.API.Cariacica.Entrada.nfdEntradaRequestBody nfdEntradaRequestBody = new NFeS.API.Cariacica.Entrada.nfdEntradaRequestBody();
-            NFeS.API.Cariacica.Entrada.nfdEntradaResponse nfdEntradaResponse = new NFeS.API.Cariacica.Entrada.nfdEntradaResponse();
-
-            nfdEntradaRequestBody.codigoMunicipio = 3;
-            nfdEntradaRequestBody.cpfUsuario = "55555555555";
-            nfdEntradaRequestBody.hashSenha = "cRDtpNCeBiql5KOQsKVyrA0sAiA=";
-            nfdEntradaRequestBody.nfd = Xml;
-            nfdEntradaRequest.Body = nfdEntradaRequestBody;
-
-            nfdEntradaResponse = wsEntrada.nfdEntrada(nfdEntradaRequest);
-            return nfdEntradaResponse.Body.@return;
-        }
+        }          
     }
 }

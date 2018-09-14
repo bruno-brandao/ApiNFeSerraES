@@ -83,14 +83,15 @@ namespace UnclePhill.WebAPI_NFeS.Domain
             }
         }
 
-        protected string ParseXml(object obj)
+        protected String ParseXml(object obj)
         {
             try
             {
-                StringWriter stringWriter = new StringWriter();
-                XmlSerializer serializer = new XmlSerializer(obj.GetType());
-                serializer.Serialize(stringWriter, obj);
-                return stringWriter.ToString();           
+                var serializer = new XmlSerializer(obj.GetType());
+                var memoryStream = new MemoryStream();
+                var streamWriter = new StreamWriter(memoryStream, System.Text.Encoding.UTF8);
+                serializer.Serialize(streamWriter, obj);
+                return Encoding.UTF8.GetString(memoryStream.ToArray()).Trim();
             }
             catch (Exception ex)
             {
