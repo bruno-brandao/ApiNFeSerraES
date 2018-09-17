@@ -32,7 +32,7 @@ namespace UnclePhill.WebAPI_NFeS.Utils.Utils
                     xml.Attributes().Where(x => x.Name.LocalName.Equals("xsd") || x.Name.LocalName.Equals("xsi")).Remove();
                 }
             }
-            return XElement.Parse(xml.ToString()).ToString(SaveOptions.DisableFormatting);
+            return XElement.Parse(xml.ToString()).ToString();
         }
 
         public static T StringXmlForClass<T>(string Input) where T : class
