@@ -124,6 +124,10 @@
       <Project>{c7c5df2f-2693-4284-b8a8-c08f8c878a19}</Project>
       <Name>UnclePhill.WebAPI_NFeS.Models</Name>
     </ProjectReference>
+    <ProjectReference Include="..\UnclePhill.WebAPI_NFeS.Utils\UnclePhill.WebAPI_NFeS.Utils.csproj">
+      <Project>{64c4c698-36e1-401f-9928-48b089b0db13}</Project>
+      <Name>UnclePhill.WebAPI_NFeS.Utils</Name>
+    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <WCFMetadata Include="Connected Services\" />

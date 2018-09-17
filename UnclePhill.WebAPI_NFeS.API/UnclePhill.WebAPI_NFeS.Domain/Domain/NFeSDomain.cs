@@ -4,6 +4,7 @@ using System.Xml;
 using System.Xml.Schema;
 using UnclePhill.WebAPI_NFeS.Domain.NFeS.API.Serra.Entrada;
 using UnclePhill.WebAPI_NFeS.Domain.NFeS.API.Cariacica.Entrada;
+using UnclePhill.WebAPI_NFeS.Utils.Utils;
 
 namespace UnclePhill.WebAPI_NFeS.Domain
 {
@@ -112,9 +113,10 @@ namespace UnclePhill.WebAPI_NFeS.Domain
                 NFeSIR.nfd.numerort = string.Empty;
                 NFeSIR.nfd.codigoseriert = string.Empty;
                 NFeSIR.nfd.dataemissaort = string.Empty;
-                NFeSIR.nfd.numerofatura = 0;
+                NFeSIR.nfd.numerofatura = 0;                
 
-                String Xml = ParseXml(NFeSIR);
+                String Xml = "<?xml version='1.0' encoding='UTF-8'?>";
+                Xml += Functions.ClassForStringXml(NFeSIR);
 
                 if (ValidateXml(XSDInput, Xml))
                 {
