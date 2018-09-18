@@ -56,11 +56,11 @@ namespace UnclePhill.WebAPI_NFeS.Models.Models
 
         private byte numeronfdField;
 
-        private byte codseriedocumentoField;
+        private string codseriedocumentoField;
 
         private ushort codnaturezaoperacaoField;
 
-        private byte codigocidadeField;
+        private int codigocidadeField;
 
         private uint inscricaomunicipalemissorField;
 
@@ -72,7 +72,7 @@ namespace UnclePhill.WebAPI_NFeS.Models.Models
 
         private string enderecotomadorField;
 
-        private ushort numeroenderecoField;
+        private string numeroenderecoField;
 
         private string cidadetomadorField;
 
@@ -80,7 +80,7 @@ namespace UnclePhill.WebAPI_NFeS.Models.Models
 
         private string paistomadorField;
 
-        private uint fonetomadorField;
+        private string fonetomadorField;
 
         private string faxtomadorField;
 
@@ -124,7 +124,9 @@ namespace UnclePhill.WebAPI_NFeS.Models.Models
 
         private string totaldeducoesconstrucaoField;
 
-        private bool tributadonomunicipioField;
+        private string tributadonomunicipioField;
+
+        private string vlroutrosField;
 
         private string numerortField;
 
@@ -148,7 +150,7 @@ namespace UnclePhill.WebAPI_NFeS.Models.Models
         }
 
         /// <remarks/>
-        public byte codseriedocumento
+        public string codseriedocumento
         {
             get
             {
@@ -174,7 +176,7 @@ namespace UnclePhill.WebAPI_NFeS.Models.Models
         }
 
         /// <remarks/>
-        public byte codigocidade
+        public int codigocidade
         {
             get
             {
@@ -252,7 +254,7 @@ namespace UnclePhill.WebAPI_NFeS.Models.Models
         }
 
         /// <remarks/>
-        public ushort numeroendereco
+        public string numeroendereco
         {
             get
             {
@@ -304,7 +306,7 @@ namespace UnclePhill.WebAPI_NFeS.Models.Models
         }
 
         /// <remarks/>
-        public uint fonetomador
+        public string fonetomador
         {
             get
             {
@@ -592,7 +594,20 @@ namespace UnclePhill.WebAPI_NFeS.Models.Models
         }
 
         /// <remarks/>
-        public bool tributadonomunicipio
+        public string tributadonomunicipio
+        {
+            get
+            {
+                return this.tributadonomunicipioField;
+            }
+            set
+            {
+                this.tributadonomunicipioField = value;
+            }
+        }
+
+        /// <remarks/>
+        public string vlroutros
         {
             get
             {

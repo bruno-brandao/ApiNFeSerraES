@@ -16,7 +16,7 @@ namespace UnclePhill.WebAPI_NFeS.Utils.Utils
 
         private static readonly Hashtable CacheSerializers = new Hashtable();
 
-        public static string ClassForStringXml<T>(T Obj)
+        public static string ClassForStringXml<T>(T Obj,String Encode = "ISO-8859-1")
         {
             XElement xml;
             string keyNomeClasseEmUso = typeof(T).Name;
@@ -24,7 +24,7 @@ namespace UnclePhill.WebAPI_NFeS.Utils.Utils
 
             using (MemoryStream memory = new MemoryStream())
             {
-                using (TextReader tr = new StreamReader(memory, Encoding.UTF8))
+                using (TextReader tr = new StreamReader(memory, Encoding.GetEncoding(Encode)))
                 {
                     ser.Serialize(memory, Obj);
                     memory.Position = 0;
@@ -32,7 +32,7 @@ namespace UnclePhill.WebAPI_NFeS.Utils.Utils
                     xml.Attributes().Where(x => x.Name.LocalName.Equals("xsd") || x.Name.LocalName.Equals("xsi")).Remove();
                 }
             }
-            return XElement.Parse(xml.ToString()).ToString();
+            return XElement.Parse(xml.ToString()).ToString(SaveOptions.DisableFormatting);
         }
 
         public static T StringXmlForClass<T>(string Input) where T : class
@@ -64,13 +64,13 @@ namespace UnclePhill.WebAPI_NFeS.Utils.Utils
             }
         }
 
-        public static void ClassForArchiveXml<T>(T Obj, string Archive)
+        public static void ClassForArchiveXml<T>(T Obj, string Archive, string Encode = "ISO-8859-1")
         {
             string dir = Path.GetDirectoryName(Archive);
             if (dir != null && !Directory.Exists(dir))
                 throw new DirectoryNotFoundException("Diretório " + dir + " não encontrado!");
 
-            string xml = ClassForStringXml(Obj);
+            string xml = ClassForStringXml(Obj, Encode);
             try
             {
                 StreamWriter stw = new StreamWriter(Archive);
