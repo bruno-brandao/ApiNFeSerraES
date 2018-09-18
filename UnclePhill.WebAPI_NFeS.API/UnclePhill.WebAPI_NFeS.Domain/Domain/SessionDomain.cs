@@ -5,6 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using UnclePhill.WebAPI_NFeS.Models;
+using UnclePhill.WebAPI_NFeS.Models.Models;
 using UnclePhill.WebAPI_NFeS.Utils.Utils;
 
 namespace UnclePhill.WebAPI_NFeS.Domain

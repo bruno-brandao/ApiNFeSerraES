@@ -4,6 +4,7 @@ using UnclePhill.WebAPI_NFeS.Models;
 using UnclePhill.WebAPI_NFeS.Domain;
 using System.Web.Http;
 using System.Web.Http.Description;
+using UnclePhill.WebAPI_NFeS.Models.Models;
 
 namespace UnclePhill.WebAPI_NFeS.API.Controllers
 {

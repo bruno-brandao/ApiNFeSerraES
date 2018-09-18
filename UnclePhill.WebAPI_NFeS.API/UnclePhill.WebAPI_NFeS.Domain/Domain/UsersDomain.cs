@@ -3,6 +3,7 @@ using System.Data;
 using System.Linq;
 using System.Text;
 using UnclePhill.WebAPI_NFeS.Models;
+using UnclePhill.WebAPI_NFeS.Models.Models;
 using UnclePhill.WebAPI_NFeS.Utils.Utils;
 using static UnclePhill.WebAPI_NFeS.Utils.Utils.Functions;
 
