@@ -117,7 +117,7 @@ namespace UnclePhill.WebAPI_NFeS.Domain
                 
                 String Xml = Functions.ClassForStringXml(NFeSIR); ;
                 
-                //if (ValidateXml(XSDInput, Xml))
+                //if (Functions.ValidateXml(XSDInput, Xml))
                 //{
                     string RetXml = string.Empty;
                     NFeS.API.Serra.Entrada.WSEntradaClient wsEntradaSerra = new NFeS.API.Serra.Entrada.WSEntradaClient();

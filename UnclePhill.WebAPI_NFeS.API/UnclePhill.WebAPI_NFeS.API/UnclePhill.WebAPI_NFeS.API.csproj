@@ -231,8 +231,9 @@
     </Compile>
     <Compile Include="Controllers\CFPSController.cs" />
     <Compile Include="Controllers\CompanyController.cs" />
-    <Compile Include="Controllers\Default\HomeController.cs" />
-    <Compile Include="Controllers\MasterController.cs" />
+    <Compile Include="Controllers\DefaultControllers\HomeController.cs" />
+    <Compile Include="Controllers\InterfacesControllers\IController.cs" />
+    <Compile Include="Controllers\DefaultControllers\MasterController.cs" />
     <Compile Include="Controllers\NFeSController.cs" />
     <Compile Include="Controllers\ServiceController.cs" />
     <Compile Include="Controllers\ShippingCompanyController.cs" />
@@ -469,6 +470,10 @@
     <ProjectReference Include="..\UnclePhill.WebAPI_NFeS.Models\UnclePhill.WebAPI_NFeS.Models.csproj">
       <Project>{c7c5df2f-2693-4284-b8a8-c08f8c878a19}</Project>
       <Name>UnclePhill.WebAPI_NFeS.Models</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\UnclePhill.WebAPI_NFeS.Utils\UnclePhill.WebAPI_NFeS.Utils.csproj">
+      <Project>{64C4C698-36E1-401F-9928-48B089B0DB13}</Project>
+      <Name>UnclePhill.WebAPI_NFeS.Utils</Name>
     </ProjectReference>
   </ItemGroup>
   <PropertyGroup>

@@ -9,11 +9,10 @@ using UnclePhill.WebAPI_NFeS.Models;
 using UnclePhill.WebAPI_NFeS.Domain;
 using System.Web.Http;
 
-namespace UnclePhill.WebAPI_NFeS.Controllers
+namespace UnclePhill.WebAPI_NFeS.API.Controllers
 {
-    public class TakerController : MasterController
+    public class TakerController : MasterController, Default.IController<Takers>
     {
-
         private TakerDomain takerDomain = new TakerDomain();
 
         /// <summary>
@@ -27,7 +26,7 @@ namespace UnclePhill.WebAPI_NFeS.Controllers
         {
             try
             {
-                if (!base.CheckSession()) return BadRequest("Sessão inválida!");
+                if (!SessionDomain.CheckSession(Sessao())) { return BadRequest("Sessão inválida!"); }
 
                 return Ok(takerDomain.Get(TakerId));
             }
@@ -41,16 +40,16 @@ namespace UnclePhill.WebAPI_NFeS.Controllers
         /// Cria um tomador
         /// </summary>
         /// <param name="SessionHash">Paramentro passado no Header da requisição</param>
-        /// <param name="takers">Objeto tomador</param>
+        /// <param name="Taker">Objeto tomador</param>
         /// <returns code = "200">Sucesso</returns>
         /// <returns code = "400">Erro</returns>        
-        public IHttpActionResult Post(Takers takers)
+        public IHttpActionResult Post([FromBody]Takers Taker)
         {
             try
             {
-                if (!base.CheckSession()){ return BadRequest("Sessão inválida!");}
+                if (!SessionDomain.CheckSession(Sessao())) { return BadRequest("Sessão inválida!"); }
 
-                if (takerDomain.Post(takers))
+                if (takerDomain.Post(Taker))
                 { 
                     return Ok("Tomador criado com sucesso!");
                 }
@@ -67,16 +66,16 @@ namespace UnclePhill.WebAPI_NFeS.Controllers
         /// Atualiza um tomador
         /// </summary>
         /// <param name="SessionHash">Paramentro passado no Header da requisição</param>
-        /// <param name="takers">Objeto tomador</param>
+        /// <param name="Taker">Objeto tomador</param>
         /// <returns code = "200">Sucesso</returns>
         /// <returns code = "400">Erro</returns>        
-        public IHttpActionResult Put(Takers takers)
+        public IHttpActionResult Put([FromBody]Takers Taker)
         {
             try
             {
-                if (!base.CheckSession()) { return BadRequest("Sessão inválida!"); }
+                if (!SessionDomain.CheckSession(Sessao())) { return BadRequest("Sessão inválida!"); }
 
-                if (takerDomain.Put(takers))
+                if (takerDomain.Put(Taker))
                 {
                     return Ok("Tomador atualizado com sucesso!");
                 }
@@ -100,9 +99,9 @@ namespace UnclePhill.WebAPI_NFeS.Controllers
         {
             try
             {
-                if (!base.CheckSession()) { return BadRequest("Sessão inválida!"); }
+                if (!SessionDomain.CheckSession(Sessao())) { return BadRequest("Sessão inválida!"); }
 
-                
+
                 if (takerDomain.Delete(TakerId))
                 {
                     return Ok("Tomador excluido com sucesso!");

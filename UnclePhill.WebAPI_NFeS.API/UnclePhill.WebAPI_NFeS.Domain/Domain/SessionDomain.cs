@@ -1,31 +1,37 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Data;
-using System.IO;
 using System.Linq;
-using System.Security.Cryptography;
 using System.Text;
-using System.Web.Http;
-using System.Web.Mvc;
-using System.Xml.Serialization;
+using System.Threading.Tasks;
 using UnclePhill.WebAPI_NFeS.Models;
+using UnclePhill.WebAPI_NFeS.Utils.Utils;
 
-namespace UnclePhill.WebAPI_NFeS.API.Controllers
+namespace UnclePhill.WebAPI_NFeS.Domain
 {
-    public class MasterController : ApiController
+    public static class SessionDomain
     {
-        //Opções Default para as controllers:
-        private ConnectionManager Conn = new ConnectionManager("unclephill.database.windows.net","BD_NFeS","1433","Administrador","M1n3Rv@7");
-        private StringBuilder SQL = new StringBuilder();
-        
-        //Funções de sessão:
-        protected bool CheckSession()
+        private static StringBuilder SQL = new StringBuilder();
+
+        public static string GenerateHash(string Value)
+        {
+            try
+            {
+                return Functions.Encript(Value + DateTime.Now.ToString());
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+
+        public static bool CheckSession(string SessionHash)
         {
             try
             {
                 UpdateSession();
 
-                string Session = Request.Headers.GetValues("SessionHash").FirstOrDefault();
-                if (string.IsNullOrEmpty(Session))
+                if (string.IsNullOrEmpty(SessionHash))
                 {
                     return false;
                 }
@@ -43,9 +49,9 @@ namespace UnclePhill.WebAPI_NFeS.API.Controllers
                 SQL.AppendLine(" From Session ");
                 SQL.AppendLine(" Where Active = 1 ");
                 SQL.AppendLine(" And DateDiff(MI, DateStart, GetDate()) <= 5 ");
-                SQL.AppendLine(" And Session.SessionHash Like '" + Session.Replace("'","''") + "'");
+                SQL.AppendLine(" And Session.SessionHash Like '" + SessionHash.Replace("'", "''") + "'");
 
-                DataTable data = Conn.GetDataTable(SQL.ToString(), "Session");
+                DataTable data = Functions.Conn.GetDataTable(SQL.ToString(), "Session");
                 if (data.Rows.Count > 0)
                 {
                     DataRow row = data.AsEnumerable().First();
@@ -55,7 +61,7 @@ namespace UnclePhill.WebAPI_NFeS.API.Controllers
                     SQL.AppendLine("    DateEnd = DateAdd(MI,5,GetDate()) ");
                     SQL.AppendLine(" Where SessionId = " + row.Field<long>("SessionId"));
 
-                    Conn.Execute(SQL.ToString());
+                    Functions.Conn.Execute(SQL.ToString());
 
                     return true;
                 }
@@ -67,7 +73,7 @@ namespace UnclePhill.WebAPI_NFeS.API.Controllers
             }
         }
 
-        protected void UpdateSession()
+        public static void UpdateSession()
         {
             try
             {
@@ -77,7 +83,7 @@ namespace UnclePhill.WebAPI_NFeS.API.Controllers
                 SQL.AppendLine(" Where Active = 1 ");
                 SQL.AppendLine(" And DateDiff(MI,DateStart,GetDate()) > 5 ");
 
-                Conn.Update(SQL.ToString());
+                Functions.Conn.Update(SQL.ToString());
 
             }
             catch (Exception ex)
@@ -86,12 +92,10 @@ namespace UnclePhill.WebAPI_NFeS.API.Controllers
             }
         }
 
-        protected Users GetUserSession()
+        public static Users GetUserSession(string SessionHash)
         {
             try
             {
-                string SessionHash = Request.Headers.GetValues("SessionHash").FirstOrDefault();
-
                 if (string.IsNullOrEmpty(SessionHash))
                 {
                     throw new Exception("Variavel de Sessão não informada!");
@@ -106,7 +110,7 @@ namespace UnclePhill.WebAPI_NFeS.API.Controllers
                 SQL.AppendLine(" Where Active = 1 ");
                 SQL.AppendLine(" And SessionHash Like '" + SessionHash + "'");
 
-                data = Conn.GetDataTable(SQL.ToString(),"Session");
+                data = Functions.Conn.GetDataTable(SQL.ToString(), "Session");
 
                 if (data != null && data.Rows.Count > 0)
                 {
@@ -115,11 +119,11 @@ namespace UnclePhill.WebAPI_NFeS.API.Controllers
                     SQL.AppendLine(" Where Active = 1 ");
                     SQL.AppendLine(" And UserId = " + data.AsEnumerable().First().Field<long>("UserId"));
 
-                    data = Conn.GetDataTable(SQL.ToString(), "Users");
+                    data = Functions.Conn.GetDataTable(SQL.ToString(), "Users");
                     if (data != null && data.Rows.Count > 0)
                     {
                         DataRow row = data.AsEnumerable().First();
-                        
+
                         Users users = new Users();
                         users.UserId = row.Field<long>("UserId");
                         users.Name = row.Field<string>("Name");
@@ -132,7 +136,7 @@ namespace UnclePhill.WebAPI_NFeS.API.Controllers
                         users.DateInsert = row.Field<DateTime>("DateInsert").ToString("dd-MM-yyyy");
                         users.DateUpdate = row.Field<DateTime>("DateUpdate").ToString("dd-MM-yyyy");
 
-                        return users;                        
+                        return users;
                     }
                     throw new Exception("Usuário não encontrado!");
                 }
@@ -141,7 +145,8 @@ namespace UnclePhill.WebAPI_NFeS.API.Controllers
             catch (Exception ex)
             {
                 throw ex;
-            }            
-        }                
+            }
+        }
+
     }
 }

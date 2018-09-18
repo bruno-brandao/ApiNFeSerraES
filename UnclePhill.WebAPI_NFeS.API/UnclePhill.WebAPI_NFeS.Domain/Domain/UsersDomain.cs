@@ -3,6 +3,8 @@ using System.Data;
 using System.Linq;
 using System.Text;
 using UnclePhill.WebAPI_NFeS.Models;
+using UnclePhill.WebAPI_NFeS.Utils.Utils;
+using static UnclePhill.WebAPI_NFeS.Utils.Utils.Functions;
 
 namespace UnclePhill.WebAPI_NFeS.Domain
 {
@@ -20,10 +22,10 @@ namespace UnclePhill.WebAPI_NFeS.Domain
                 SQL = new StringBuilder();
                 SQL.AppendLine(" Select * From Users ");
                 SQL.AppendLine(" Where Active = 1 ");
-                SQL.AppendLine(" And Email Like '" + NoInjection(Email) + "'");
-                SQL.AppendLine(" And Password Like '" + Encript(NoInjection(Password)) + "'");
+                SQL.AppendLine(" And Email Like '" + Functions.NotQuote(Email) + "'");
+                SQL.AppendLine(" And Password Like '" + Functions.Encript(Functions.NotQuote(Password)) + "'");
 
-                DataTable data = Conn.GetDataTable(SQL.ToString(), "Users");
+                DataTable data = Functions.Conn.GetDataTable(SQL.ToString(), "Users");
                 if (data != null && data.Rows.Count > 0)
                 {
                     DataRow row = data.AsEnumerable().First();
@@ -36,7 +38,7 @@ namespace UnclePhill.WebAPI_NFeS.Domain
                         users.LastName = row.Field<string>("LastName");
                         users.CPF = row.Field<string>("CPF");
                         users.Email = row.Field<string>("Email");
-                        users.Password = Desencript(row.Field<string>("Password"));
+                        users.Password = Functions.Desencript(row.Field<string>("Password"));
                         users.SessionHash = session.SessionHash;
                         users.Active = row.Field<bool>("Active");
                         users.DateInsert = row.Field<DateTime>("DateInsert").ToString("dd-MM-yyyy");
@@ -53,11 +55,11 @@ namespace UnclePhill.WebAPI_NFeS.Domain
             }
         }
 
-        public Users Get(long UserId)
+        public Users Get(long? UserId)
         {
             try
             {
-                if (UserId <= 0)
+                if (UserId == null || UserId <= 0)
                 {
                     throw new Exception("Informe o código do usuário!");
                 }
@@ -67,7 +69,7 @@ namespace UnclePhill.WebAPI_NFeS.Domain
                 SQL.AppendLine(" Where Active = 1 ");
                 SQL.AppendLine(" And UserId = " + UserId);
 
-                DataTable data = Conn.GetDataTable(SQL.ToString(), "Users");
+                DataTable data = Functions.Conn.GetDataTable(SQL.ToString(), "Users");
                 if (data != null && data.Rows.Count > 0)
                 {
                     DataRow row = data.AsEnumerable().First();
@@ -78,7 +80,7 @@ namespace UnclePhill.WebAPI_NFeS.Domain
                     users.LastName = row.Field<string>("LastName");
                     users.CPF = row.Field<string>("CPF");
                     users.Email = row.Field<string>("Email");
-                    users.Password = Desencript(row.Field<string>("Password"));
+                    users.Password = Functions.Desencript(row.Field<string>("Password"));
                     users.SessionHash = string.Empty;
                     users.Active = row.Field<bool>("Active");
                     users.DateInsert = row.Field<DateTime>("DateInsert").ToString("dd-MM-yyyy");
@@ -110,17 +112,17 @@ namespace UnclePhill.WebAPI_NFeS.Domain
                 SQL.AppendLine("    DateInsert, ");
                 SQL.AppendLine("    DateUpdate) ");
                 SQL.AppendLine(" Values( ");
-                SQL.AppendLine("    '" + NoInjection(users.Name) + "',");
-                SQL.AppendLine("    '" + NoInjection(users.LastName) + "',");
-                SQL.AppendLine("    '" + NoInjection(users.CPF) + "',");
-                SQL.AppendLine("    '" + NoInjection(users.Email) + "',");
-                SQL.AppendLine("    '" + Encript(NoInjection(users.Password)) + "',");
+                SQL.AppendLine("    '" + Functions.NotQuote(users.Name) + "',");
+                SQL.AppendLine("    '" + Functions.NotQuote(users.LastName) + "',");
+                SQL.AppendLine("    '" + Functions.NotQuote(users.CPF) + "',");
+                SQL.AppendLine("    '" + Functions.NotQuote(users.Email) + "',");
+                SQL.AppendLine("    '" + Functions.Encript(Functions.NotQuote(users.Password)) + "',");
                 SQL.AppendLine("    1,");
                 SQL.AppendLine("    GetDate(),");
                 SQL.AppendLine("    GetDate() ");
                 SQL.AppendLine(" ) ");
 
-                if (Conn.Insert(SQL.ToString()) > 0)
+                if (Functions.Conn.Insert(SQL.ToString()) > 0)
                 {
                     return true;
                 }
@@ -145,16 +147,16 @@ namespace UnclePhill.WebAPI_NFeS.Domain
 
                 SQL = new StringBuilder();
                 SQL.AppendLine(" Update Users Set ");
-                SQL.AppendLine("    Name = '" + NoInjection(users.Name) + "',");
-                SQL.AppendLine("    LastName = '" + NoInjection(users.LastName) + "',");
-                SQL.AppendLine("    CPF = '" + NoInjection(users.CPF) + "',");
-                SQL.AppendLine("    Email = '" + NoInjection(users.Email) + "',");
-                SQL.AppendLine("    Password = '" + Encript(NoInjection(users.Password)) + "',");
+                SQL.AppendLine("    Name = '" + Functions.NotQuote(users.Name) + "',");
+                SQL.AppendLine("    LastName = '" + Functions.NotQuote(users.LastName) + "',");
+                SQL.AppendLine("    CPF = '" + Functions.NotQuote(users.CPF) + "',");
+                SQL.AppendLine("    Email = '" + Functions.NotQuote(users.Email) + "',");
+                SQL.AppendLine("    Password = '" + Functions.Encript(Functions.NotQuote(users.Password)) + "',");
                 SQL.AppendLine("    DateUpdate = GetDate() ");
                 SQL.AppendLine(" Where Active = 1 ");
                 SQL.AppendLine(" And UserId = " + users.UserId);
 
-                if (Conn.Update(SQL.ToString()))
+                if (Functions.Conn.Update(SQL.ToString()))
                 {
                     return true;
                 }
@@ -186,13 +188,13 @@ namespace UnclePhill.WebAPI_NFeS.Domain
                 SQL.AppendLine(" And DateDiff(MI, DateStart, Getdate()) <= 5 ");
                 SQL.AppendLine(" And Session.UserId = " + UserId);
 
-                data = Conn.GetDataTable(SQL.ToString(), "Session");
+                data = Functions.Conn.GetDataTable(SQL.ToString(), "Session");
                 if (data != null && data.Rows.Count > 0 && data.AsEnumerable().First().Field<int>("Sessions") > 0)
                 {
                     throw new Exception("Já existe sessão aberta para o usuário atual!");
                 }
 
-                string Hash = GenerateHash(UserId.ToString());
+                string Hash = SessionDomain.GenerateHash(UserId.ToString());
 
                 SQL = new StringBuilder();
                 SQL.AppendLine(" Insert Into Session ");
@@ -213,7 +215,7 @@ namespace UnclePhill.WebAPI_NFeS.Domain
                 SQL.AppendLine("     GetDate()) ");
 
                 Sessions session = new Sessions();
-                session.SessionId = Conn.Insert(SQL.ToString());
+                session.SessionId = Functions.Conn.Insert(SQL.ToString());
 
                 if (session.SessionId > 0)
                 {
@@ -231,7 +233,7 @@ namespace UnclePhill.WebAPI_NFeS.Domain
                     SQL.AppendLine(" Where Active = 1 ");
                     SQL.AppendLine(" And Session.SessionId = " + session.SessionId);
 
-                    data = Conn.GetDataTable(SQL.ToString(), "Session");
+                    data = Functions.Conn.GetDataTable(SQL.ToString(), "Session");
                     if (data != null && data.Rows.Count > 0)
                     {
                         DataRow row = data.AsEnumerable().First();
@@ -272,7 +274,7 @@ namespace UnclePhill.WebAPI_NFeS.Domain
                  throw new Exception("Informe o CPF do usuário!");
             }
 
-            if (ExistsRegister(users.CPF,Type.Texto, "CPF", "Users"))
+            if (Functions.ExistsRegister(users.CPF,TypeInput.Texto, "CPF", "Users"))
             {
                 throw new Exception("Usuário já existe!");
             }
