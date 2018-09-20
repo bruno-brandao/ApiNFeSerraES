@@ -96,6 +96,8 @@ namespace UnclePhill.WebAPI_NFeS.Utils.Utils
         }
 
         #region "XML"
+        public static Signature XmlSignature = new Signature();         
+
         public static bool IsXml(string parameter)
         {
             try

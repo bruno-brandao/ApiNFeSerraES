@@ -830,12 +830,11 @@ namespace UnclePhill.WebAPI_NFeS.Models.Models
     [System.Xml.Serialization.XmlRootAttribute(Namespace = "http://www.w3.org/2000/09/xmldsig#", IsNullable = false)]
     public partial class Signature
     {
-
         private SignatureSignedInfo signedInfoField;
 
         private string signatureValueField;
 
-        private SignatureKeyInfo keyInfoField;
+        private SignatureKeyInfo keyInfoField;        
 
         /// <remarks/>
         public SignatureSignedInfo SignedInfo
@@ -1164,3 +1163,6 @@ namespace UnclePhill.WebAPI_NFeS.Models.Models
         }
     }
 }
+
+
+

@@ -76,7 +76,7 @@ namespace UnclePhill.WebAPI_NFeS.Domain
                     descricao = "Serviços de Criação de Logomarca",
                     codatividade = 0101,
                     valorunitario = 150,
-                    aliquota = "5,5",
+                    aliquota = "3",
                     impostoretido = "N"
                 };
                 NFeSIR.nfd.tbservico[1] = new tbnfdNfdServico
@@ -85,7 +85,7 @@ namespace UnclePhill.WebAPI_NFeS.Domain
                     descricao = "Serviços de Criação de Logomarca",
                     codatividade = 0101,
                     valorunitario = 200,
-                    aliquota = "5,5",
+                    aliquota = "3",
                     impostoretido = "N"
                 };
                 NFeSIR.nfd.tbservico[2] = new tbnfdNfdServico
@@ -94,7 +94,7 @@ namespace UnclePhill.WebAPI_NFeS.Domain
                     descricao = "Serviços de Criação de Logomarca",
                     codatividade = 0101,
                     valorunitario = 150,
-                    aliquota = "5,5",
+                    aliquota = "3",
                     impostoretido = "N"
                 };
                 NFeSIR.nfd.observacao = "OBS";
@@ -114,26 +114,36 @@ namespace UnclePhill.WebAPI_NFeS.Domain
                 NFeSIR.nfd.codigoseriert = string.Empty;
                 NFeSIR.nfd.dataemissaort = string.Empty;
                 NFeSIR.nfd.fatorgerador = string.Empty;
+                NFeSIR.Signature = new Models.Models.Signature();             
                 
-                String Xml = Functions.ClassForStringXml(NFeSIR); ;
-                
-                //if (Functions.ValidateXml(XSDInput, Xml))
-                //{
-                    string RetXml = string.Empty;
-                    NFeS.API.Serra.Entrada.WSEntradaClient wsEntradaSerra = new NFeS.API.Serra.Entrada.WSEntradaClient();
-                    RetXml = wsEntradaSerra.nfdEntrada("55555555555", "cRDtpNCeBiql5KOQsKVyrA0sAiA=", 3,Xml);
+                string RetXml = string.Empty;
+                NFeS.API.Serra.Entrada.WSEntradaClient wsEntradaSerra = new NFeS.API.Serra.Entrada.WSEntradaClient();
+                RetXml = wsEntradaSerra.nfdEntrada("55555555555", "cRDtpNCeBiql5KOQsKVyrA0sAiA=", 3,ParseXmlNFeS(NFeSIR));
 
-                    NFeS.API.Cariacica.Entrada.WSEntradaClient wsEntradaCariacica = new NFeS.API.Cariacica.Entrada.WSEntradaClient();
-                    RetXml = wsEntradaCariacica.nfdEntrada("55555555555", "cRDtpNCeBiql5KOQsKVyrA0sAiA=", 3201308, Xml);
+                NFeS.API.Cariacica.Entrada.WSEntradaClient wsEntradaCariacica = new NFeS.API.Cariacica.Entrada.WSEntradaClient();
+                RetXml = wsEntradaCariacica.nfdEntrada("55555555555", "cRDtpNCeBiql5KOQsKVyrA0sAiA=", 3, ParseXmlNFeS(NFeSIR));
                                 
-                    return RetXml;
-                //}
-                throw new Exception("Nota fiscal inválida!");               
+                return RetXml;       
             }
             catch(Exception ex)
             {
                 throw ex;
             }
         } 
+
+        private string ParseXmlNFeS(tbnfd NFeSIR)
+        {
+            try
+            {
+                String Xml = Functions.ClassForStringXml(NFeSIR);
+                Xml = Functions.XmlSignature.SignXml(Xml, "", "Signature");
+                Xml = Xml.Replace("<Signature xmlns=\"http://www.w3.org/2000/09/xmldsig#\" />", "");
+                return Xml;
+            }
+            catch(Exception ex)
+            {
+                throw ex;
+            }
+        }
     }
 }
