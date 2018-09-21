@@ -12,7 +12,7 @@ namespace UnclePhill.WebAPI_NFeS.Domain
 {
     public class NFeSDomain : MasterDomain
     {
-        public string EmitirNFeS()
+        public string EmitirNFeS(NFeSRequest NFeS)
         {
             try
             {
@@ -114,16 +114,16 @@ namespace UnclePhill.WebAPI_NFeS.Domain
                 NFeSIR.nfd.codigoseriert = string.Empty;
                 NFeSIR.nfd.dataemissaort = string.Empty;
                 NFeSIR.nfd.fatorgerador = string.Empty;
-                NFeSIR.Signature = new Models.Models.Signature();             
-                
-                string RetXml = string.Empty;
-                NFeS.API.Serra.Entrada.WSEntradaClient wsEntradaSerra = new NFeS.API.Serra.Entrada.WSEntradaClient();
-                RetXml = wsEntradaSerra.nfdEntrada("55555555555", "cRDtpNCeBiql5KOQsKVyrA0sAiA=", 3,ParseXmlNFeS(NFeSIR));
+                NFeSIR.Signature = new Models.Models.Signature();
 
-                NFeS.API.Cariacica.Entrada.WSEntradaClient wsEntradaCariacica = new NFeS.API.Cariacica.Entrada.WSEntradaClient();
-                RetXml = wsEntradaCariacica.nfdEntrada("55555555555", "cRDtpNCeBiql5KOQsKVyrA0sAiA=", 3, ParseXmlNFeS(NFeSIR));
+                string Xml = ParseXmlNFeS(NFeSIR);
+                string RetXmlSerra = string.Empty;
+                string RetXmlCariacica = string.Empty;
+
+                RetXmlSerra = new NFeS.API.Serra.Entrada.WSEntradaClient().nfdEntrada("55555555555", "cRDtpNCeBiql5KOQsKVyrA0sAiA=", 3, Xml);
+                RetXmlCariacica = new NFeS.API.Cariacica.Entrada.WSEntradaClient().nfdEntrada("55555555555", "cRDtpNCeBiql5KOQsKVyrA0sAiA=", 3, Xml);
                                 
-                return RetXml;       
+                return RetXmlSerra + "\n" +RetXmlCariacica;       
             }
             catch(Exception ex)
             {
