@@ -57,7 +57,7 @@ namespace UnclePhill.WebAPI_NFeS.API.Controllers
         /// <param name="users">Objeto usuário</param>
         /// <returns code = "200">Sucesso</returns>
         /// <returns code = "400">Erro</returns>
-        public IHttpActionResult Post(Users users)
+        public IHttpActionResult Post([FromBody]Users users)
         {
             try
             {
@@ -83,7 +83,7 @@ namespace UnclePhill.WebAPI_NFeS.API.Controllers
         /// <param name="users">Objeto usuário</param>
         /// <returns code = "200">Sucesso</returns>
         /// <returns code = "400">Erro</returns>
-        public IHttpActionResult Put(Users users)
+        public IHttpActionResult Put([FromBody]Users users)
         {
             try
             {

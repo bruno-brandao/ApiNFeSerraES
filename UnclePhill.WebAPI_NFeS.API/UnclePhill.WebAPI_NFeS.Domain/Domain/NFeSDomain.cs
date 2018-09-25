@@ -21,6 +21,8 @@ namespace UnclePhill.WebAPI_NFeS.Domain
                 //Observação;
                 //Transportadora{TipoFrete,Especie,PesoL,PesoB};
 
+                this.SplitDados();
+
                 tbnfd NFeSIR = new tbnfd();
                 NFeSIR.nfd = new tbnfdNfd();
 
