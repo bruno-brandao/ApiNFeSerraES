@@ -2,7 +2,7 @@
 using System.Data;
 using System.Data.SqlClient;
 
-namespace UnclePhill.WebAPI_NFeS.Models
+namespace UnclePhill.WebAPI_NFeS.Utils.Utils
 {
     public class ConnectionManager
     {

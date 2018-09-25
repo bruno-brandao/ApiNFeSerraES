@@ -3,10 +3,11 @@ using System.Web.Mvc;
 using UnclePhill.WebAPI_NFeS.Models;
 using UnclePhill.WebAPI_NFeS.Domain;
 using System.Web.Http;
+using UnclePhill.WebAPI_NFeS.Models.Models;
 
 namespace UnclePhill.WebAPI_NFeS.API.Controllers
 {
-    public class CompanyController : MasterController
+    public class CompanyController : MasterController,Default.IController<Companys>
     {
         CompanyDomain companyDomain = new CompanyDomain();
 
@@ -21,7 +22,7 @@ namespace UnclePhill.WebAPI_NFeS.API.Controllers
         {
             try
             {
-                if (!base.CheckSession()) return BadRequest("Sessão inválida!");
+                if (!SessionDomain.CheckSession(base.Sessao())) return BadRequest("Sessão inválida!");
 
                 return Ok(companyDomain.Get(CompanyId));
             }
@@ -35,16 +36,16 @@ namespace UnclePhill.WebAPI_NFeS.API.Controllers
         /// Cria uma empresa
         /// </summary>
         /// <param name="SessionHash">Paramentro passado no Header da requisição</param>
-        /// <param name="companys">Objeto empresa</param>
+        /// <param name="Company">Objeto empresa</param>
         /// <returns code = "200">Sucesso</returns>
         /// <returns code = "400">Erro</returns>
-        public IHttpActionResult Post([FromBody]Companys companys)
+        public IHttpActionResult Post([FromBody]Companys Company)
         {
             try
             {
-                if (!base.CheckSession()) return BadRequest("Sessão inválida!");
-                            
-                if (companyDomain.Post(companys,GetUserSession()))
+                if (!SessionDomain.CheckSession(base.Sessao())) return BadRequest("Sessão inválida!");
+
+                if (companyDomain.Post(Company, SessionDomain.GetUserSession(base.Sessao())))
                 {
                     return Ok("Empresa criada com sucesso!");
                 }
@@ -61,16 +62,16 @@ namespace UnclePhill.WebAPI_NFeS.API.Controllers
         /// Atualiza uma empresa
         /// </summary>
         /// <param name="SessionHash">Paramentro passado no Header da requisição</param>
-        /// <param name="companys">Objeto empresa</param>
+        /// <param name="Company">Objeto empresa</param>
         /// <returns code = "200">Sucesso</returns>
         /// <returns code = "400">Erro</returns>
-        public IHttpActionResult Put([FromBody]Companys companys)
+        public IHttpActionResult Put([FromBody]Companys Company)
         {
             try
             {
-                if (!base.CheckSession()) return BadRequest("Sessão inválida!");
-                                
-                if (companyDomain.Put(companys,GetUserSession()))
+                if (!SessionDomain.CheckSession(base.Sessao())) return BadRequest("Sessão inválida!");
+
+                if (companyDomain.Put(Company, SessionDomain.GetUserSession(base.Sessao())))
                 {
                     return Ok("Empresa atualizada com sucesso!");
                 }
@@ -94,7 +95,7 @@ namespace UnclePhill.WebAPI_NFeS.API.Controllers
         {
             try
             {
-                if (!base.CheckSession()) return BadRequest("Sessão inválida!");
+                if (!SessionDomain.CheckSession(base.Sessao())) return BadRequest("Sessão inválida!");
 
                 if (companyDomain.Delete(CompanyId))
                 {

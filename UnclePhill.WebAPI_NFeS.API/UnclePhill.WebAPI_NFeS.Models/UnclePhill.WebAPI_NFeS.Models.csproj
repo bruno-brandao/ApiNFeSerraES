@@ -42,16 +42,19 @@
   <ItemGroup>
     <Compile Include="Models\CFPS.cs" />
     <Compile Include="Models\Companys.cs" />
-    <Compile Include="Models\Connection\ConnectionManager.cs" />
+    <Compile Include="Models\DefaultModels\Master.cs" />
     <Compile Include="Models\NFeS.cs" />
     <Compile Include="Models\NFeSInvoices.cs" />
-    <Compile Include="Models\NFeSStructure\NFeSError.cs" />
+    <Compile Include="Models\NFeSRequestModels\NFeSRequest.cs" />
+    <Compile Include="Models\NFeSRequestModels\NFeSRequestInvoices.cs" />
+    <Compile Include="Models\NFeSRequestModels\NFeSRequestItens.cs" />
+    <Compile Include="Models\NFeSStructureModels\NFeSError.cs" />
     <Compile Include="Models\NFeSItens.cs" />
-    <Compile Include="Models\NFeSStructure\NFeSPreview.cs" />
-    <Compile Include="Models\NFeSStructure\NFeSReceipt.cs" />
-    <Compile Include="Models\NFeSStructure\NFeSTaxpayerActivities.cs" />
-    <Compile Include="Models\NFeSStructure\NFeSCancel.cs" />
-    <Compile Include="Models\NFeSStructure\NFeS.cs" />
+    <Compile Include="Models\NFeSStructureModels\NFeSIssueRequest.cs" />
+    <Compile Include="Models\NFeSStructureModels\NFeSPreview.cs" />
+    <Compile Include="Models\NFeSStructureModels\NFeSReceipt.cs" />
+    <Compile Include="Models\NFeSStructureModels\NFeSTaxpayerActivities.cs" />
+    <Compile Include="Models\NFeSStructureModels\NFeSCancel.cs" />
     <Compile Include="Models\Services.cs" />
     <Compile Include="Models\Sessions.cs" />
     <Compile Include="Models\ShippingCompany.cs" />
@@ -61,10 +64,15 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Certificate\configuracaoNFE.xml" />
+    <Content Include="Certificate\CSC Token.txt" />
     <Content Include="SQL\Script_BD_NFeS.sql" />
   </ItemGroup>
   <ItemGroup>
     <WCFMetadata Include="Connected Services\" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Certificate\Certificado.pfx" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

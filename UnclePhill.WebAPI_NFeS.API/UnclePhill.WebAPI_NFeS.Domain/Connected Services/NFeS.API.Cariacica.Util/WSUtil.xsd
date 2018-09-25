@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<xs:schema xmlns:tns="http://webservices.sil.com/" targetNamespace="http://webservices.sil.com/" version="1.0" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+  <xs:element name="urlNfd" type="tns:urlNfd" />
+  <xs:element name="urlNfdResponse" type="tns:urlNfdResponse" />
+  <xs:complexType name="urlNfd">
+    <xs:sequence>
+      <xs:element name="codigoMunicipio" type="xs:int" />
+      <xs:element name="numeroNfd" type="xs:int" />
+      <xs:element name="serieNfd" type="xs:int" />
+      <xs:element minOccurs="0" name="inscricaoMunicipal" type="xs:string" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="urlNfdResponse">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="return" type="xs:string" />
+    </xs:sequence>
+  </xs:complexType>
+</xs:schema>

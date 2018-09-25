@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using System.Data;
 using UnclePhill.WebAPI_NFeS.Models;
+using UnclePhill.WebAPI_NFeS.Models.Models;
+using UnclePhill.WebAPI_NFeS.Utils.Utils;
 
 namespace UnclePhill.WebAPI_NFeS.Domain
 {
@@ -25,7 +27,7 @@ namespace UnclePhill.WebAPI_NFeS.Domain
                 if (CFPSId > 0) { SQL.AppendLine(" And CFPSId = " + CFPSId); }
 
 
-                DataTable data = Conn.GetDataTable(SQL.ToString(), "CFPS");
+                DataTable data = Functions.Conn.GetDataTable(SQL.ToString(), "CFPS");
                 if (data != null && data.Rows.Count > 0)
                 {
                     foreach (DataRow row in data.Rows)

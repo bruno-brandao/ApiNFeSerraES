@@ -2,6 +2,9 @@
 using System.Collections.Generic;
 using System.Data;
 using UnclePhill.WebAPI_NFeS.Models;
+using UnclePhill.WebAPI_NFeS.Models.Models;
+using UnclePhill.WebAPI_NFeS.Utils.Utils;
+using static UnclePhill.WebAPI_NFeS.Utils.Utils.Functions;
 
 namespace UnclePhill.WebAPI_NFeS.Domain
 {
@@ -30,7 +33,7 @@ namespace UnclePhill.WebAPI_NFeS.Domain
                 SQL.AppendLine(" Where Active = 1 ");
                 if (ShippingCompanyId > 0) { SQL.AppendLine(" And ShippingCompanyId = " + ShippingCompanyId); }
 
-                DataTable data = Conn.GetDataTable(SQL.ToString(), "ShippingCompany");
+                DataTable data = Functions.Conn.GetDataTable(SQL.ToString(), "ShippingCompany");
                 if (data != null && data.Rows.Count > 0)
                 {
                     foreach (DataRow row in data.Rows)
@@ -78,20 +81,20 @@ namespace UnclePhill.WebAPI_NFeS.Domain
                 SQL.AppendLine("    DateInsert, ");
                 SQL.AppendLine("    DateUpdate) ");
                 SQL.AppendLine(" Values ");
-                SQL.AppendLine("    ('" + NoInjection(shippingCompany.CPF_CNPJ) + "',");
-                SQL.AppendLine("     '" + NoInjection(shippingCompany.Name) + "',");
-                SQL.AppendLine("     '" + NoInjection(shippingCompany.NameFantasy) + "',");
-                SQL.AppendLine("     '" + NoInjection(shippingCompany.CEP) + "',");
-                SQL.AppendLine("     '" + NoInjection(shippingCompany.Street) + "',");
-                SQL.AppendLine("     '" + NoInjection(shippingCompany.Neighborhood) + "',");
-                SQL.AppendLine("     '" + NoInjection(shippingCompany.City) + "',");
-                SQL.AppendLine("     '" + NoInjection(shippingCompany.State) + "',");
+                SQL.AppendLine("    ('" + Functions.NotQuote(shippingCompany.CPF_CNPJ) + "',");
+                SQL.AppendLine("     '" + Functions.NotQuote(shippingCompany.Name) + "',");
+                SQL.AppendLine("     '" + Functions.NotQuote(shippingCompany.NameFantasy) + "',");
+                SQL.AppendLine("     '" + Functions.NotQuote(shippingCompany.CEP) + "',");
+                SQL.AppendLine("     '" + Functions.NotQuote(shippingCompany.Street) + "',");
+                SQL.AppendLine("     '" + Functions.NotQuote(shippingCompany.Neighborhood) + "',");
+                SQL.AppendLine("     '" + Functions.NotQuote(shippingCompany.City) + "',");
+                SQL.AppendLine("     '" + Functions.NotQuote(shippingCompany.State) + "',");
                 SQL.AppendLine("     1 ,");
                 SQL.AppendLine("     GetDate(), ");
                 SQL.AppendLine("     GetDate() ");
                 SQL.AppendLine("    ) ");
 
-                if (Conn.Insert(SQL.ToString()) > 0)
+                if (Functions.Conn.Insert(SQL.ToString()) > 0)
                 {
                     return true;
                 }
@@ -115,18 +118,18 @@ namespace UnclePhill.WebAPI_NFeS.Domain
                 }
 
                 SQL.AppendLine(" Update ShippingCompany Set ");
-                SQL.AppendLine("    CPF_CNPJ = '" + NoInjection(shippingCompany.CPF_CNPJ) + "',");
-                SQL.AppendLine("    Name = '" + NoInjection(shippingCompany.Name) + "',");
-                SQL.AppendLine("    NameFantasy = '" + NoInjection(shippingCompany.NameFantasy) + "',");
-                SQL.AppendLine("    CEP = '" + NoInjection(shippingCompany.CEP) + "',");
-                SQL.AppendLine("    Street = '" + NoInjection(shippingCompany.Street) + "',");
-                SQL.AppendLine("    Neighborhood = '" + NoInjection(shippingCompany.Neighborhood) + "',");
-                SQL.AppendLine("    City = '" + NoInjection(shippingCompany.City) + "',");
-                SQL.AppendLine("    State = '" + NoInjection(shippingCompany.State) + "', ");
+                SQL.AppendLine("    CPF_CNPJ = '" + Functions.NotQuote(shippingCompany.CPF_CNPJ) + "',");
+                SQL.AppendLine("    Name = '" + Functions.NotQuote(shippingCompany.Name) + "',");
+                SQL.AppendLine("    NameFantasy = '" + Functions.NotQuote(shippingCompany.NameFantasy) + "',");
+                SQL.AppendLine("    CEP = '" + Functions.NotQuote(shippingCompany.CEP) + "',");
+                SQL.AppendLine("    Street = '" + Functions.NotQuote(shippingCompany.Street) + "',");
+                SQL.AppendLine("    Neighborhood = '" + Functions.NotQuote(shippingCompany.Neighborhood) + "',");
+                SQL.AppendLine("    City = '" + Functions.NotQuote(shippingCompany.City) + "',");
+                SQL.AppendLine("    State = '" + Functions.NotQuote(shippingCompany.State) + "', ");
                 SQL.AppendLine("    DateUpdate = GetDate() ");
                 SQL.AppendLine(" Where ShippingCompanyId = " + shippingCompany.ShippingCompanyId);
 
-                if (Conn.Insert(SQL.ToString()) > 0)
+                if (Functions.Conn.Insert(SQL.ToString()) > 0)
                 {
                     return true;
                 }
@@ -152,7 +155,7 @@ namespace UnclePhill.WebAPI_NFeS.Domain
                 SQL.AppendLine("    Active = 0 ");
                 SQL.AppendLine(" Where ShippingCompanyId = " + ShippingCompanyId);
 
-                if (Conn.Delete(SQL.ToString()))
+                if (Functions.Conn.Delete(SQL.ToString()))
                 {
                     return true;
                 }
@@ -184,6 +187,11 @@ namespace UnclePhill.WebAPI_NFeS.Domain
             if (string.IsNullOrEmpty(shippingCompany.CEP))
             {
                   throw new Exception("Informe o CEP!");
+            }
+
+            if (Functions.ExistsRegister(shippingCompany.CEP, TypeInput.Texto, "CEP", "ShippingCompany"))
+            {
+                throw new Exception("Tomador já existe!");
             }
 
             if (string.IsNullOrEmpty(shippingCompany.Street))

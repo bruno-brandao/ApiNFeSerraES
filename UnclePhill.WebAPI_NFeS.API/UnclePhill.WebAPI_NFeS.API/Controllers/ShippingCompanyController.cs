@@ -4,10 +4,11 @@ using UnclePhill.WebAPI_NFeS.API.Controllers;
 using UnclePhill.WebAPI_NFeS.Models;
 using UnclePhill.WebAPI_NFeS.Domain;
 using System.Web.Http;
+using UnclePhill.WebAPI_NFeS.Models.Models;
 
 namespace UnclePhill.WebAPI_NFeS.API.Controllers
 {
-    public class ShippingCompanyController : MasterController
+    public class ShippingCompanyController : MasterController, Default.IController<ShippingCompany>
     {
         ShippingCompanyDomain shippingCompanyDomain = new ShippingCompanyDomain();
 
@@ -22,7 +23,7 @@ namespace UnclePhill.WebAPI_NFeS.API.Controllers
         {
             try
             {
-                if (!base.CheckSession()) return BadRequest("Sessão inválida!");
+                if (!SessionDomain.CheckSession(Sessao())) { return BadRequest("Sessão inválida!"); }
 
                 return Ok(shippingCompanyDomain.Get(ShippingCompanyId));
             }
@@ -36,16 +37,16 @@ namespace UnclePhill.WebAPI_NFeS.API.Controllers
         /// Cria uma transportadora
         /// </summary>
         /// <param name="SessionHash">Paramentro passado no Header da requisição</param>
-        /// <param name="shippingCompany">Objeto transportadora</param>
+        /// <param name="ShippingCompany">Objeto transportadora</param>
         /// <returns code = "200">Sucesso</returns>
         /// <returns code = "400">Erro</returns> 
-        public IHttpActionResult Post(ShippingCompany shippingCompany)
+        public IHttpActionResult Post([FromBody]ShippingCompany ShippingCompany)
         {
             try
             {
-                if (!base.CheckSession()) { return BadRequest("Sessão inválida!"); }
-                                
-                if (shippingCompanyDomain.Post(shippingCompany))
+                if (!SessionDomain.CheckSession(Sessao())) { return BadRequest("Sessão inválida!"); }
+
+                if (shippingCompanyDomain.Post(ShippingCompany))
                 {
                     return Ok("Transportadora criada com sucesso!");
                 }
@@ -62,16 +63,16 @@ namespace UnclePhill.WebAPI_NFeS.API.Controllers
         /// Atualiza uma transportadora
         /// </summary>
         /// <param name="SessionHash">Paramentro passado no Header da requisição</param>
-        /// <param name="shippingCompany">Objeto transportadora</param>
+        /// <param name="ShippingCompany">Objeto transportadora</param>
         /// <returns code = "200">Sucesso</returns>
         /// <returns code = "400">Erro</returns>
-        public IHttpActionResult Put(ShippingCompany shippingCompany)
+        public IHttpActionResult Put([FromBody]ShippingCompany ShippingCompany)
         {
             try
             {
-                if (!base.CheckSession()) { return BadRequest("Sessão inválida!"); }
+                if (!SessionDomain.CheckSession(Sessao())) { return BadRequest("Sessão inválida!"); }
 
-                if (shippingCompanyDomain.Put(shippingCompany))
+                if (shippingCompanyDomain.Put(ShippingCompany))
                 {
                     return Ok("Serviço atualizado com sucesso!");
                 }
@@ -95,8 +96,8 @@ namespace UnclePhill.WebAPI_NFeS.API.Controllers
         {
             try
             {
-                if (!base.CheckSession()) { return BadRequest("Sessão inválida!"); }
-                                
+                if (!SessionDomain.CheckSession(Sessao())) { return BadRequest("Sessão inválida!"); }
+
                 if (shippingCompanyDomain.Delete(ShippingCompanyId))
                 {
                     return Ok("Transportadora excluida com sucesso!");

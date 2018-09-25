@@ -2,6 +2,9 @@
 using System.Collections.Generic;
 using System.Data;
 using UnclePhill.WebAPI_NFeS.Models;
+using UnclePhill.WebAPI_NFeS.Models.Models;
+using UnclePhill.WebAPI_NFeS.Utils.Utils;
+using static UnclePhill.WebAPI_NFeS.Utils.Utils.Functions;
 
 namespace UnclePhill.WebAPI_NFeS.Domain
 {
@@ -34,7 +37,7 @@ namespace UnclePhill.WebAPI_NFeS.Domain
                 SQL.AppendLine(" Where Active = 1 ");
                 if (TakerId > 0) { SQL.AppendLine(" And TakerId = " + TakerId); }
 
-                DataTable data = Conn.GetDataTable(SQL.ToString(), "Takers");
+                DataTable data = Functions.Conn.GetDataTable(SQL.ToString(), "Takers");
                 if (data != null && data.Rows.Count > 0)
                 {
                     foreach (DataRow row in data.Rows)
@@ -90,24 +93,24 @@ namespace UnclePhill.WebAPI_NFeS.Domain
                 SQL.AppendLine("    DateInsert, ");
                 SQL.AppendLine("    DateUpdate) ");
                 SQL.AppendLine(" Values ");
-                SQL.AppendLine("    ('" + NoInjection(takers.IM) + "',");
-                SQL.AppendLine("     '" + NoInjection(takers.CPF_CNPJ) + "',");
-                SQL.AppendLine("     '" + NoInjection(takers.RG_IE) + "',");
-                SQL.AppendLine("     '" + NoInjection(takers.Name) + "',");
-                SQL.AppendLine("     '" + NoInjection(takers.NameFantasy) + "',");
-                SQL.AppendLine("     '" + NoInjection(takers.TypePerson) + "',");
-                SQL.AppendLine("     '" + NoInjection(takers.CEP) + "',");
-                SQL.AppendLine("     '" + NoInjection(takers.Street) + "',");
-                SQL.AppendLine("     '" + NoInjection(takers.Neighborhood) + "',");
-                SQL.AppendLine("     '" + NoInjection(takers.City) + "',");
-                SQL.AppendLine("     '" + NoInjection(takers.State) + "',");
-                SQL.AppendLine("     '" + NoInjection(takers.Email) + "',");
+                SQL.AppendLine("    ('" + Functions.NotQuote(takers.IM) + "',");
+                SQL.AppendLine("     '" + Functions.NotQuote(takers.CPF_CNPJ) + "',");
+                SQL.AppendLine("     '" + Functions.NotQuote(takers.RG_IE) + "',");
+                SQL.AppendLine("     '" + Functions.NotQuote(takers.Name) + "',");
+                SQL.AppendLine("     '" + Functions.NotQuote(takers.NameFantasy) + "',");
+                SQL.AppendLine("     '" + Functions.NotQuote(takers.TypePerson) + "',");
+                SQL.AppendLine("     '" + Functions.NotQuote(takers.CEP) + "',");
+                SQL.AppendLine("     '" + Functions.NotQuote(takers.Street) + "',");
+                SQL.AppendLine("     '" + Functions.NotQuote(takers.Neighborhood) + "',");
+                SQL.AppendLine("     '" + Functions.NotQuote(takers.City) + "',");
+                SQL.AppendLine("     '" + Functions.NotQuote(takers.State) + "',");
+                SQL.AppendLine("     '" + Functions.NotQuote(takers.Email) + "',");
                 SQL.AppendLine("     1 ,");
                 SQL.AppendLine("     GetDate(), ");
                 SQL.AppendLine("     GetDate() ");
                 SQL.AppendLine("    ) ");
 
-                if (Conn.Insert(SQL.ToString()) > 0)
+                if (Functions.Conn.Insert(SQL.ToString()) > 0)
                 {
                     return true;
                 }
@@ -132,22 +135,22 @@ namespace UnclePhill.WebAPI_NFeS.Domain
                 }
 
                 SQL.AppendLine(" Update Takers Set ");
-                SQL.AppendLine("    IM = '" + NoInjection(takers.IM) + "',");
-                SQL.AppendLine("    CPF_CNPJ = '" + NoInjection(takers.CPF_CNPJ) + "',");
-                SQL.AppendLine("    RG_IE = '" + NoInjection(takers.RG_IE) + "',");
-                SQL.AppendLine("    Name = '" + NoInjection(takers.Name) + "',");
-                SQL.AppendLine("    NameFantasy = '" + NoInjection(takers.NameFantasy) + "',");
-                SQL.AppendLine("    TypePerson = '" + NoInjection(takers.TypePerson) + "',");
-                SQL.AppendLine("    CEP = '" + NoInjection(takers.CEP) + "',");
-                SQL.AppendLine("    Street = '" + NoInjection(takers.Street) + "',");
-                SQL.AppendLine("    Neighborhood = '" + NoInjection(takers.Neighborhood) + "',");
-                SQL.AppendLine("    City = '" + NoInjection(takers.City) + "', ");
-                SQL.AppendLine("    State = '" + NoInjection(takers.State) + "',");
-                SQL.AppendLine("    Email = '" + NoInjection(takers.Email) + "',");
+                SQL.AppendLine("    IM = '" + Functions.NotQuote(takers.IM) + "',");
+                SQL.AppendLine("    CPF_CNPJ = '" + Functions.NotQuote(takers.CPF_CNPJ) + "',");
+                SQL.AppendLine("    RG_IE = '" + Functions.NotQuote(takers.RG_IE) + "',");
+                SQL.AppendLine("    Name = '" + Functions.NotQuote(takers.Name) + "',");
+                SQL.AppendLine("    NameFantasy = '" + Functions.NotQuote(takers.NameFantasy) + "',");
+                SQL.AppendLine("    TypePerson = '" + Functions.NotQuote(takers.TypePerson) + "',");
+                SQL.AppendLine("    CEP = '" + Functions.NotQuote(takers.CEP) + "',");
+                SQL.AppendLine("    Street = '" + Functions.NotQuote(takers.Street) + "',");
+                SQL.AppendLine("    Neighborhood = '" + Functions.NotQuote(takers.Neighborhood) + "',");
+                SQL.AppendLine("    City = '" + Functions.NotQuote(takers.City) + "', ");
+                SQL.AppendLine("    State = '" + Functions.NotQuote(takers.State) + "',");
+                SQL.AppendLine("    Email = '" + Functions.NotQuote(takers.Email) + "',");
                 SQL.AppendLine("    DateUpdate = GetDate() ");
                 SQL.AppendLine(" Where TakerId = " + takers.TakerId);
 
-                if (Conn.Update(SQL.ToString()))
+                if (Functions.Conn.Update(SQL.ToString()))
                 {
                     return true;
                 }
@@ -173,7 +176,7 @@ namespace UnclePhill.WebAPI_NFeS.Domain
                 SQL.AppendLine("    Active = 0 ");
                 SQL.AppendLine(" Where TakerId = " + TakerId);
 
-                if (Conn.Delete(SQL.ToString()))
+                if (Functions.Conn.Delete(SQL.ToString()))
                 {
                     return true;
                 }
@@ -196,6 +199,11 @@ namespace UnclePhill.WebAPI_NFeS.Domain
             if (string.IsNullOrEmpty(takers.CPF_CNPJ))
             {
                  throw new Exception("Informe o CPF/CNPJ!");
+            }
+
+            if (Functions.ExistsRegister(takers.CPF_CNPJ, TypeInput.Texto, "CPF_CNPJ", "Takers"))
+            {
+                throw new Exception("Tomador já existe!");
             }
 
             if (string.IsNullOrEmpty(takers.RG_IE))

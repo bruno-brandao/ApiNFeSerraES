@@ -63,6 +63,26 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Connected Services\NFeS.API.Cariacica.Entrada\Reference.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </Compile>
+    <Compile Include="Connected Services\NFeS.API.Cariacica.Interface\Reference.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </Compile>
+    <Compile Include="Connected Services\NFeS.API.Cariacica.Saida\Reference.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </Compile>
+    <Compile Include="Connected Services\NFeS.API.Cariacica.Util\Reference.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </Compile>
     <Compile Include="Connected Services\NFeS.API.Serra.Entrada\Reference.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -85,9 +105,10 @@
     </Compile>
     <Compile Include="Domain\CFPSDomain.cs" />
     <Compile Include="Domain\CompanyDomain.cs" />
-    <Compile Include="Domain\MasterDomain.cs" />
+    <Compile Include="Domain\DefaultDomains\MasterDomain.cs" />
     <Compile Include="Domain\NFeSDomain.cs" />
     <Compile Include="Domain\ServiceDomain.cs" />
+    <Compile Include="Domain\SessionDomain.cs" />
     <Compile Include="Domain\ShippingCompanyDomain.cs" />
     <Compile Include="Domain\TakerDomain.cs" />
     <Compile Include="Domain\TaxpayerActivitiesDomain.cs" />
@@ -104,12 +125,50 @@
       <Project>{c7c5df2f-2693-4284-b8a8-c08f8c878a19}</Project>
       <Name>UnclePhill.WebAPI_NFeS.Models</Name>
     </ProjectReference>
+    <ProjectReference Include="..\UnclePhill.WebAPI_NFeS.Utils\UnclePhill.WebAPI_NFeS.Utils.csproj">
+      <Project>{64c4c698-36e1-401f-9928-48b089b0db13}</Project>
+      <Name>UnclePhill.WebAPI_NFeS.Utils</Name>
+    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <WCFMetadata Include="Connected Services\" />
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />
+    <None Include="Connected Services\NFeS.API.Cariacica.Entrada\UnclePhill.WebAPI_NFeS.Domain.NFeS.API.Cariacica.Entrada.consultarAtividadesResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Connected Services\NFeS.API.Cariacica.Entrada\UnclePhill.WebAPI_NFeS.Domain.NFeS.API.Cariacica.Entrada.nfdEntradaCancelarResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Connected Services\NFeS.API.Cariacica.Entrada\UnclePhill.WebAPI_NFeS.Domain.NFeS.API.Cariacica.Entrada.nfdEntradaResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Connected Services\NFeS.API.Cariacica.Entrada\WSEntrada.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Connected Services\NFeS.API.Cariacica.Entrada\WSEntradaService.wsdl" />
+    <None Include="Connected Services\NFeS.API.Cariacica.Interface\UnclePhill.WebAPI_NFeS.Domain.NFeS.API.Cariacica.Interface.executeResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Connected Services\NFeS.API.Cariacica.Interface\WSInterface.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Connected Services\NFeS.API.Cariacica.Interface\WSInterfaceService.wsdl" />
+    <None Include="Connected Services\NFeS.API.Cariacica.Saida\UnclePhill.WebAPI_NFeS.Domain.NFeS.API.Cariacica.Saida.nfdSaidaResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Connected Services\NFeS.API.Cariacica.Saida\WSSaida.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Connected Services\NFeS.API.Cariacica.Saida\WSSaidaService.wsdl" />
+    <None Include="Connected Services\NFeS.API.Cariacica.Util\UnclePhill.WebAPI_NFeS.Domain.NFeS.API.Cariacica.Util.urlNfdResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Connected Services\NFeS.API.Cariacica.Util\WSUtil.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Connected Services\NFeS.API.Cariacica.Util\WSUtilService.wsdl" />
     <None Include="Connected Services\NFeS.API.Serra.Entrada\UnclePhill.WebAPI_NFeS.Domain.NFeS.API.Serra.Entrada.consultarAtividadesResponse.datasource">
       <DependentUpon>Reference.svcmap</DependentUpon>
     </None>
@@ -151,6 +210,10 @@
     </None>
   </ItemGroup>
   <ItemGroup>
+    <WCFMetadataStorage Include="Connected Services\NFeS.API.Cariacica.Entrada\" />
+    <WCFMetadataStorage Include="Connected Services\NFeS.API.Cariacica.Interface\" />
+    <WCFMetadataStorage Include="Connected Services\NFeS.API.Cariacica.Saida\" />
+    <WCFMetadataStorage Include="Connected Services\NFeS.API.Cariacica.Util\" />
     <WCFMetadataStorage Include="Connected Services\NFeS.API.Serra.Entrada\" />
     <WCFMetadataStorage Include="Connected Services\NFeS.API.Serra.Interface\" />
     <WCFMetadataStorage Include="Connected Services\NFeS.API.Serra.Saida\" />
@@ -200,6 +263,54 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Connected Services\NFeS.API.Serra.Entrada\Reference.svcmap">
+      <Generator>WCF Proxy Generator</Generator>
+      <LastGenOutput>Reference.cs</LastGenOutput>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Connected Services\NFeS.API.Cariacica.Entrada\configuration91.svcinfo" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Connected Services\NFeS.API.Cariacica.Entrada\configuration.svcinfo" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Connected Services\NFeS.API.Cariacica.Entrada\Reference.svcmap">
+      <Generator>WCF Proxy Generator</Generator>
+      <LastGenOutput>Reference.cs</LastGenOutput>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Connected Services\NFeS.API.Cariacica.Saida\configuration91.svcinfo" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Connected Services\NFeS.API.Cariacica.Saida\configuration.svcinfo" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Connected Services\NFeS.API.Cariacica.Saida\Reference.svcmap">
+      <Generator>WCF Proxy Generator</Generator>
+      <LastGenOutput>Reference.cs</LastGenOutput>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Connected Services\NFeS.API.Cariacica.Util\configuration91.svcinfo" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Connected Services\NFeS.API.Cariacica.Util\configuration.svcinfo" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Connected Services\NFeS.API.Cariacica.Util\Reference.svcmap">
+      <Generator>WCF Proxy Generator</Generator>
+      <LastGenOutput>Reference.cs</LastGenOutput>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Connected Services\NFeS.API.Cariacica.Interface\configuration91.svcinfo" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Connected Services\NFeS.API.Cariacica.Interface\configuration.svcinfo" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Connected Services\NFeS.API.Cariacica.Interface\Reference.svcmap">
       <Generator>WCF Proxy Generator</Generator>
       <LastGenOutput>Reference.cs</LastGenOutput>
     </None>

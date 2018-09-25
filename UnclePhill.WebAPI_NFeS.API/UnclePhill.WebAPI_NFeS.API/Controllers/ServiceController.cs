@@ -3,10 +3,13 @@ using System.Web.Mvc;
 using UnclePhill.WebAPI_NFeS.Models;
 using UnclePhill.WebAPI_NFeS.Domain;
 using System.Web.Http;
+using System.Web.Routing;
+using UnclePhill.WebAPI_NFeS.API.Controllers.Default;
+using UnclePhill.WebAPI_NFeS.Models.Models;
 
 namespace UnclePhill.WebAPI_NFeS.API.Controllers
 {
-    public class ServiceController : MasterController
+    public class ServiceController : MasterController, Default.IController<Services>
     {
         private ServiceDomain serviceDomain = new ServiceDomain();
 
@@ -21,7 +24,7 @@ namespace UnclePhill.WebAPI_NFeS.API.Controllers
         {
             try
             {
-                if (!base.CheckSession()) return BadRequest("Sessão inválida!");
+                if (!SessionDomain.CheckSession(Sessao())) { return BadRequest("Sessão inválida!"); }
 
                 return Ok(serviceDomain.Get(ServicesId));
             }
@@ -38,13 +41,13 @@ namespace UnclePhill.WebAPI_NFeS.API.Controllers
         /// <param name="services">Objeto serviço</param>
         /// <returns code = "200">Sucesso</returns>
         /// <returns code = "400">Erro</returns>
-        public IHttpActionResult Post(Services services)
+        public IHttpActionResult Post([FromBody] Services Service)
         {
             try
             {
-                if (!base.CheckSession()) { return BadRequest("Sessão inválida!"); }
+                if (!SessionDomain.CheckSession(Sessao())) { return BadRequest("Sessão inválida!"); }
 
-                if(serviceDomain.Post(services))
+                if (serviceDomain.Post(Service))
                 {
                     return Ok("Serviço criado com sucesso!");
                 }
@@ -64,13 +67,13 @@ namespace UnclePhill.WebAPI_NFeS.API.Controllers
         /// <param name="services">Objeto serviço</param>
         /// <returns code = "200">Sucesso</returns>
         /// <returns code = "400">Erro</returns>
-        public IHttpActionResult Put(Services services)
+        public IHttpActionResult Put([FromBody] Services Service)
         {
             try
             {
-                if (!base.CheckSession()) { return BadRequest("Sessão inválida!"); }
+                if (!SessionDomain.CheckSession(Sessao())) { return BadRequest("Sessão inválida!"); }
 
-                if (serviceDomain.Put(services))
+                if (serviceDomain.Put(Service))
                 {
                     return Ok("Serviço atualizado com sucesso!");
                 }
@@ -94,7 +97,7 @@ namespace UnclePhill.WebAPI_NFeS.API.Controllers
         {
             try
             {
-                if (!base.CheckSession()) { return BadRequest("Sessão inválida!"); }
+                if (!SessionDomain.CheckSession(Sessao())) { return BadRequest("Sessão inválida!"); }
 
                 if (serviceDomain.Delete(ServicesId))
                 {
@@ -107,6 +110,6 @@ namespace UnclePhill.WebAPI_NFeS.API.Controllers
             {
                 return BadRequest(ex.Message);
             }
-        }        
+        }
     }
 }

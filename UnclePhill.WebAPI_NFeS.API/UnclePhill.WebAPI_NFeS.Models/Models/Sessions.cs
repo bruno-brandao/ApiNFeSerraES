@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 
-namespace UnclePhill.WebAPI_NFeS.Models
+namespace UnclePhill.WebAPI_NFeS.Models.Models
 {
-    public class Sessions
+    public class Sessions : DefaultModels.Master
     {
         
         public Sessions()

@@ -7,7 +7,9 @@ using System.Text;
 using System.Xml.Serialization;
 using UnclePhill.WebAPI_NFeS.Domain.NFeS.API.Serra.Entrada;
 using UnclePhill.WebAPI_NFeS.Models;
+using UnclePhill.WebAPI_NFeS.Models.Models;
 using UnclePhill.WebAPI_NFeS.Models.Models.NFeSStructure.NFeSTaxpayerActivities;
+using UnclePhill.WebAPI_NFeS.Utils.Utils;
 
 namespace UnclePhill.WebAPI_NFeS.Domain
 {
@@ -28,20 +30,9 @@ namespace UnclePhill.WebAPI_NFeS.Domain
                     throw new Exception("Empresa inválida!");
                 }
 
-                WSEntrada Entrada = new WSEntradaClient();
-                consultarAtividadesRequest Request = new consultarAtividadesRequest();
-                consultarAtividadesRequestBody Body = new consultarAtividadesRequestBody();
-
-                Body.cpfUsuario = CPF;
-                Body.hashSenha = Password;
-                Body.inscricaoMunicipal = IM;
-                Body.codigoMunicipio = CodeCity;
-                Request.Body = Body;
-
-                consultarAtividadesResponse ApiResponse = Entrada.consultarAtividades(Request);
-
-                string TaxpayerActivities = ApiResponse.Body.@return;
-                if (IsXml(TaxpayerActivities))
+                WSEntradaClient Entrada = new WSEntradaClient();                
+                string TaxpayerActivities = Entrada.consultarAtividades(CPF, Password, IM, CodeCity);
+                if (Functions.IsXml(TaxpayerActivities))
                 {
                     XmlSerializer xmlSerializer = new XmlSerializer(typeof(AtividadesContribuinte));
                     StringReader stringReader = new StringReader(TaxpayerActivities);
@@ -76,15 +67,15 @@ namespace UnclePhill.WebAPI_NFeS.Domain
                             SQL.AppendLine(" Values ");
                             SQL.AppendLine("    ( ");
                             SQL.AppendLine("      " + CompanyId + ",");
-                            SQL.AppendLine("      '" + NoInjection(atividade.CodigoCnae) + "', ");
-                            SQL.AppendLine("      '" + NoInjection(atividade.Descricao) + "', ");
-                            SQL.AppendLine("       " + FormatNumber(decimal.Parse((atividade.Aliquota == string.Empty ? "0" : atividade.Aliquota))) + ", ");
+                            SQL.AppendLine("      '" + Functions.NotQuote(atividade.CodigoCnae) + "', ");
+                            SQL.AppendLine("      '" + Functions.NotQuote(atividade.Descricao) + "', ");
+                            SQL.AppendLine("       " + Functions.FormatNumber(decimal.Parse((atividade.Aliquota == string.Empty ? "0" : atividade.Aliquota))) + ", ");
                             SQL.AppendLine("       1, ");
                             SQL.AppendLine("       Getdate(), ");
                             SQL.AppendLine("       Getdate() ");
                             SQL.AppendLine("    ) ");
 
-                            Conn.Insert(SQL.ToString());
+                            Functions.Conn.Insert(SQL.ToString());
                         }
                     }
                     else
@@ -103,7 +94,7 @@ namespace UnclePhill.WebAPI_NFeS.Domain
             }
         }
         
-        public List<TaxpayerActivities> Get(long CompanyId)
+        public List<TaxpayerActivities> Get(long? CompanyId)
         {
             try
             {
@@ -128,7 +119,7 @@ namespace UnclePhill.WebAPI_NFeS.Domain
                 SQL.AppendLine(" Where Active = 1 ");
                 SQL.AppendLine(" And CompanyId = " + CompanyId);
 
-                DataTable data = Conn.GetDataTable(SQL.ToString(), "TaxpayerActivities");
+                DataTable data = Functions.Conn.GetDataTable(SQL.ToString(), "TaxpayerActivities");
                 if (data != null && data.Rows.Count > 0)
                 {
                     foreach (DataRow row in data.Rows)
@@ -162,7 +153,7 @@ namespace UnclePhill.WebAPI_NFeS.Domain
                 SQL.AppendLine(" Delete From TaxpayerActivities ");
                 SQL.AppendLine(" Where TaxpayerActivitiesId = " + TaxpayerActivitiesId);
 
-                return Conn.Delete(SQL.ToString());
+                return Functions.Conn.Delete(SQL.ToString());
             }
             catch(Exception ex)
             {

@@ -2,6 +2,9 @@
 using System.Collections.Generic;
 using System.Data;
 using UnclePhill.WebAPI_NFeS.Models;
+using UnclePhill.WebAPI_NFeS.Models.Models;
+using UnclePhill.WebAPI_NFeS.Utils.Utils;
+using static UnclePhill.WebAPI_NFeS.Utils.Utils.Functions;
 
 namespace UnclePhill.WebAPI_NFeS.Domain
 {
@@ -41,7 +44,7 @@ namespace UnclePhill.WebAPI_NFeS.Domain
                 if (CompanyId > 0) { SQL.AppendLine(" And CompanyId = " + CompanyId); }
 
 
-                DataTable data = Conn.GetDataTable(SQL.ToString(), "Companys");
+                DataTable data = Functions.Conn.GetDataTable(SQL.ToString(), "Companys");
                 if (data != null && data.Rows.Count > 0)
                 {
                     foreach (DataRow row in data.Rows)
@@ -110,30 +113,30 @@ namespace UnclePhill.WebAPI_NFeS.Domain
                 SQL.AppendLine("    DateInsert, ");
                 SQL.AppendLine("    DateUpdate) ");
                 SQL.AppendLine(" Values ");
-                SQL.AppendLine("    ('" + NoInjection(companys.CNPJ) + "',");
-                SQL.AppendLine("     '" + NoInjection(companys.IM) + "',");
-                SQL.AppendLine("     '" + NoInjection(companys.IE) + "',");
-                SQL.AppendLine("     '" + NoInjection(companys.Name) + "',");
-                SQL.AppendLine("     '" + NoInjection(companys.NameFantasy) + "',");
-                SQL.AppendLine("     '" + NoInjection(companys.CEP) + "',");
-                SQL.AppendLine("     '" + NoInjection(companys.Street) + "',");
-                SQL.AppendLine("     '" + NoInjection(companys.Neighborhood) + "',");
-                SQL.AppendLine("     '" + NoInjection(companys.City) + "',");
-                SQL.AppendLine("     '" + NoInjection(companys.State) + "',");
-                SQL.AppendLine("     '" + NoInjection(companys.Telephone) + "',");
-                SQL.AppendLine("     '" + NoInjection(companys.Email) + "',");
-                SQL.AppendLine("     '" + NoInjection(companys.Logo) + "',");
-                SQL.AppendLine("     " + FormatNumber(companys.IRRF) + ",");
-                SQL.AppendLine("     " + FormatNumber(companys.PIS) + ",");
-                SQL.AppendLine("     " + FormatNumber(companys.COFINS) + ",");
-                SQL.AppendLine("     " + FormatNumber(companys.CSLL) + ",");
-                SQL.AppendLine("     " + FormatNumber(companys.INSS) + ",");
+                SQL.AppendLine("    ('" + Functions.NotQuote(companys.CNPJ) + "',");
+                SQL.AppendLine("     '" + Functions.NotQuote(companys.IM) + "',");
+                SQL.AppendLine("     '" + Functions.NotQuote(companys.IE) + "',");
+                SQL.AppendLine("     '" + Functions.NotQuote(companys.Name) + "',");
+                SQL.AppendLine("     '" + Functions.NotQuote(companys.NameFantasy) + "',");
+                SQL.AppendLine("     '" + Functions.NotQuote(companys.CEP) + "',");
+                SQL.AppendLine("     '" + Functions.NotQuote(companys.Street) + "',");
+                SQL.AppendLine("     '" + Functions.NotQuote(companys.Neighborhood) + "',");
+                SQL.AppendLine("     '" + Functions.NotQuote(companys.City) + "',");
+                SQL.AppendLine("     '" + Functions.NotQuote(companys.State) + "',");
+                SQL.AppendLine("     '" + Functions.NotQuote(companys.Telephone) + "',");
+                SQL.AppendLine("     '" + Functions.NotQuote(companys.Email) + "',");
+                SQL.AppendLine("     '" + Functions.NotQuote(companys.Logo) + "',");
+                SQL.AppendLine("     " + Functions.FormatNumber(companys.IRRF) + ",");
+                SQL.AppendLine("     " + Functions.FormatNumber(companys.PIS) + ",");
+                SQL.AppendLine("     " + Functions.FormatNumber(companys.COFINS) + ",");
+                SQL.AppendLine("     " + Functions.FormatNumber(companys.CSLL) + ",");
+                SQL.AppendLine("     " + Functions.FormatNumber(companys.INSS) + ",");
                 SQL.AppendLine("     1 ,");
                 SQL.AppendLine("     GetDate(), ");
                 SQL.AppendLine("     GetDate() ");
                 SQL.AppendLine("    ) ");
 
-                companys.CompanyId = Conn.Insert(SQL.ToString());
+                companys.CompanyId = Functions.Conn.Insert(SQL.ToString());
                 if (companys.CompanyId > 0)
                 {
                     TaxpayerActivitiesDomain taxpayerActivitiesDomain = new TaxpayerActivitiesDomain();
@@ -161,29 +164,29 @@ namespace UnclePhill.WebAPI_NFeS.Domain
                 }
 
                 SQL.AppendLine(" Update Companys Set ");
-                SQL.AppendLine("    CNPJ = '" + NoInjection(companys.CNPJ) + "',");
-                SQL.AppendLine("    IM = '" + NoInjection(companys.IM) + "',");
-                SQL.AppendLine("    IE = '" + NoInjection(companys.IE) + "',");
-                SQL.AppendLine("    Name = '" + NoInjection(companys.Name) + "',");
-                SQL.AppendLine("    NameFantasy = '" + NoInjection(companys.NameFantasy) + "',");
-                SQL.AppendLine("    CEP = '" + NoInjection(companys.CEP) + "',");
-                SQL.AppendLine("    Street = '" + NoInjection(companys.Street) + "',");
-                SQL.AppendLine("    Neighborhood = '" + NoInjection(companys.Neighborhood) + "',");
-                SQL.AppendLine("    City = '" + NoInjection(companys.City) + "', ");
-                SQL.AppendLine("    State = '" + NoInjection(companys.State) + "',");
-                SQL.AppendLine("    Telephone = '" + NoInjection(companys.Telephone) + "',");
-                SQL.AppendLine("    Email = '" + NoInjection(companys.Email) + "',");
-                SQL.AppendLine("    Logo = '" + NoInjection(companys.Logo) + "',");
-                SQL.AppendLine("    IRRF = " + FormatNumber(companys.IRRF) + ",");
-                SQL.AppendLine("    PIS = " + FormatNumber(companys.PIS) + ",");
-                SQL.AppendLine("    COFINS = " + FormatNumber(companys.COFINS) + ",");
-                SQL.AppendLine("    CSLL = " + FormatNumber(companys.CSLL) + ",");
-                SQL.AppendLine("    INSS = " + FormatNumber(companys.INSS) + ",");
+                SQL.AppendLine("    CNPJ = '" + Functions.NotQuote(companys.CNPJ) + "',");
+                SQL.AppendLine("    IM = '" + Functions.NotQuote(companys.IM) + "',");
+                SQL.AppendLine("    IE = '" + Functions.NotQuote(companys.IE) + "',");
+                SQL.AppendLine("    Name = '" + Functions.NotQuote(companys.Name) + "',");
+                SQL.AppendLine("    NameFantasy = '" + Functions.NotQuote(companys.NameFantasy) + "',");
+                SQL.AppendLine("    CEP = '" + Functions.NotQuote(companys.CEP) + "',");
+                SQL.AppendLine("    Street = '" + Functions.NotQuote(companys.Street) + "',");
+                SQL.AppendLine("    Neighborhood = '" + Functions.NotQuote(companys.Neighborhood) + "',");
+                SQL.AppendLine("    City = '" + Functions.NotQuote(companys.City) + "', ");
+                SQL.AppendLine("    State = '" + Functions.NotQuote(companys.State) + "',");
+                SQL.AppendLine("    Telephone = '" + Functions.NotQuote(companys.Telephone) + "',");
+                SQL.AppendLine("    Email = '" + Functions.NotQuote(companys.Email) + "',");
+                SQL.AppendLine("    Logo = '" + Functions.NotQuote(companys.Logo) + "',");
+                SQL.AppendLine("    IRRF = " + Functions.FormatNumber(companys.IRRF) + ",");
+                SQL.AppendLine("    PIS = " + Functions.FormatNumber(companys.PIS) + ",");
+                SQL.AppendLine("    COFINS = " + Functions.FormatNumber(companys.COFINS) + ",");
+                SQL.AppendLine("    CSLL = " + Functions.FormatNumber(companys.CSLL) + ",");
+                SQL.AppendLine("    INSS = " + Functions.FormatNumber(companys.INSS) + ",");
                 SQL.AppendLine("    DateUpdate = GetDate() ");
                 SQL.AppendLine(" Where Active = 1 ");
                 SQL.AppendLine(" And CompanyId = " + companys.CompanyId);
 
-                if (Conn.Insert(SQL.ToString()) > 0)
+                if (Functions.Conn.Insert(SQL.ToString()) > 0)
                 {
                     TaxpayerActivitiesDomain taxpayerActivitiesDomain = new TaxpayerActivitiesDomain();
                     taxpayerActivitiesDomain.Reload(usersSession.CPF, usersSession.Password, companys.IM, 3, companys.CompanyId);
@@ -214,7 +217,7 @@ namespace UnclePhill.WebAPI_NFeS.Domain
                 SQL.AppendLine("    Active = 0 ");
                 SQL.AppendLine(" Where CompanyId = " + CompanyId);
 
-                if (Conn.Delete(SQL.ToString()))
+                if (Functions.Conn.Delete(SQL.ToString()))
                 {
                     return true;
                 }
@@ -232,6 +235,11 @@ namespace UnclePhill.WebAPI_NFeS.Domain
             if (string.IsNullOrEmpty(companys.CNPJ))
             {
                  throw new Exception("Informe o CNPJ!");
+            }
+
+            if (Functions.ExistsRegister(companys.CNPJ, TypeInput.Texto, "CNPJ", "Companys"))
+            {
+                throw new Exception("Tomador já existe!");
             }
 
             if (string.IsNullOrEmpty(companys.IM))
