@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace UnclePhill.WebAPI_NFeS.Models.Models.NFeSRequestModels
 {
-    class NFeSRequest
+    public class NFeSRequest
     {
         public long TakerId { get; set; }
         public long CFPSId { get; set; }

@@ -18,7 +18,7 @@ namespace UnclePhill.WebAPI_NFeS.API.Controllers
         {
             try
             {
-                return Ok(nFeSDomain.EmitirNFeS());
+                return Ok(nFeSDomain.EmitirNFeS(null));
             }
             catch(Exception ex)
             {

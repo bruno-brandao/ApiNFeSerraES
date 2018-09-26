@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace UnclePhill.WebAPI_NFeS.Models.Models.NFeSRequestModels
 {
-    class NFeSRequestItens
+    public class NFeSRequestItens
     {
         public NFeSRequestItens()
         {

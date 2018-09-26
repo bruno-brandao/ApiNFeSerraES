@@ -683,7 +683,7 @@ namespace UnclePhill.WebAPI_NFeS.Models.Models
 
         private string vencimentofaturaField;
 
-        private byte valorfaturaField;
+        private double valorfaturaField;
 
         /// <remarks/>
         public string numfatura
@@ -712,7 +712,7 @@ namespace UnclePhill.WebAPI_NFeS.Models.Models
         }
 
         /// <remarks/>
-        public byte valorfatura
+        public double valorfatura
         {
             get
             {
@@ -738,7 +738,7 @@ namespace UnclePhill.WebAPI_NFeS.Models.Models
 
         private byte codatividadeField;
 
-        private byte valorunitarioField;
+        private double valorunitarioField;
 
         private string aliquotaField;
 
@@ -784,7 +784,7 @@ namespace UnclePhill.WebAPI_NFeS.Models.Models
         }
 
         /// <remarks/>
-        public byte valorunitario
+        public double valorunitario
         {
             get
             {
