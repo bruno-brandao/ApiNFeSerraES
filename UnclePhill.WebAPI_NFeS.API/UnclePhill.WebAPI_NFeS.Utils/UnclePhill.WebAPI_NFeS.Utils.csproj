@@ -45,6 +45,7 @@
     <Compile Include="Utils\ConnectionManager.cs" />
     <Compile Include="Utils\Functions.cs" />
     <Compile Include="Utils\Signature.cs" />
+    <Compile Include="Utils\Xml.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

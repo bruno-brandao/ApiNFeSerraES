@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Security.Cryptography;
 using System.Security.Cryptography.X509Certificates;
 using System.Security.Cryptography.Xml;
 using System.Text;
@@ -12,11 +13,11 @@ namespace UnclePhill.WebAPI_NFeS.Utils.Utils
 {    
     public class Signature
     {
-        public string Sign(string Xml,string Certificado = "522ac7756187d976")
+        public string Sign(string Xml,string CertificateSerie = "522ac7756187d976")
         {
             try
             {
-                return SignXml(Xml, new Certificate().SearchBySerie(Certificado));
+                return SignXml(Xml, new Certificate().SearchBySerie(CertificateSerie));
             }
             catch(Exception ex)
             {
@@ -24,7 +25,37 @@ namespace UnclePhill.WebAPI_NFeS.Utils.Utils
             }            
         }
 
-        private string SignXml(string XMLString, X509Certificate2 X509Cert)
+        public Boolean VerifySignXml(string Xml, string CertificateSerie = "522ac7756187d976")
+        {
+            try
+            {
+                XmlDocument DocXml = new XmlDocument();
+                DocXml.PreserveWhitespace = false;
+                DocXml.LoadXml(Xml);
+
+                SignedXml signedXml = new SignedXml(DocXml);
+                XmlNodeList nodeList = DocXml.GetElementsByTagName("Signature");
+
+                if (nodeList.Count <= 0)
+                {
+                    throw new CryptographicException("Não foi encontrada assinatura!");
+                }
+
+                if (nodeList.Count >= 2)
+                {
+                    throw new CryptographicException("Existe mais de uma assinatura!");
+                }
+
+                signedXml.LoadXml((XmlElement)nodeList[0]);
+                return signedXml.CheckSignature(new Certificate().SearchBySerie(CertificateSerie).PrivateKey);
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+
+        private string SignXml(string Xml, X509Certificate2 X509Cert)
         {
             try
             {
@@ -46,28 +77,28 @@ namespace UnclePhill.WebAPI_NFeS.Utils.Utils
                 else
                 {
                     _X509Cert = collection1[0];
-                    string x = _X509Cert.GetKeyAlgorithm().ToString();
+
                     XmlDocument doc = new XmlDocument();
                     doc.PreserveWhitespace = false;
-                    doc.LoadXml(XMLString);
+                    doc.LoadXml(Xml);
 
                     SignedXml signedXml = new SignedXml(doc);
                     signedXml.SigningKey = _X509Cert.PrivateKey;
+                    signedXml.SignedInfo.SignatureMethod = "http://www.w3.org/2000/09/xmldsig#rsa-sha1";
+
                     Reference reference = new Reference();
                     reference.Uri = "";
+                    reference.DigestMethod = "http://www.w3.org/2000/09/xmldsig#sha1";
 
-                    XmlDsigEnvelopedSignatureTransform env = new XmlDsigEnvelopedSignatureTransform();
-                    reference.AddTransform(env);
-
-                    XmlDsigC14NTransform c14 = new XmlDsigC14NTransform();
-                    reference.AddTransform(c14);
+                    reference.AddTransform(new XmlDsigEnvelopedSignatureTransform());
+                    //reference.AddTransform(new XmlDsigC14NTransform());
 
                     signedXml.AddReference(reference);
 
                     KeyInfo keyInfo = new KeyInfo();
                     keyInfo.AddClause(new KeyInfoX509Data(_X509Cert));
-                    signedXml.KeyInfo = keyInfo;
 
+                    signedXml.KeyInfo = keyInfo;
                     signedXml.ComputeSignature();
 
                     XmlElement xmlDigitalSignature = signedXml.GetXml();
@@ -75,7 +106,7 @@ namespace UnclePhill.WebAPI_NFeS.Utils.Utils
                     doc.DocumentElement.AppendChild(doc.ImportNode(xmlDigitalSignature, true));
                     XMLDoc = new XmlDocument();
                     XMLDoc.PreserveWhitespace = false;
-                    XMLDoc = doc;
+                    XMLDoc = doc;                 
                 }
                 return XMLDoc.OuterXml;
             }
@@ -83,7 +114,7 @@ namespace UnclePhill.WebAPI_NFeS.Utils.Utils
             {
                 throw ex;
             }
-        }
+        }              
     }
     
     public class Certificate
@@ -180,6 +211,6 @@ namespace UnclePhill.WebAPI_NFeS.Utils.Utils
                 Console.WriteLine(ex.Message);
                 return _X509Cert;
             }
-        }
+        }       
     }
 }

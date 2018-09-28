@@ -8,6 +8,7 @@ using UnclePhill.WebAPI_NFeS.Utils.Utils;
 using UnclePhill.WebAPI_NFeS.Models.Models;
 using System.Text;
 using UnclePhill.WebAPI_NFeS.Models.Models.NFeSRequestModels;
+using System.Security.Cryptography;
 
 namespace UnclePhill.WebAPI_NFeS.Domain
 {
@@ -51,7 +52,7 @@ namespace UnclePhill.WebAPI_NFeS.Domain
                 NFeSIR.nfd.cpfcnpjtomador = 30797063000181;
                 NFeSIR.nfd.inscricaoestadualtomador = "356646565";
                 NFeSIR.nfd.inscricaomunicipaltomador = string.Empty;                
-                NFeSIR.nfd.tbfatura = new tbnfdNfdFatura[3];
+                NFeSIR.nfd.tbfatura = new tbnfdNfdFatura[1];
 
                 NFeSIR.nfd.tbfatura[0] = new tbnfdNfdFatura
                 {
@@ -60,7 +61,7 @@ namespace UnclePhill.WebAPI_NFeS.Domain
                     valorfatura = 350                 
                 };
                 
-                NFeSIR.nfd.tbservico = new tbnfdNfdServico[3];
+                NFeSIR.nfd.tbservico = new tbnfdNfdServico[1];
 
                 NFeSIR.nfd.tbservico[0] = new tbnfdNfdServico
                 {
@@ -90,11 +91,10 @@ namespace UnclePhill.WebAPI_NFeS.Domain
                 NFeSIR.nfd.dataemissaort = string.Empty;
                 NFeSIR.nfd.fatorgerador = string.Empty;
 
-                string Xml = ParseXmlNFeS(NFeSIR);
+                string Xml = ToNFeS(NFeSIR);
                 string RetXmlSerra = new NFeS.API.Serra.Entrada.WSEntradaClient()
                     .nfdEntrada("55555555555", "cRDtpNCeBiql5KOQsKVyrA0sAiA=", 3, Xml);
-
-                return RetXmlSerra;      
+                return RetXmlSerra;
             }
             catch(Exception ex)
             {
@@ -102,13 +102,14 @@ namespace UnclePhill.WebAPI_NFeS.Domain
             }
         } 
 
-        private string ParseXmlNFeS(tbnfd NFeSIR)
+        private string ToNFeS(tbnfd NFeSIR)
         {
             try
             {
-                String Xml = Functions.ClassForStringXml(NFeSIR);
-                Xml = Functions.XmlSignature.Sign(Xml);
-                return Xml;
+                String Xml = Functions.XmlFunctions.ClassForStringXml(NFeSIR);
+                Xml = Functions.XmlFunctions.Signature.Sign(Xml);                
+                if (Functions.XmlFunctions.Signature.VerifySignXml(Xml)){return Xml;}
+                throw new Exception("Nota fiscal inválida!");
             }
             catch(Exception ex)
             {
