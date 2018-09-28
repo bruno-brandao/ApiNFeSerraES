@@ -12,57 +12,24 @@ namespace UnclePhill.WebAPI_NFeS.Utils.Utils
 {    
     public class Signature
     {
-        public string SignXml(string Xml,string Certificado, string URI )
+        public string Sign(string Xml,string Certificado = "522ac7756187d976")
         {
             try
             {
-                AssinaturaDigital SignDigital = new AssinaturaDigital();
-                X509Certificate2 Certificate = new X509Certificate2();
-
-                Certificado certificado = new Certificado();
-                Certificate = certificado.BuscaNome("");
-                if (SignDigital.SignXml(Xml, URI, Certificate) == 0)
-                {
-                    return SignDigital.XMLStringAssinado;
-                }
-                throw new Exception("Não foi possivel assinar o XML");
+                return SignXml(Xml, new Certificate().SearchBySerie(Certificado));
             }
             catch(Exception ex)
             {
                 throw ex;
             }            
         }
-    }
 
-    public class AssinaturaDigital
-    {
-        /*
-                * Entradas:
-                * XMLString: string XML a ser assinada
-                * RefUri : Referência da URI a ser assinada (Ex. infNFe
-                * X509Cert : certificado digital a ser utilizado na assinatura digital
-                *
-                * Retornos:
-                * Assinar : 0 - Assinatura realizada com sucesso
-                * 1 - Erro: Problema ao acessar o certificado digital - %exceção%
-                * 2 - Problemas no certificado digital
-                * 3 - XML mal formado + exceção
-                * 4 - A tag de assinatura %RefUri% inexiste
-                * 5 - A tag de assinatura %RefUri% não é unica
-                * 6 - Erro Ao assinar o documento - ID deve ser string %RefUri(Atributo)%
-                * 7 - Erro: Ao assinar o documento - %exceção%
-                *
-                * XMLStringAssinado : string XML assinada
-                *
-                * XMLDocAssinado : XMLDocument do XML assinado
-                */
-        public int SignXml(string XMLString, string RefUri, X509Certificate2 X509Cert)
+        private string SignXml(string XMLString, X509Certificate2 X509Cert)
         {
-            int resultado = 0;
-            msgResultado = "Assinatura realizada com sucesso";
             try
             {
-                string _xnome = "";
+                XmlDocument XMLDoc;
+                string _xnome = string.Empty;
                 if (X509Cert != null)
                 {
                     _xnome = X509Cert.Subject.ToString();
@@ -74,8 +41,7 @@ namespace UnclePhill.WebAPI_NFeS.Utils.Utils
                 X509Certificate2Collection collection1 = (X509Certificate2Collection)collection.Find(X509FindType.FindBySubjectDistinguishedName, _xnome, false);
                 if (collection1.Count == 0)
                 {
-                    resultado = 2;
-                    msgResultado = "Problemas no certificado digital";
+                    throw new Exception("Problemas no certificado digital");
                 }
                 else
                 {
@@ -83,101 +49,46 @@ namespace UnclePhill.WebAPI_NFeS.Utils.Utils
                     string x = _X509Cert.GetKeyAlgorithm().ToString();
                     XmlDocument doc = new XmlDocument();
                     doc.PreserveWhitespace = false;
-                    try
-                    {
-                        doc.LoadXml(XMLString);
-                        int qtdeRefUri = doc.GetElementsByTagName(RefUri).Count;
+                    doc.LoadXml(XMLString);
 
-                        if (qtdeRefUri == 0)
-                        {
-                            resultado = 4;
-                            msgResultado = "A tag de assinatura " + RefUri.Trim() + " inexiste";
-                        }
-                        else
-                        {
-                            if (qtdeRefUri > 1)
-                            {
-                                resultado = 5;
-                                msgResultado = "A tag de assinatura " + RefUri.Trim() + " não é unica";
+                    SignedXml signedXml = new SignedXml(doc);
+                    signedXml.SigningKey = _X509Cert.PrivateKey;
+                    Reference reference = new Reference();
+                    reference.Uri = "";
 
-                            }
-                            else
-                            {
-                                try
-                                {
+                    XmlDsigEnvelopedSignatureTransform env = new XmlDsigEnvelopedSignatureTransform();
+                    reference.AddTransform(env);
 
-                                    SignedXml signedXml = new SignedXml(doc);
-                                    signedXml.SigningKey = _X509Cert.PrivateKey;
-                                    Reference reference = new Reference();                                    
-                                    reference.Uri = "";
+                    XmlDsigC14NTransform c14 = new XmlDsigC14NTransform();
+                    reference.AddTransform(c14);
 
-                                    XmlDsigEnvelopedSignatureTransform env = new XmlDsigEnvelopedSignatureTransform();
-                                    reference.AddTransform(env);
+                    signedXml.AddReference(reference);
 
-                                    XmlDsigC14NTransform c14 = new XmlDsigC14NTransform();
-                                    reference.AddTransform(c14);
+                    KeyInfo keyInfo = new KeyInfo();
+                    keyInfo.AddClause(new KeyInfoX509Data(_X509Cert));
+                    signedXml.KeyInfo = keyInfo;
 
-                                    signedXml.AddReference(reference);
+                    signedXml.ComputeSignature();
 
-                                    KeyInfo keyInfo = new KeyInfo();
-                                    keyInfo.AddClause(new KeyInfoX509Data(_X509Cert));
-                                    signedXml.KeyInfo = keyInfo;
+                    XmlElement xmlDigitalSignature = signedXml.GetXml();
 
-                                    signedXml.ComputeSignature();
-
-                                    XmlElement xmlDigitalSignature = signedXml.GetXml();
-
-                                    doc.DocumentElement.AppendChild(doc.ImportNode(xmlDigitalSignature, true));
-                                    XMLDoc = new XmlDocument();
-                                    XMLDoc.PreserveWhitespace = false;
-                                    XMLDoc = doc;
-                                }
-                                catch (Exception caught)
-                                {
-                                    resultado = 7;
-                                    msgResultado = "Erro: Ao assinar o documento - " + caught.Message;
-                                }
-                            }
-                        }
-                    }
-                    catch (Exception caught)
-                    {
-                        resultado = 3;
-                        msgResultado = "Erro: XML mal formado - " + caught.Message;
-                    }
+                    doc.DocumentElement.AppendChild(doc.ImportNode(xmlDigitalSignature, true));
+                    XMLDoc = new XmlDocument();
+                    XMLDoc.PreserveWhitespace = false;
+                    XMLDoc = doc;
                 }
+                return XMLDoc.OuterXml;
             }
-            catch (Exception caught)
+            catch (Exception ex)
             {
-                resultado = 1;
-                msgResultado = "Erro: Problema ao acessar o certificado digital" + caught.Message;
+                throw ex;
             }
-
-            return resultado;
-        }
-
-        private string msgResultado;
-        private XmlDocument XMLDoc;
-
-        public XmlDocument XMLDocAssinado
-        {
-            get { return XMLDoc; }
-        }
-
-        public string XMLStringAssinado
-        {
-            get { return XMLDoc.OuterXml; }
-        }
-
-        public string mensagemResultado
-        {
-            get { return msgResultado; }
         }
     }
-
-    public class Certificado
+    
+    public class Certificate
     {
-        public X509Certificate2 BuscaNome(string Nome)
+        public X509Certificate2 SearchByName(string Nome)
         {
             X509Certificate2 _X509Cert = new X509Certificate2();
             try
@@ -194,7 +105,7 @@ namespace UnclePhill.WebAPI_NFeS.Utils.Utils
                     if (scollection.Count == 0)
                     {
                         _X509Cert.Reset();
-                        Console.WriteLine("Nenhum certificado escolhido", "Atenção");
+                        throw new Exception("Nenhum certificado escolhido");
                     }
                     else
                     {
@@ -206,8 +117,8 @@ namespace UnclePhill.WebAPI_NFeS.Utils.Utils
                     X509Certificate2Collection scollection = (X509Certificate2Collection)collection2.Find(X509FindType.FindBySubjectDistinguishedName, Nome, false);
                     if (scollection.Count == 0)
                     {
-                        Console.WriteLine("Nenhum certificado válido foi encontrado com o nome informado: " + Nome, "Atenção");
                         _X509Cert.Reset();
+                        throw new Exception("Nenhum certificado válido foi encontrado com o nome informado: " + Nome);
                     }
                     else
                     {
@@ -224,7 +135,7 @@ namespace UnclePhill.WebAPI_NFeS.Utils.Utils
             }
         }
 
-        public X509Certificate2 BuscaNroSerie(string NroSerie)
+        public X509Certificate2 SearchBySerie(string NroSerie)
         {
             X509Certificate2 _X509Cert = new X509Certificate2();
             try
@@ -241,7 +152,7 @@ namespace UnclePhill.WebAPI_NFeS.Utils.Utils
                     if (scollection.Count == 0)
                     {
                         _X509Cert.Reset();
-                        Console.WriteLine("Nenhum certificado válido foi encontrado com o número de série informado: " + NroSerie, "Atenção");
+                        throw new Exception("Nenhum certificado válido foi encontrado com o número de série informado: " + NroSerie);
                     }
                     else
                     {
@@ -254,7 +165,7 @@ namespace UnclePhill.WebAPI_NFeS.Utils.Utils
                     if (scollection.Count == 0)
                     {
                         _X509Cert.Reset();
-                        Console.WriteLine("Nenhum certificado válido foi encontrado com o número de série informado: " + NroSerie, "Atenção");
+                        throw new Exception("Nenhum certificado válido foi encontrado com o número de série informado: " + NroSerie);
                     }
                     else
                     {

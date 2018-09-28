@@ -89,16 +89,12 @@ namespace UnclePhill.WebAPI_NFeS.Domain
                 NFeSIR.nfd.codigoseriert = string.Empty;
                 NFeSIR.nfd.dataemissaort = string.Empty;
                 NFeSIR.nfd.fatorgerador = string.Empty;
-                //NFeSIR.Signature = new Models.Models.Signature();
 
                 string Xml = ParseXmlNFeS(NFeSIR);
-                string RetXmlSerra = string.Empty;
-                string RetXmlCariacica = string.Empty;
+                string RetXmlSerra = new NFeS.API.Serra.Entrada.WSEntradaClient()
+                    .nfdEntrada("55555555555", "cRDtpNCeBiql5KOQsKVyrA0sAiA=", 3, Xml);
 
-                RetXmlSerra = new NFeS.API.Serra.Entrada.WSEntradaClient().nfdEntrada("55555555555", "cRDtpNCeBiql5KOQsKVyrA0sAiA=", 3, Xml);
-                RetXmlCariacica = new NFeS.API.Cariacica.Entrada.WSEntradaClient().nfdEntrada("55555555555", "cRDtpNCeBiql5KOQsKVyrA0sAiA=", 3, Xml);
-                                
-                return RetXmlSerra + "\n" + RetXmlCariacica;       
+                return RetXmlSerra;      
             }
             catch(Exception ex)
             {
@@ -111,8 +107,7 @@ namespace UnclePhill.WebAPI_NFeS.Domain
             try
             {
                 String Xml = Functions.ClassForStringXml(NFeSIR);
-                Xml = Functions.XmlSignature.SignXml(Xml, "", "Signature");
-                Xml = Xml.Replace("<Signature xmlns=\"http://www.w3.org/2000/09/xmldsig#\" />", "");
+                Xml = Functions.XmlSignature.Sign(Xml);
                 return Xml;
             }
             catch(Exception ex)
