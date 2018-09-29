@@ -52,6 +52,7 @@
     <Compile Include="Models\NFeSItens.cs" />
     <Compile Include="Models\NFeSStructureModels\NFeSIssueRequest.cs" />
     <Compile Include="Models\NFeSStructureModels\NFeSPreview.cs" />
+    <Compile Include="Models\NFeSStructureModels\NFeSProcessingResult.cs" />
     <Compile Include="Models\NFeSStructureModels\NFeSReceipt.cs" />
     <Compile Include="Models\NFeSStructureModels\NFeSTaxpayerActivities.cs" />
     <Compile Include="Models\NFeSStructureModels\NFeSCancel.cs" />
@@ -64,15 +65,10 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Certificate\configuracaoNFE.xml" />
-    <Content Include="Certificate\CSC Token.txt" />
     <Content Include="SQL\Script_BD_NFeS.sql" />
   </ItemGroup>
   <ItemGroup>
     <WCFMetadata Include="Connected Services\" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Certificate\Certificado.pfx" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

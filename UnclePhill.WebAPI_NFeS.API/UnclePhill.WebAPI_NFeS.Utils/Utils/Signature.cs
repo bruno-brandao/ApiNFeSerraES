@@ -24,37 +24,7 @@ namespace UnclePhill.WebAPI_NFeS.Utils.Utils
                 throw ex;
             }            
         }
-
-        public Boolean VerifySignXml(string Xml, string CertificateSerie = "522ac7756187d976")
-        {
-            try
-            {
-                XmlDocument DocXml = new XmlDocument();
-                DocXml.PreserveWhitespace = false;
-                DocXml.LoadXml(Xml);
-
-                SignedXml signedXml = new SignedXml(DocXml);
-                XmlNodeList nodeList = DocXml.GetElementsByTagName("Signature");
-
-                if (nodeList.Count <= 0)
-                {
-                    throw new CryptographicException("Não foi encontrada assinatura!");
-                }
-
-                if (nodeList.Count >= 2)
-                {
-                    throw new CryptographicException("Existe mais de uma assinatura!");
-                }
-
-                signedXml.LoadXml((XmlElement)nodeList[0]);
-                return signedXml.CheckSignature(new Certificate().SearchBySerie(CertificateSerie).PrivateKey);
-            }
-            catch (Exception ex)
-            {
-                throw ex;
-            }
-        }
-
+              
         private string SignXml(string Xml, X509Certificate2 X509Cert)
         {
             try

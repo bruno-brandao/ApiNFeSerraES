@@ -69,7 +69,7 @@ namespace UnclePhill.WebAPI_NFeS.Utils.Utils
 
         public T StringXmlForClass<T>(string Input) where T : class
         {
-            string keyNomeClasseEmUso = typeof(T).Name;
+            string keyNomeClasseEmUso = typeof(T).FullName;
             XmlSerializer ser = SearchCache(keyNomeClasseEmUso, typeof(T));
 
             using (StringReader sr = new StringReader(Input))

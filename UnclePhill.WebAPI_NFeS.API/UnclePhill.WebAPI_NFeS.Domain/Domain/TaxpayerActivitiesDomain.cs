@@ -32,7 +32,7 @@ namespace UnclePhill.WebAPI_NFeS.Domain
 
                 WSEntradaClient Entrada = new WSEntradaClient();                
                 string TaxpayerActivities = Entrada.consultarAtividades(CPF, Password, IM, CodeCity);
-                if (Functions.IsXml(TaxpayerActivities))
+                if (Functions.XmlFunctions.IsXml(TaxpayerActivities))
                 {
                     XmlSerializer xmlSerializer = new XmlSerializer(typeof(AtividadesContribuinte));
                     StringReader stringReader = new StringReader(TaxpayerActivities);
