@@ -54,7 +54,7 @@ namespace UnclePhill.WebAPI_NFeS.Models.Models.NFeSStructure.NFeSIssueRequest
     public partial class tbnfdNfd
     {
 
-        private byte numeronfdField;
+        private string numeronfdField;
 
         private string codseriedocumentoField;
 
@@ -137,7 +137,7 @@ namespace UnclePhill.WebAPI_NFeS.Models.Models.NFeSStructure.NFeSIssueRequest
         private string fatorgeradorField;
 
         /// <remarks/>
-        public byte numeronfd
+        public string numeronfd
         {
             get
             {
@@ -683,7 +683,7 @@ namespace UnclePhill.WebAPI_NFeS.Models.Models.NFeSStructure.NFeSIssueRequest
 
         private string vencimentofaturaField;
 
-        private double valorfaturaField;
+        private string valorfaturaField;
 
         /// <remarks/>
         public string numfatura
@@ -712,7 +712,7 @@ namespace UnclePhill.WebAPI_NFeS.Models.Models.NFeSStructure.NFeSIssueRequest
         }
 
         /// <remarks/>
-        public double valorfatura
+        public string valorfatura
         {
             get
             {
@@ -732,20 +732,20 @@ namespace UnclePhill.WebAPI_NFeS.Models.Models.NFeSStructure.NFeSIssueRequest
     public partial class tbnfdNfdServico
     {
 
-        private byte quantidadeField;
+        private string quantidadeField;
 
         private string descricaoField;
 
-        private byte codatividadeField;
+        private string codatividadeField;
 
-        private double valorunitarioField;
+        private string valorunitarioField;
 
         private string aliquotaField;
 
         private string impostoretidoField;
 
         /// <remarks/>
-        public byte quantidade
+        public string quantidade
         {
             get
             {
@@ -771,7 +771,7 @@ namespace UnclePhill.WebAPI_NFeS.Models.Models.NFeSStructure.NFeSIssueRequest
         }
 
         /// <remarks/>
-        public byte codatividade
+        public string codatividade
         {
             get
             {
@@ -784,7 +784,7 @@ namespace UnclePhill.WebAPI_NFeS.Models.Models.NFeSStructure.NFeSIssueRequest
         }
 
         /// <remarks/>
-        public double valorunitario
+        public string valorunitario
         {
             get
             {

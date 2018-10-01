@@ -38,13 +38,13 @@ namespace UnclePhill.WebAPI_NFeS.Models.Models.NFeSStructure.NFeSError
     public partial class tbnfdNfderro
     {
 
-        private ushort numeronfdField;
+        private string numeronfdField;
 
-        private byte codigoerroField;
+        private string codigoerroField;
 
         /// <remarks/>
         [System.Xml.Serialization.XmlAttributeAttribute()]
-        public ushort numeronfd
+        public string numeronfd
         {
             get
             {
@@ -58,7 +58,7 @@ namespace UnclePhill.WebAPI_NFeS.Models.Models.NFeSStructure.NFeSError
 
         /// <remarks/>
         [System.Xml.Serialization.XmlAttributeAttribute()]
-        public byte codigoerro
+        public string codigoerro
         {
             get
             {

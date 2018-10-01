@@ -41,7 +41,7 @@ namespace UnclePhill.WebAPI_NFeS.Models.Models.NFeSStructure.NFeSProcessingResul
 
         private tbnfdNfdokNewDataSet newDataSetField;
 
-        private int numeronfdField;
+        private string numeronfdField;
 
         /// <remarks/>
         public tbnfdNfdokNewDataSet NewDataSet
@@ -58,7 +58,7 @@ namespace UnclePhill.WebAPI_NFeS.Models.Models.NFeSStructure.NFeSProcessingResul
 
         /// <remarks/>
         [System.Xml.Serialization.XmlAttributeAttribute()]
-        public int numeronfd
+        public string numeronfd
         {
             get
             {
@@ -224,15 +224,15 @@ namespace UnclePhill.WebAPI_NFeS.Models.Models.NFeSStructure.NFeSProcessingResul
 
         private string codigoSerieField;
 
-        private string timbreContribinteLogoField;
+        private string timbreContribstringeLogoField;
 
-        private string timbreContribinteLinha1Field;
+        private string timbreContribstringeLinha1Field;
 
-        private string timbreContribinteLinha2Field;
+        private string timbreContribstringeLinha2Field;
 
-        private string timbreContribinteLinha3Field;
+        private string timbreContribstringeLinha3Field;
 
-        private string timbreContribinteLinha4Field;
+        private string timbreContribstringeLinha4Field;
 
         private string timbrePrefeituraLogoField;
 
@@ -750,67 +750,67 @@ namespace UnclePhill.WebAPI_NFeS.Models.Models.NFeSStructure.NFeSProcessingResul
         }
 
         /// <remarks/>
-        public string TimbreContribinteLogo
+        public string TimbreContribstringeLogo
         {
             get
             {
-                return this.timbreContribinteLogoField;
+                return this.timbreContribstringeLogoField;
             }
             set
             {
-                this.timbreContribinteLogoField = value;
+                this.timbreContribstringeLogoField = value;
             }
         }
 
         /// <remarks/>
-        public string TimbreContribinteLinha1
+        public string TimbreContribstringeLinha1
         {
             get
             {
-                return this.timbreContribinteLinha1Field;
+                return this.timbreContribstringeLinha1Field;
             }
             set
             {
-                this.timbreContribinteLinha1Field = value;
+                this.timbreContribstringeLinha1Field = value;
             }
         }
 
         /// <remarks/>
-        public string TimbreContribinteLinha2
+        public string TimbreContribstringeLinha2
         {
             get
             {
-                return this.timbreContribinteLinha2Field;
+                return this.timbreContribstringeLinha2Field;
             }
             set
             {
-                this.timbreContribinteLinha2Field = value;
+                this.timbreContribstringeLinha2Field = value;
             }
         }
 
         /// <remarks/>
-        public string TimbreContribinteLinha3
+        public string TimbreContribstringeLinha3
         {
             get
             {
-                return this.timbreContribinteLinha3Field;
+                return this.timbreContribstringeLinha3Field;
             }
             set
             {
-                this.timbreContribinteLinha3Field = value;
+                this.timbreContribstringeLinha3Field = value;
             }
         }
 
         /// <remarks/>
-        public string TimbreContribinteLinha4
+        public string TimbreContribstringeLinha4
         {
             get
             {
-                return this.timbreContribinteLinha4Field;
+                return this.timbreContribstringeLinha4Field;
             }
             set
             {
-                this.timbreContribinteLinha4Field = value;
+                this.timbreContribstringeLinha4Field = value;
             }
         }
 
@@ -878,7 +878,7 @@ namespace UnclePhill.WebAPI_NFeS.Models.Models.NFeSStructure.NFeSProcessingResul
 
         private System.DateTime vencimentoField;
 
-        private decimal valorField;
+        private string valorField;
 
         /// <remarks/>
         public string Numero
@@ -907,7 +907,7 @@ namespace UnclePhill.WebAPI_NFeS.Models.Models.NFeSStructure.NFeSProcessingResul
         }
 
         /// <remarks/>
-        public decimal Valor
+        public string Valor
         {
             get
             {
@@ -927,22 +927,22 @@ namespace UnclePhill.WebAPI_NFeS.Models.Models.NFeSStructure.NFeSProcessingResul
     public partial class tbnfdNfdokNewDataSetITENS
     {
 
-        private decimal quantidadeField;
+        private string quantidadeField;
 
-        private int codigoAtividadeField;
+        private string codigoAtividadeField;
 
         private string servicoField;
 
-        private decimal valorUnitarioField;
+        private string valorUnitarioField;
 
-        private int valorTotalField;
+        private string valorTotalField;
 
-        private bool impostoRetidoField;
+        private string impostoRetidoField;
 
-        private decimal aliquotaField;
+        private string aliquotaField;
 
         /// <remarks/>
-        public decimal Quantidade
+        public string Quantidade
         {
             get
             {
@@ -955,7 +955,7 @@ namespace UnclePhill.WebAPI_NFeS.Models.Models.NFeSStructure.NFeSProcessingResul
         }
 
         /// <remarks/>
-        public int CodigoAtividade
+        public string CodigoAtividade
         {
             get
             {
@@ -981,7 +981,7 @@ namespace UnclePhill.WebAPI_NFeS.Models.Models.NFeSStructure.NFeSProcessingResul
         }
 
         /// <remarks/>
-        public decimal ValorUnitario
+        public string ValorUnitario
         {
             get
             {
@@ -994,7 +994,7 @@ namespace UnclePhill.WebAPI_NFeS.Models.Models.NFeSStructure.NFeSProcessingResul
         }
 
         /// <remarks/>
-        public int ValorTotal
+        public string ValorTotal
         {
             get
             {
@@ -1007,7 +1007,7 @@ namespace UnclePhill.WebAPI_NFeS.Models.Models.NFeSStructure.NFeSProcessingResul
         }
 
         /// <remarks/>
-        public bool ImpostoRetido
+        public string ImpostoRetido
         {
             get
             {
@@ -1020,7 +1020,7 @@ namespace UnclePhill.WebAPI_NFeS.Models.Models.NFeSStructure.NFeSProcessingResul
         }
 
         /// <remarks/>
-        public decimal Aliquota
+        public string Aliquota
         {
             get
             {

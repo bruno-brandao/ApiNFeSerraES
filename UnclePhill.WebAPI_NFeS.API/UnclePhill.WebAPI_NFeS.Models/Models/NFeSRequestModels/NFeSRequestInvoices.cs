@@ -8,5 +8,7 @@ namespace UnclePhill.WebAPI_NFeS.Models.Models.NFeSRequestModels
 {
     public class NFeSRequestInvoices
     {
+        public int MyProperty { get; set; }
+
     }
 }

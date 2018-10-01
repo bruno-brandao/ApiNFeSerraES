@@ -13,7 +13,7 @@ namespace UnclePhill.WebAPI_NFeS.API.Controllers
         /// </summary>
         /// <returns code = "200">Sucesso</returns>
         /// <returns code = "400">Erro</returns> 
-        [HttpGet]
+        [HttpPost]
         public IHttpActionResult EmitirNFeS()
         {
             try

@@ -8,6 +8,7 @@ namespace UnclePhill.WebAPI_NFeS.Models.Models.NFeSRequestModels
 {
     public class NFeSRequest
     {
+        public long CompanyId { get; set; }
         public long TakerId { get; set; }
         public long CFPSId { get; set; }
         public long ShippingCompanyId { get; set; }

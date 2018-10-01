@@ -24,9 +24,9 @@ using System.Xml.Serialization;
 [System.Xml.Serialization.XmlRootAttribute(Namespace="", IsNullable=false)]
 public partial class nfd {
     
-    private int inscricaomunicipalemissorField;
+    private string inscricaomunicipalemissorField;
     
-    private int numeronfField;
+    private string numeronfField;
     
     private string motivocancelamentoField;
     
@@ -34,7 +34,7 @@ public partial class nfd {
     
     /// <remarks/>
     [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified)]
-    public int inscricaomunicipalemissor {
+    public string inscricaomunicipalemissor {
         get {
             return this.inscricaomunicipalemissorField;
         }
@@ -45,7 +45,7 @@ public partial class nfd {
     
     /// <remarks/>
     [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified)]
-    public int numeronf {
+    public string numeronf {
         get {
             return this.numeronfField;
         }

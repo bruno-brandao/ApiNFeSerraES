@@ -28,8 +28,43 @@ namespace UnclePhill.WebAPI_NFeS.Domain
                 //serviços:{Id,Atividade,Quantidade,ValorUnit};
                 //Observação;
                 //Transportadora{TipoFrete,Especie,PesoL,PesoB};
+
+                if (NFeS.CompanyId <= 0)
+                {
+                    throw new Exception("Informe o emissor.");
+                }
+
+                if (NFeS.TakerId <= 0)
+                {
+                    throw new Exception("Informe o tomador do serviço.");
+                }
+
+                if (NFeS.CFPSId <= 0)
+                {
+                    throw new Exception("Informe o Código Fiscal de Prestação de Serviço (CFPS).");
+                }
+
+                if (NFeS.Invoices.Count <= 0)
+                {
+                    throw new Exception("Ao menos 1 (Uma) fatura deve ser informada.");
+                }
+
+                if (NFeS.Invoices.Count > 0)
+                {
+                    foreach (NFeSRequestInvoices Invoice in NFeS.Invoices)
+                    {
+                        if (Invoice)
+                        {
+
+                        }
+                    }
+                }
                 
-                tbnfd NFeSIR = new tbnfd();
+
+                var Taker = new Takers();
+
+
+                var NFeSIR = new tbnfd();
                 NFeSIR.nfd = new tbnfdNfd();
 
                 NFeSIR.nfd.numeronfd = 0; 
@@ -60,7 +95,7 @@ namespace UnclePhill.WebAPI_NFeS.Domain
                 {
                     numfatura = "1",
                     vencimentofatura = DateTime.Now.AddMonths(1).ToString("dd/MM/yyyy"),
-                    valorfatura = 350                 
+                    valorfatura = "350"                 
                 };
                 
                 NFeSIR.nfd.tbservico = new tbnfdNfdServico[1];
@@ -69,8 +104,8 @@ namespace UnclePhill.WebAPI_NFeS.Domain
                 {
                     quantidade = 2,
                     descricao = "Aula de Programação",
-                    codatividade = 0101,
-                    valorunitario = 350,
+                    codatividade = "0101",
+                    valorunitario = "350",
                     aliquota = "3",
                     impostoretido = "N"
                 };
@@ -93,21 +128,26 @@ namespace UnclePhill.WebAPI_NFeS.Domain
                 NFeSIR.nfd.dataemissaort = string.Empty;
                 NFeSIR.nfd.fatorgerador = string.Empty;
 
-                string NFsXml = ToNFeS(NFeSIR);
-                string RequestXml = new NFeS.API.Serra.Entrada.WSEntradaClient()
+                var NFsXml = ToNFeS(NFeSIR);
+                var RequestXml = new NFeS.API.Serra.Entrada.WSEntradaClient()
                     .nfdEntrada("55555555555", "cRDtpNCeBiql5KOQsKVyrA0sAiA=", 3, NFsXml);
                 
                 if (Functions.XmlFunctions.IsXml(RequestXml))
                 {
-                    string NFsXmlAuth = new NFeS.API.Serra.Saida.WSSaidaClient().nfdSaida("55555555555", "cRDtpNCeBiql5KOQsKVyrA0sAiA=", "4546565", RequestXml);
+                    var NFsXmlAuth = new NFeS.API.Serra.Saida.WSSaidaClient().nfdSaida("55555555555", "cRDtpNCeBiql5KOQsKVyrA0sAiA=", "4546565", RequestXml);
                     if (Functions.XmlFunctions.IsXml(NFsXmlAuth))
                     {
                         Models.Models.NFeSStructure.NFeSProcessingResult.tbnfd NFeSAuth =
                             Functions.XmlFunctions.StringXmlForClass<Models.Models.NFeSStructure.NFeSProcessingResult.tbnfd>(NFsXmlAuth);
 
-                        string UrlXml = new NFeS.API.Serra.Util.WSUtilClient()
+                        var UrlXml = new NFeS.API.Serra.Util.WSUtilClient()
                             .urlNfd(3, int.Parse(NFeSAuth.nfdok.NewDataSet.NOTA_FISCAL.NumeroNota), 
                             int.Parse(NFeSAuth.nfdok.NewDataSet.NOTA_FISCAL.CodigoSerie), "4546565");
+
+                        if (Functions.XmlFunctions.IsXml(UrlXml))
+                        {
+                             
+                        }
                     }
                 }
                 return null;
