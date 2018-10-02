@@ -19,16 +19,7 @@ namespace UnclePhill.WebAPI_NFeS.Domain
         public string EmitirNFeS(NFeSRequest NFeS)
         {
             try
-            {
-                //**Objeto para emissão de NF**//
-                //Emissor;
-                //Tomador do serviço;
-                //Natureza da operação (CFPS);
-                //Faturas:{Numero,Vencimento,Valor};
-                //serviços:{Id,Atividade,Quantidade,ValorUnit};
-                //Observação;
-                //Transportadora{TipoFrete,Especie,PesoL,PesoB};
-
+            {                
                 if (NFeS.CompanyId <= 0)
                 {
                     throw new Exception("Informe o emissor.");
@@ -53,21 +44,58 @@ namespace UnclePhill.WebAPI_NFeS.Domain
                 {
                     foreach (NFeSRequestInvoices Invoice in NFeS.Invoices)
                     {
-                        if (Invoice)
+                        if (Invoice.Number <= 0)
                         {
-
+                            throw new Exception("Informe o número da fatura.");
+                        }
+                        if (string.IsNullOrEmpty(Invoice.Maturity) || ! Functions.IsDate(Invoice.Maturity))
+                        {
+                            throw new Exception("Informe a data de vencimento da fatura.");
+                        }
+                        if (Invoice.Value <= 0)
+                        {
+                            throw new Exception("Informe o valor da fatura.");
                         }
                     }
                 }
                 
+                if (NFeS.Itens.Count <= 0)
+                {
+                    throw new Exception("Informe ao menos 1 (Um) serviço.");
+                }
 
+                if (NFeS.Itens.Count > 0)
+                {
+                    foreach (NFeSRequestItens Item in NFeS.Itens)
+                    {
+                        if (Item.Amount <= 0)
+                        {
+                            throw new Exception("Informe a quantidade do serviço prestado.");
+                        }
+                        if (string.IsNullOrEmpty(Item.Description))
+                        {
+                            throw new Exception("Informe a descrição do serviço.");
+                        }
+                        if (Item.ActivitiesId <= 0)
+                        {
+                            throw new Exception("Informe o código da atividade.");
+                        }
+                        if (Item.Value <= 0)
+                        {
+                            throw new Exception("Informe o valor do serviço.");
+                        }
+                    }
+                }
+                                
                 var Taker = new Takers();
-
+                var Company = new Companys();
+                var CFPS = new CFPS();
+                var ShippingCompany = new ShippingCompany();
 
                 var NFeSIR = new tbnfd();
                 NFeSIR.nfd = new tbnfdNfd();
 
-                NFeSIR.nfd.numeronfd = 0; 
+                NFeSIR.nfd.numeronfd = "0"; 
                 NFeSIR.nfd.codseriedocumento = "NFS"; 
                 NFeSIR.nfd.codnaturezaoperacao = 511;
                 NFeSIR.nfd.codigocidade = 3;
@@ -102,7 +130,7 @@ namespace UnclePhill.WebAPI_NFeS.Domain
 
                 NFeSIR.nfd.tbservico[0] = new tbnfdNfdServico
                 {
-                    quantidade = 2,
+                    quantidade = "2",
                     descricao = "Aula de Programação",
                     codatividade = "0101",
                     valorunitario = "350",

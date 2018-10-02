@@ -17,7 +17,46 @@ namespace UnclePhill.WebAPI_NFeS.Utils.Utils
         {
         }
 
-        public static ConnectionManager Conn = new ConnectionManager("unclephill.database.windows.net", "BD_NFeS", "1433", "Administrador", "M1n3Rv@7");        
+        public static ConnectionManager Conn = new ConnectionManager("unclephill.database.windows.net", "BD_NFeS", "1433", "Administrador", "M1n3Rv@7");
+
+        public static Xml XmlFunctions = new Xml();
+
+        public static bool IsDate(string date)
+        {
+            try
+            {
+                DateTime.Parse(date);
+                return true;
+            }catch
+            {
+                return false;
+            }
+        }
+
+        public static bool IsNumber(string number)
+        {
+            try
+            {
+                Decimal.Parse(number);
+                return true;
+            }catch
+            {
+                return false;
+            }
+        }
+
+        public static bool IsBool(string value)
+        {
+            try
+            {
+                bool.Parse(value);
+                return true;
+            }
+            catch
+            {
+                return false;
+            }
+        }
 
         public static string Encript(string value)
         {
@@ -94,9 +133,6 @@ namespace UnclePhill.WebAPI_NFeS.Utils.Utils
                 throw ex;
             }
         }
-
-        #region "XML"
-        public static Xml XmlFunctions = new Xml();
-        #endregion
+  
     }
 }

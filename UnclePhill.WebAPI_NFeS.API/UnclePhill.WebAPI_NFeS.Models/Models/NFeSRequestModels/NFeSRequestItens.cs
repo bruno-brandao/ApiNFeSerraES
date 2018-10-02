@@ -8,20 +8,11 @@ namespace UnclePhill.WebAPI_NFeS.Models.Models.NFeSRequestModels
 {
     public class NFeSRequestItens
     {
-        public NFeSRequestItens()
-        {
-
-        }
-
-        public NFeSRequestItens(decimal Number, string Maturity, decimal Value)
-        {
-            this.Number = Number;
-            this.Maturity = Maturity;
-            this.Value = Value;
-        }
-
-        public decimal Number { get; set; }
-        public string Maturity { get; set; }
+        public decimal Amount { get; set; }
+        public string Description { get; set; }
+        public int ActivitiesId { get; set; }
         public decimal Value { get; set; }
+        public decimal Aliquot { get; set; }
+        public decimal TaxWithheld { get; set; }
     }
 }
