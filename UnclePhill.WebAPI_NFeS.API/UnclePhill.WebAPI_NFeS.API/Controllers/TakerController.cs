@@ -29,7 +29,7 @@ namespace UnclePhill.WebAPI_NFeS.API.Controllers
             {
                 if (!SessionDomain.CheckSession(Sessao())) { return BadRequest("Sessão inválida!"); }
 
-                return Ok(takerDomain.Get(TakerId));
+                return Ok(takerDomain.Get<List<Takers>>(TakerId));
             }
             catch(Exception ex)
             {

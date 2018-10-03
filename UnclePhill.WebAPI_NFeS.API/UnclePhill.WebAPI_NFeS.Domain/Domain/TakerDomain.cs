@@ -1,6 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Configuration;
 using System.Data;
+using System.Linq;
+using System.Text;
 using UnclePhill.WebAPI_NFeS.Models;
 using UnclePhill.WebAPI_NFeS.Models.Models;
 using UnclePhill.WebAPI_NFeS.Utils.Utils;
@@ -10,12 +13,11 @@ namespace UnclePhill.WebAPI_NFeS.Domain
 {
     public class TakerDomain : MasterDomain
     {
-        public List<Takers> Get(long? TakerId = 0)
+        public T Get<T>(long? TakerId = 0) 
         {
             try
-            {
-                List<Takers> lTakers = new List<Takers>();
-
+            {               
+                SQL = new StringBuilder();
                 SQL.AppendLine(" Select ");
                 SQL.AppendLine("    TakerId, ");
                 SQL.AppendLine("    IM, ");
@@ -40,28 +42,20 @@ namespace UnclePhill.WebAPI_NFeS.Domain
                 DataTable data = Functions.Conn.GetDataTable(SQL.ToString(), "Takers");
                 if (data != null && data.Rows.Count > 0)
                 {
-                    foreach (DataRow row in data.Rows)
+                    if (typeof(T) == typeof(List<Takers>))
                     {
-                        Takers taker = new Takers();
-                        taker.TakerId = long.Parse(row["TakerId"].ToString());
-                        taker.IM = row["IM"].ToString();
-                        taker.CPF_CNPJ = row["CPF_CNPJ"].ToString();
-                        taker.RG_IE = row["RG_IE"].ToString();
-                        taker.Name = row["Name"].ToString();
-                        taker.NameFantasy = row["NameFantasy"].ToString();
-                        taker.TypePerson = row["TypePerson"].ToString();
-                        taker.CEP = row["CEP"].ToString();
-                        taker.Street = row["Street"].ToString();
-                        taker.Neighborhood = row["Neighborhood"].ToString();
-                        taker.City = row["City"].ToString();
-                        taker.State = row["State"].ToString();
-                        taker.Email = row["Email"].ToString();
-                        taker.Active = bool.Parse(row["Active"].ToString());
-                        taker.DateInsert = row.Field<DateTime>("DateInsert").ToString("dd-MM-yyyy");
-                        taker.DateUpdate = row.Field<DateTime>("DateUpdate").ToString("dd-MM-yyyy");
-                        lTakers.Add(taker);
+                        List<Takers> lTakers = new List<Takers>();
+                        foreach (DataRow row in data.Rows)
+                        {
+                            lTakers.Add(Fill(row));
+                        }
+                        return (T)Convert.ChangeType(lTakers, typeof(T));
                     }
-                    return lTakers;
+                    else if (typeof(T) == typeof(Takers))
+                    {
+                        return (T)Convert.ChangeType(Fill(data.AsEnumerable().First()), typeof(T));
+                        
+                    }                               
                 }
                 throw new Exception("Não foram encontrados registros!");
             }catch(Exception ex)
@@ -260,6 +254,28 @@ namespace UnclePhill.WebAPI_NFeS.Domain
             {
                  throw new Exception("Informe o Email!");
             }
+        }
+
+        private Takers Fill(DataRow row)
+        {
+            Takers taker = new Takers();
+            taker.TakerId = long.Parse(row["TakerId"].ToString());
+            taker.IM = row["IM"].ToString();
+            taker.CPF_CNPJ = row["CPF_CNPJ"].ToString();
+            taker.RG_IE = row["RG_IE"].ToString();
+            taker.Name = row["Name"].ToString();
+            taker.NameFantasy = row["NameFantasy"].ToString();
+            taker.TypePerson = row["TypePerson"].ToString();
+            taker.CEP = row["CEP"].ToString();
+            taker.Street = row["Street"].ToString();
+            taker.Neighborhood = row["Neighborhood"].ToString();
+            taker.City = row["City"].ToString();
+            taker.State = row["State"].ToString();
+            taker.Email = row["Email"].ToString();
+            taker.Active = bool.Parse(row["Active"].ToString());
+            taker.DateInsert = row.Field<DateTime>("DateInsert").ToString("dd-MM-yyyy");
+            taker.DateUpdate = row.Field<DateTime>("DateUpdate").ToString("dd-MM-yyyy");
+            return taker;
         }
     }
 }

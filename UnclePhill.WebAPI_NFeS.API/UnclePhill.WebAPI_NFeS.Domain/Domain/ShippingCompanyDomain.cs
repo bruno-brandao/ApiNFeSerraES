@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Data;
+using System.Linq;
+using System.Text;
 using UnclePhill.WebAPI_NFeS.Models;
 using UnclePhill.WebAPI_NFeS.Models.Models;
 using UnclePhill.WebAPI_NFeS.Utils.Utils;
@@ -10,12 +12,11 @@ namespace UnclePhill.WebAPI_NFeS.Domain
 {
     public class ShippingCompanyDomain : MasterDomain
     {
-        public List<ShippingCompany> Get(long? ShippingCompanyId)
+        public T Get<T>(long? ShippingCompanyId = 0)
         {
             try
             {
-                List<ShippingCompany> lShippingCompany = new List<ShippingCompany>();
-
+                SQL = new StringBuilder();
                 SQL.AppendLine(" Select ");
                 SQL.AppendLine("    ShippingCompanyId, ");
                 SQL.AppendLine("    CPF_CNPJ, ");
@@ -36,24 +37,19 @@ namespace UnclePhill.WebAPI_NFeS.Domain
                 DataTable data = Functions.Conn.GetDataTable(SQL.ToString(), "ShippingCompany");
                 if (data != null && data.Rows.Count > 0)
                 {
-                    foreach (DataRow row in data.Rows)
+                    if (typeof(T) == typeof(List<Companys>))
                     {
-                        ShippingCompany shippingCompany = new ShippingCompany();
-                        shippingCompany.ShippingCompanyId = long.Parse(row["ShippingCompanyId"].ToString());
-                        shippingCompany.CPF_CNPJ = row["CPF_CNPJ"].ToString();
-                        shippingCompany.Name = row["Name"].ToString();
-                        shippingCompany.NameFantasy = row["NameFantasy"].ToString();
-                        shippingCompany.CEP = row["CEP"].ToString();
-                        shippingCompany.Street = row["Street"].ToString();
-                        shippingCompany.Neighborhood = row["Neighborhood"].ToString();
-                        shippingCompany.City = row["City"].ToString();
-                        shippingCompany.State = row["State"].ToString();
-                        shippingCompany.Active = bool.Parse(row["Active"].ToString());
-                        shippingCompany.DateInsert = row.Field<DateTime>("DateInsert").ToString("dd-MM-yyyy");
-                        shippingCompany.DateUpdate = row.Field<DateTime>("DateUpdate").ToString("dd-MM-yyyy");
-                        lShippingCompany.Add(shippingCompany);
+                        List<ShippingCompany> lShippingCompany = new List<ShippingCompany>();
+                        foreach (DataRow row in data.Rows)
+                        {
+                            lShippingCompany.Add(Fill(row));
+                        }
+                        return (T)Convert.ChangeType(lShippingCompany, typeof(T));
                     }
-                    return lShippingCompany;
+                    else if (typeof(T) == typeof(Takers))
+                    {
+                        return (T)Convert.ChangeType(Fill(data.AsEnumerable().First()), typeof(T));
+                    }
                 }
                 throw new Exception("Não foram encontrados registros!");
             }catch(Exception ex)
@@ -213,6 +209,24 @@ namespace UnclePhill.WebAPI_NFeS.Domain
             {
                   throw new Exception("Informe o estado!");
             }
+        }
+
+        private ShippingCompany Fill(DataRow row)
+        {
+            ShippingCompany shippingCompany = new ShippingCompany();
+            shippingCompany.ShippingCompanyId = long.Parse(row["ShippingCompanyId"].ToString());
+            shippingCompany.CPF_CNPJ = row["CPF_CNPJ"].ToString();
+            shippingCompany.Name = row["Name"].ToString();
+            shippingCompany.NameFantasy = row["NameFantasy"].ToString();
+            shippingCompany.CEP = row["CEP"].ToString();
+            shippingCompany.Street = row["Street"].ToString();
+            shippingCompany.Neighborhood = row["Neighborhood"].ToString();
+            shippingCompany.City = row["City"].ToString();
+            shippingCompany.State = row["State"].ToString();
+            shippingCompany.Active = bool.Parse(row["Active"].ToString());
+            shippingCompany.DateInsert = row.Field<DateTime>("DateInsert").ToString("dd-MM-yyyy");
+            shippingCompany.DateUpdate = row.Field<DateTime>("DateUpdate").ToString("dd-MM-yyyy");
+            return shippingCompany;
         }
     }
 }

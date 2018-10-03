@@ -11,6 +11,8 @@ using UnclePhill.WebAPI_NFeS.Models.Models.NFeSRequestModels;
 using System.Security.Cryptography;
 using System.Xml.Linq;
 using UnclePhill.WebAPI_NFeS.Models.Models.NFeSStructure.NFeSIssueRequest;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace UnclePhill.WebAPI_NFeS.Domain
 {
@@ -19,102 +21,37 @@ namespace UnclePhill.WebAPI_NFeS.Domain
         public string EmitirNFeS(NFeSRequest NFeS)
         {
             try
-            {                
-                if (NFeS.CompanyId <= 0)
-                {
-                    throw new Exception("Informe o emissor.");
-                }
+            {
+                Validate(NFeS);
 
-                if (NFeS.TakerId <= 0)
-                {
-                    throw new Exception("Informe o tomador do serviço.");
-                }
+                Takers Taker = new TakerDomain().Get<Takers>(NFeS.TakerId);
+                Companys Company = new CompanyDomain().Get<Companys>(NFeS.CompanyId);
+                CFPS CFPS = new CFPSDomain().Get<CFPS>(NFeS.CFPSId);                
+                ShippingCompany ShippingCompany = new ShippingCompanyDomain().Get<ShippingCompany>(NFeS.ShippingCompanyId);
 
-                if (NFeS.CFPSId <= 0)
-                {
-                    throw new Exception("Informe o Código Fiscal de Prestação de Serviço (CFPS).");
-                }
-
-                if (NFeS.Invoices.Count <= 0)
-                {
-                    throw new Exception("Ao menos 1 (Uma) fatura deve ser informada.");
-                }
-
-                if (NFeS.Invoices.Count > 0)
-                {
-                    foreach (NFeSRequestInvoices Invoice in NFeS.Invoices)
-                    {
-                        if (Invoice.Number <= 0)
-                        {
-                            throw new Exception("Informe o número da fatura.");
-                        }
-                        if (string.IsNullOrEmpty(Invoice.Maturity) || ! Functions.IsDate(Invoice.Maturity))
-                        {
-                            throw new Exception("Informe a data de vencimento da fatura.");
-                        }
-                        if (Invoice.Value <= 0)
-                        {
-                            throw new Exception("Informe o valor da fatura.");
-                        }
-                    }
-                }
-                
-                if (NFeS.Itens.Count <= 0)
-                {
-                    throw new Exception("Informe ao menos 1 (Um) serviço.");
-                }
-
-                if (NFeS.Itens.Count > 0)
-                {
-                    foreach (NFeSRequestItens Item in NFeS.Itens)
-                    {
-                        if (Item.Amount <= 0)
-                        {
-                            throw new Exception("Informe a quantidade do serviço prestado.");
-                        }
-                        if (string.IsNullOrEmpty(Item.Description))
-                        {
-                            throw new Exception("Informe a descrição do serviço.");
-                        }
-                        if (Item.ActivitiesId <= 0)
-                        {
-                            throw new Exception("Informe o código da atividade.");
-                        }
-                        if (Item.Value <= 0)
-                        {
-                            throw new Exception("Informe o valor do serviço.");
-                        }
-                    }
-                }
-                                
-                var Taker = new Takers();
-                var Company = new Companys();
-                var CFPS = new CFPS();
-                var ShippingCompany = new ShippingCompany();
-
-                var NFeSIR = new tbnfd();
+                tbnfd NFeSIR = new tbnfd();
                 NFeSIR.nfd = new tbnfdNfd();
 
-                NFeSIR.nfd.numeronfd = "0"; 
-                NFeSIR.nfd.codseriedocumento = "NFS"; 
-                NFeSIR.nfd.codnaturezaoperacao = 511;
-                NFeSIR.nfd.codigocidade = 3;
-                NFeSIR.nfd.inscricaomunicipalemissor = 4546565;
+                NFeSIR.nfd.numeronfd = Homologation.NumberNF; 
+                NFeSIR.nfd.codseriedocumento = Homologation.Serie; 
+                NFeSIR.nfd.codnaturezaoperacao = CFPS.CFPSCod;
+                NFeSIR.nfd.codigocidade = Homologation.CityCod;
+                NFeSIR.nfd.inscricaomunicipalemissor = Homologation.IMIssuer;
                 NFeSIR.nfd.dataemissao = DateTime.Now.ToString("dd/MM/yyyy");
-                NFeSIR.nfd.razaotomador = "EVERALDO CARDOSO DE ARAUJO 14644293750";                
-                NFeSIR.nfd.nomefantasiatomador = "NEW OUTSOURCING";
-                NFeSIR.nfd.enderecotomador = "R DOM PEDRO II";
-                NFeSIR.nfd.numeroendereco = "312";
-                NFeSIR.nfd.cidadetomador = "SERRA";
-                NFeSIR.nfd.estadotomador = "ES";
-                NFeSIR.nfd.paistomador = "BRASIL";
-                NFeSIR.nfd.fonetomador = "33214963";
+                NFeSIR.nfd.razaotomador = Taker.Name;
+                NFeSIR.nfd.nomefantasiatomador = Taker.NameFantasy;
+                NFeSIR.nfd.enderecotomador = Taker.Street + " " + Taker.Neighborhood;
+                NFeSIR.nfd.numeroendereco = Taker.Number;
+                NFeSIR.nfd.cidadetomador = Taker.City;
+                NFeSIR.nfd.estadotomador = Taker.State;
+                NFeSIR.nfd.paistomador = Homologation.Country;
+                NFeSIR.nfd.fonetomador = "";
                 NFeSIR.nfd.faxtomador = "";
-                NFeSIR.nfd.ceptomador = 29167168;
+                NFeSIR.nfd.ceptomador = "29167168";
                 NFeSIR.nfd.bairrotomador = "COLINA DE LARANJEIRAS";
                 NFeSIR.nfd.emailtomador = "everaldocardosodearaujo@gmail.com";
                 NFeSIR.nfd.tppessoa = "J";
-                NFeSIR.nfd.cpfcnpjtomador = 30797063000181;
+                NFeSIR.nfd.cpfcnpjtomador = "30797063000181";
                 NFeSIR.nfd.inscricaoestadualtomador = "356646565";
                 NFeSIR.nfd.inscricaomunicipaltomador = string.Empty;                
                 NFeSIR.nfd.tbfatura = new tbnfdNfdFatura[1];
@@ -156,7 +93,14 @@ namespace UnclePhill.WebAPI_NFeS.Domain
                 NFeSIR.nfd.dataemissaort = string.Empty;
                 NFeSIR.nfd.fatorgerador = string.Empty;
 
-                var NFsXml = ToNFeS(NFeSIR);
+                string NFsXml = Functions.XmlFunctions.ClassForStringXml(
+                        Functions.XmlFunctions.StringXmlForClass<tbnfd>(
+                            Functions.XmlFunctions.Signature.Sign(
+                                Functions.XmlFunctions.ClassForStringXml(NFeSIR)
+                                )
+                            )
+                        );
+
                 var RequestXml = new NFeS.API.Serra.Entrada.WSEntradaClient()
                     .nfdEntrada("55555555555", "cRDtpNCeBiql5KOQsKVyrA0sAiA=", 3, NFsXml);
                 
@@ -185,22 +129,81 @@ namespace UnclePhill.WebAPI_NFeS.Domain
                 throw ex;
             }
         } 
-
-        private string ToNFeS(tbnfd NFeSIR)
+        
+        private void Validate(NFeSRequest NFeS)
         {
-            try
-            {                                      
-                return Functions.XmlFunctions.ClassForStringXml(
-                        Functions.XmlFunctions.StringXmlForClass<tbnfd>(
-                            Functions.XmlFunctions.Signature.Sign(
-                                Functions.XmlFunctions.ClassForStringXml(NFeSIR)
-                                )
-                            )
-                        );
-            }
-            catch(Exception ex)
+            //Empresa
+            if (NFeS.CompanyId <= 0)
             {
-                throw ex;
+                throw new Exception("Informe o emissor.");
+            }
+
+            //Tomador
+            if (NFeS.TakerId <= 0)
+            {
+                throw new Exception("Informe o tomador do serviço.");
+            }
+
+            //Codigo Fiscal de Prestação de Serviços
+            if (NFeS.CFPSId <= 0)
+            {
+                throw new Exception("Informe o Código Fiscal de Prestação de Serviço (CFPS).");
+            }
+
+            //Faturas - Quatidades
+            if (NFeS.Invoices.Count <= 0)
+            {
+                throw new Exception("Ao menos 1 (Uma) fatura deve ser informada.");
+            }
+
+            //Faturas - Informações
+            if (NFeS.Invoices.Count > 0)
+            {
+                foreach (NFeSRequestInvoices Invoice in NFeS.Invoices)
+                {
+                    if (Invoice.Number <= 0)
+                    {
+                        throw new Exception("Informe o número da fatura.");
+                    }
+                    if (string.IsNullOrEmpty(Invoice.Maturity) || !Functions.IsDate(Invoice.Maturity))
+                    {
+                        throw new Exception("Informe a data de vencimento da fatura.");
+                    }
+                    if (Invoice.Value <= 0)
+                    {
+                        throw new Exception("Informe o valor da fatura.");
+                    }
+                }
+            }
+
+            //Serviços - Quantidades
+            if (NFeS.Itens.Count <= 0)
+            {
+                throw new Exception("Informe ao menos 1 (Um) serviço.");
+            }
+
+            //Serviços - Informações
+            if (NFeS.Itens.Count > 0)
+            {
+                foreach (NFeSRequestItens Item in NFeS.Itens)
+                {
+                    if (Item.Amount <= 0)
+                    {
+                        throw new Exception("Informe a quantidade do serviço prestado.");
+                    }
+                    if (string.IsNullOrEmpty(Item.Description))
+                    {
+                        throw new Exception("Informe a descrição do serviço.");
+                    }
+                    if (Item.ActivitiesId <= 0)
+                    {
+                        throw new Exception("Informe o código da atividade.");
+                    }
+                    if (Item.Value <= 0)
+                    {
+                        throw new Exception("Informe o valor do serviço.");
+                    }
+                }
             }
         }
     }
