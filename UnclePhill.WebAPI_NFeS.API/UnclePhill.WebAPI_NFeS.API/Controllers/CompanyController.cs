@@ -5,6 +5,7 @@ using UnclePhill.WebAPI_NFeS.Domain;
 using System.Web.Http;
 using UnclePhill.WebAPI_NFeS.Models.Models;
 using System.Collections.Generic;
+using System.Web.Http.Cors;
 
 namespace UnclePhill.WebAPI_NFeS.API.Controllers
 {

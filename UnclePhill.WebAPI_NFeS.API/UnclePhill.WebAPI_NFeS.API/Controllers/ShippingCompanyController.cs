@@ -6,6 +6,7 @@ using UnclePhill.WebAPI_NFeS.Domain;
 using System.Web.Http;
 using UnclePhill.WebAPI_NFeS.Models.Models;
 using System.Web.Http.Cors;
+using System.Collections.Generic;
 
 namespace UnclePhill.WebAPI_NFeS.API.Controllers
 {
@@ -27,7 +28,7 @@ namespace UnclePhill.WebAPI_NFeS.API.Controllers
             {
                 if (!SessionDomain.CheckSession(Sessao())) { return BadRequest("Sessão inválida!"); }
 
-                return Ok(shippingCompanyDomain.Get(ShippingCompanyId));
+                return Ok(shippingCompanyDomain.Get<List<ShippingCompany>>(ShippingCompanyId));
             }
             catch (Exception ex)
             {

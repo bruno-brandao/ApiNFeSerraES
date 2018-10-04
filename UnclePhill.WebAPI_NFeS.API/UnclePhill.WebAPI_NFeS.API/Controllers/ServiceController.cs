@@ -7,6 +7,7 @@ using System.Web.Routing;
 using UnclePhill.WebAPI_NFeS.API.Controllers.Default;
 using UnclePhill.WebAPI_NFeS.Models.Models;
 using System.Collections.Generic;
+using System.Web.Http.Cors;
 
 namespace UnclePhill.WebAPI_NFeS.API.Controllers
 {
