@@ -30,7 +30,7 @@ namespace UnclePhill.WebAPI_NFeS.Domain
                 DataTable data = Functions.Conn.GetDataTable(SQL.ToString(), "CFPS");
                 if (data != null && data.Rows.Count > 0)
                 {
-                    if (typeof(T) == typeof(List<Companys>))
+                    if (typeof(T) == typeof(List<CFPS>))
                     {
                         List<CFPS> lCFPS = new List<CFPS>();
                         foreach (DataRow row in data.Rows)
@@ -39,7 +39,7 @@ namespace UnclePhill.WebAPI_NFeS.Domain
                         }
                         return (T)Convert.ChangeType(lCFPS, typeof(T));
                     }
-                    else if (typeof(T) == typeof(Takers))
+                    else if (typeof(T) == typeof(CFPS))
                     {
                         return (T)Convert.ChangeType(Fill(data.AsEnumerable().First()), typeof(T));
 

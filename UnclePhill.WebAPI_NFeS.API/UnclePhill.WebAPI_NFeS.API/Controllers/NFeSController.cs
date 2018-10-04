@@ -2,6 +2,7 @@
 using System.Web.Http;
 using System.Web.Http.Cors;
 using UnclePhill.WebAPI_NFeS.Domain;
+using UnclePhill.WebAPI_NFeS.Models.Models.NFeSRequestModels;
 
 namespace UnclePhill.WebAPI_NFeS.API.Controllers
 {
@@ -16,11 +17,11 @@ namespace UnclePhill.WebAPI_NFeS.API.Controllers
         /// <returns code = "200">Sucesso</returns>
         /// <returns code = "400">Erro</returns> 
         [HttpPost]
-        public IHttpActionResult EmitirNFeS()
+        public IHttpActionResult EmitirNFeS([FromBody] NFeSRequest NFeS)
         {
             try
             {
-                return Ok(nFeSDomain.EmitirNFeS(null));
+                return Ok(nFeSDomain.EmitirNFeS(NFeS));
             }
             catch(Exception ex)
             {

@@ -10,9 +10,9 @@ namespace UnclePhill.WebAPI_NFeS.Models.Models.NFeSRequestModels
     {
         public decimal Amount { get; set; }
         public string Description { get; set; }
-        public int ActivitiesId { get; set; }
+        public string ActivitiesId { get; set; }
         public decimal Value { get; set; }
         public decimal Aliquot { get; set; }
-        public decimal TaxWithheld { get; set; }
+        public string TaxWithheld { get; set; }
     }
 }

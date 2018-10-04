@@ -37,7 +37,7 @@ namespace UnclePhill.WebAPI_NFeS.Domain
                 DataTable data = Functions.Conn.GetDataTable(SQL.ToString(), "ShippingCompany");
                 if (data != null && data.Rows.Count > 0)
                 {
-                    if (typeof(T) == typeof(List<Companys>))
+                    if (typeof(T) == typeof(List<ShippingCompany>))
                     {
                         List<ShippingCompany> lShippingCompany = new List<ShippingCompany>();
                         foreach (DataRow row in data.Rows)
@@ -46,7 +46,7 @@ namespace UnclePhill.WebAPI_NFeS.Domain
                         }
                         return (T)Convert.ChangeType(lShippingCompany, typeof(T));
                     }
-                    else if (typeof(T) == typeof(Takers))
+                    else if (typeof(T) == typeof(ShippingCompany))
                     {
                         return (T)Convert.ChangeType(Fill(data.AsEnumerable().First()), typeof(T));
                     }
