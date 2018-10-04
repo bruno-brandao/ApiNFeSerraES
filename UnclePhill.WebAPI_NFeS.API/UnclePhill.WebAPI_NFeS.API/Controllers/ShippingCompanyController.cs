@@ -9,7 +9,7 @@ using System.Web.Http.Cors;
 
 namespace UnclePhill.WebAPI_NFeS.API.Controllers
 {
-    [EnableCors(origins: "*", headers: "*", methods: "*")]
+    [EnableCors(origins: "*", headers: "*", methods: "*")] 
     public class ShippingCompanyController : MasterController, Default.IController<ShippingCompany>
     {
         ShippingCompanyDomain shippingCompanyDomain = new ShippingCompanyDomain();

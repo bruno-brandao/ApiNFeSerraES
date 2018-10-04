@@ -13,7 +13,7 @@ using System.Web.Http.Cors;
 
 namespace UnclePhill.WebAPI_NFeS.API.Controllers
 {
-    [EnableCors(origins: "*", headers: "*", methods: "*")]
+    [EnableCors(origins: "*", headers: "*", methods: "*")] 
     public class TakerController : MasterController, Default.IController<Takers>
     {
         private TakerDomain takerDomain = new TakerDomain();

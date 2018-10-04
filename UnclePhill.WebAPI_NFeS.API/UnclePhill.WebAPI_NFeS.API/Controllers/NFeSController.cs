@@ -5,7 +5,7 @@ using UnclePhill.WebAPI_NFeS.Domain;
 
 namespace UnclePhill.WebAPI_NFeS.API.Controllers
 {
-    [EnableCors(origins: "*", headers: "*", methods: "*")]
+    [EnableCors(origins: "*", headers: "*", methods: "*")] 
     public class NFeSController : MasterController
     {
         private NFeSDomain nFeSDomain = new NFeSDomain();

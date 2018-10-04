@@ -10,7 +10,7 @@ using System.Web.Http.Cors;
 
 namespace UnclePhill.WebAPI_NFeS.API.Controllers
 {
-    [EnableCors(origins: "*", headers: "*", methods: "*")]
+    [EnableCors(origins: "*", headers: "*", methods: "*")] 
     public class ServiceController : MasterController, Default.IController<Services>
     {        
         private ServiceDomain serviceDomain = new ServiceDomain();

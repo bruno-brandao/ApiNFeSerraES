@@ -8,7 +8,7 @@ using System.Web.Http.Cors;
 
 namespace UnclePhill.WebAPI_NFeS.API.Controllers
 {
-    [EnableCors(origins: "*", headers: "*", methods: "*")]
+    [EnableCors(origins: "*", headers: "*", methods: "*")] 
     public class CompanyController : MasterController,Default.IController<Companys>
     {
         CompanyDomain companyDomain = new CompanyDomain();
