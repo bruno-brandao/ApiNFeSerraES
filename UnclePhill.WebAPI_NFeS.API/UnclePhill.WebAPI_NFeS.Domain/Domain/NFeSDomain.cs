@@ -28,7 +28,6 @@ namespace UnclePhill.WebAPI_NFeS.Domain
                 Companys Company = new CompanyDomain().Get<Companys>(NFeS.CompanyId);
                 CFPS CFPS = new CFPSDomain().Get<CFPS>(NFeS.CFPSId);                
                 ShippingCompany ShippingCompany = new ShippingCompanyDomain().Get<ShippingCompany>(NFeS.ShippingCompanyId);
-
                 tbnfd NFeSIR = new tbnfd();
                 NFeSIR.nfd = new tbnfdNfd();
 
@@ -53,32 +52,15 @@ namespace UnclePhill.WebAPI_NFeS.Domain
                 NFeSIR.nfd.tppessoa = Taker.TypePerson;
                 NFeSIR.nfd.cpfcnpjtomador = Taker.CPF_CNPJ;
                 NFeSIR.nfd.inscricaoestadualtomador = Taker.RG_IE;
-                NFeSIR.nfd.inscricaomunicipaltomador = Taker.IM;                
-                NFeSIR.nfd.tbfatura = new tbnfdNfdFatura[1];
-
-                NFeSIR.nfd.tbfatura[0] = new tbnfdNfdFatura
-                {
-                    numfatura = "1",
-                    vencimentofatura = DateTime.Now.AddMonths(1).ToString("dd/MM/yyyy"),
-                    valorfatura = "350"                 
-                };
-                
-                NFeSIR.nfd.tbservico = new tbnfdNfdServico[1];
-
-                NFeSIR.nfd.tbservico[0] = new tbnfdNfdServico
-                {
-                    quantidade = "2",
-                    descricao = "Aula de Programação",
-                    codatividade = "0101",
-                    valorunitario = "350",
-                    aliquota = "3",
-                    impostoretido = "N"
-                };
-                
+                NFeSIR.nfd.inscricaomunicipaltomador = Taker.IM;         
                 NFeSIR.nfd.observacao = NFeS.Note;
-                NFeSIR.nfd.razaotransportadora = string.Empty;
-                NFeSIR.nfd.cpfcnpjtransportadora = string.Empty;
-                NFeSIR.nfd.enderecotransportadora = string.Empty;                
+                NFeSIR.nfd.razaotransportadora = ShippingCompany.Name;
+                NFeSIR.nfd.cpfcnpjtransportadora = ShippingCompany.CPF_CNPJ;
+                NFeSIR.nfd.enderecotransportadora = 
+                    ShippingCompany.Street + "," 
+                    + ShippingCompany.Neighborhood + "," 
+                    + ShippingCompany.City + "," 
+                    + ShippingCompany.State;                
                 NFeSIR.nfd.pis = "0,00";
                 NFeSIR.nfd.cofins = "0,00";
                 NFeSIR.nfd.csll = "0,00";
@@ -91,7 +73,34 @@ namespace UnclePhill.WebAPI_NFeS.Domain
                 NFeSIR.nfd.numerort = string.Empty;
                 NFeSIR.nfd.codigoseriert = string.Empty;
                 NFeSIR.nfd.dataemissaort = string.Empty;
-                NFeSIR.nfd.fatorgerador = string.Empty;
+                NFeSIR.nfd.fatorgerador = DateTime.Now.Month + "/" + DateTime.Now.Year;
+
+                NFeSIR.nfd.tbfatura = new tbnfdNfdFatura[NFeS.Invoices.Count];
+                for (int X = 0; X <= NFeS.Invoices.Count; X++)
+                {
+                    NFeSRequestInvoices Invoice = NFeS.Invoices[X];
+                    NFeSIR.nfd.tbfatura[X] = new tbnfdNfdFatura
+                    {
+                        numfatura = Invoice.Number.ToString(),
+                        vencimentofatura = DateTime.Parse(Invoice.Maturity).ToString("dd/MM/yyyy"),
+                        valorfatura = Invoice.Value.ToString()
+                    };
+                }
+
+                NFeSIR.nfd.tbservico = new tbnfdNfdServico[NFeS.Itens.Count];
+                for (int X = 0; X <= NFeS.Itens.Count; X++)
+                {
+                    NFeSRequestItens Item = NFeS.Itens[X];
+                    NFeSIR.nfd.tbservico[X] = new tbnfdNfdServico
+                    {
+                        quantidade = Item.Amount.ToString(),
+                        descricao = Item.Description,
+                        codatividade = Item.ActivitiesId.ToString(), //Revisar
+                        valorunitario = Item.Value.ToString(),
+                        aliquota = Item.Aliquot.ToString(),
+                        impostoretido = Item.TaxWithheld.ToString()
+                    };
+                }
 
                 string NFsXml = Functions.XmlFunctions.ClassForStringXml(
                         Functions.XmlFunctions.StringXmlForClass<tbnfd>(
