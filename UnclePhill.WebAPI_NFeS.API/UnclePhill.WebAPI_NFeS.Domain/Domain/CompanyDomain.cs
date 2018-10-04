@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Data;
+using System.Linq;
+using System.Text;
 using UnclePhill.WebAPI_NFeS.Models;
 using UnclePhill.WebAPI_NFeS.Models.Models;
 using UnclePhill.WebAPI_NFeS.Utils.Utils;
@@ -10,12 +12,11 @@ namespace UnclePhill.WebAPI_NFeS.Domain
 {
     public class CompanyDomain : MasterDomain
     {
-        public List<Companys> Get(long? CompanyId = 0)
+        public T Get<T>(long? CompanyId = 0)
         {
             try
             {
-                List<Companys> lCompanys = new List<Companys>();
-
+                SQL = new StringBuilder();
                 SQL.AppendLine(" Select ");
                 SQL.AppendLine("    CompanyId, ");
                 SQL.AppendLine("    CNPJ, ");
@@ -42,39 +43,24 @@ namespace UnclePhill.WebAPI_NFeS.Domain
                 SQL.AppendLine(" From Companys ");
                 SQL.AppendLine(" Where Active = 1 ");
                 if (CompanyId > 0) { SQL.AppendLine(" And CompanyId = " + CompanyId); }
-
-
+                
                 DataTable data = Functions.Conn.GetDataTable(SQL.ToString(), "Companys");
                 if (data != null && data.Rows.Count > 0)
                 {
-                    foreach (DataRow row in data.Rows)
+                    if (typeof(T) == typeof(List<Companys>))
                     {
-                        Companys company = new Companys();
-                        company.CompanyId = long.Parse(row["CompanyId"].ToString());
-                        company.CNPJ = row["CNPJ"].ToString();
-                        company.IM = row["IM"].ToString();
-                        company.IE = row["IE"].ToString();
-                        company.Name = row["Name"].ToString();
-                        company.NameFantasy = row["NameFantasy"].ToString();
-                        company.CEP = row["CEP"].ToString();
-                        company.Street = row["Street"].ToString();
-                        company.Neighborhood = row["Neighborhood"].ToString();
-                        company.City = row["City"].ToString();
-                        company.State = row["State"].ToString();
-                        company.Telephone = row["Telephone"].ToString();
-                        company.Email = row["Email"].ToString();
-                        company.Logo = row["Logo"].ToString();
-                        company.IRRF = decimal.Parse(row["IRRF"].ToString());
-                        company.PIS = decimal.Parse(row["PIS"].ToString());
-                        company.COFINS = decimal.Parse(row["COFINS"].ToString());
-                        company.CSLL = decimal.Parse(row["CSLL"].ToString());
-                        company.INSS = decimal.Parse(row["INSS"].ToString());
-                        company.Active = bool.Parse(row["Active"].ToString());
-                        company.DateInsert = row.Field<DateTime>("DateInsert").ToString("dd-MM-yyyy");
-                        company.DateUpdate = row.Field<DateTime>("DateUpdate").ToString("dd-MM-yyyy");
-                        lCompanys.Add(company);
+                        List<Companys> lCompanys = new List<Companys>();
+                        foreach (DataRow row in data.Rows)
+                        {
+                            lCompanys.Add(Fill(row));
+                        }
+                        return (T)Convert.ChangeType(lCompanys, typeof(T));
                     }
-                    return lCompanys;
+                    else if (typeof(T) == typeof(Takers))
+                    {
+                        return (T)Convert.ChangeType(Fill(data.AsEnumerable().First()), typeof(T));
+
+                    }
                 }
                 throw new Exception("Não foram encontrados registros!");
             }
@@ -296,6 +282,35 @@ namespace UnclePhill.WebAPI_NFeS.Domain
             {
                  throw new Exception("Informe o email!");
             }
+        }
+
+        private Companys Fill(DataRow row)
+        {
+            Companys company = new Companys();
+            company.CompanyId = long.Parse(row["CompanyId"].ToString());
+            company.CNPJ = row["CNPJ"].ToString();
+            company.IM = row["IM"].ToString();
+            company.IE = row["IE"].ToString();
+            company.Name = row["Name"].ToString();
+            company.NameFantasy = row["NameFantasy"].ToString();
+            company.CEP = row["CEP"].ToString();
+            company.Street = row["Street"].ToString();
+            company.Neighborhood = row["Neighborhood"].ToString();
+            company.City = row["City"].ToString();
+            company.State = row["State"].ToString();
+            company.Telephone = row["Telephone"].ToString();
+            company.Email = row["Email"].ToString();
+            company.Logo = row["Logo"].ToString();
+            company.IRRF = decimal.Parse(row["IRRF"].ToString());
+            company.PIS = decimal.Parse(row["PIS"].ToString());
+            company.COFINS = decimal.Parse(row["COFINS"].ToString());
+            company.CSLL = decimal.Parse(row["CSLL"].ToString());
+            company.INSS = decimal.Parse(row["INSS"].ToString());
+            company.Active = bool.Parse(row["Active"].ToString());
+            company.DateInsert = row.Field<DateTime>("DateInsert").ToString("dd-MM-yyyy");
+            company.DateUpdate = row.Field<DateTime>("DateUpdate").ToString("dd-MM-yyyy");
+
+            return company;
         }
     }
 }

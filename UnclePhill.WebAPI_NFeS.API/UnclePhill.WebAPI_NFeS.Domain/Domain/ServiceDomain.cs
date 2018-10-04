@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Data;
+using System.Linq;
+using System.Text;
 using UnclePhill.WebAPI_NFeS.Models;
 using UnclePhill.WebAPI_NFeS.Models.Models;
 using UnclePhill.WebAPI_NFeS.Utils.Utils;
@@ -9,12 +11,11 @@ namespace UnclePhill.WebAPI_NFeS.Domain
 {
     public class ServiceDomain : MasterDomain
     {
-        public List<Services> Get(long? ServicesId)
+        public T Get<T>(long? ServicesId)
         {
             try
             {
-                List<Services> lServices = new List<Services>();
-
+                SQL = new StringBuilder();
                 SQL.AppendLine(" Select ");
                 SQL.AppendLine("    ServicesId, ");
                 SQL.AppendLine("    Unity, ");
@@ -35,24 +36,19 @@ namespace UnclePhill.WebAPI_NFeS.Domain
                 DataTable data = Functions.Conn.GetDataTable(SQL.ToString(), "Services");
                 if (data != null && data.Rows.Count > 0)
                 {
-                    foreach (DataRow row in data.Rows)
+                    if (typeof(T) == typeof(List<Companys>))
                     {
-                        Services service = new Services();
-                        service.ServicesId = long.Parse(row["ServicesId"].ToString());
-                        service.Unity = row["Unity"].ToString();
-                        service.Value = decimal.Parse(row["Value"].ToString());
-                        service.Description = row["Description"].ToString();
-                        service.IRRF = decimal.Parse(row["IRRF"].ToString());
-                        service.PIS = decimal.Parse(row["PIS"].ToString());
-                        service.CSLL = decimal.Parse(row["CSLL"].ToString());
-                        service.INSS = decimal.Parse(row["INSS"].ToString());
-                        service.COFINS = decimal.Parse(row["COFINS"].ToString());
-                        service.Active = bool.Parse(row["Active"].ToString());
-                        service.DateInsert = row.Field<DateTime>("DateInsert").ToString("dd-MM-yyyy");
-                        service.DateUpdate = row.Field<DateTime>("DateUpdate").ToString("dd-MM-yyyy");
-                        lServices.Add(service);
+                        List<Services> lServices = new List<Services>();
+                        foreach (DataRow row in data.Rows)
+                        {
+                            lServices.Add(Fill(row));
+                        }
+                        return (T)Convert.ChangeType(lServices, typeof(T));
                     }
-                    return lServices;
+                    else if (typeof(T) == typeof(Takers))
+                    {
+                        return (T)Convert.ChangeType(Fill(data.AsEnumerable().First()), typeof(T));
+                    }
                 }
                 throw new Exception("Não foram encontrados registros!");
             }
@@ -184,6 +180,24 @@ namespace UnclePhill.WebAPI_NFeS.Domain
             {
                  throw new Exception("Informe o valor do serviço!");
             }
+        }
+
+        private Services Fill(DataRow row)
+        {
+            Services service = new Services();
+            service.ServicesId = long.Parse(row["ServicesId"].ToString());
+            service.Unity = row["Unity"].ToString();
+            service.Value = decimal.Parse(row["Value"].ToString());
+            service.Description = row["Description"].ToString();
+            service.IRRF = decimal.Parse(row["IRRF"].ToString());
+            service.PIS = decimal.Parse(row["PIS"].ToString());
+            service.CSLL = decimal.Parse(row["CSLL"].ToString());
+            service.INSS = decimal.Parse(row["INSS"].ToString());
+            service.COFINS = decimal.Parse(row["COFINS"].ToString());
+            service.Active = bool.Parse(row["Active"].ToString());
+            service.DateInsert = row.Field<DateTime>("DateInsert").ToString("dd-MM-yyyy");
+            service.DateUpdate = row.Field<DateTime>("DateUpdate").ToString("dd-MM-yyyy");
+            return service;
         }
     }
 }

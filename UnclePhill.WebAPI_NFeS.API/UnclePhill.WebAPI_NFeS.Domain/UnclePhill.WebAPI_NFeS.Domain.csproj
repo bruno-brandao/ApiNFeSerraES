@@ -37,6 +37,7 @@
       <HintPath>..\packages\Newtonsoft.Json.7.0.1\lib\net45\Newtonsoft.Json.dll</HintPath>
     </Reference>
     <Reference Include="System" />
+    <Reference Include="System.Configuration" />
     <Reference Include="System.Core" />
     <Reference Include="System.EnterpriseServices" />
     <Reference Include="System.Net.Http.Formatting, Version=4.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
@@ -106,6 +107,7 @@
     <Compile Include="Domain\CFPSDomain.cs" />
     <Compile Include="Domain\CompanyDomain.cs" />
     <Compile Include="Domain\DefaultDomains\MasterDomain.cs" />
+    <Compile Include="Domain\Homologation.cs" />
     <Compile Include="Domain\NFeSDomain.cs" />
     <Compile Include="Domain\ServiceDomain.cs" />
     <Compile Include="Domain\SessionDomain.cs" />

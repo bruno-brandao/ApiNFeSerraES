@@ -30,6 +30,7 @@ namespace UnclePhill.WebAPI_NFeS.Models.Models
             this.TypePerson = TypePerson;
             this.CEP = CEP;
             this.Street = Street;
+            this.Number = Number;
             this.Neighborhood = Neighborhood;
             this.City = City;
             this.State = State;
@@ -48,6 +49,7 @@ namespace UnclePhill.WebAPI_NFeS.Models.Models
         public string TypePerson { get; set; }
         public string CEP { get; set; }
         public string Street { get; set; }
+        public string Number { get; set; }
         public string Neighborhood { get; set; }
         public string City { get; set; }
         public string State { get; set; }

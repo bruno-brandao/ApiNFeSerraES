@@ -25,7 +25,7 @@ namespace UnclePhill.WebAPI_NFeS.Domain
             {
                 CompanyDomain companyDomain = new CompanyDomain();
 
-                if (CompanyId > 0 && companyDomain.Get(CompanyId).Count() <= 0)
+                if (CompanyId > 0 && companyDomain.Get<List<Companys>>(CompanyId).Count() <= 0)
                 {
                     throw new Exception("Empresa inválida!");
                 }

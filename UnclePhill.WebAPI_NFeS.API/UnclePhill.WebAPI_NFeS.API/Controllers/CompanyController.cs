@@ -4,7 +4,7 @@ using UnclePhill.WebAPI_NFeS.Models;
 using UnclePhill.WebAPI_NFeS.Domain;
 using System.Web.Http;
 using UnclePhill.WebAPI_NFeS.Models.Models;
-using System.Web.Http.Cors;
+using System.Collections.Generic;
 
 namespace UnclePhill.WebAPI_NFeS.API.Controllers
 {
@@ -26,7 +26,7 @@ namespace UnclePhill.WebAPI_NFeS.API.Controllers
             {
                 if (!SessionDomain.CheckSession(base.Sessao())) return BadRequest("Sessão inválida!");
 
-                return Ok(companyDomain.Get(CompanyId));
+                return Ok(companyDomain.Get<List<Companys>>(CompanyId));
             }
             catch (Exception ex)
             {

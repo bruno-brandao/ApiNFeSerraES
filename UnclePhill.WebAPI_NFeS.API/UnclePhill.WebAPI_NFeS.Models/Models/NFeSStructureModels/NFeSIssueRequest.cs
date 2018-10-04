@@ -58,11 +58,11 @@ namespace UnclePhill.WebAPI_NFeS.Models.Models.NFeSStructure.NFeSIssueRequest
 
         private string codseriedocumentoField;
 
-        private ushort codnaturezaoperacaoField;
+        private string codnaturezaoperacaoField;
 
-        private int codigocidadeField;
+        private string codigocidadeField;
 
-        private uint inscricaomunicipalemissorField;
+        private string inscricaomunicipalemissorField;
 
         private string dataemissaoField;
 
@@ -84,7 +84,7 @@ namespace UnclePhill.WebAPI_NFeS.Models.Models.NFeSStructure.NFeSIssueRequest
 
         private string faxtomadorField;
 
-        private uint ceptomadorField;
+        private string ceptomadorField;
 
         private string bairrotomadorField;
 
@@ -92,7 +92,7 @@ namespace UnclePhill.WebAPI_NFeS.Models.Models.NFeSStructure.NFeSIssueRequest
 
         private string tppessoaField;
 
-        private ulong cpfcnpjtomadorField;
+        private string cpfcnpjtomadorField;
 
         private string inscricaoestadualtomadorField;
 
@@ -163,7 +163,7 @@ namespace UnclePhill.WebAPI_NFeS.Models.Models.NFeSStructure.NFeSIssueRequest
         }
 
         /// <remarks/>
-        public ushort codnaturezaoperacao
+        public string codnaturezaoperacao
         {
             get
             {
@@ -176,7 +176,7 @@ namespace UnclePhill.WebAPI_NFeS.Models.Models.NFeSStructure.NFeSIssueRequest
         }
 
         /// <remarks/>
-        public int codigocidade
+        public string codigocidade
         {
             get
             {
@@ -189,7 +189,7 @@ namespace UnclePhill.WebAPI_NFeS.Models.Models.NFeSStructure.NFeSIssueRequest
         }
 
         /// <remarks/>
-        public uint inscricaomunicipalemissor
+        public string inscricaomunicipalemissor
         {
             get
             {
@@ -332,7 +332,7 @@ namespace UnclePhill.WebAPI_NFeS.Models.Models.NFeSStructure.NFeSIssueRequest
         }
 
         /// <remarks/>
-        public uint ceptomador
+        public string ceptomador
         {
             get
             {
@@ -384,7 +384,7 @@ namespace UnclePhill.WebAPI_NFeS.Models.Models.NFeSStructure.NFeSIssueRequest
         }
 
         /// <remarks/>
-        public ulong cpfcnpjtomador
+        public string cpfcnpjtomador
         {
             get
             {
@@ -611,11 +611,11 @@ namespace UnclePhill.WebAPI_NFeS.Models.Models.NFeSStructure.NFeSIssueRequest
         {
             get
             {
-                return this.tributadonomunicipioField;
+                return this.vlroutrosField;
             }
             set
             {
-                this.tributadonomunicipioField = value;
+                this.vlroutrosField = value;
             }
         }
 
