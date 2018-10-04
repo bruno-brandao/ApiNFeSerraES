@@ -28,9 +28,11 @@ namespace UnclePhill.WebAPI_NFeS.Domain
                 SQL.AppendLine("    TypePerson, ");
                 SQL.AppendLine("    CEP, ");
                 SQL.AppendLine("    Street, ");
+                SQL.AppendLine("    Number, ");
                 SQL.AppendLine("    Neighborhood, ");
                 SQL.AppendLine("    City, ");
                 SQL.AppendLine("    State, ");
+                SQL.AppendLine("    Telephone, ");
                 SQL.AppendLine("    Email, ");
                 SQL.AppendLine("    Active, ");
                 SQL.AppendLine("    DateInsert, ");
@@ -79,6 +81,7 @@ namespace UnclePhill.WebAPI_NFeS.Domain
                 SQL.AppendLine("    TypePerson, ");
                 SQL.AppendLine("    CEP, ");
                 SQL.AppendLine("    Street, ");
+                SQL.AppendLine("    Number, ");
                 SQL.AppendLine("    Neighborhood, ");
                 SQL.AppendLine("    City, ");
                 SQL.AppendLine("    State, ");
@@ -95,9 +98,11 @@ namespace UnclePhill.WebAPI_NFeS.Domain
                 SQL.AppendLine("     '" + Functions.NotQuote(takers.TypePerson) + "',");
                 SQL.AppendLine("     '" + Functions.NotQuote(takers.CEP) + "',");
                 SQL.AppendLine("     '" + Functions.NotQuote(takers.Street) + "',");
+                SQL.AppendLine("     '" + Functions.NotQuote(takers.Number) + "',");
                 SQL.AppendLine("     '" + Functions.NotQuote(takers.Neighborhood) + "',");
                 SQL.AppendLine("     '" + Functions.NotQuote(takers.City) + "',");
                 SQL.AppendLine("     '" + Functions.NotQuote(takers.State) + "',");
+                SQL.AppendLine("     '" + Functions.NotQuote(takers.Telephone) + "',");
                 SQL.AppendLine("     '" + Functions.NotQuote(takers.Email) + "',");
                 SQL.AppendLine("     1 ,");
                 SQL.AppendLine("     GetDate(), ");
@@ -137,9 +142,11 @@ namespace UnclePhill.WebAPI_NFeS.Domain
                 SQL.AppendLine("    TypePerson = '" + Functions.NotQuote(takers.TypePerson) + "',");
                 SQL.AppendLine("    CEP = '" + Functions.NotQuote(takers.CEP) + "',");
                 SQL.AppendLine("    Street = '" + Functions.NotQuote(takers.Street) + "',");
+                SQL.AppendLine("    Number = '" + Functions.NotQuote(takers.Number) + "',");
                 SQL.AppendLine("    Neighborhood = '" + Functions.NotQuote(takers.Neighborhood) + "',");
                 SQL.AppendLine("    City = '" + Functions.NotQuote(takers.City) + "', ");
                 SQL.AppendLine("    State = '" + Functions.NotQuote(takers.State) + "',");
+                SQL.AppendLine("    Telephone = '" + Functions.NotQuote(takers.Telephone) + "',");
                 SQL.AppendLine("    Email = '" + Functions.NotQuote(takers.Email) + "',");
                 SQL.AppendLine("    DateUpdate = GetDate() ");
                 SQL.AppendLine(" Where TakerId = " + takers.TakerId);
@@ -184,12 +191,7 @@ namespace UnclePhill.WebAPI_NFeS.Domain
         }
 
         private void Validate(Takers takers)
-        {
-            if (string.IsNullOrEmpty(takers.IM))
-            {
-                 throw new Exception("Informe a inscrição municipal!");
-            }
-
+        {            
             if (string.IsNullOrEmpty(takers.CPF_CNPJ))
             {
                  throw new Exception("Informe o CPF/CNPJ!");
@@ -204,12 +206,7 @@ namespace UnclePhill.WebAPI_NFeS.Domain
             {
                  throw new Exception("Informe a inscrição estadual!");
             }
-
-            if (string.IsNullOrEmpty(takers.RG_IE))
-            {
-                 throw new Exception("Informe a inscrição estadual!");
-            }
-
+            
             if (string.IsNullOrEmpty(takers.Name))
             {
                  throw new Exception("Informe o nome do tomador!");
@@ -248,6 +245,11 @@ namespace UnclePhill.WebAPI_NFeS.Domain
             if (string.IsNullOrEmpty(takers.State))
             {
                  throw new Exception("Informe a UF!");
+            }
+
+            if (string.IsNullOrEmpty(takers.Telephone))
+            {
+                throw new Exception("Informe o Telefone!");
             }
 
             if (string.IsNullOrEmpty(takers.Email))

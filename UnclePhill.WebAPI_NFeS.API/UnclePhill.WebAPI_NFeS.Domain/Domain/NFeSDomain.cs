@@ -40,20 +40,20 @@ namespace UnclePhill.WebAPI_NFeS.Domain
                 NFeSIR.nfd.dataemissao = DateTime.Now.ToString("dd/MM/yyyy");
                 NFeSIR.nfd.razaotomador = Taker.Name;
                 NFeSIR.nfd.nomefantasiatomador = Taker.NameFantasy;
-                NFeSIR.nfd.enderecotomador = Taker.Street + " " + Taker.Neighborhood;
+                NFeSIR.nfd.enderecotomador = Taker.Street;
                 NFeSIR.nfd.numeroendereco = Taker.Number;
                 NFeSIR.nfd.cidadetomador = Taker.City;
                 NFeSIR.nfd.estadotomador = Taker.State;
                 NFeSIR.nfd.paistomador = Homologation.Country;
-                NFeSIR.nfd.fonetomador = "";
-                NFeSIR.nfd.faxtomador = "";
-                NFeSIR.nfd.ceptomador = "29167168";
-                NFeSIR.nfd.bairrotomador = "COLINA DE LARANJEIRAS";
-                NFeSIR.nfd.emailtomador = "everaldocardosodearaujo@gmail.com";
-                NFeSIR.nfd.tppessoa = "J";
-                NFeSIR.nfd.cpfcnpjtomador = "30797063000181";
-                NFeSIR.nfd.inscricaoestadualtomador = "356646565";
-                NFeSIR.nfd.inscricaomunicipaltomador = string.Empty;                
+                NFeSIR.nfd.fonetomador = Taker.Telephone;
+                NFeSIR.nfd.faxtomador = Taker.Telephone;
+                NFeSIR.nfd.ceptomador = Taker.CEP;
+                NFeSIR.nfd.bairrotomador = Taker.Neighborhood;
+                NFeSIR.nfd.emailtomador = Taker.Email;
+                NFeSIR.nfd.tppessoa = Taker.TypePerson;
+                NFeSIR.nfd.cpfcnpjtomador = Taker.CPF_CNPJ;
+                NFeSIR.nfd.inscricaoestadualtomador = Taker.RG_IE;
+                NFeSIR.nfd.inscricaomunicipaltomador = Taker.IM;                
                 NFeSIR.nfd.tbfatura = new tbnfdNfdFatura[1];
 
                 NFeSIR.nfd.tbfatura[0] = new tbnfdNfdFatura
@@ -75,7 +75,7 @@ namespace UnclePhill.WebAPI_NFeS.Domain
                     impostoretido = "N"
                 };
                 
-                NFeSIR.nfd.observacao = "OBS";
+                NFeSIR.nfd.observacao = NFeS.Note;
                 NFeSIR.nfd.razaotransportadora = string.Empty;
                 NFeSIR.nfd.cpfcnpjtransportadora = string.Empty;
                 NFeSIR.nfd.enderecotransportadora = string.Empty;                

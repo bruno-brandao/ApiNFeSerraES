@@ -17,7 +17,7 @@ namespace UnclePhill.WebAPI_NFeS.Models.Models
             string Name, string NameFantasy, 
             string TypePerson, string CEP, 
             string Street, string Neighborhood, 
-            string City, string State, 
+            string City, string State, string Telephone,
             string Email, bool Active, 
             string DateInsert, string DateUpdate)
         {
@@ -34,6 +34,7 @@ namespace UnclePhill.WebAPI_NFeS.Models.Models
             this.Neighborhood = Neighborhood;
             this.City = City;
             this.State = State;
+            this.Telephone = Telephone;
             this.Email = Email;
             this.Active = Active;
             this.DateInsert = DateInsert;
@@ -53,6 +54,7 @@ namespace UnclePhill.WebAPI_NFeS.Models.Models
         public string Neighborhood { get; set; }
         public string City { get; set; }
         public string State { get; set; }
+        public string Telephone { get; set; }
         public string Email { get; set; }
         public bool Active { get; set; }
         public string DateInsert { get; set; }
