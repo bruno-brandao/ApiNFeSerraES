@@ -9,9 +9,11 @@ using System.Web.Mvc;
 using System.Xml.Serialization;
 using UnclePhill.WebAPI_NFeS.Models;
 using UnclePhill.WebAPI_NFeS.Utils.Utils;
+using System.Web.Http.Cors;
 
 namespace UnclePhill.WebAPI_NFeS.API.Controllers
 {
+    [EnableCors(origins: "*", headers: "*", methods: "*")]
     public class MasterController : ApiController
     {        
         protected string Sessao()
