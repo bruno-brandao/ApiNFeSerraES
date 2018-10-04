@@ -5,9 +5,11 @@ using UnclePhill.WebAPI_NFeS.Models;
 using UnclePhill.WebAPI_NFeS.Domain;
 using System.Web.Http;
 using UnclePhill.WebAPI_NFeS.Models.Models;
+using System.Web.Http.Cors;
 
 namespace UnclePhill.WebAPI_NFeS.API.Controllers
 {
+    [EnableCors(origins: "*", headers: "*", methods: "*")]
     public class ShippingCompanyController : MasterController, Default.IController<ShippingCompany>
     {
         ShippingCompanyDomain shippingCompanyDomain = new ShippingCompanyDomain();

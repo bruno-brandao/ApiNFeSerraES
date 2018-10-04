@@ -5,9 +5,11 @@ using UnclePhill.WebAPI_NFeS.Domain;
 using System.Web.Http;
 using System.Web.Http.Description;
 using UnclePhill.WebAPI_NFeS.Models.Models;
+using System.Web.Http.Cors;
 
 namespace UnclePhill.WebAPI_NFeS.API.Controllers
 {
+    [EnableCors(origins: "*", headers: "*", methods: "*")]
     public class CFPSController : MasterController, Default.IController<CFPS>
     {     
         private CFPSDomain cFPSDomain = new CFPSDomain();      

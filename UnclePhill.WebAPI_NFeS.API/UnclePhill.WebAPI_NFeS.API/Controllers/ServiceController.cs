@@ -6,11 +6,13 @@ using System.Web.Http;
 using System.Web.Routing;
 using UnclePhill.WebAPI_NFeS.API.Controllers.Default;
 using UnclePhill.WebAPI_NFeS.Models.Models;
+using System.Web.Http.Cors;
 
 namespace UnclePhill.WebAPI_NFeS.API.Controllers
 {
+    [EnableCors(origins: "*", headers: "*", methods: "*")]
     public class ServiceController : MasterController, Default.IController<Services>
-    {
+    {        
         private ServiceDomain serviceDomain = new ServiceDomain();
 
         /// <summary>

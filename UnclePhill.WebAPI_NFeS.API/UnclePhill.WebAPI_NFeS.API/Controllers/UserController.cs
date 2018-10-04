@@ -5,11 +5,12 @@ using UnclePhill.WebAPI_NFeS.Domain;
 using System.Web.Http;
 using System.Web.Http.Description;
 using UnclePhill.WebAPI_NFeS.Models.Models;
-
+using System.Web.Http.Cors;
 
 namespace UnclePhill.WebAPI_NFeS.API.Controllers
-{    
-    public class UserController : MasterController//, Default.IController<Users>
+{
+    [EnableCors(origins: "*", headers: "*", methods: "*")]
+    public class UserController : MasterController, Default.IController<Users>
     {
         private UsersDomain usersDomain = new UsersDomain();
 
@@ -41,18 +42,19 @@ namespace UnclePhill.WebAPI_NFeS.API.Controllers
         /// <param name="UserId">Id do usuário</param>
         /// <returns code = "200">Sucesso</returns>
         /// <returns code = "400">Erro</returns>
-        //public IHttpActionResult Get(long? UserId)
-        //{
-        //    try
-        //    {
-        //        if (!SessionDomain.CheckSession(Sessao())) { return BadRequest("Sessão inválida!"); }
+        public IHttpActionResult Get(long? UserId)
+        {
+            try
+            {
+                if (!SessionDomain.CheckSession(Sessao())) { return BadRequest("Sessão inválida!"); }
 
-        //        return Ok(usersDomain.Get(UserId));
-        //    } catch (Exception ex)
-        //    {
-        //        return BadRequest(ex.Message);
-        //    }
-        //}
+                return Ok(usersDomain.Get(UserId));
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
 
         /// <summary>
         /// Cria um novo usuário
