@@ -30,7 +30,7 @@ namespace UnclePhill.WebAPI_NFeS.Domain
                 if (data != null && data.Rows.Count > 0)
                 {
                     DataRow row = data.AsEnumerable().First();
-                    Sessions session = NewSession(row.Field<long>("UserId"));
+                    Sessions session = SessionDomain.NewSession(row.Field<long>("UserId"));
                     if (session.SessionId > 0)
                     {
                         Users users = new Users();
@@ -124,14 +124,15 @@ namespace UnclePhill.WebAPI_NFeS.Domain
                 SQL.AppendLine(" ) ");
 
                 users.UserId = Functions.Conn.Insert(SQL.ToString());
-                if (users.UserId > 0)
+                Sessions session = SessionDomain.NewSession(users.UserId);
+                if (users.UserId > 0 && session.SessionId > 0)
                 {
+                    users.SessionHash = session.SessionHash;
                     users.Active = true;
                     users.DateInsert = DateTime.Now.ToString("yyyy-MM-dd");
                     users.DateUpdate = DateTime.Now.ToString("yyyy-MM-dd");
                     return users;
                 }
-
                 throw new Exception("Houve um problema ao cadastrar o usuário.");
             }catch(Exception ex)
             {
@@ -171,95 +172,7 @@ namespace UnclePhill.WebAPI_NFeS.Domain
             {
                 throw ex;
             }
-        }
-
-        private Sessions NewSession(long UserId)
-        {
-            try
-            {
-                if (UserId <= 0)
-                {
-                    throw new Exception("Usuario não encontrado!");
-                }
-
-                DataTable data;
-
-                SQL = new StringBuilder();
-                SQL.AppendLine(" Select ");
-                SQL.AppendLine("    Count(SessionId) As Sessions ");
-                SQL.AppendLine(" From Session ");
-                SQL.AppendLine(" Where Active = 1 ");
-                SQL.AppendLine(" And DateDiff(MI, DateStart, Getdate()) <= 5 ");
-                SQL.AppendLine(" And Session.UserId = " + UserId);
-
-                data = Functions.Conn.GetDataTable(SQL.ToString(), "Session");
-                if (data != null && data.Rows.Count > 0 && data.AsEnumerable().First().Field<int>("Sessions") > 0)
-                {
-                    throw new Exception("Já existe sessão aberta para o usuário atual!");
-                }
-
-                string Hash = SessionDomain.GenerateHash(UserId.ToString());
-
-                SQL = new StringBuilder();
-                SQL.AppendLine(" Insert Into Session ");
-                SQL.AppendLine("    (UserId, ");
-                SQL.AppendLine("     SessionHash,");
-                SQL.AppendLine("     DateStart, ");
-                SQL.AppendLine("     DateEnd, ");
-                SQL.AppendLine("     Active, ");
-                SQL.AppendLine("     DateInsert, ");
-                SQL.AppendLine("     DateUpdate)");
-                SQL.AppendLine(" Values ");
-                SQL.AppendLine("    ( " + UserId + ",");
-                SQL.AppendLine("     '" + Hash + "',");
-                SQL.AppendLine("     GetDate(),");
-                SQL.AppendLine("     DateAdd(MI,5,GetDate()),");
-                SQL.AppendLine("     1, ");
-                SQL.AppendLine("     GetDate(), ");
-                SQL.AppendLine("     GetDate()) ");
-
-                Sessions session = new Sessions();
-                session.SessionId = Functions.Conn.Insert(SQL.ToString());
-
-                if (session.SessionId > 0)
-                {
-                    SQL = new StringBuilder();
-                    SQL.AppendLine(" Select ");
-                    SQL.AppendLine("    SessionId, ");
-                    SQL.AppendLine("    UserId, ");
-                    SQL.AppendLine("    SessionHash, ");
-                    SQL.AppendLine("    DateStart, ");
-                    SQL.AppendLine("    DateEnd, ");
-                    SQL.AppendLine("    Active, ");
-                    SQL.AppendLine("    DateInsert, ");
-                    SQL.AppendLine("    DateUpdate ");
-                    SQL.AppendLine(" From Session ");
-                    SQL.AppendLine(" Where Active = 1 ");
-                    SQL.AppendLine(" And Session.SessionId = " + session.SessionId);
-
-                    data = Functions.Conn.GetDataTable(SQL.ToString(), "Session");
-                    if (data != null && data.Rows.Count > 0)
-                    {
-                        DataRow row = data.AsEnumerable().First();
-                        session.SessionId = row.Field<long>("SessionId");
-                        session.UserId = row.Field<long>("UserId");
-                        session.SessionHash = row.Field<string>("SessionHash");
-                        session.DateStart = row.Field<DateTime>("DateStart").ToString("dd-MM-yyyy"); ;
-                        session.DateEnd = row.Field<DateTime>("DateEnd").ToString("dd-MM-yyyy");
-                        session.Active = row.Field<bool>("Active");
-                        session.DateInsert = row.Field<DateTime>("DateInsert").ToString("dd-MM-yyyy");
-                        session.DateUpdate = row.Field<DateTime>("DateUpdate").ToString("dd-MM-yyyy");
-                        return session;
-                    }
-                    throw new Exception("Não foi possivel criar uma sessão para o usuário!");
-                }
-                throw new Exception("Não foi possivel criar uma sessão para o usuário!");
-            }
-            catch (Exception ex)
-            {
-                throw new Exception(ex.Message);
-            }
-        }
+        }        
 
         private void Validate(Users users)
         {
@@ -293,5 +206,7 @@ namespace UnclePhill.WebAPI_NFeS.Domain
                  throw new Exception("Informe a senha do usuário!");
             }
         }
+
+        
     }
 }
