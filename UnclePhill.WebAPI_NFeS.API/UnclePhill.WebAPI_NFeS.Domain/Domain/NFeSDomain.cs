@@ -19,7 +19,7 @@ namespace UnclePhill.WebAPI_NFeS.Domain
 {
     public class NFeSDomain : MasterDomain
     {
-        public string EmitirNFeS(NFeSRequest NFeS)
+        public NFeSRequestPreview EmitirNFeS(NFeSRequest NFeS)
         {
             try
             {
@@ -159,13 +159,16 @@ namespace UnclePhill.WebAPI_NFeS.Domain
                             int.Parse(NFSe.nfdok.NewDataSet.NOTA_FISCAL.CodigoSerie), 
                             Homologation.IM);
 
-                        //Fazendo o Download do PDF//
+                        //Finalizando o processo//
                         if (Functions.XmlFunctions.IsXml(NFSeXmlUrl))
                         {
                             Models.Models.NFeSStructure.NFeSPreview.util NFSePreview =
                                 Functions.XmlFunctions.StringXmlForClass<Models.Models.NFeSStructure.NFeSPreview.util>(NFSeXmlUrl);
+                                                        
+                            //DownLoad do PDF
+                            //Convert.ToBase64String(new WebClient().DownloadData(NFSePreview.urlNfd));
 
-                            return Convert.ToBase64String(new WebClient().DownloadData(NFSePreview.urlNfd));
+                            return new NFeSRequestPreview(NFSePreview.urlNfd, NFSePreview.urlAutenticidade);
                         }
                         else
                         {

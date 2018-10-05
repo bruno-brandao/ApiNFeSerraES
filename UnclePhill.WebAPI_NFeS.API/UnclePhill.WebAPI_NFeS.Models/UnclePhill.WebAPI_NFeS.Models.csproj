@@ -48,6 +48,7 @@
     <Compile Include="Models\NFeSRequestModels\NFeSRequest.cs" />
     <Compile Include="Models\NFeSRequestModels\NFeSRequestInvoices.cs" />
     <Compile Include="Models\NFeSRequestModels\NFeSRequestItens.cs" />
+    <Compile Include="Models\NFeSRequestModels\NFeSRequestPreview.cs" />
     <Compile Include="Models\NFeSStructureModels\NFeSError.cs" />
     <Compile Include="Models\NFeSItens.cs" />
     <Compile Include="Models\NFeSStructureModels\NFeSIssueRequest.cs" />
