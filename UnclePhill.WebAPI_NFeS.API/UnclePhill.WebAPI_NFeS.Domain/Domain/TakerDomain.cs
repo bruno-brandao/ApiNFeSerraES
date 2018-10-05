@@ -125,7 +125,7 @@ namespace UnclePhill.WebAPI_NFeS.Domain
             }
         }
 
-        public bool Put(Takers takers)
+        public Takers Put(Takers takers)
         {
             try
             {
@@ -156,10 +156,9 @@ namespace UnclePhill.WebAPI_NFeS.Domain
 
                 if (Functions.Conn.Update(SQL.ToString()))
                 {
-                    return true;
+                    return takers;
                 }
-
-                return false;
+                throw new Exception("Houve um problema ao atualizar o tomador.");
             }
             catch (Exception ex)
             {

@@ -27,7 +27,6 @@ namespace UnclePhill.WebAPI_NFeS.API.Controllers
             try
             {
                 SessionDomain.UpdateSession();
-
                 return Ok(usersDomain.Login(Email, Password));
             }
             catch (Exception ex)
@@ -47,7 +46,6 @@ namespace UnclePhill.WebAPI_NFeS.API.Controllers
             try
             {
                 if (!SessionDomain.CheckSession(Sessao())) { return BadRequest("Sessão inválida!"); }
-
                 return Ok(usersDomain.Get(UserId));
             }
             catch (Exception ex)
@@ -66,14 +64,8 @@ namespace UnclePhill.WebAPI_NFeS.API.Controllers
         {
             try
             {
-                SessionDomain.UpdateSession();
-                Users = usersDomain.Post(Users);
-                if (Users.UserId > 0)
-                {
-                    return Ok(Users);
-                }
-
-                return BadRequest("Houve um problema ao criar um usuário. Tente novamente!");
+                SessionDomain.UpdateSession();                
+                return Ok(usersDomain.Post(Users));
             }
             catch (Exception ex)
             {
@@ -93,13 +85,7 @@ namespace UnclePhill.WebAPI_NFeS.API.Controllers
             try
             {
                 if (!SessionDomain.CheckSession(Sessao())) { return BadRequest("Sessão inválida!"); }
-
-                if (usersDomain.Put(users))
-                {
-                    return Ok("Usuário atualizado com sucesso!");
-                }
-
-                return BadRequest("Houve um problema ao cadastrar um usuário. Tente novamente!");
+                return Ok(usersDomain.Put(users));
             }
             catch (Exception ex)
             {

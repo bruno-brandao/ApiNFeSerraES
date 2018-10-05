@@ -106,7 +106,7 @@ namespace UnclePhill.WebAPI_NFeS.Domain
             }
         }
 
-        public bool Put(ShippingCompany shippingCompany)
+        public ShippingCompany Put(ShippingCompany shippingCompany)
         {
             try
             {
@@ -131,10 +131,9 @@ namespace UnclePhill.WebAPI_NFeS.Domain
 
                 if (Functions.Conn.Insert(SQL.ToString()) > 0)
                 {
-                    return true;
+                    return shippingCompany;
                 }
-
-                return false;
+                throw new Exception("Houve um problema ao atualizar o tomador.");
             }
             catch (Exception ex)
             {

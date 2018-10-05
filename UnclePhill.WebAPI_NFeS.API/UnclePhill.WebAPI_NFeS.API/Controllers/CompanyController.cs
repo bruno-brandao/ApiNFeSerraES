@@ -26,7 +26,6 @@ namespace UnclePhill.WebAPI_NFeS.API.Controllers
             try
             {
                 if (!SessionDomain.CheckSession(base.Sessao())) return BadRequest("Sessão inválida!");
-
                 return Ok(companyDomain.Get<List<Companys>>(CompanyId));
             }
             catch (Exception ex)
@@ -46,14 +45,8 @@ namespace UnclePhill.WebAPI_NFeS.API.Controllers
         {
             try
             {
-                if (!SessionDomain.CheckSession(base.Sessao())) return BadRequest("Sessão inválida!");
-                Company = companyDomain.Post(Company, SessionDomain.GetUserSession(base.Sessao()));
-                if (Company.CompanyId > 0)
-                {
-                    return Ok(Company);
-                }
-
-                return BadRequest("Houve um problema ao cadastrar uma empresa. Tente novamente!");
+                if (!SessionDomain.CheckSession(base.Sessao())) return BadRequest("Sessão inválida!");                
+                return Ok(companyDomain.Post(Company, SessionDomain.GetUserSession(base.Sessao())));                
             }
             catch(Exception ex)
             {
@@ -73,13 +66,7 @@ namespace UnclePhill.WebAPI_NFeS.API.Controllers
             try
             {
                 if (!SessionDomain.CheckSession(base.Sessao())) return BadRequest("Sessão inválida!");
-
-                if (companyDomain.Put(Company, SessionDomain.GetUserSession(base.Sessao())))
-                {
-                    return Ok("Empresa atualizada com sucesso!");
-                }
-
-                return BadRequest("Houve um erro ao atualizar a empresa. Tente novamente!");
+                return Ok(companyDomain.Put(Company, SessionDomain.GetUserSession(base.Sessao())));                
             }
             catch(Exception ex)
             {

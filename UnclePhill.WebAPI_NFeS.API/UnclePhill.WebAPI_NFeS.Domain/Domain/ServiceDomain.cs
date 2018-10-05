@@ -106,7 +106,7 @@ namespace UnclePhill.WebAPI_NFeS.Domain
             }
         }
 
-        public bool Put(Services services)
+        public Services Put(Services services)
         {
             try
             {
@@ -131,10 +131,9 @@ namespace UnclePhill.WebAPI_NFeS.Domain
 
                 if (Functions.Conn.Update(SQL.ToString()))
                 {
-                    return true;
+                    return services;
                 }
-
-                return false;
+                throw new Exception("Houve um problema ao atualizar o serviço.");
             }
             catch(Exception ex)
             {

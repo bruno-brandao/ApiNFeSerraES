@@ -30,7 +30,6 @@ namespace UnclePhill.WebAPI_NFeS.API.Controllers
             try
             {
                 if (!SessionDomain.CheckSession(Sessao())) { return BadRequest("Sessão inválida!"); }
-
                 return Ok(takerDomain.Get<List<Takers>>(TakerId));
             }
             catch(Exception ex)
@@ -50,14 +49,8 @@ namespace UnclePhill.WebAPI_NFeS.API.Controllers
         {
             try
             {
-                if (!SessionDomain.CheckSession(Sessao())) { return BadRequest("Sessão inválida!"); }
-                Taker = takerDomain.Post(Taker);
-                if (Taker.TakerId > 0)
-                { 
-                    return Ok(Taker);
-                }
-
-                return BadRequest("Houve um problema ao criar um tomador. Tente novamente!");
+                if (!SessionDomain.CheckSession(Sessao())) { return BadRequest("Sessão inválida!"); }                                
+                return Ok(takerDomain.Post(Taker));
             }
             catch(Exception ex)
             {
@@ -77,13 +70,7 @@ namespace UnclePhill.WebAPI_NFeS.API.Controllers
             try
             {
                 if (!SessionDomain.CheckSession(Sessao())) { return BadRequest("Sessão inválida!"); }
-
-                if (takerDomain.Put(Taker))
-                {
-                    return Ok("Tomador atualizado com sucesso!");
-                }
-
-                return BadRequest("Houve um erro ao atualizar o tomador. Tente novamente!");
+                return Ok(takerDomain.Put(Taker));
             }
             catch (Exception ex)
             {

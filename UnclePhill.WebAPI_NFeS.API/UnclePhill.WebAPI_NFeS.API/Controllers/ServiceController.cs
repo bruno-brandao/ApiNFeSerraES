@@ -28,7 +28,6 @@ namespace UnclePhill.WebAPI_NFeS.API.Controllers
             try
             {
                 if (!SessionDomain.CheckSession(Sessao())) { return BadRequest("Sessão inválida!"); }
-
                 return Ok(serviceDomain.Get<List<Services>>(ServicesId));
             }
             catch(Exception ex)
@@ -48,14 +47,8 @@ namespace UnclePhill.WebAPI_NFeS.API.Controllers
         {
             try
             {
-                if (!SessionDomain.CheckSession(Sessao())) { return BadRequest("Sessão inválida!"); }
-                Service = serviceDomain.Post(Service);
-                if (Service.ServicesId > 0)
-                {
-                    return Ok(Service);
-                }
-
-                return BadRequest("Houve um problema ao criar um serviço. Tente novamente!");
+                if (!SessionDomain.CheckSession(Sessao())) { return BadRequest("Sessão inválida!"); }                
+                return Ok(serviceDomain.Post(Service));
             }
             catch (Exception ex)
             {
@@ -75,13 +68,7 @@ namespace UnclePhill.WebAPI_NFeS.API.Controllers
             try
             {
                 if (!SessionDomain.CheckSession(Sessao())) { return BadRequest("Sessão inválida!"); }
-
-                if (serviceDomain.Put(Service))
-                {
-                    return Ok("Serviço atualizado com sucesso!");
-                }
-
-                return BadRequest("Houve um erro ao atualizar o serviço. Tente novamente!");
+                return Ok(serviceDomain.Put(Service));
             }
             catch (Exception ex)
             {

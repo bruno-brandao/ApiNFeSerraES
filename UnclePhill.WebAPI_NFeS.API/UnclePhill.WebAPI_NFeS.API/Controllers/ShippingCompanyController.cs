@@ -27,7 +27,6 @@ namespace UnclePhill.WebAPI_NFeS.API.Controllers
             try
             {
                 if (!SessionDomain.CheckSession(Sessao())) { return BadRequest("Sessão inválida!"); }
-
                 return Ok(shippingCompanyDomain.Get<List<ShippingCompany>>(ShippingCompanyId));
             }
             catch (Exception ex)
@@ -47,14 +46,8 @@ namespace UnclePhill.WebAPI_NFeS.API.Controllers
         {
             try
             {
-                if (!SessionDomain.CheckSession(Sessao())) { return BadRequest("Sessão inválida!"); }
-                ShippingCompany = shippingCompanyDomain.Post(ShippingCompany);
-                if (ShippingCompany.ShippingCompanyId > 0)
-                {
-                    return Ok(ShippingCompany);
-                }
-
-                return BadRequest("Houve um problema ao criar a transportadora. Tente novamente!");
+                if (!SessionDomain.CheckSession(Sessao())) { return BadRequest("Sessão inválida!"); }               
+                return Ok(shippingCompanyDomain.Post(ShippingCompany));               
             }
             catch (Exception ex)
             {
@@ -74,13 +67,7 @@ namespace UnclePhill.WebAPI_NFeS.API.Controllers
             try
             {
                 if (!SessionDomain.CheckSession(Sessao())) { return BadRequest("Sessão inválida!"); }
-
-                if (shippingCompanyDomain.Put(ShippingCompany))
-                {
-                    return Ok("Serviço atualizado com sucesso!");
-                }
-
-                return BadRequest("Houve um erro ao atualizar o serviço. Tente novamente!");
+                return Ok(shippingCompanyDomain.Put(ShippingCompany));
             }
             catch (Exception ex)
             {

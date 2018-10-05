@@ -142,7 +142,7 @@ namespace UnclePhill.WebAPI_NFeS.Domain
             }
         }
 
-        public bool Put(Companys companys, Users usersSession)
+        public Companys Put(Companys companys, Users usersSession)
         {
             try
             {
@@ -182,11 +182,11 @@ namespace UnclePhill.WebAPI_NFeS.Domain
                     //taxpayerActivitiesDomain.Reload(usersSession.CPF, usersSession.Password, companys.IM, 3, companys.CompanyId);
                     taxpayerActivitiesDomain.Reload(Homologation.CPF, Homologation.Password, Homologation.IM, int.Parse(Homologation.CityCod), companys.CompanyId);
 
-                    return true;
+                    return companys;
                 }
-
-                return false;
-            }catch(Exception ex)
+                throw new Exception("Houve um problema ao atualizar a empresa.");
+            }
+            catch(Exception ex)
             {
                 throw ex;
             }

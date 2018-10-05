@@ -139,7 +139,7 @@ namespace UnclePhill.WebAPI_NFeS.Domain
             }           
         }
 
-        public bool Put(Users users)
+        public Users Put(Users users)
         {
             try
             {
@@ -163,10 +163,9 @@ namespace UnclePhill.WebAPI_NFeS.Domain
 
                 if (Functions.Conn.Update(SQL.ToString()))
                 {
-                    return true;
+                    return users;
                 }
-
-                return false;
+                throw new Exception("Houve um problema ao atualizar o usuário.");
             }
             catch (Exception ex)
             {
