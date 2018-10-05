@@ -107,6 +107,7 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Reference.svcmap</DependentUpon>
     </Compile>
+    <Compile Include="Domain\CertificatesDomain.cs" />
     <Compile Include="Domain\CFPSDomain.cs" />
     <Compile Include="Domain\CompanyDomain.cs" />
     <Compile Include="Domain\DefaultDomains\MasterDomain.cs" />
