@@ -58,7 +58,7 @@ namespace UnclePhill.WebAPI_NFeS.Domain
             }
         }
 
-        public bool Post(ShippingCompany shippingCompany)
+        public ShippingCompany Post(ShippingCompany shippingCompany)
         {
             try
             {
@@ -90,13 +90,17 @@ namespace UnclePhill.WebAPI_NFeS.Domain
                 SQL.AppendLine("     GetDate() ");
                 SQL.AppendLine("    ) ");
 
-                if (Functions.Conn.Insert(SQL.ToString()) > 0)
+                shippingCompany.ShippingCompanyId = Functions.Conn.Insert(SQL.ToString());
+                if (shippingCompany.ShippingCompanyId > 0)
                 {
-                    return true;
+                    shippingCompany.Active = true;
+                    shippingCompany.DateInsert = DateTime.Now.ToString("yyyy-MM-dd");
+                    shippingCompany.DateUpdate = DateTime.Now.ToString("yyyy-MM-dd");
+                    return shippingCompany;
                 }
-
-                return false;
-            }catch(Exception ex)
+                throw new Exception("Houve um problema ao cadastrar a transportadora!");
+            }
+            catch(Exception ex)
             {
                 throw ex;
             }

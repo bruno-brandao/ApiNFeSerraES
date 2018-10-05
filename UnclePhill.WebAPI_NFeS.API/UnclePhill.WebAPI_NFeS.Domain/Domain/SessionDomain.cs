@@ -148,6 +148,5 @@ namespace UnclePhill.WebAPI_NFeS.Domain
                 throw ex;
             }
         }
-
     }
 }

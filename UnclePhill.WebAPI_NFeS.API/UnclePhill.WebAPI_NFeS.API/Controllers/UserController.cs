@@ -59,18 +59,18 @@ namespace UnclePhill.WebAPI_NFeS.API.Controllers
         /// <summary>
         /// Cria um novo usuário
         /// </summary>
-        /// <param name="users">Objeto usuário</param>
+        /// <param name="Users">Objeto usuário</param>
         /// <returns code = "200">Sucesso</returns>
         /// <returns code = "400">Erro</returns>
-        public IHttpActionResult Post([FromBody]Users users)
+        public IHttpActionResult Post([FromBody]Users Users)
         {
             try
             {
                 SessionDomain.UpdateSession();
-
-                if (usersDomain.Post(users))
+                Users = usersDomain.Post(Users);
+                if (Users.UserId > 0)
                 {
-                    return Ok("Usuário criado com sucesso!");
+                    return Ok(Users);
                 }
 
                 return BadRequest("Houve um problema ao criar um usuário. Tente novamente!");

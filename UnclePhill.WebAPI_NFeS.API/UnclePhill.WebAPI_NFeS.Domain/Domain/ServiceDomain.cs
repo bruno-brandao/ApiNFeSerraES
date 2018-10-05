@@ -58,7 +58,7 @@ namespace UnclePhill.WebAPI_NFeS.Domain
             }
         }
 
-        public bool Post(Services services)
+        public Services Post(Services services)
         {
             try
             {                
@@ -90,12 +90,15 @@ namespace UnclePhill.WebAPI_NFeS.Domain
                 SQL.AppendLine("     GetDate() ");
                 SQL.AppendLine("    ) ");
 
-                if (Functions.Conn.Insert(SQL.ToString()) > 0)
+                services.ServicesId = Functions.Conn.Insert(SQL.ToString());
+                if (services.ServicesId > 0)
                 {
-                    return true;
+                    services.Active = true;
+                    services.DateInsert = DateTime.Now.ToString("yyyy-MM-dd");
+                    services.DateUpdate = DateTime.Now.ToString("yyyy-MM-dd");
+                    return services;
                 }
-
-                return false;
+                throw new Exception("Houve um problema ao cadastrar a serviço!");
             }
             catch (Exception ex)
             {

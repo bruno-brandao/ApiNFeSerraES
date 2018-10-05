@@ -49,10 +49,10 @@ namespace UnclePhill.WebAPI_NFeS.API.Controllers
             try
             {
                 if (!SessionDomain.CheckSession(Sessao())) { return BadRequest("Sessão inválida!"); }
-
-                if (serviceDomain.Post(Service))
+                Service = serviceDomain.Post(Service);
+                if (Service.ServicesId > 0)
                 {
-                    return Ok("Serviço criado com sucesso!");
+                    return Ok(Service);
                 }
 
                 return BadRequest("Houve um problema ao criar um serviço. Tente novamente!");

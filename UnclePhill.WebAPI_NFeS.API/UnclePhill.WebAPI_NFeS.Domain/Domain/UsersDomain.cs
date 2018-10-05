@@ -96,7 +96,7 @@ namespace UnclePhill.WebAPI_NFeS.Domain
             }
         }
 
-        public bool Post(Users users)
+        public Users Post(Users users)
         {
             try
             {
@@ -123,12 +123,16 @@ namespace UnclePhill.WebAPI_NFeS.Domain
                 SQL.AppendLine("    GetDate() ");
                 SQL.AppendLine(" ) ");
 
-                if (Functions.Conn.Insert(SQL.ToString()) > 0)
+                users.UserId = Functions.Conn.Insert(SQL.ToString());
+                if (users.UserId > 0)
                 {
-                    return true;
+                    users.Active = true;
+                    users.DateInsert = DateTime.Now.ToString("yyyy-MM-dd");
+                    users.DateUpdate = DateTime.Now.ToString("yyyy-MM-dd");
+                    return users;
                 }
 
-                return false;
+                throw new Exception("Houve um problema ao cadastrar o usuário.");
             }catch(Exception ex)
             {
                 throw ex;

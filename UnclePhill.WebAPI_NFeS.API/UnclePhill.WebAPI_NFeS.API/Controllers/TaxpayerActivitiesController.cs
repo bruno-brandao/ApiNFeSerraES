@@ -25,14 +25,6 @@ namespace UnclePhill.WebAPI_NFeS.API.Controllers
         {
             try
             {
-                /*****
-                  Homologação Serra:
-                  cpfUsuario:55555555555
-                  hashSenha: cRDtpNCeBiql5KOQsKVyrA0sAiA=
-                  inscricaoMunicipal = 4546565
-                  codigoMunicipio = 3
-                *****/
-
                 if (!SessionDomain.CheckSession(Sessao())) { return BadRequest("Sessão inválida!"); }
 
                 return Ok(taxpayerActivitiesDomain.Get(CompanyId));

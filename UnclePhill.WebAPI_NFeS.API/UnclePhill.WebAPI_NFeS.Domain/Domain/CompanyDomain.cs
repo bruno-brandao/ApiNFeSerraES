@@ -70,7 +70,7 @@ namespace UnclePhill.WebAPI_NFeS.Domain
             }
         }
 
-        public bool Post(Companys companys, Users usersSession)
+        public Companys Post(Companys companys, Users usersSession)
         {
             try
             {
@@ -126,11 +126,15 @@ namespace UnclePhill.WebAPI_NFeS.Domain
                 if (companys.CompanyId > 0)
                 {
                     TaxpayerActivitiesDomain taxpayerActivitiesDomain = new TaxpayerActivitiesDomain();
-                    taxpayerActivitiesDomain.Reload(usersSession.CPF,usersSession.Password,companys.IM,3,companys.CompanyId);
+                    //taxpayerActivitiesDomain.Reload(usersSession.CPF,usersSession.Password,companys.IM,3,companys.CompanyId);
+                    taxpayerActivitiesDomain.Reload(Homologation.CPF,Homologation.Password,Homologation.IM,int.Parse(Homologation.CityCod),companys.CompanyId);
 
-                    return true;
+                    companys.Active = true;
+                    companys.DateInsert = DateTime.Now.ToString("yyyy-MM-dd");
+                    companys.DateUpdate = DateTime.Now.ToString("yyyy-MM-dd");
+                    return companys;
                 }
-                return false;
+                throw new Exception("Houve um problema ao cadastrar a empresa!");
             }
             catch (Exception ex)
             {
@@ -175,7 +179,8 @@ namespace UnclePhill.WebAPI_NFeS.Domain
                 if (Functions.Conn.Insert(SQL.ToString()) > 0)
                 {
                     TaxpayerActivitiesDomain taxpayerActivitiesDomain = new TaxpayerActivitiesDomain();
-                    taxpayerActivitiesDomain.Reload(usersSession.CPF, usersSession.Password, companys.IM, 3, companys.CompanyId);
+                    //taxpayerActivitiesDomain.Reload(usersSession.CPF, usersSession.Password, companys.IM, 3, companys.CompanyId);
+                    taxpayerActivitiesDomain.Reload(Homologation.CPF, Homologation.Password, Homologation.IM, int.Parse(Homologation.CityCod), companys.CompanyId);
 
                     return true;
                 }

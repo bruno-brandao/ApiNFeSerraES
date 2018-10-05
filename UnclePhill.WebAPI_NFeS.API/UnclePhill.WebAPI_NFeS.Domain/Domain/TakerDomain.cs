@@ -66,7 +66,7 @@ namespace UnclePhill.WebAPI_NFeS.Domain
             }
         }
 
-        public bool Post(Takers takers)
+        public Takers Post(Takers takers)
         {
             try
             {
@@ -109,12 +109,15 @@ namespace UnclePhill.WebAPI_NFeS.Domain
                 SQL.AppendLine("     GetDate() ");
                 SQL.AppendLine("    ) ");
 
-                if (Functions.Conn.Insert(SQL.ToString()) > 0)
+                takers.TakerId = Functions.Conn.Insert(SQL.ToString());
+                if (takers.TakerId > 0)
                 {
-                    return true;
+                    takers.Active = true;
+                    takers.DateInsert = DateTime.Now.ToString("yyyy-MM-dd");
+                    takers.DateUpdate = DateTime.Now.ToString("yyyy-MM-dd");
+                    return takers;
                 }
-
-                return false;
+                throw new Exception("Não foi possivel cadastar o tomador!");
             }
             catch (Exception ex)
             {

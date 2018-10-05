@@ -47,10 +47,10 @@ namespace UnclePhill.WebAPI_NFeS.API.Controllers
             try
             {
                 if (!SessionDomain.CheckSession(base.Sessao())) return BadRequest("Sessão inválida!");
-
-                if (companyDomain.Post(Company, SessionDomain.GetUserSession(base.Sessao())))
+                Company = companyDomain.Post(Company, SessionDomain.GetUserSession(base.Sessao()));
+                if (Company.CompanyId > 0)
                 {
-                    return Ok("Empresa criada com sucesso!");
+                    return Ok(Company);
                 }
 
                 return BadRequest("Houve um problema ao cadastrar uma empresa. Tente novamente!");

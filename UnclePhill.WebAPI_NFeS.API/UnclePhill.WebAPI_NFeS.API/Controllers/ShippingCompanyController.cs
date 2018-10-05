@@ -48,10 +48,10 @@ namespace UnclePhill.WebAPI_NFeS.API.Controllers
             try
             {
                 if (!SessionDomain.CheckSession(Sessao())) { return BadRequest("Sessão inválida!"); }
-
-                if (shippingCompanyDomain.Post(ShippingCompany))
+                ShippingCompany = shippingCompanyDomain.Post(ShippingCompany);
+                if (ShippingCompany.ShippingCompanyId > 0)
                 {
-                    return Ok("Transportadora criada com sucesso!");
+                    return Ok(ShippingCompany);
                 }
 
                 return BadRequest("Houve um problema ao criar a transportadora. Tente novamente!");

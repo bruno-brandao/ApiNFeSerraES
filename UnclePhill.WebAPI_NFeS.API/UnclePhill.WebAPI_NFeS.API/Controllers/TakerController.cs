@@ -51,10 +51,10 @@ namespace UnclePhill.WebAPI_NFeS.API.Controllers
             try
             {
                 if (!SessionDomain.CheckSession(Sessao())) { return BadRequest("Sessão inválida!"); }
-
-                if (takerDomain.Post(Taker))
+                Taker = takerDomain.Post(Taker);
+                if (Taker.TakerId > 0)
                 { 
-                    return Ok("Tomador criado com sucesso!");
+                    return Ok(Taker);
                 }
 
                 return BadRequest("Houve um problema ao criar um tomador. Tente novamente!");
