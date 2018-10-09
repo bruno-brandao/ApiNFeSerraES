@@ -166,7 +166,7 @@ namespace UnclePhill.WebAPI_NFeS.Domain
                                 Functions.XmlFunctions.StringXmlForClass<Models.Models.NFeSStructure.NFeSPreview.util>(NFSeXmlUrl);
                                                         
                             //DownLoad do PDF
-                            //Convert.ToBase64String(new WebClient().DownloadData(NFSePreview.urlNfd));
+                            Convert.ToBase64String(new WebClient().DownloadData(NFSePreview.urlNfd));
 
                             return new NFeSRequestPreview(NFSePreview.urlNfd, NFSePreview.urlAutenticidade);
                         }

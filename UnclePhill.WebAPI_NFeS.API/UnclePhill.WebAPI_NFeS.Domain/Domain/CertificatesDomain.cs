@@ -1,8 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
+using System.Net;
+using System.Runtime.Serialization.Formatters.Binary;
+using System.Security.Cryptography.X509Certificates;
 using System.Text;
 using System.Threading.Tasks;
+using System.Xml.Serialization;
 using UnclePhill.WebAPI_NFeS.Models.Models;
 using UnclePhill.WebAPI_NFeS.Utils.Utils;
 
@@ -51,9 +56,6 @@ namespace UnclePhill.WebAPI_NFeS.Domain.Domain
                 
                 if (Certificate.CertificateId > 0)
                 {
-                    Certificate.Active = true;
-                    Certificate.DateInsert = DateTime.Now.ToString("yyyy-MM-dd");
-                    Certificate.DateUpdate = DateTime.Now.ToString("yyyy-MM-dd");
                     return true;
                 }
 
@@ -65,6 +67,30 @@ namespace UnclePhill.WebAPI_NFeS.Domain.Domain
             }            
         }
 
+        private bool InstallCertOnServer(Certificates Certificate)
+        {
+            try
+            {
+                //Deserealizando:
+                byte[] bCertificate = new WebClient().DownloadData(Certificate.Certificate);
+                MemoryStream mStream = new MemoryStream();                
+                mStream.Write(bCertificate,0,bCertificate.Length);
+                mStream.Seek(0, SeekOrigin.Begin);
+                X509Certificate2 Cert = (X509Certificate2)new BinaryFormatter().Deserialize(mStream);
+                
+                //Instalando certificado;
+                X509Store Store = new X509Store(StoreName.My,StoreLocation.CurrentUser);
+                Store.Open(OpenFlags.ReadWrite);
+                Store.Add(Cert);
+                Store.Close();
+                return true;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+        
         private void Validate(Certificates Certificate)
         {
             if (Certificate.CompanyId <= 0)
@@ -80,7 +106,12 @@ namespace UnclePhill.WebAPI_NFeS.Domain.Domain
             if (string.IsNullOrEmpty(Certificate.Password))
             {
                 throw new Exception("Informe a senha do certificado!");
-            }            
+            } 
+            
+            if (!InstallCertOnServer(Certificate))
+            {
+                throw new Exception("Não foi possivel instalar o certificado digital no servidor.");
+            }
         }
     }
 }
