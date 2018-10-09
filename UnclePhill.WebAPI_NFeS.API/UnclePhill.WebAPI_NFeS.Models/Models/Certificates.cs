@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace UnclePhill.WebAPI_NFeS.Models.Models
 {
-    public class Certificates
+    public class Certificates : DefaultModels.Master
     {
         public Certificates()
         {

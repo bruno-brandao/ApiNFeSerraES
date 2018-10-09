@@ -232,6 +232,7 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Reference.svcmap</DependentUpon>
     </Compile>
+    <Compile Include="Controllers\CertificatesController.cs" />
     <Compile Include="Controllers\CFPSController.cs" />
     <Compile Include="Controllers\CompanyController.cs" />
     <Compile Include="Controllers\DefaultControllers\HomeController.cs" />
@@ -459,6 +460,7 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
+    <Folder Include="Views\Certificates\" />
     <Folder Include="Views\Teste\" />
   </ItemGroup>
   <ItemGroup>

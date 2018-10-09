@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 namespace UnclePhill.WebAPI_NFeS.Models.Models.NFeSStructure.NFeSProcessingResult
 {
 
+
     // OBSERVAÇÃO: o código gerado pode exigir pelo menos .NET Framework 4.5 ou .NET Core/Standard 2.0.
     /// <remarks/>
     [System.SerializableAttribute()]
@@ -80,12 +81,6 @@ namespace UnclePhill.WebAPI_NFeS.Models.Models.NFeSStructure.NFeSProcessingResul
 
         private tbnfdNfdokNewDataSetNOTA_FISCAL nOTA_FISCALField;
 
-        private tbnfdNfdokNewDataSetFATURA fATURAField;
-
-        private tbnfdNfdokNewDataSetITENS iTENSField;
-
-        private tbnfdNfdokNewDataSetSignerData signerDataField;
-
         /// <remarks/>
         public tbnfdNfdokNewDataSetNOTA_FISCAL NOTA_FISCAL
         {
@@ -96,45 +91,6 @@ namespace UnclePhill.WebAPI_NFeS.Models.Models.NFeSStructure.NFeSProcessingResul
             set
             {
                 this.nOTA_FISCALField = value;
-            }
-        }
-
-        /// <remarks/>
-        public tbnfdNfdokNewDataSetFATURA FATURA
-        {
-            get
-            {
-                return this.fATURAField;
-            }
-            set
-            {
-                this.fATURAField = value;
-            }
-        }
-
-        /// <remarks/>
-        public tbnfdNfdokNewDataSetITENS ITENS
-        {
-            get
-            {
-                return this.iTENSField;
-            }
-            set
-            {
-                this.iTENSField = value;
-            }
-        }
-
-        /// <remarks/>
-        public tbnfdNfdokNewDataSetSignerData SignerData
-        {
-            get
-            {
-                return this.signerDataField;
-            }
-            set
-            {
-                this.signerDataField = value;
             }
         }
     }
@@ -154,9 +110,17 @@ namespace UnclePhill.WebAPI_NFeS.Models.Models.NFeSStructure.NFeSProcessingResul
 
         private string numeroNotaField;
 
+        private string numeroRpsField;
+
+        private string situacaoNfField;
+
+        private string chaveValidacaoField;
+
         private string clienteNomeRazaoSocialField;
 
         private string clienteNomeFantasiaField;
+
+        private string clienteCNPJCPFField;
 
         private string clienteEnderecoField;
 
@@ -180,8 +144,6 @@ namespace UnclePhill.WebAPI_NFeS.Models.Models.NFeSStructure.NFeSProcessingResul
 
         private string clienteEmailField;
 
-        private string clienteCNPJCPFField;
-
         private string clienteInscricaoEstadualField;
 
         private string baseCalculoField;
@@ -190,13 +152,17 @@ namespace UnclePhill.WebAPI_NFeS.Models.Models.NFeSStructure.NFeSProcessingResul
 
         private string iSSQNSemRetencaoField;
 
-        private string vlraproximpostoField;
-
-        private string aliquotaimpostoaproxField;
-
-        private string fonteimpostoaproxField;
-
         private string iSSQNTotalField;
+
+        private string irrfField;
+
+        private string cofinsField;
+
+        private string inssField;
+
+        private string csllField;
+
+        private string pisField;
 
         private string valorTotalNotaField;
 
@@ -224,6 +190,12 @@ namespace UnclePhill.WebAPI_NFeS.Models.Models.NFeSStructure.NFeSProcessingResul
 
         private string codigoSerieField;
 
+        private string observacaoField;
+
+        private string servicoCidadeField;
+
+        private string servicoEstadoField;
+
         private string timbreContribstringeLogoField;
 
         private string timbreContribstringeLinha1Field;
@@ -241,6 +213,10 @@ namespace UnclePhill.WebAPI_NFeS.Models.Models.NFeSStructure.NFeSProcessingResul
         private string timbrePrefeituraLinha2Field;
 
         private string timbrePrefeituraLinha3Field;
+
+        private tbnfdNfdokNewDataSetNOTA_FISCALFATURA fATURAField;
+
+        private tbnfdNfdokNewDataSetNOTA_FISCALITENS iTENSField;
 
         /// <remarks/>
         public string Cae
@@ -295,6 +271,45 @@ namespace UnclePhill.WebAPI_NFeS.Models.Models.NFeSStructure.NFeSProcessingResul
         }
 
         /// <remarks/>
+        public string NumeroRps
+        {
+            get
+            {
+                return this.numeroRpsField;
+            }
+            set
+            {
+                this.numeroRpsField = value;
+            }
+        }
+
+        /// <remarks/>
+        public string SituacaoNf
+        {
+            get
+            {
+                return this.situacaoNfField;
+            }
+            set
+            {
+                this.situacaoNfField = value;
+            }
+        }
+
+        /// <remarks/>
+        public string ChaveValidacao
+        {
+            get
+            {
+                return this.chaveValidacaoField;
+            }
+            set
+            {
+                this.chaveValidacaoField = value;
+            }
+        }
+
+        /// <remarks/>
         public string ClienteNomeRazaoSocial
         {
             get
@@ -317,6 +332,19 @@ namespace UnclePhill.WebAPI_NFeS.Models.Models.NFeSStructure.NFeSProcessingResul
             set
             {
                 this.clienteNomeFantasiaField = value;
+            }
+        }
+
+        /// <remarks/>
+        public string ClienteCNPJCPF
+        {
+            get
+            {
+                return this.clienteCNPJCPFField;
+            }
+            set
+            {
+                this.clienteCNPJCPFField = value;
             }
         }
 
@@ -464,19 +492,6 @@ namespace UnclePhill.WebAPI_NFeS.Models.Models.NFeSStructure.NFeSProcessingResul
         }
 
         /// <remarks/>
-        public string ClienteCNPJCPF
-        {
-            get
-            {
-                return this.clienteCNPJCPFField;
-            }
-            set
-            {
-                this.clienteCNPJCPFField = value;
-            }
-        }
-
-        /// <remarks/>
         public string ClienteInscricaoEstadual
         {
             get
@@ -529,45 +544,6 @@ namespace UnclePhill.WebAPI_NFeS.Models.Models.NFeSStructure.NFeSProcessingResul
         }
 
         /// <remarks/>
-        public string vlraproximposto
-        {
-            get
-            {
-                return this.vlraproximpostoField;
-            }
-            set
-            {
-                this.vlraproximpostoField = value;
-            }
-        }
-
-        /// <remarks/>
-        public string aliquotaimpostoaprox
-        {
-            get
-            {
-                return this.aliquotaimpostoaproxField;
-            }
-            set
-            {
-                this.aliquotaimpostoaproxField = value;
-            }
-        }
-
-        /// <remarks/>
-        public string fonteimpostoaprox
-        {
-            get
-            {
-                return this.fonteimpostoaproxField;
-            }
-            set
-            {
-                this.fonteimpostoaproxField = value;
-            }
-        }
-
-        /// <remarks/>
         public string ISSQNTotal
         {
             get
@@ -577,6 +553,71 @@ namespace UnclePhill.WebAPI_NFeS.Models.Models.NFeSStructure.NFeSProcessingResul
             set
             {
                 this.iSSQNTotalField = value;
+            }
+        }
+
+        /// <remarks/>
+        public string Irrf
+        {
+            get
+            {
+                return this.irrfField;
+            }
+            set
+            {
+                this.irrfField = value;
+            }
+        }
+
+        /// <remarks/>
+        public string Cofins
+        {
+            get
+            {
+                return this.cofinsField;
+            }
+            set
+            {
+                this.cofinsField = value;
+            }
+        }
+
+        /// <remarks/>
+        public string Inss
+        {
+            get
+            {
+                return this.inssField;
+            }
+            set
+            {
+                this.inssField = value;
+            }
+        }
+
+        /// <remarks/>
+        public string Csll
+        {
+            get
+            {
+                return this.csllField;
+            }
+            set
+            {
+                this.csllField = value;
+            }
+        }
+
+        /// <remarks/>
+        public string Pis
+        {
+            get
+            {
+                return this.pisField;
+            }
+            set
+            {
+                this.pisField = value;
             }
         }
 
@@ -750,6 +791,45 @@ namespace UnclePhill.WebAPI_NFeS.Models.Models.NFeSStructure.NFeSProcessingResul
         }
 
         /// <remarks/>
+        public string Observacao
+        {
+            get
+            {
+                return this.observacaoField;
+            }
+            set
+            {
+                this.observacaoField = value;
+            }
+        }
+
+        /// <remarks/>
+        public string servicoCidade
+        {
+            get
+            {
+                return this.servicoCidadeField;
+            }
+            set
+            {
+                this.servicoCidadeField = value;
+            }
+        }
+
+        /// <remarks/>
+        public string servicoEstado
+        {
+            get
+            {
+                return this.servicoEstadoField;
+            }
+            set
+            {
+                this.servicoEstadoField = value;
+            }
+        }
+
+        /// <remarks/>
         public string TimbreContribstringeLogo
         {
             get
@@ -865,18 +945,44 @@ namespace UnclePhill.WebAPI_NFeS.Models.Models.NFeSStructure.NFeSProcessingResul
                 this.timbrePrefeituraLinha3Field = value;
             }
         }
+
+        /// <remarks/>
+        public tbnfdNfdokNewDataSetNOTA_FISCALFATURA FATURA
+        {
+            get
+            {
+                return this.fATURAField;
+            }
+            set
+            {
+                this.fATURAField = value;
+            }
+        }
+
+        /// <remarks/>
+        public tbnfdNfdokNewDataSetNOTA_FISCALITENS ITENS
+        {
+            get
+            {
+                return this.iTENSField;
+            }
+            set
+            {
+                this.iTENSField = value;
+            }
+        }
     }
 
     /// <remarks/>
     [System.SerializableAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
     [System.Xml.Serialization.XmlTypeAttribute(AnonymousType = true)]
-    public partial class tbnfdNfdokNewDataSetFATURA
+    public partial class tbnfdNfdokNewDataSetNOTA_FISCALFATURA
     {
 
         private string numeroField;
 
-        private System.DateTime vencimentoField;
+        private string vencimentoField;
 
         private string valorField;
 
@@ -894,7 +1000,7 @@ namespace UnclePhill.WebAPI_NFeS.Models.Models.NFeSStructure.NFeSProcessingResul
         }
 
         /// <remarks/>
-        public System.DateTime Vencimento
+        public string Vencimento
         {
             get
             {
@@ -924,7 +1030,7 @@ namespace UnclePhill.WebAPI_NFeS.Models.Models.NFeSStructure.NFeSProcessingResul
     [System.SerializableAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
     [System.Xml.Serialization.XmlTypeAttribute(AnonymousType = true)]
-    public partial class tbnfdNfdokNewDataSetITENS
+    public partial class tbnfdNfdokNewDataSetNOTA_FISCALITENS
     {
 
         private string quantidadeField;
@@ -1033,26 +1139,5 @@ namespace UnclePhill.WebAPI_NFeS.Models.Models.NFeSStructure.NFeSProcessingResul
         }
     }
 
-    /// <remarks/>
-    [System.SerializableAttribute()]
-    [System.ComponentModel.DesignerCategoryAttribute("code")]
-    [System.Xml.Serialization.XmlTypeAttribute(AnonymousType = true)]
-    public partial class tbnfdNfdokNewDataSetSignerData
-    {
 
-        private string assinaturaField;
-
-        /// <remarks/>
-        public string Assinatura
-        {
-            get
-            {
-                return this.assinaturaField;
-            }
-            set
-            {
-                this.assinaturaField = value;
-            }
-        }
-    }
 }

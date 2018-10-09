@@ -10,37 +10,53 @@ namespace UnclePhill.WebAPI_NFeS.Domain.Domain
 {
     public class CertificatesDomain: MasterDomain
     {
-        public Certificates UploadCertificate(Certificates Certificate)
+        public bool UploadCertificate(Certificates Certificate)
         {
             try
             {
                 Validate(Certificate);
 
                 SQL = new StringBuilder();
-                SQL.AppendLine(" Insert Into Certificates ");
-                SQL.AppendLine(" ( CompanyId , ");
-                SQL.AppendLine("   Certificate , ");
-                SQL.AppendLine("   Password , ");
-                SQL.AppendLine("   Active , ");
-                SQL.AppendLine("   DateInsert , ");
-                SQL.AppendLine("   DateUpdate) ");
-                SQL.AppendLine(" Values ");
-                SQL.AppendLine(" ( " + Certificate.CompanyId);
-                SQL.AppendLine("  '" + Functions.NotQuote(Certificate.Certificate) + "',");
-                SQL.AppendLine("  '" + Functions.NotQuote(Certificate.Password) + "',");
-                SQL.AppendLine("  1, ");
-                SQL.AppendLine("  GetDate(), ");
-                SQL.AppendLine("  GetDate() ");
-                SQL.AppendLine(" ) ");
+                if (Functions.ExistsRegister(Certificate.CompanyId.ToString(), Functions.TypeInput.Numero, "CompanyId", "Certificates"))
+                {
+                    SQL.AppendLine(" Update Certificates Set ");
+                    SQL.AppendLine("   Certificate = '" + Functions.NotQuote(Certificate.Certificate) + "' , ");
+                    SQL.AppendLine("   Password = '" + Functions.NotQuote(Certificate.Password) + "' , ");
+                    SQL.AppendLine("   Active = 1 , ");
+                    SQL.AppendLine("   DateUpdate = GetDate() ");
+                    SQL.AppendLine(" Where Certificates.CertificateId = " + Certificate.CertificateId);
 
-                Certificate.CertificateId = Functions.Conn.Insert(SQL.ToString());
+                    Functions.Conn.Update(SQL.ToString());
+                }
+                else
+                {
+                    SQL.AppendLine(" Insert Into Certificates ");
+                    SQL.AppendLine(" ( CompanyId , ");
+                    SQL.AppendLine("   Certificate , ");
+                    SQL.AppendLine("   Password , ");
+                    SQL.AppendLine("   Active , ");
+                    SQL.AppendLine("   DateInsert , ");
+                    SQL.AppendLine("   DateUpdate) ");
+                    SQL.AppendLine(" Values ");
+                    SQL.AppendLine(" ( " + Certificate.CompanyId);
+                    SQL.AppendLine("  '" + Functions.NotQuote(Certificate.Certificate) + "',");
+                    SQL.AppendLine("  '" + Functions.NotQuote(Certificate.Password) + "',");
+                    SQL.AppendLine("  1, ");
+                    SQL.AppendLine("  GetDate(), ");
+                    SQL.AppendLine("  GetDate() ");
+                    SQL.AppendLine(" ) ");
+
+                    Certificate.CertificateId = Functions.Conn.Insert(SQL.ToString());
+                }           
+                
                 if (Certificate.CertificateId > 0)
                 {
                     Certificate.Active = true;
                     Certificate.DateInsert = DateTime.Now.ToString("yyyy-MM-dd");
                     Certificate.DateUpdate = DateTime.Now.ToString("yyyy-MM-dd");
-                    return Certificate;
+                    return true;
                 }
+
                 throw new Exception("Não foi possivel cadastrar o certificado!");
             }
             catch(Exception ex)
@@ -64,7 +80,7 @@ namespace UnclePhill.WebAPI_NFeS.Domain.Domain
             if (string.IsNullOrEmpty(Certificate.Password))
             {
                 throw new Exception("Informe a senha do certificado!");
-            }
+            }            
         }
     }
 }
