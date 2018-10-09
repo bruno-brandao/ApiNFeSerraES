@@ -12,7 +12,7 @@ namespace UnclePhill.WebAPI_NFeS.API.Controllers
     [EnableCors(origins: "*", headers: "*", methods: "*")] 
     public class TaxpayerActivitiesController : MasterController,Default.IController<TaxpayerActivities>
     {
-        TaxpayerActivitiesDomain taxpayerActivitiesDomain = new TaxpayerActivitiesDomain();      
+        TaxpayerActivitiesDomain taxpayerActivitiesDomain = new TaxpayerActivitiesDomain();
 
         /// <summary>
         /// Retorna uma lista de CFPS's
@@ -21,7 +21,8 @@ namespace UnclePhill.WebAPI_NFeS.API.Controllers
         /// <param name="CFPSId">Opcional: Código do CFPS</param>
         /// <returns code = "200">Sucesso</returns>
         /// <returns code = "400">Erro</returns>      
-        public IHttpActionResult Get(long? CompanyId)
+        [System.Web.Http.ActionName("Get")]
+        public IHttpActionResult Get(long CompanyId = 0)
         {
             try
             {
@@ -33,22 +34,25 @@ namespace UnclePhill.WebAPI_NFeS.API.Controllers
             {
                 return BadRequest(ex.Message);
             }
-        }
+        }       
 
         [ApiExplorerSettings(IgnoreApi = true)]
-        public IHttpActionResult Delete(long Id)
-        {
-            throw new NotImplementedException();
-        }
-
-        [ApiExplorerSettings(IgnoreApi = true)]
+        [System.Web.Http.ActionName("Post")]
         public IHttpActionResult Post([FromBody] TaxpayerActivities obj)
         {
             throw new NotImplementedException();
         }
 
         [ApiExplorerSettings(IgnoreApi = true)]
+        [System.Web.Http.ActionName("Put")]
         public IHttpActionResult Put([FromBody] TaxpayerActivities obj)
+        {
+            throw new NotImplementedException();
+        }
+
+        [ApiExplorerSettings(IgnoreApi = true)]
+        [System.Web.Http.ActionName("Delete")]
+        public IHttpActionResult Delete(long Id)
         {
             throw new NotImplementedException();
         }

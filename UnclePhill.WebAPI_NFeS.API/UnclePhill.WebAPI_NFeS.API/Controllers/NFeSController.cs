@@ -11,9 +11,9 @@ namespace UnclePhill.WebAPI_NFeS.API.Controllers
     public class NFeSController : MasterController, Default.IController<NFeSRequest>
     {
         private NFeSDomain nFeSDomain = new NFeSDomain();         
-        
         [ApiExplorerSettings(IgnoreApi = true)]
-        public IHttpActionResult Get(long? Id)
+        [System.Web.Http.ActionName("Get")]
+        public IHttpActionResult Get(long Id = 0)
         {
             throw new NotImplementedException();
         }
@@ -23,13 +23,13 @@ namespace UnclePhill.WebAPI_NFeS.API.Controllers
         /// </summary>
         /// <returns code = "200">Sucesso</returns>
         /// <returns code = "400">Erro</returns> 
-        [ApiExplorerSettings(IgnoreApi = true)]
-        public IHttpActionResult Post([FromBody] NFeSRequest NFeSR)
+        [System.Web.Http.ActionName("IssueNFeS")]
+        public IHttpActionResult IssueNFeS([FromBody] NFeSRequest NFeSR)
         {
             try
             {
                 //if (!SessionDomain.CheckSession(base.Sessao())) return BadRequest("Sessão inválida!");
-                return Ok(nFeSDomain.EmitirNFeS(NFeSR));
+                return Ok(nFeSDomain.IssueNFeS(NFeSR));
             }
             catch (Exception ex)
             {
@@ -38,12 +38,21 @@ namespace UnclePhill.WebAPI_NFeS.API.Controllers
         }
 
         [ApiExplorerSettings(IgnoreApi = true)]
+        [System.Web.Http.ActionName("Post")]
+        public IHttpActionResult Post([FromBody] NFeSRequest NFeSR)
+        {
+            throw new NotImplementedException();
+        }
+
+        [ApiExplorerSettings(IgnoreApi = true)]
+        [System.Web.Http.ActionName("Put")]
         public IHttpActionResult Put([FromBody] NFeSRequest obj)
         {
             throw new NotImplementedException();
         }
 
         [ApiExplorerSettings(IgnoreApi = true)]
+        [System.Web.Http.ActionName("Delete")]
         public IHttpActionResult Delete(long Id)
         {
             throw new NotImplementedException();

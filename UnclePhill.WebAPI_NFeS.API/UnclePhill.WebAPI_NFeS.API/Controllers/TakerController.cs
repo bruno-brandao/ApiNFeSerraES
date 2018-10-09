@@ -25,7 +25,8 @@ namespace UnclePhill.WebAPI_NFeS.API.Controllers
         /// <param name="TakerId">Opcional: Código do tomador</param>
         /// <returns code = "200">Sucesso</returns>
         /// <returns code = "400">Erro</returns>        
-        public IHttpActionResult Get(long? TakerId = 0)
+        [System.Web.Http.ActionName("Get")]
+        public IHttpActionResult Get(long TakerId = 0)
         {
             try
             {
@@ -45,6 +46,7 @@ namespace UnclePhill.WebAPI_NFeS.API.Controllers
         /// <param name="Taker">Objeto tomador</param>
         /// <returns code = "200">Sucesso</returns>
         /// <returns code = "400">Erro</returns>        
+        [System.Web.Http.ActionName("Post")]
         public IHttpActionResult Post([FromBody]Takers Taker)
         {
             try
@@ -65,6 +67,7 @@ namespace UnclePhill.WebAPI_NFeS.API.Controllers
         /// <param name="Taker">Objeto tomador</param>
         /// <returns code = "200">Sucesso</returns>
         /// <returns code = "400">Erro</returns>        
+        [System.Web.Http.ActionName("Put")]
         public IHttpActionResult Put([FromBody]Takers Taker)
         {
             try
@@ -85,6 +88,7 @@ namespace UnclePhill.WebAPI_NFeS.API.Controllers
         /// <param name="TakerId">Id do tomador</param>
         /// <returns code = "200">Sucesso</returns>
         /// <returns code = "400">Erro</returns>
+        [System.Web.Http.ActionName("Delete")]
         public IHttpActionResult Delete(long TakerId)
         {
             try

@@ -19,7 +19,7 @@ namespace UnclePhill.WebAPI_NFeS.Domain
 {
     public class NFeSDomain : MasterDomain
     {
-        public NFeSRequestPreview EmitirNFeS(NFeSRequest NFeS)
+        public NFeSRequestPreview IssueNFeS(NFeSRequest NFeS)
         {
             try
             {
@@ -28,7 +28,7 @@ namespace UnclePhill.WebAPI_NFeS.Domain
 
                 //Criando e alimentando os objetos necessários//
                 Takers Taker = new TakerDomain().Get<Takers>(NFeS.TakerId);
-                Companys Company = new CompanyDomain().Get<Companys>(NFeS.CompanyId);
+                Companys Company = new CompanyDomain().Get<Companys>(CompanyDomain.Type.Company,NFeS.CompanyId);
                 CFPS CFPS = new CFPSDomain().Get<CFPS>(NFeS.CFPSId);                
                 ShippingCompany ShippingCompany = new ShippingCompanyDomain().Get<ShippingCompany>(NFeS.ShippingCompanyId);
                 tbnfd NFeSIR = new tbnfd();

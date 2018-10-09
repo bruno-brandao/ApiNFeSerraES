@@ -14,7 +14,7 @@ namespace UnclePhill.WebAPI_NFeS.API.Controllers
         private CertificatesDomain certificateDomain = new CertificatesDomain();
 
         [ApiExplorerSettings(IgnoreApi = true)]
-        public IHttpActionResult Get(long? Id)
+        public IHttpActionResult Get(long Id = 0)
         {
             throw new NotImplementedException();
         }
@@ -25,6 +25,7 @@ namespace UnclePhill.WebAPI_NFeS.API.Controllers
         /// <param name="Certificates"></param>
         /// <returns code = "200">Sucesso</returns>
         /// <returns code = "400">Erro</returns>
+        [ActionName("UploadCerticate")]
         public IHttpActionResult Post([FromBody] Certificates Certificates)
         {
             try

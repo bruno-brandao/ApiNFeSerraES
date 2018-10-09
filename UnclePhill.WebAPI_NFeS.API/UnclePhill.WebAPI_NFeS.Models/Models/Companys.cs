@@ -12,7 +12,7 @@ namespace UnclePhill.WebAPI_NFeS.Models.Models
 
         }
 
-        public Companys(long CompanyId, 
+        public Companys(long CompanyId, long UserId,
             string CNPJ, string IM, 
             string IE, string Name, 
             string NameFantasy,
@@ -26,6 +26,7 @@ namespace UnclePhill.WebAPI_NFeS.Models.Models
             string DateInsert, string DateUpdate)
         {
             this.CompanyId = CompanyId;
+            this.UserId = UserId;
             this.CNPJ = CNPJ;
             this.IM = IM;
             this.IE = IE;
@@ -51,6 +52,7 @@ namespace UnclePhill.WebAPI_NFeS.Models.Models
 
 
         public long CompanyId { get; set; }
+        public long UserId { get; set; }
         public string CNPJ { get; set; }
         public string IM { get; set; }
         public string IE { get; set; }

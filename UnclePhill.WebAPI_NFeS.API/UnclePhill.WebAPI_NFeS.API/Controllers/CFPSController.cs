@@ -13,7 +13,7 @@ namespace UnclePhill.WebAPI_NFeS.API.Controllers
     [EnableCors(origins: "*", headers: "*", methods: "*")] 
     public class CFPSController : MasterController, Default.IController<CFPS>
     {     
-        private CFPSDomain cFPSDomain = new CFPSDomain();      
+        private CFPSDomain cFPSDomain = new CFPSDomain();
 
         /// <summary>
         /// Retorna uma lista de CFPS's
@@ -21,7 +21,8 @@ namespace UnclePhill.WebAPI_NFeS.API.Controllers
         /// <param name="CFPSId">Opcional: Código do CFPS</param>
         /// <returns code = "200">Sucesso</returns>
         /// <returns code = "400">Erro</returns>
-        public IHttpActionResult Get(long? CFPSId = 0)
+        [System.Web.Http.ActionName("Get")]
+        public IHttpActionResult Get(long CFPSId = 0)
         {
             try
             {
@@ -36,18 +37,21 @@ namespace UnclePhill.WebAPI_NFeS.API.Controllers
         }
 
         [ApiExplorerSettings(IgnoreApi = true)]
+        [System.Web.Http.ActionName("Post")]
         public IHttpActionResult Post([FromBody] CFPS CFPS)
         {
             throw new NotImplementedException();
         }
 
         [ApiExplorerSettings(IgnoreApi = true)]
+        [System.Web.Http.ActionName("Put")]
         public IHttpActionResult Put([FromBody] CFPS CFPS)
         {
             throw new NotImplementedException();
         }
 
         [ApiExplorerSettings(IgnoreApi = true)]
+        [System.Web.Http.ActionName("Delete")]
         public IHttpActionResult Delete(long Id)
         {
             throw new NotImplementedException();

@@ -22,7 +22,8 @@ namespace UnclePhill.WebAPI_NFeS.API.Controllers
         /// <param name="ShippingCompanyId">Opcional: Código da transportadora</param>
         /// <returns code = "200">Sucesso</returns>
         /// <returns code = "400">Erro</returns> 
-        public IHttpActionResult Get(long? ShippingCompanyId)
+        [System.Web.Http.ActionName("Get")]
+        public IHttpActionResult Get(long ShippingCompanyId = 0)
         {
             try
             {
@@ -42,6 +43,7 @@ namespace UnclePhill.WebAPI_NFeS.API.Controllers
         /// <param name="ShippingCompany">Objeto transportadora</param>
         /// <returns code = "200">Sucesso</returns>
         /// <returns code = "400">Erro</returns> 
+        [System.Web.Http.ActionName("Post")]
         public IHttpActionResult Post([FromBody]ShippingCompany ShippingCompany)
         {
             try
@@ -62,6 +64,7 @@ namespace UnclePhill.WebAPI_NFeS.API.Controllers
         /// <param name="ShippingCompany">Objeto transportadora</param>
         /// <returns code = "200">Sucesso</returns>
         /// <returns code = "400">Erro</returns>
+        [System.Web.Http.ActionName("Put")]
         public IHttpActionResult Put([FromBody]ShippingCompany ShippingCompany)
         {
             try
@@ -82,6 +85,7 @@ namespace UnclePhill.WebAPI_NFeS.API.Controllers
         /// <param name="ShippingCompanyId">Id da transportadora</param>
         /// <returns code = "200">Sucesso</returns>
         /// <returns code = "400">Erro</returns>
+        [System.Web.Http.ActionName("Delete")]
         public IHttpActionResult Delete(long ShippingCompanyId)
         {
             try

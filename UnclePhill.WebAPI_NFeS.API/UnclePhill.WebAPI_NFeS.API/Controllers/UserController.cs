@@ -22,6 +22,7 @@ namespace UnclePhill.WebAPI_NFeS.API.Controllers
         /// <returns code = "200">Sucesso</returns>
         /// <returns code = "400">Erro</returns>        
         [System.Web.Http.HttpPost]
+        [System.Web.Http.ActionName("Login")]
         public IHttpActionResult Login(string Email, string Password)
         {
             try
@@ -41,7 +42,8 @@ namespace UnclePhill.WebAPI_NFeS.API.Controllers
         /// <param name="UserId">Id do usuário</param>
         /// <returns code = "200">Sucesso</returns>
         /// <returns code = "400">Erro</returns>
-        public IHttpActionResult Get(long? UserId)
+        [System.Web.Http.ActionName("Get")]
+        public IHttpActionResult Get(long UserId = 0)
         {
             try
             {
@@ -60,6 +62,7 @@ namespace UnclePhill.WebAPI_NFeS.API.Controllers
         /// <param name="Users">Objeto usuário</param>
         /// <returns code = "200">Sucesso</returns>
         /// <returns code = "400">Erro</returns>
+        [System.Web.Http.ActionName("Post")]
         public IHttpActionResult Post([FromBody]Users Users)
         {
             try
@@ -80,6 +83,7 @@ namespace UnclePhill.WebAPI_NFeS.API.Controllers
         /// <param name="users">Objeto usuário</param>
         /// <returns code = "200">Sucesso</returns>
         /// <returns code = "400">Erro</returns>
+        [System.Web.Http.ActionName("Put")]
         public IHttpActionResult Put([FromBody]Users users)
         {
             try
@@ -94,6 +98,7 @@ namespace UnclePhill.WebAPI_NFeS.API.Controllers
         }
 
         [ApiExplorerSettings(IgnoreApi = true)]
+        [System.Web.Http.ActionName("Delete")]
         public IHttpActionResult Delete(long Id)
         {
             throw new NotImplementedException();

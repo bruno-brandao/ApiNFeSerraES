@@ -23,7 +23,8 @@ namespace UnclePhill.WebAPI_NFeS.API.Controllers
         /// <param name="ServicesId">Opcional: Código do serviço</param>
         /// <returns code = "200">Sucesso</returns>
         /// <returns code = "400">Erro</returns> 
-        public IHttpActionResult Get(long? ServicesId)
+        [System.Web.Http.ActionName("Get")]
+        public IHttpActionResult Get(long ServicesId = 0)
         {
             try
             {
@@ -43,6 +44,7 @@ namespace UnclePhill.WebAPI_NFeS.API.Controllers
         /// <param name="services">Objeto serviço</param>
         /// <returns code = "200">Sucesso</returns>
         /// <returns code = "400">Erro</returns>
+        [System.Web.Http.ActionName("Post")]
         public IHttpActionResult Post([FromBody] Services Service)
         {
             try
@@ -63,6 +65,7 @@ namespace UnclePhill.WebAPI_NFeS.API.Controllers
         /// <param name="services">Objeto serviço</param>
         /// <returns code = "200">Sucesso</returns>
         /// <returns code = "400">Erro</returns>
+        [System.Web.Http.ActionName("Put")]
         public IHttpActionResult Put([FromBody] Services Service)
         {
             try
@@ -83,6 +86,7 @@ namespace UnclePhill.WebAPI_NFeS.API.Controllers
         /// <param name="ServicesId">Id do serviço</param>
         /// <returns code = "200">Sucesso</returns>
         /// <returns code = "400">Erro</returns>
+        [System.Web.Http.ActionName("Delete")]
         public IHttpActionResult Delete(long ServicesId)
         {
             try

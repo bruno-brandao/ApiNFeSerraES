@@ -21,17 +21,34 @@ namespace UnclePhill.WebAPI_NFeS.API.Controllers
         /// <param name="CompanyId">Opcional: Código da empresa</param>
         /// <returns code = "200">Sucesso</returns>
         /// <returns code = "400">Erro</returns> 
-        public IHttpActionResult Get(long? CompanyId = 0)
+
+        [System.Web.Http.ActionName("Get")]
+        public IHttpActionResult Get(long CompanyId = 0)
         {
             try
             {
-                if (!SessionDomain.CheckSession(base.Sessao())) return BadRequest("Sessão inválida!");
-                return Ok(companyDomain.Get<List<Companys>>(CompanyId));
+                //if (!SessionDomain.CheckSession(base.Sessao())) return BadRequest("Sessão inválida!");
+                return Ok(companyDomain.Get<List<Companys>>(CompanyDomain.Type.Company, CompanyId));
             }
             catch (Exception ex)
             {
                 return BadRequest(ex.Message);
             }            
+        }
+
+        [System.Web.Http.ActionName("GetByUser")]
+        [System.Web.Http.HttpGet]
+        public IHttpActionResult GetByUser(long UserId = 0)
+        {
+            try
+            {
+                //if (!SessionDomain.CheckSession(base.Sessao())) return BadRequest("Sessão inválida!");
+                return Ok(companyDomain.Get<List<Companys>>(CompanyDomain.Type.User, UserId));
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
         }
 
         /// <summary>
@@ -41,6 +58,7 @@ namespace UnclePhill.WebAPI_NFeS.API.Controllers
         /// <param name="Company">Objeto empresa</param>
         /// <returns code = "200">Sucesso</returns>
         /// <returns code = "400">Erro</returns>
+        [System.Web.Http.ActionName("Post")]
         public IHttpActionResult Post([FromBody]Companys Company)
         {
             try
@@ -61,6 +79,7 @@ namespace UnclePhill.WebAPI_NFeS.API.Controllers
         /// <param name="Company">Objeto empresa</param>
         /// <returns code = "200">Sucesso</returns>
         /// <returns code = "400">Erro</returns>
+        [System.Web.Http.ActionName("Put")]
         public IHttpActionResult Put([FromBody]Companys Company)
         {
             try
@@ -81,6 +100,7 @@ namespace UnclePhill.WebAPI_NFeS.API.Controllers
         /// <param name="CompanyId">Id da empresa</param>
         /// <returns code = "200">Sucesso</returns>
         /// <returns code = "400">Erro</returns>
+        [System.Web.Http.ActionName("Delete")]
         public IHttpActionResult Delete(long CompanyId)
         {
             try

@@ -12,13 +12,14 @@ namespace UnclePhill.WebAPI_NFeS.Domain
 {
     public class CompanyDomain : MasterDomain
     {
-        public T Get<T>(long? CompanyId = 0)
+        public T Get<T>(Type Tp = Type.All, long Id = 0)
         {
             try
             {
                 SQL = new StringBuilder();
                 SQL.AppendLine(" Select ");
                 SQL.AppendLine("    CompanyId, ");
+                SQL.AppendLine("    UserId, ");
                 SQL.AppendLine("    CNPJ, ");
                 SQL.AppendLine("    IM, ");
                 SQL.AppendLine("    IE, ");
@@ -42,7 +43,15 @@ namespace UnclePhill.WebAPI_NFeS.Domain
                 SQL.AppendLine("    DateUpdate ");
                 SQL.AppendLine(" From Companys ");
                 SQL.AppendLine(" Where Active = 1 ");
-                if (CompanyId > 0) { SQL.AppendLine(" And CompanyId = " + CompanyId); }
+                if (Tp == Type.Company)
+                {
+                    if (Id > 0) { SQL.AppendLine(" And CompanyId = " + Id); }
+                }
+                else if (Tp == Type.User)
+                {
+                    if (Id > 0) { SQL.AppendLine(" And UserId = " + Id); }
+                }
+                
                 
                 DataTable data = Functions.Conn.GetDataTable(SQL.ToString(), "Companys");
                 if (data != null && data.Rows.Count > 0)
@@ -77,7 +86,8 @@ namespace UnclePhill.WebAPI_NFeS.Domain
                 Validate(companys);               
 
                 SQL.AppendLine(" Insert Into Companys ");
-                SQL.AppendLine("    (CNPJ, ");
+                SQL.AppendLine("    (UserId, ");
+                SQL.AppendLine("    CNPJ, ");
                 SQL.AppendLine("    IM, ");
                 SQL.AppendLine("    IE, ");
                 SQL.AppendLine("    Name, ");
@@ -99,7 +109,8 @@ namespace UnclePhill.WebAPI_NFeS.Domain
                 SQL.AppendLine("    DateInsert, ");
                 SQL.AppendLine("    DateUpdate) ");
                 SQL.AppendLine(" Values ");
-                SQL.AppendLine("    ('" + Functions.NotQuote(companys.CNPJ) + "',");
+                SQL.AppendLine("    ( " + usersSession.UserId + ",");
+                SQL.AppendLine("     '" + Functions.NotQuote(companys.CNPJ) + "',");
                 SQL.AppendLine("     '" + Functions.NotQuote(companys.IM) + "',");
                 SQL.AppendLine("     '" + Functions.NotQuote(companys.IE) + "',");
                 SQL.AppendLine("     '" + Functions.NotQuote(companys.Name) + "',");
@@ -128,7 +139,7 @@ namespace UnclePhill.WebAPI_NFeS.Domain
                     TaxpayerActivitiesDomain taxpayerActivitiesDomain = new TaxpayerActivitiesDomain();
                     //taxpayerActivitiesDomain.Reload(usersSession.CPF,usersSession.Password,companys.IM,3,companys.CompanyId);
                     taxpayerActivitiesDomain.Reload(Homologation.CPF,Homologation.Password,Homologation.IM,int.Parse(Homologation.CityCod),companys.CompanyId);
-
+                    companys.UserId = usersSession.UserId;
                     companys.Active = true;
                     companys.DateInsert = DateTime.Now.ToString("yyyy-MM-dd");
                     companys.DateUpdate = DateTime.Now.ToString("yyyy-MM-dd");
@@ -154,6 +165,7 @@ namespace UnclePhill.WebAPI_NFeS.Domain
                 }
 
                 SQL.AppendLine(" Update Companys Set ");
+                SQL.AppendLine("    UserId = " + usersSession.UserId + ",");
                 SQL.AppendLine("    CNPJ = '" + Functions.NotQuote(companys.CNPJ) + "',");
                 SQL.AppendLine("    IM = '" + Functions.NotQuote(companys.IM) + "',");
                 SQL.AppendLine("    IE = '" + Functions.NotQuote(companys.IE) + "',");
@@ -223,6 +235,11 @@ namespace UnclePhill.WebAPI_NFeS.Domain
 
         private void Validate(Companys companys)
         {
+            if (companys.UserId <= 0)
+            {
+                throw new Exception("Informe o usuário!");
+            }
+
             if (string.IsNullOrEmpty(companys.CNPJ))
             {
                  throw new Exception("Informe o CNPJ!");
@@ -293,6 +310,7 @@ namespace UnclePhill.WebAPI_NFeS.Domain
         {
             Companys company = new Companys();
             company.CompanyId = long.Parse(row["CompanyId"].ToString());
+            company.UserId = long.Parse(row["UserId"].ToString());
             company.CNPJ = row["CNPJ"].ToString();
             company.IM = row["IM"].ToString();
             company.IE = row["IE"].ToString();
@@ -316,6 +334,13 @@ namespace UnclePhill.WebAPI_NFeS.Domain
             company.DateUpdate = row.Field<DateTime>("DateUpdate").ToString("dd-MM-yyyy");
 
             return company;
+        }
+
+        public enum Type
+        {
+            All = 0,
+            Company = 1,
+            User = 2
         }
     }
 }
