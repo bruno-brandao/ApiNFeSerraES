@@ -15,7 +15,7 @@ namespace UnclePhill.WebAPI_NFeS.Domain.Domain
         {
             try
             {
-                List<Questions> lQuestions = GetQuestions();
+                List<Questions> lQuestions = GetQuestions(QuestionId);
                 if (lQuestions.Count <= 0)
                 {
                     throw new Exception("Não existe questões cadastradas!");
@@ -93,7 +93,8 @@ namespace UnclePhill.WebAPI_NFeS.Domain.Domain
                 SQL.AppendLine("        Options.DateInsert , ");
                 SQL.AppendLine("        Options.DateUpdate  ");
                 SQL.AppendLine(" From Options ");
-                SQL.AppendLine(" Where Options.QuestionId = " + QuestionId);
+                SQL.AppendLine(" Where Options.Active = 1 ");
+                SQL.AppendLine(" And Options.QuestionId = " + QuestionId);
                 
                 DataTable data = Functions.Conn.GetDataTable(SQL.ToString(), "Options");
                 List<Options> lOptions = new List<Options>();
@@ -109,8 +110,8 @@ namespace UnclePhill.WebAPI_NFeS.Domain.Domain
                         option.Option = row.Field<string>("Option");
                         option.Correct = row.Field<bool>("Correct");
                         option.Active = row.Field<bool>("Active");
-                        option.DateInsert = row.Field<string>("DateInsert");
-                        option.DateUpdate = row.Field<string>("DateUpdate");
+                        option.DateInsert = row.Field<DateTime>("DateInsert").ToString("yyyy-MM-dd");
+                        option.DateUpdate = row.Field<DateTime>("DateUpdate").ToString("yyyy-MM-dd");
                         lOptions.Add(option);                        
                     }
                 }

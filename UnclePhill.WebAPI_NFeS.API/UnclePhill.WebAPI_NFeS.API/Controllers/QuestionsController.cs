@@ -19,12 +19,12 @@ namespace UnclePhill.WebAPI_NFeS.API.Controllers
         private QuestionsDomain questionsDomain = new QuestionsDomain();
 
         [System.Web.Http.ActionName("Get")]
-        public IHttpActionResult Get(long Id = 0)
+        public IHttpActionResult Get(long QuestionId = 0)
         {
             try
             {
                 if (!SessionDomain.CheckSession(base.Sessao())) return BadRequest("Sessão inválida!");
-                return Ok(questionsDomain.Get(Id));
+                return Ok(questionsDomain.Get(QuestionId));
             }
             catch(Exception ex)
             {
@@ -48,7 +48,7 @@ namespace UnclePhill.WebAPI_NFeS.API.Controllers
 
         [ApiExplorerSettings(IgnoreApi = true)]
         [System.Web.Http.ActionName("Delete")]
-        public IHttpActionResult Delete(long Id)
+        public IHttpActionResult Delete(long QuestionId)
         {
             throw new NotImplementedException();
         }
