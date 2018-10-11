@@ -9,7 +9,7 @@ using UnclePhill.WebAPI_NFeS.Utils.Utils;
 
 namespace UnclePhill.WebAPI_NFeS.Domain
 {
-    public class CFPSDomain : MasterDomain
+    public class CFPSDomain : DefaultDomains.MasterDomain
     {
         public T Get<T>(long? CFPSId = 0)
         {

@@ -91,7 +91,6 @@ namespace UnclePhill.WebAPI_NFeS.API.Controllers
             try
             {
                 if (!SessionDomain.CheckSession(Sessao())) { return BadRequest("Sessão inválida!"); }
-
                 if (shippingCompanyDomain.Delete(ShippingCompanyId))
                 {
                     return Ok("Transportadora excluida com sucesso!");

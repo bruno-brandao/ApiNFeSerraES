@@ -1,37 +1,32 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Web;
 using System.Web.Http;
 using System.Web.Http.Cors;
 using System.Web.Http.Description;
+using System.Web.Mvc;
 using UnclePhill.WebAPI_NFeS.Domain;
-using UnclePhill.WebAPI_NFeS.Models.Models.NFeSRequestModels;
+using UnclePhill.WebAPI_NFeS.Domain.Domain;
+using UnclePhill.WebAPI_NFeS.Models.Models;
 
 namespace UnclePhill.WebAPI_NFeS.API.Controllers
 {
-    [EnableCors(origins: "*", headers: "*", methods: "*")] 
-    public class NFeSController : MasterController, Default.IController<NFeSRequest>
+    [EnableCors(origins: "*", headers: "*", methods: "*")]
+    public class QuestionsController : MasterController, Default.IController<Questions>
     {
-        private NFeSDomain nFeSDomain = new NFeSDomain();         
-        [ApiExplorerSettings(IgnoreApi = true)]
+
+        private QuestionsDomain questionsDomain = new QuestionsDomain();
+
         [System.Web.Http.ActionName("Get")]
         public IHttpActionResult Get(long Id = 0)
-        {
-            throw new NotImplementedException();
-        }
-
-        /// <summary>
-        /// Metodo de emissão de nota fiscal em ambiente de desenvolvimento
-        /// </summary>
-        /// <returns code = "200">Sucesso</returns>
-        /// <returns code = "400">Erro</returns> 
-        [System.Web.Http.ActionName("IssueNFeS")]
-        public IHttpActionResult IssueNFeS([FromBody] NFeSRequest NFeSR)
         {
             try
             {
                 if (!SessionDomain.CheckSession(base.Sessao())) return BadRequest("Sessão inválida!");
-                return Ok(nFeSDomain.IssueNFeS(NFeSR));
+                return Ok(questionsDomain.Get(Id));
             }
-            catch (Exception ex)
+            catch(Exception ex)
             {
                 return BadRequest(ex.Message);
             }
@@ -39,14 +34,14 @@ namespace UnclePhill.WebAPI_NFeS.API.Controllers
 
         [ApiExplorerSettings(IgnoreApi = true)]
         [System.Web.Http.ActionName("Post")]
-        public IHttpActionResult Post([FromBody] NFeSRequest NFeSR)
+        public IHttpActionResult Post([FromBody] Questions obj)
         {
             throw new NotImplementedException();
         }
 
         [ApiExplorerSettings(IgnoreApi = true)]
         [System.Web.Http.ActionName("Put")]
-        public IHttpActionResult Put([FromBody] NFeSRequest obj)
+        public IHttpActionResult Put([FromBody] Questions obj)
         {
             throw new NotImplementedException();
         }

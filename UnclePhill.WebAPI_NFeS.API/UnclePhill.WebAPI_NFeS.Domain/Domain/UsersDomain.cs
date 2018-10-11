@@ -9,7 +9,7 @@ using static UnclePhill.WebAPI_NFeS.Utils.Utils.Functions;
 
 namespace UnclePhill.WebAPI_NFeS.Domain
 {
-    public class UsersDomain : MasterDomain
+    public class UsersDomain : DefaultDomains.MasterDomain
     {      
         public Users Login(string Email, string Password)
         {

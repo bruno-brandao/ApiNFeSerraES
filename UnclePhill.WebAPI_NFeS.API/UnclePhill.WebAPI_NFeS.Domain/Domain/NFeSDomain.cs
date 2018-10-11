@@ -17,7 +17,7 @@ using System.Net;
 
 namespace UnclePhill.WebAPI_NFeS.Domain
 {
-    public class NFeSDomain : MasterDomain
+    public class NFeSDomain : DefaultDomains.MasterDomain
     {
         public NFeSRequestPreview IssueNFeS(NFeSRequest NFeS)
         {

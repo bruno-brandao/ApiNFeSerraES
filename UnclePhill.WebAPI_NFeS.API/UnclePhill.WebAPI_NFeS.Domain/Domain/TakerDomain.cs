@@ -11,7 +11,7 @@ using static UnclePhill.WebAPI_NFeS.Utils.Utils.Functions;
 
 namespace UnclePhill.WebAPI_NFeS.Domain
 {
-    public class TakerDomain : MasterDomain
+    public class TakerDomain : DefaultDomains.MasterDomain
     {
         public T Get<T>(long? TakerId = 0) 
         {

@@ -94,8 +94,6 @@ namespace UnclePhill.WebAPI_NFeS.API.Controllers
             try
             {
                 if (!SessionDomain.CheckSession(Sessao())) { return BadRequest("Sessão inválida!"); }
-
-
                 if (takerDomain.Delete(TakerId))
                 {
                     return Ok("Tomador excluido com sucesso!");

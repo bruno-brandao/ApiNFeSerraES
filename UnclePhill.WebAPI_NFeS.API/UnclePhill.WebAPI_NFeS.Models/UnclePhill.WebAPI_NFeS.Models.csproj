@@ -58,6 +58,9 @@
     <Compile Include="Models\NFeSStructureModels\NFeSReceipt.cs" />
     <Compile Include="Models\NFeSStructureModels\NFeSTaxpayerActivities.cs" />
     <Compile Include="Models\NFeSStructureModels\NFeSCancel.cs" />
+    <Compile Include="Models\Options.cs" />
+    <Compile Include="Models\Questions.cs" />
+    <Compile Include="Models\Responses.cs" />
     <Compile Include="Models\Services.cs" />
     <Compile Include="Models\Sessions.cs" />
     <Compile Include="Models\ShippingCompany.cs" />

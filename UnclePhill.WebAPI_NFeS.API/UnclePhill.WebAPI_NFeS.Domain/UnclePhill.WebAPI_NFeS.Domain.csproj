@@ -113,6 +113,7 @@
     <Compile Include="Domain\DefaultDomains\MasterDomain.cs" />
     <Compile Include="Domain\Homologation.cs" />
     <Compile Include="Domain\NFeSDomain.cs" />
+    <Compile Include="Domain\QuestionsDomain.cs" />
     <Compile Include="Domain\ServiceDomain.cs" />
     <Compile Include="Domain\SessionDomain.cs" />
     <Compile Include="Domain\ShippingCompanyDomain.cs" />

@@ -13,7 +13,7 @@ using UnclePhill.WebAPI_NFeS.Utils.Utils;
 
 namespace UnclePhill.WebAPI_NFeS.Domain
 {
-    public class TaxpayerActivitiesDomain : MasterDomain
+    public class TaxpayerActivitiesDomain : DefaultDomains.MasterDomain
     {
         public void Reload(string CPF,
             string Password,

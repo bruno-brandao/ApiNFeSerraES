@@ -8,14 +8,11 @@ using System.Xml.Serialization;
 using UnclePhill.WebAPI_NFeS.Models;
 using UnclePhill.WebAPI_NFeS.Utils.Utils;
 
-namespace UnclePhill.WebAPI_NFeS.Domain
+namespace UnclePhill.WebAPI_NFeS.Domain.DefaultDomains
 {
     public class MasterDomain
     {
         protected StringBuilder SQL = new StringBuilder();
 
-        public const string XSDInput = "http://apps.serra.es.gov.br:8080/tbw/docs/xsd/WSEntradaNfd.xsd";
-
-        public const string XSDCancel = "http://apps.serra.es.gov.br:8080/tbw/docs/xsd/WSEntradaCancelar.xsd";
     }
 }

@@ -10,7 +10,7 @@ using static UnclePhill.WebAPI_NFeS.Utils.Utils.Functions;
 
 namespace UnclePhill.WebAPI_NFeS.Domain
 {
-    public class CompanyDomain : MasterDomain
+    public class CompanyDomain : DefaultDomains.MasterDomain
     {
         public T Get<T>(Type Tp = Type.All, long Id = 0)
         {
