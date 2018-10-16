@@ -240,6 +240,7 @@
     <Compile Include="Controllers\DefaultControllers\MasterController.cs" />
     <Compile Include="Controllers\NFeSController.cs" />
     <Compile Include="Controllers\QuestionsController.cs" />
+    <Compile Include="Controllers\ResponsesController.cs" />
     <Compile Include="Controllers\ServiceController.cs" />
     <Compile Include="Controllers\ShippingCompanyController.cs" />
     <Compile Include="Controllers\TakerController.cs" />
@@ -463,6 +464,7 @@
     <Folder Include="App_Data\" />
     <Folder Include="Views\Certificates\" />
     <Folder Include="Views\Questions\" />
+    <Folder Include="Views\Responses\" />
     <Folder Include="Views\Teste\" />
   </ItemGroup>
   <ItemGroup>
