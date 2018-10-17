@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -15,7 +16,7 @@ namespace UnclePhill.WebAPI_NFeS.Domain.Domain
             try
             {
                 Validate(responses);
-
+                              
                 SQL = new StringBuilder();
                 SQL.AppendLine(" Insert Into Responses ");
                 SQL.AppendLine("   (UserId, ");
@@ -31,9 +32,9 @@ namespace UnclePhill.WebAPI_NFeS.Domain.Domain
                 SQL.AppendLine("    " + responses.QuestionId.ToString() + ",");
                 SQL.AppendLine("    " + responses.OptionId.ToString() + ",");
                 SQL.AppendLine("    " + (responses.Correct? 1:0) + ",");
-                SQL.AppendLine("   1 ,");
+                SQL.AppendLine("    1 ,");
                 SQL.AppendLine("   GetDate(), ");
-                SQL.AppendLine("   GetDate(), ");
+                SQL.AppendLine("   GetDate() ");
                 SQL.AppendLine("   ) ");
 
                 if (Functions.Conn.Insert(SQL.ToString()) > 0)
@@ -63,6 +64,23 @@ namespace UnclePhill.WebAPI_NFeS.Domain.Domain
             if (responses.OptionId <= 0)
             {
                 throw new Exception("Informe a opção!");
+            }
+
+            SQL = new StringBuilder();
+            SQL.AppendLine(" Select ");
+            SQL.AppendLine("    Count(Responses.ResponseId) As Qtd ");
+            SQL.AppendLine(" From Responses    ");
+            SQL.AppendLine(" Where Responses.Active = 1 ");
+            SQL.AppendLine("    And Responses.UserId = " + responses.UserId.ToString());
+            SQL.AppendLine("    And Responses.QuestionId = " + responses.QuestionId.ToString());
+
+            DataTable data = Functions.Conn.GetDataTable(SQL.ToString(), "QtdResp");
+            if (data != null && data.Rows.Count > 0)
+            {
+                if (data.AsEnumerable().First().Field<int>("Qtd") > 0)
+                {
+                    throw new Exception("Essa questão já foi respondida!");
+                }
             }
         }
     }
