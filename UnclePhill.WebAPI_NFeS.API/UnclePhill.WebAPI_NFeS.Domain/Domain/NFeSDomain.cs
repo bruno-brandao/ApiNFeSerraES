@@ -16,7 +16,7 @@ using System.Net;
 
 namespace UnclePhill.WebAPI_NFeS.Domain
 {
-    public class NFeSDomain<T> : DefaultDomains.MasterDomain
+    public class NFeSDomain : DefaultDomains.MasterDomain
     {
         public NFeSRequestPreview Issue(NFeSRequest NFeS)
         {
@@ -106,39 +106,24 @@ namespace UnclePhill.WebAPI_NFeS.Domain
                         impostoretido = Item.TaxWithheld.ToString()
                     };
                 }
-
-                //Obtendo o XML assinado digitalmente//                
+             
                 string XmlAssign = Assign(NFeSRequest);
-
-                //Enviando a requisição de emissão da NFSe//
                 string XmlRPS = SendRequest(XmlAssign);
-                
-                //Tratando o RPS(Recibo Provisório de Serviço)//
+
                 if (Functions.XmlFunctions.IsXml(XmlRPS))
                 {
                     string XmlAuthorized = SendRPS(XmlRPS);
-                    
-                    //Tratando a NFSe Autorizada//
+
                     if (Functions.XmlFunctions.IsXml(XmlAuthorized))
                     {
-                        //Serealizando NFSe Autorizada//
-                        Models.Models.NFeSStructure.NFeSProcessingResult.tbnfd NFeSAuthorized =
-                            Functions.XmlFunctions.StringXmlForClass<Models.Models.NFeSStructure.NFeSProcessingResult.tbnfd>(XmlAuthorized);
-
-                        //Consultando a URL de Download do PDF e consulta da NFSe//
+                        var NFeSAuthorized = Serealize<Models.Models.NFeSStructure.NFeSProcessingResult.tbnfd>(XmlAuthorized);
                         string XmlUrl = GetUrl(NFeSAuthorized);
 
-                        //Finalizando o processo//
                         if (Functions.XmlFunctions.IsXml(XmlUrl))
                         {
-                            //Serealizando URL da NFeS//
-                            Models.Models.NFeSStructure.NFeSPreview.util NFeSUrl =
-                                Functions.XmlFunctions.StringXmlForClass<Models.Models.NFeSStructure.NFeSPreview.util>(XmlUrl);
-
-                            //Download do PDF//
+                            var NFeSUrl = Serealize<Models.Models.NFeSStructure.NFeSPreview.util>(XmlUrl);                                
                             string PDF = Download(NFeSUrl.urlNfd);
 
-                            //Salva a bagaça toda no banco:
                             Save(Taker, 
                                 Company, 
                                 CFPS, 
@@ -146,8 +131,7 @@ namespace UnclePhill.WebAPI_NFeS.Domain
                                 NFeSAuthorized, 
                                 XmlAuthorized, 
                                 PDF);
-
-                            //Retorna as URL's de Autorização
+                            
                             return new NFeSRequestPreview(NFeSUrl.urlNfd, NFeSUrl.urlAutenticidade);
                         }
                         else
@@ -508,7 +492,7 @@ namespace UnclePhill.WebAPI_NFeS.Domain
             }
         }
 
-        private T Serealize(string Xml)
+        private T Serealize <T>(string Xml)
         {
             try
             {
