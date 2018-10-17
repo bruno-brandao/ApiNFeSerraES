@@ -18,7 +18,7 @@ namespace UnclePhill.WebAPI_NFeS.Domain
 {
     public class NFeSDomain : DefaultDomains.MasterDomain
     {
-        public NFeSRequestPreview IssueNFeS(NFeSRequest NFeS)
+        public NFeSRequestPreview Issue(NFeSRequest NFeS)
         {
             try
             {
@@ -179,7 +179,7 @@ namespace UnclePhill.WebAPI_NFeS.Domain
                             string PDF = Convert.ToBase64String(new WebClient().DownloadData(NFSePreview.urlNfd));
 
                             //Salva a bagaça toda no banco:
-                            SaveNFeS(Taker, Company, CFPS, ShippingCompany, NFeSAuth, NFSeXmlAuth, PDF);
+                            Save(Taker, Company, CFPS, ShippingCompany, NFeSAuth, NFSeXmlAuth, PDF);
 
                             //Retorna as URL's de Autorização
                             return new NFeSRequestPreview(NFSePreview.urlNfd, NFSePreview.urlAutenticidade);
@@ -205,7 +205,7 @@ namespace UnclePhill.WebAPI_NFeS.Domain
             }
         } 
 
-        private void SaveNFeS(Takers takers, Companys companys, CFPS cFPS, ShippingCompany shippingCompany, 
+        private void Save(Takers takers, Companys companys, CFPS cFPS, ShippingCompany shippingCompany, 
             Models.Models.NFeSStructure.NFeSProcessingResult.tbnfd NFeS, string XML = "", string PDF = "")
         {
             try

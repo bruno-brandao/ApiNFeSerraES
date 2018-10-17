@@ -6,6 +6,7 @@ using System.Web.Http;
 using System.Web.Http.Cors;
 using System.Web.Http.Description;
 using System.Web.Mvc;
+using UnclePhill.WebAPI_NFeS.Domain;
 using UnclePhill.WebAPI_NFeS.Domain.Domain;
 using UnclePhill.WebAPI_NFeS.Models.Models;
 
@@ -28,7 +29,7 @@ namespace UnclePhill.WebAPI_NFeS.API.Controllers
         {
             try
             {
-                //if (!SessionDomain.CheckSession(base.Sessao())) return BadRequest("Sessão inválida!");
+                if (!SessionDomain.CheckSession(base.Sessao())) return BadRequest("Sessão inválida!");
                 if (responsesDomain.Post(obj))
                 {
                     return Ok();

@@ -23,13 +23,13 @@ namespace UnclePhill.WebAPI_NFeS.API.Controllers
         /// </summary>
         /// <returns code = "200">Sucesso</returns>
         /// <returns code = "400">Erro</returns> 
-        [System.Web.Http.ActionName("IssueNFeS")]
-        public IHttpActionResult IssueNFeS([FromBody] NFeSRequest NFeSR)
+        [System.Web.Http.ActionName("Issue")]
+        public IHttpActionResult Issue([FromBody] NFeSRequest NFeSR)
         {
             try
             {
                 if (!SessionDomain.CheckSession(base.Sessao())) return BadRequest("Sessão inválida!");
-                return Ok(nFeSDomain.IssueNFeS(NFeSR));
+                return Ok(nFeSDomain.Issue(NFeSR));
             }
             catch (Exception ex)
             {
