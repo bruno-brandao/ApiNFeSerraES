@@ -205,6 +205,32 @@ namespace UnclePhill.WebAPI_NFeS.Domain
             }
         } 
 
+        public bool Cancel(NFeSRequestCancel NFeSRequestCancel)
+        {
+            try
+            {
+                ValidateCancel(NFeSRequestCancel);
+
+                var NFeSRequest = new Models.Models.NFeSStructure.NFeSCancel.nfd();
+                NFeSRequest.inscricaomunicipalemissor = NFeSRequestCancel.IM;
+                NFeSRequest.numeronf = NFeSRequestCancel.NumNF;
+                NFeSRequest.datacancelamento = NFeSRequestCancel.DateCancel;
+                NFeSRequest.motivocancelamento = NFeSRequestCancel.Cause;
+
+                string Request = Functions.XmlFunctions.ClassForStringXml<Models.Models.NFeSStructure.NFeSCancel.nfd>(NFeSRequest);
+                string XmlIssue = new NFeS.API.Serra.Entrada.WSEntradaClient().nfdEntradaCancelar(Homologation.CPF,Homologation.Password, Request);
+                if (Functions.XmlFunctions.IsXml(XmlIssue))
+                {
+                    //Cenas para os próximos capitulos...
+                }
+                return true;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+
         private void Save(Takers takers, Companys companys, CFPS cFPS, ShippingCompany shippingCompany, 
             Models.Models.NFeSStructure.NFeSProcessingResult.tbnfd NFeS, string XML = "", string PDF = "")
         {
@@ -506,6 +532,29 @@ namespace UnclePhill.WebAPI_NFeS.Domain
                         throw new Exception("Informe o valor do serviço.");
                     }
                 }
+            }
+        }
+
+        private void ValidateCancel(NFeSRequestCancel NFeSRequestCancel)
+        {
+            if (string.IsNullOrEmpty(NFeSRequestCancel.IM))
+            {
+                throw new Exception("Informe a inscrição municipal.");
+            }
+
+            if (string.IsNullOrEmpty(NFeSRequestCancel.NumNF))
+            {
+                throw new Exception("Informe o número da nota fiscal.");
+            }
+
+            if (string.IsNullOrEmpty(NFeSRequestCancel.DateCancel))
+            {
+                throw new Exception("Informe a data de cancelamento.");
+            }
+
+            if (string.IsNullOrEmpty(NFeSRequestCancel.Cause))
+            {
+                throw new Exception("Informe a causa do cancelamento.");
             }
         }
     }

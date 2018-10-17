@@ -45,6 +45,7 @@
     <Compile Include="Models\Companys.cs" />
     <Compile Include="Models\DefaultModels\Master.cs" />
     <Compile Include="Models\NFeSRequestModels\NFeSRequest.cs" />
+    <Compile Include="Models\NFeSRequestModels\NFeSRequestCancel.cs" />
     <Compile Include="Models\NFeSRequestModels\NFeSRequestInvoices.cs" />
     <Compile Include="Models\NFeSRequestModels\NFeSRequestItens.cs" />
     <Compile Include="Models\NFeSRequestModels\NFeSRequestPreview.cs" />
