@@ -51,6 +51,7 @@ namespace UnclePhill.WebAPI_NFeS.Domain.Domain
 
         private void Validate(Responses responses)
         {
+            //Validando os dados básicos objeto:
             if (responses.UserId <= 0)
             {
                 throw new Exception("Informe o usuário!");
@@ -66,6 +67,33 @@ namespace UnclePhill.WebAPI_NFeS.Domain.Domain
                 throw new Exception("Informe a opção!");
             }
 
+            //Validado a integridade dos dados informados:
+            if (new UsersDomain().Get(responses.UserId).UserId <= 0)
+            {
+                throw new Exception("O usuário informado não está cadastrado!");
+            }
+
+            if (new QuestionsDomain().Get(responses.QuestionId).Count <= 0)
+            {
+                throw new Exception("A questão informada não está cadastrada!");
+            }
+
+            long Cont = 0;
+            Questions question = new QuestionsDomain().Get(responses.QuestionId).First();            
+            foreach (Options option in question.ListOptions)
+            {
+                if (option.OptionId != responses.OptionId)
+                {
+                    Cont++;
+                }
+            }
+            
+            if (Cont == question.ListOptions.Count)
+            {
+                throw new Exception("A opção selecionada não faz parte da lista de respostas da questão!");
+            }
+
+            //Verificando se a questão já foi respondida anteriormente:
             SQL = new StringBuilder();
             SQL.AppendLine(" Select ");
             SQL.AppendLine("    Count(Responses.ResponseId) As Qtd ");

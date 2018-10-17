@@ -199,16 +199,31 @@ namespace UnclePhill.WebAPI_NFeS.Domain
                 throw new Exception("Informe o emissor.");
             }
 
+            if (new CompanyDomain().Get<Companys>(CompanyDomain.Type.Company,NFeS.CompanyId).CompanyId <= 0)
+            {
+                throw new Exception("A empresa informada não está cadastrada.");
+            }
+
             //Tomador
             if (NFeS.TakerId <= 0)
             {
                 throw new Exception("Informe o tomador do serviço.");
             }
 
+            if (new TakerDomain().Get<Takers>(NFeS.TakerId).TakerId <= 0)
+            {
+                throw new Exception("O tomador informado não está cadastrado.");
+            }
+
             //Codigo Fiscal de Prestação de Serviços
             if (NFeS.CFPSId <= 0)
             {
                 throw new Exception("Informe o Código Fiscal de Prestação de Serviço (CFPS).");
+            }
+
+            if (new CFPSDomain().Get<CFPS>(NFeS.CFPSId).CFPSId <= 0)
+            {
+                throw new Exception("O Código Fiscal de Prestação de Serviço (CFPS) informado não está cadastrado.");
             }
 
             //Faturas - Quatidades
