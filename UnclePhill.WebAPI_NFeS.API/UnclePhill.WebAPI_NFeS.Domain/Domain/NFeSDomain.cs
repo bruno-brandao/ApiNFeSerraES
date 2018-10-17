@@ -16,7 +16,7 @@ using System.Net;
 
 namespace UnclePhill.WebAPI_NFeS.Domain
 {
-    public class NFeSDomain : DefaultDomains.MasterDomain
+    public class NFeSDomain<T> : DefaultDomains.MasterDomain
     {
         public NFeSRequestPreview Issue(NFeSRequest NFeS)
         {
@@ -30,60 +30,60 @@ namespace UnclePhill.WebAPI_NFeS.Domain
                 Companys Company = new CompanyDomain().Get<Companys>(CompanyDomain.Type.Company,NFeS.CompanyId);
                 CFPS CFPS = new CFPSDomain().Get<CFPS>(NFeS.CFPSId);                
                 ShippingCompany ShippingCompany = new ShippingCompanyDomain().Get<ShippingCompany>(NFeS.ShippingCompanyId);
-                var NFeSIR = new Models.Models.NFeSStructure.NFeSIssueRequest.tbnfd();
-                NFeSIR.nfd = new Models.Models.NFeSStructure.NFeSIssueRequest.tbnfdNfd();
+                var NFeSRequest = new Models.Models.NFeSStructure.NFeSIssueRequest.tbnfd();
+                NFeSRequest.nfd = new Models.Models.NFeSStructure.NFeSIssueRequest.tbnfdNfd();
 
                 //Preenchendo a nota com os dados da requisição//
-                NFeSIR.nfd.numeronfd = Homologation.NumberNF; 
-                NFeSIR.nfd.codseriedocumento = Homologation.Serie; 
-                NFeSIR.nfd.codnaturezaoperacao = CFPS.CFPSCod;
-                NFeSIR.nfd.codigocidade = Homologation.CityCod;
-                NFeSIR.nfd.inscricaomunicipalemissor = Homologation.IM;
-                NFeSIR.nfd.dataemissao = DateTime.Now.ToString("dd/MM/yyyy");
-                NFeSIR.nfd.razaotomador = Taker.Name;
-                NFeSIR.nfd.nomefantasiatomador = Taker.NameFantasy;
-                NFeSIR.nfd.enderecotomador = Taker.Street;
-                NFeSIR.nfd.numeroendereco = Taker.Number;
-                NFeSIR.nfd.cidadetomador = Taker.City;
-                NFeSIR.nfd.estadotomador = Taker.State;
-                NFeSIR.nfd.paistomador = Homologation.Country;
-                NFeSIR.nfd.fonetomador = Taker.Telephone;
-                NFeSIR.nfd.faxtomador = Taker.Telephone;
-                NFeSIR.nfd.ceptomador = Taker.CEP;
-                NFeSIR.nfd.bairrotomador = Taker.Neighborhood;
-                NFeSIR.nfd.emailtomador = Taker.Email;
-                NFeSIR.nfd.tppessoa = Taker.TypePerson;
-                NFeSIR.nfd.cpfcnpjtomador = Taker.CPF_CNPJ;
-                NFeSIR.nfd.inscricaoestadualtomador = Taker.RG_IE;
-                NFeSIR.nfd.inscricaomunicipaltomador = Taker.IM;         
-                NFeSIR.nfd.observacao = NFeS.Note;
-                NFeSIR.nfd.razaotransportadora = ShippingCompany.Name;
-                NFeSIR.nfd.cpfcnpjtransportadora = ShippingCompany.CPF_CNPJ;                               
-                NFeSIR.nfd.pis = Homologation.PIS;
-                NFeSIR.nfd.cofins = Homologation.COFINS;
-                NFeSIR.nfd.csll = Homologation.CSLL;
-                NFeSIR.nfd.irrf = Homologation.IRRF;
-                NFeSIR.nfd.inss = Homologation.INSS;
-                NFeSIR.nfd.descdeducoesconstrucao = string.Empty;
-                NFeSIR.nfd.totaldeducoesconstrucao = string.Empty;
-                NFeSIR.nfd.tributadonomunicipio = string.Empty;
-                NFeSIR.nfd.vlroutros = string.Empty;
-                NFeSIR.nfd.numerort = string.Empty;
-                NFeSIR.nfd.codigoseriert = string.Empty;
-                NFeSIR.nfd.dataemissaort = string.Empty;
-                NFeSIR.nfd.fatorgerador = DateTime.Now.Month + "/" + DateTime.Now.Year;                
-                NFeSIR.nfd.enderecotransportadora =
+                NFeSRequest.nfd.numeronfd = Homologation.NumberNF; 
+                NFeSRequest.nfd.codseriedocumento = Homologation.Serie; 
+                NFeSRequest.nfd.codnaturezaoperacao = CFPS.CFPSCod;
+                NFeSRequest.nfd.codigocidade = Homologation.CityCod;
+                NFeSRequest.nfd.inscricaomunicipalemissor = Homologation.IM;
+                NFeSRequest.nfd.dataemissao = DateTime.Now.ToString("dd/MM/yyyy");
+                NFeSRequest.nfd.razaotomador = Taker.Name;
+                NFeSRequest.nfd.nomefantasiatomador = Taker.NameFantasy;
+                NFeSRequest.nfd.enderecotomador = Taker.Street;
+                NFeSRequest.nfd.numeroendereco = Taker.Number;
+                NFeSRequest.nfd.cidadetomador = Taker.City;
+                NFeSRequest.nfd.estadotomador = Taker.State;
+                NFeSRequest.nfd.paistomador = Homologation.Country;
+                NFeSRequest.nfd.fonetomador = Taker.Telephone;
+                NFeSRequest.nfd.faxtomador = Taker.Telephone;
+                NFeSRequest.nfd.ceptomador = Taker.CEP;
+                NFeSRequest.nfd.bairrotomador = Taker.Neighborhood;
+                NFeSRequest.nfd.emailtomador = Taker.Email;
+                NFeSRequest.nfd.tppessoa = Taker.TypePerson;
+                NFeSRequest.nfd.cpfcnpjtomador = Taker.CPF_CNPJ;
+                NFeSRequest.nfd.inscricaoestadualtomador = Taker.RG_IE;
+                NFeSRequest.nfd.inscricaomunicipaltomador = Taker.IM;         
+                NFeSRequest.nfd.observacao = NFeS.Note;
+                NFeSRequest.nfd.razaotransportadora = ShippingCompany.Name;
+                NFeSRequest.nfd.cpfcnpjtransportadora = ShippingCompany.CPF_CNPJ;                               
+                NFeSRequest.nfd.pis = Homologation.PIS;
+                NFeSRequest.nfd.cofins = Homologation.COFINS;
+                NFeSRequest.nfd.csll = Homologation.CSLL;
+                NFeSRequest.nfd.irrf = Homologation.IRRF;
+                NFeSRequest.nfd.inss = Homologation.INSS;
+                NFeSRequest.nfd.descdeducoesconstrucao = string.Empty;
+                NFeSRequest.nfd.totaldeducoesconstrucao = string.Empty;
+                NFeSRequest.nfd.tributadonomunicipio = string.Empty;
+                NFeSRequest.nfd.vlroutros = string.Empty;
+                NFeSRequest.nfd.numerort = string.Empty;
+                NFeSRequest.nfd.codigoseriert = string.Empty;
+                NFeSRequest.nfd.dataemissaort = string.Empty;
+                NFeSRequest.nfd.fatorgerador = DateTime.Now.Month + "/" + DateTime.Now.Year;                
+                NFeSRequest.nfd.enderecotransportadora =
                     ShippingCompany.Street + ","
                     + ShippingCompany.Neighborhood + ","
                     + ShippingCompany.City + ","
                     + ShippingCompany.State;
 
                 //Faturas//
-                NFeSIR.nfd.tbfatura = new Models.Models.NFeSStructure.NFeSIssueRequest.tbnfdNfdFatura[NFeS.Invoices.Count];
+                NFeSRequest.nfd.tbfatura = new Models.Models.NFeSStructure.NFeSIssueRequest.tbnfdNfdFatura[NFeS.Invoices.Count];
                 for (int X = 0; X < NFeS.Invoices.Count; X++)
                 {
                     NFeSRequestInvoices Invoice = NFeS.Invoices[X];
-                    NFeSIR.nfd.tbfatura[X] = new Models.Models.NFeSStructure.NFeSIssueRequest.tbnfdNfdFatura
+                    NFeSRequest.nfd.tbfatura[X] = new Models.Models.NFeSStructure.NFeSIssueRequest.tbnfdNfdFatura
                     {
                         numfatura = Invoice.Number.ToString(),
                         vencimentofatura = DateTime.Parse(Invoice.Maturity).ToString("dd/MM/yyyy"),
@@ -92,11 +92,11 @@ namespace UnclePhill.WebAPI_NFeS.Domain
                 }
 
                 //Serviços//
-                NFeSIR.nfd.tbservico = new Models.Models.NFeSStructure.NFeSIssueRequest.tbnfdNfdServico[NFeS.Itens.Count];
+                NFeSRequest.nfd.tbservico = new Models.Models.NFeSStructure.NFeSIssueRequest.tbnfdNfdServico[NFeS.Itens.Count];
                 for (int X = 0; X < NFeS.Itens.Count; X++)
                 {
                     NFeSRequestItens Item = NFeS.Itens[X];
-                    NFeSIR.nfd.tbservico[X] = new Models.Models.NFeSStructure.NFeSIssueRequest.tbnfdNfdServico
+                    NFeSRequest.nfd.tbservico[X] = new Models.Models.NFeSStructure.NFeSIssueRequest.tbnfdNfdServico
                     {
                         quantidade = Item.Amount.ToString(),
                         descricao = Item.Description,
@@ -107,96 +107,62 @@ namespace UnclePhill.WebAPI_NFeS.Domain
                     };
                 }
 
-                //Obtendo o XML assinado digitalmente//
-                string NFSeXml = Functions.XmlFunctions.ClassForStringXml(
-                        Functions.XmlFunctions.StringXmlForClass<Models.Models.NFeSStructure.NFeSIssueRequest.tbnfd>(
-                            Functions.XmlFunctions.Signature.Sign(
-                                Functions.XmlFunctions.ClassForStringXml(NFeSIR)
-                                )
-                            )
-                        );
+                //Obtendo o XML assinado digitalmente//                
+                string XmlAssign = Assign(NFeSRequest);
 
                 //Enviando a requisição de emissão da NFSe//
-                string NFSeXmlRequest = 
-                    new NFeS.API.Serra.Entrada.WSEntradaClient().nfdEntrada(
-                    Homologation.CPF, 
-                    Homologation.Password, 
-                    int.Parse(Homologation.CityCod), 
-                    NFSeXml);
+                string XmlRPS = SendRequest(XmlAssign);
                 
                 //Tratando o RPS(Recibo Provisório de Serviço)//
-                if (Functions.XmlFunctions.IsXml(NFSeXmlRequest))
+                if (Functions.XmlFunctions.IsXml(XmlRPS))
                 {
-                    //Enviando o RPS para receber a NFSe(5 tentativas)//
-                    int Cont = 0;
-                    string NFSeXmlAuth = string.Empty;
-
-                    //Primeira tentativa
-                    NFSeXmlAuth = new NFeS.API.Serra.Saida.WSSaidaClient().nfdSaida(
-                                    Homologation.CPF,
-                                    Homologation.Password,
-                                    Homologation.IM,
-                                    NFSeXmlRequest);
-
-                    bool Auth = Functions.XmlFunctions.IsXml(NFSeXmlAuth);
-
-                    while (!Auth & Cont <= 5)
-                    {
-                        NFSeXmlAuth = new NFeS.API.Serra.Saida.WSSaidaClient().nfdSaida(
-                                        Homologation.CPF, 
-                                        Homologation.Password, 
-                                        Homologation.IM, 
-                                        NFSeXmlRequest);
-
-                        Auth = Functions.XmlFunctions.IsXml(NFSeXmlAuth);
-                        Cont++;
-                        System.Threading.Thread.Sleep(5000);
-                    }
+                    string XmlAuthorized = SendRPS(XmlRPS);
                     
                     //Tratando a NFSe Autorizada//
-                    if (Functions.XmlFunctions.IsXml(NFSeXmlAuth))
+                    if (Functions.XmlFunctions.IsXml(XmlAuthorized))
                     {
                         //Serealizando NFSe Autorizada//
-                        Models.Models.NFeSStructure.NFeSProcessingResult.tbnfd NFeSAuth =
-                            Functions.XmlFunctions.StringXmlForClass<Models.Models.NFeSStructure.NFeSProcessingResult.tbnfd>(NFSeXmlAuth);
+                        Models.Models.NFeSStructure.NFeSProcessingResult.tbnfd NFeSAuthorized =
+                            Functions.XmlFunctions.StringXmlForClass<Models.Models.NFeSStructure.NFeSProcessingResult.tbnfd>(XmlAuthorized);
 
-                        //NFSe.nfdok.NewDataSet.NOTA_FISCAL.
-
-                        //Consultando a URL de Download do PDF//
-                        string NFSeXmlUrl = new NFeS.API.Serra.Util.WSUtilClient().urlNfd(
-                            int.Parse(Homologation.CityCod), 
-                            int.Parse(NFeSAuth.nfdok.NewDataSet.NOTA_FISCAL.NumeroNota), 
-                            int.Parse(NFeSAuth.nfdok.NewDataSet.NOTA_FISCAL.CodigoSerie), 
-                            Homologation.IM);
+                        //Consultando a URL de Download do PDF e consulta da NFSe//
+                        string XmlUrl = GetUrl(NFeSAuthorized);
 
                         //Finalizando o processo//
-                        if (Functions.XmlFunctions.IsXml(NFSeXmlUrl))
+                        if (Functions.XmlFunctions.IsXml(XmlUrl))
                         {
-                            Models.Models.NFeSStructure.NFeSPreview.util NFSePreview =
-                                Functions.XmlFunctions.StringXmlForClass<Models.Models.NFeSStructure.NFeSPreview.util>(NFSeXmlUrl);
-                                                        
-                            //DownLoad do PDF
-                            string PDF = Convert.ToBase64String(new WebClient().DownloadData(NFSePreview.urlNfd));
+                            //Serealizando URL da NFeS//
+                            Models.Models.NFeSStructure.NFeSPreview.util NFeSUrl =
+                                Functions.XmlFunctions.StringXmlForClass<Models.Models.NFeSStructure.NFeSPreview.util>(XmlUrl);
+
+                            //Download do PDF//
+                            string PDF = Download(NFeSUrl.urlNfd);
 
                             //Salva a bagaça toda no banco:
-                            Save(Taker, Company, CFPS, ShippingCompany, NFeSAuth, NFSeXmlAuth, PDF);
+                            Save(Taker, 
+                                Company, 
+                                CFPS, 
+                                ShippingCompany, 
+                                NFeSAuthorized, 
+                                XmlAuthorized, 
+                                PDF);
 
                             //Retorna as URL's de Autorização
-                            return new NFeSRequestPreview(NFSePreview.urlNfd, NFSePreview.urlAutenticidade);
+                            return new NFeSRequestPreview(NFeSUrl.urlNfd, NFeSUrl.urlAutenticidade);
                         }
                         else
                         {
-                            throw new Exception(NFSeXmlUrl);
+                            throw new Exception(XmlUrl);
                         }
                     }
                     else
                     {
-                        throw new Exception(NFSeXmlAuth);
+                        throw new Exception(XmlAuthorized);
                     }
                 }
                 else
                 {
-                    throw new Exception(NFSeXmlRequest);
+                    throw new Exception(XmlRPS);
                 }                
             }
             catch(Exception ex)
@@ -443,6 +409,116 @@ namespace UnclePhill.WebAPI_NFeS.Domain
             }
         }
         
+        private string Assign(Models.Models.NFeSStructure.NFeSIssueRequest.tbnfd NFeSIR)
+        {
+            try
+            {
+                return Functions.XmlFunctions.ClassForStringXml(
+                            Functions.XmlFunctions.StringXmlForClass<Models.Models.NFeSStructure.NFeSIssueRequest.tbnfd>(
+                                Functions.XmlFunctions.Signature.Sign(
+                                    Functions.XmlFunctions.ClassForStringXml(NFeSIR)
+                                )
+                            )
+                        );
+            }
+            catch(Exception ex)
+            {
+                throw ex;
+            }
+        }
+
+        private string SendRequest(string NFSeXml)
+        {
+            try
+            {
+                return new NFeS.API.Serra.Entrada.WSEntradaClient().nfdEntrada(
+                    Homologation.CPF,
+                    Homologation.Password,
+                    int.Parse(Homologation.CityCod),
+                    NFSeXml);
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+
+        private string SendRPS(string NFSeXmlRequest)
+        {
+            try
+            {
+                //Enviando o RPS para receber a NFSe(5 tentativas)//
+                int Cont = 0;
+                string NFSeXmlAuth = string.Empty;
+
+                //Primeira tentativa
+                NFSeXmlAuth = new NFeS.API.Serra.Saida.WSSaidaClient().nfdSaida(
+                                Homologation.CPF,
+                                Homologation.Password,
+                                Homologation.IM,
+                                NFSeXmlRequest);
+
+                bool Auth = Functions.XmlFunctions.IsXml(NFSeXmlAuth);
+
+                while (!Auth & Cont <= 5)
+                {
+                    NFSeXmlAuth = new NFeS.API.Serra.Saida.WSSaidaClient().nfdSaida(
+                                    Homologation.CPF,
+                                    Homologation.Password,
+                                    Homologation.IM,
+                                    NFSeXmlRequest);
+
+                    Auth = Functions.XmlFunctions.IsXml(NFSeXmlAuth);
+                    Cont++;
+                    System.Threading.Thread.Sleep(5000);
+                }
+                return NFSeXmlAuth;
+            }
+            catch(Exception ex)
+            {
+                throw ex;
+            }
+        }
+
+        private string GetUrl(Models.Models.NFeSStructure.NFeSProcessingResult.tbnfd NFeSAuth)
+        {
+            try
+            {
+                return new NFeS.API.Serra.Util.WSUtilClient().urlNfd(
+                            int.Parse(Homologation.CityCod),
+                            int.Parse(NFeSAuth.nfdok.NewDataSet.NOTA_FISCAL.NumeroNota),
+                            int.Parse(NFeSAuth.nfdok.NewDataSet.NOTA_FISCAL.CodigoSerie),
+                            Homologation.IM);
+            }
+            catch(Exception ex)
+            {
+                throw ex;
+            }
+        }
+
+        private string Download(string URL)
+        {
+            try
+            {
+                return Convert.ToBase64String(new WebClient().DownloadData(URL));
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+
+        private T Serealize(string Xml)
+        {
+            try
+            {
+                return Newtonsoft.Json.JsonConvert.DeserializeObject<T>(Xml);
+            }catch(Exception ex)
+            {
+                throw ex;
+            }
+        }
+
         private void Validate(NFeSRequest NFeS)
         {
             //Empresa
