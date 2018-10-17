@@ -22,18 +22,15 @@ namespace UnclePhill.WebAPI_NFeS.Domain
         {
             try
             {
-                //Validando Requisição//
                 Validate(NFeS);
 
-                //Criando e alimentando os objetos necessários//
                 Takers Taker = new TakerDomain().Get<Takers>(NFeS.TakerId);
                 Companys Company = new CompanyDomain().Get<Companys>(CompanyDomain.Type.Company,NFeS.CompanyId);
                 CFPS CFPS = new CFPSDomain().Get<CFPS>(NFeS.CFPSId);                
                 ShippingCompany ShippingCompany = new ShippingCompanyDomain().Get<ShippingCompany>(NFeS.ShippingCompanyId);
                 var NFeSRequest = new Models.Models.NFeSStructure.NFeSIssueRequest.tbnfd();
                 NFeSRequest.nfd = new Models.Models.NFeSStructure.NFeSIssueRequest.tbnfdNfd();
-
-                //Preenchendo a nota com os dados da requisição//
+                
                 NFeSRequest.nfd.numeronfd = Homologation.NumberNF; 
                 NFeSRequest.nfd.codseriedocumento = Homologation.Serie; 
                 NFeSRequest.nfd.codnaturezaoperacao = CFPS.CFPSCod;
@@ -77,8 +74,7 @@ namespace UnclePhill.WebAPI_NFeS.Domain
                     + ShippingCompany.Neighborhood + ","
                     + ShippingCompany.City + ","
                     + ShippingCompany.State;
-
-                //Faturas//
+                
                 NFeSRequest.nfd.tbfatura = new Models.Models.NFeSStructure.NFeSIssueRequest.tbnfdNfdFatura[NFeS.Invoices.Count];
                 for (int X = 0; X < NFeS.Invoices.Count; X++)
                 {
@@ -90,8 +86,7 @@ namespace UnclePhill.WebAPI_NFeS.Domain
                         valorfatura = Invoice.Value.ToString()
                     };
                 }
-
-                //Serviços//
+                
                 NFeSRequest.nfd.tbservico = new Models.Models.NFeSStructure.NFeSIssueRequest.tbnfdNfdServico[NFeS.Itens.Count];
                 for (int X = 0; X < NFeS.Itens.Count; X++)
                 {
