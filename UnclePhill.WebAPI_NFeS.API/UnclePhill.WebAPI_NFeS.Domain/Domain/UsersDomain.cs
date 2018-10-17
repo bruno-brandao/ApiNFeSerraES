@@ -205,8 +205,6 @@ namespace UnclePhill.WebAPI_NFeS.Domain
             {
                  throw new Exception("Informe a senha do usuário!");
             }
-        }
-
-        
+        }        
     }
 }

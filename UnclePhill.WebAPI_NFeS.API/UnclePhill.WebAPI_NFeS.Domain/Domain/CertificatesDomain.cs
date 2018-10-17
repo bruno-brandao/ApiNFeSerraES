@@ -22,6 +22,7 @@ namespace UnclePhill.WebAPI_NFeS.Domain.Domain
                 Validate(Certificate);
 
                 SQL = new StringBuilder();
+
                 if (Functions.ExistsRegister(Certificate.CompanyId.ToString(), Functions.TypeInput.Numero, "CompanyId", "Certificates"))
                 {
                     SQL.AppendLine(" Update Certificates Set ");
@@ -96,6 +97,11 @@ namespace UnclePhill.WebAPI_NFeS.Domain.Domain
             if (Certificate.CompanyId <= 0)
             {
                 throw new Exception("Informe a empresa!");
+            }
+
+            if (new CompanyDomain().Get<Companys>(CompanyDomain.Type.Company,Certificate.CompanyId).CompanyId <= 0)
+            {
+                throw new Exception("A empresa informada não está cadastrada.");
             }
 
             if (String.IsNullOrEmpty(Certificate.Certificate))
