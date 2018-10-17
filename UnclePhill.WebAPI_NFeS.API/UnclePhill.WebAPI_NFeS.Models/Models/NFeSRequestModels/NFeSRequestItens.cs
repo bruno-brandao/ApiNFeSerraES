@@ -8,6 +8,7 @@ namespace UnclePhill.WebAPI_NFeS.Models.Models.NFeSRequestModels
 {
     public class NFeSRequestItens
     {
+        public long ServicesId { get; set; }
         public decimal Amount { get; set; }
         public string Description { get; set; }
         public string ActivitiesId { get; set; }

@@ -214,9 +214,9 @@ namespace UnclePhill.WebAPI_NFeS.Models.Models.NFeSStructure.NFeSProcessingResul
 
         private string timbrePrefeituraLinha3Field;
 
-        private tbnfdNfdokNewDataSetNOTA_FISCALFATURA fATURAField;
+        private tbnfdNfdokNewDataSetNOTA_FISCALFATURA[] fATURAField;
 
-        private tbnfdNfdokNewDataSetNOTA_FISCALITENS iTENSField;
+        private tbnfdNfdokNewDataSetNOTA_FISCALITENS[] iTENSField;
 
         /// <remarks/>
         public string Cae
@@ -947,7 +947,7 @@ namespace UnclePhill.WebAPI_NFeS.Models.Models.NFeSStructure.NFeSProcessingResul
         }
 
         /// <remarks/>
-        public tbnfdNfdokNewDataSetNOTA_FISCALFATURA FATURA
+        public tbnfdNfdokNewDataSetNOTA_FISCALFATURA[] FATURA
         {
             get
             {
@@ -960,7 +960,7 @@ namespace UnclePhill.WebAPI_NFeS.Models.Models.NFeSStructure.NFeSProcessingResul
         }
 
         /// <remarks/>
-        public tbnfdNfdokNewDataSetNOTA_FISCALITENS ITENS
+        public tbnfdNfdokNewDataSetNOTA_FISCALITENS[] ITENS
         {
             get
             {

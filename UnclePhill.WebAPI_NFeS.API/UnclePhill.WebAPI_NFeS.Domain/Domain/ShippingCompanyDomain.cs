@@ -77,14 +77,14 @@ namespace UnclePhill.WebAPI_NFeS.Domain
                 SQL.AppendLine("    DateInsert, ");
                 SQL.AppendLine("    DateUpdate) ");
                 SQL.AppendLine(" Values ");
-                SQL.AppendLine("    ('" + Functions.NotQuote(shippingCompany.CPF_CNPJ) + "',");
-                SQL.AppendLine("     '" + Functions.NotQuote(shippingCompany.Name) + "',");
-                SQL.AppendLine("     '" + Functions.NotQuote(shippingCompany.NameFantasy) + "',");
-                SQL.AppendLine("     '" + Functions.NotQuote(shippingCompany.CEP) + "',");
-                SQL.AppendLine("     '" + Functions.NotQuote(shippingCompany.Street) + "',");
-                SQL.AppendLine("     '" + Functions.NotQuote(shippingCompany.Neighborhood) + "',");
-                SQL.AppendLine("     '" + Functions.NotQuote(shippingCompany.City) + "',");
-                SQL.AppendLine("     '" + Functions.NotQuote(shippingCompany.State) + "',");
+                SQL.AppendLine("    ('" + Functions.NoQuote(shippingCompany.CPF_CNPJ) + "',");
+                SQL.AppendLine("     '" + Functions.NoQuote(shippingCompany.Name) + "',");
+                SQL.AppendLine("     '" + Functions.NoQuote(shippingCompany.NameFantasy) + "',");
+                SQL.AppendLine("     '" + Functions.NoQuote(shippingCompany.CEP) + "',");
+                SQL.AppendLine("     '" + Functions.NoQuote(shippingCompany.Street) + "',");
+                SQL.AppendLine("     '" + Functions.NoQuote(shippingCompany.Neighborhood) + "',");
+                SQL.AppendLine("     '" + Functions.NoQuote(shippingCompany.City) + "',");
+                SQL.AppendLine("     '" + Functions.NoQuote(shippingCompany.State) + "',");
                 SQL.AppendLine("     1 ,");
                 SQL.AppendLine("     GetDate(), ");
                 SQL.AppendLine("     GetDate() ");
@@ -118,14 +118,14 @@ namespace UnclePhill.WebAPI_NFeS.Domain
                 }
 
                 SQL.AppendLine(" Update ShippingCompany Set ");
-                SQL.AppendLine("    CPF_CNPJ = '" + Functions.NotQuote(shippingCompany.CPF_CNPJ) + "',");
-                SQL.AppendLine("    Name = '" + Functions.NotQuote(shippingCompany.Name) + "',");
-                SQL.AppendLine("    NameFantasy = '" + Functions.NotQuote(shippingCompany.NameFantasy) + "',");
-                SQL.AppendLine("    CEP = '" + Functions.NotQuote(shippingCompany.CEP) + "',");
-                SQL.AppendLine("    Street = '" + Functions.NotQuote(shippingCompany.Street) + "',");
-                SQL.AppendLine("    Neighborhood = '" + Functions.NotQuote(shippingCompany.Neighborhood) + "',");
-                SQL.AppendLine("    City = '" + Functions.NotQuote(shippingCompany.City) + "',");
-                SQL.AppendLine("    State = '" + Functions.NotQuote(shippingCompany.State) + "', ");
+                SQL.AppendLine("    CPF_CNPJ = '" + Functions.NoQuote(shippingCompany.CPF_CNPJ) + "',");
+                SQL.AppendLine("    Name = '" + Functions.NoQuote(shippingCompany.Name) + "',");
+                SQL.AppendLine("    NameFantasy = '" + Functions.NoQuote(shippingCompany.NameFantasy) + "',");
+                SQL.AppendLine("    CEP = '" + Functions.NoQuote(shippingCompany.CEP) + "',");
+                SQL.AppendLine("    Street = '" + Functions.NoQuote(shippingCompany.Street) + "',");
+                SQL.AppendLine("    Neighborhood = '" + Functions.NoQuote(shippingCompany.Neighborhood) + "',");
+                SQL.AppendLine("    City = '" + Functions.NoQuote(shippingCompany.City) + "',");
+                SQL.AppendLine("    State = '" + Functions.NoQuote(shippingCompany.State) + "', ");
                 SQL.AppendLine("    DateUpdate = GetDate() ");
                 SQL.AppendLine(" Where ShippingCompanyId = " + shippingCompany.ShippingCompanyId);
 

@@ -26,8 +26,8 @@ namespace UnclePhill.WebAPI_NFeS.Domain.Domain
                 if (Functions.ExistsRegister(Certificate.CompanyId.ToString(), Functions.TypeInput.Numero, "CompanyId", "Certificates"))
                 {
                     SQL.AppendLine(" Update Certificates Set ");
-                    SQL.AppendLine("   Certificate = '" + Functions.NotQuote(Certificate.Certificate) + "' , ");
-                    SQL.AppendLine("   Password = '" + Functions.NotQuote(Certificate.Password) + "' , ");
+                    SQL.AppendLine("   Certificate = '" + Functions.NoQuote(Certificate.Certificate) + "' , ");
+                    SQL.AppendLine("   Password = '" + Functions.NoQuote(Certificate.Password) + "' , ");
                     SQL.AppendLine("   Active = 1 , ");
                     SQL.AppendLine("   DateUpdate = GetDate() ");
                     SQL.AppendLine(" Where Certificates.CertificateId = " + Certificate.CertificateId);
@@ -45,8 +45,8 @@ namespace UnclePhill.WebAPI_NFeS.Domain.Domain
                     SQL.AppendLine("   DateUpdate) ");
                     SQL.AppendLine(" Values ");
                     SQL.AppendLine(" ( " + Certificate.CompanyId);
-                    SQL.AppendLine("  '" + Functions.NotQuote(Certificate.Certificate) + "',");
-                    SQL.AppendLine("  '" + Functions.NotQuote(Certificate.Password) + "',");
+                    SQL.AppendLine("  '" + Functions.NoQuote(Certificate.Certificate) + "',");
+                    SQL.AppendLine("  '" + Functions.NoQuote(Certificate.Password) + "',");
                     SQL.AppendLine("  1, ");
                     SQL.AppendLine("  GetDate(), ");
                     SQL.AppendLine("  GetDate() ");

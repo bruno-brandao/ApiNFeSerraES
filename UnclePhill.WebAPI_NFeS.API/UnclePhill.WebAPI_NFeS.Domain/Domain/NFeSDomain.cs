@@ -10,7 +10,6 @@ using System.Text;
 using UnclePhill.WebAPI_NFeS.Models.Models.NFeSRequestModels;
 using System.Security.Cryptography;
 using System.Xml.Linq;
-using UnclePhill.WebAPI_NFeS.Models.Models.NFeSStructure.NFeSIssueRequest;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net;
@@ -31,8 +30,8 @@ namespace UnclePhill.WebAPI_NFeS.Domain
                 Companys Company = new CompanyDomain().Get<Companys>(CompanyDomain.Type.Company,NFeS.CompanyId);
                 CFPS CFPS = new CFPSDomain().Get<CFPS>(NFeS.CFPSId);                
                 ShippingCompany ShippingCompany = new ShippingCompanyDomain().Get<ShippingCompany>(NFeS.ShippingCompanyId);
-                tbnfd NFeSIR = new tbnfd();
-                NFeSIR.nfd = new tbnfdNfd();
+                var NFeSIR = new Models.Models.NFeSStructure.NFeSIssueRequest.tbnfd();
+                NFeSIR.nfd = new Models.Models.NFeSStructure.NFeSIssueRequest.tbnfdNfd();
 
                 //Preenchendo a nota com os dados da requisição//
                 NFeSIR.nfd.numeronfd = Homologation.NumberNF; 
@@ -80,11 +79,11 @@ namespace UnclePhill.WebAPI_NFeS.Domain
                     + ShippingCompany.State;
 
                 //Faturas//
-                NFeSIR.nfd.tbfatura = new tbnfdNfdFatura[NFeS.Invoices.Count];
+                NFeSIR.nfd.tbfatura = new Models.Models.NFeSStructure.NFeSIssueRequest.tbnfdNfdFatura[NFeS.Invoices.Count];
                 for (int X = 0; X < NFeS.Invoices.Count; X++)
                 {
                     NFeSRequestInvoices Invoice = NFeS.Invoices[X];
-                    NFeSIR.nfd.tbfatura[X] = new tbnfdNfdFatura
+                    NFeSIR.nfd.tbfatura[X] = new Models.Models.NFeSStructure.NFeSIssueRequest.tbnfdNfdFatura
                     {
                         numfatura = Invoice.Number.ToString(),
                         vencimentofatura = DateTime.Parse(Invoice.Maturity).ToString("dd/MM/yyyy"),
@@ -93,11 +92,11 @@ namespace UnclePhill.WebAPI_NFeS.Domain
                 }
 
                 //Serviços//
-                NFeSIR.nfd.tbservico = new tbnfdNfdServico[NFeS.Itens.Count];
+                NFeSIR.nfd.tbservico = new Models.Models.NFeSStructure.NFeSIssueRequest.tbnfdNfdServico[NFeS.Itens.Count];
                 for (int X = 0; X < NFeS.Itens.Count; X++)
                 {
                     NFeSRequestItens Item = NFeS.Itens[X];
-                    NFeSIR.nfd.tbservico[X] = new tbnfdNfdServico
+                    NFeSIR.nfd.tbservico[X] = new Models.Models.NFeSStructure.NFeSIssueRequest.tbnfdNfdServico
                     {
                         quantidade = Item.Amount.ToString(),
                         descricao = Item.Description,
@@ -110,7 +109,7 @@ namespace UnclePhill.WebAPI_NFeS.Domain
 
                 //Obtendo o XML assinado digitalmente//
                 string NFSeXml = Functions.XmlFunctions.ClassForStringXml(
-                        Functions.XmlFunctions.StringXmlForClass<tbnfd>(
+                        Functions.XmlFunctions.StringXmlForClass<Models.Models.NFeSStructure.NFeSIssueRequest.tbnfd>(
                             Functions.XmlFunctions.Signature.Sign(
                                 Functions.XmlFunctions.ClassForStringXml(NFeSIR)
                                 )
@@ -129,34 +128,45 @@ namespace UnclePhill.WebAPI_NFeS.Domain
                 if (Functions.XmlFunctions.IsXml(NFSeXmlRequest))
                 {
                     //Enviando o RPS para receber a NFSe(5 tentativas)//
-                    bool Auth = false;
                     int Cont = 0;
                     string NFSeXmlAuth = string.Empty;
 
+                    //Primeira tentativa
+                    NFSeXmlAuth = new NFeS.API.Serra.Saida.WSSaidaClient().nfdSaida(
+                                    Homologation.CPF,
+                                    Homologation.Password,
+                                    Homologation.IM,
+                                    NFSeXmlRequest);
+
+                    bool Auth = Functions.XmlFunctions.IsXml(NFSeXmlAuth);
+
                     while (!Auth & Cont <= 5)
                     {
-                        NFSeXmlAuth = 
-                            new NFeS.API.Serra.Saida.WSSaidaClient().nfdSaida(
-                                Homologation.CPF, 
-                                Homologation.Password, 
-                                Homologation.IM, 
-                                NFSeXmlRequest);
+                        NFSeXmlAuth = new NFeS.API.Serra.Saida.WSSaidaClient().nfdSaida(
+                                        Homologation.CPF, 
+                                        Homologation.Password, 
+                                        Homologation.IM, 
+                                        NFSeXmlRequest);
+
                         Auth = Functions.XmlFunctions.IsXml(NFSeXmlAuth);
                         Cont++;
+                        System.Threading.Thread.Sleep(5000);
                     }
                     
                     //Tratando a NFSe Autorizada//
                     if (Functions.XmlFunctions.IsXml(NFSeXmlAuth))
                     {
                         //Serealizando NFSe Autorizada//
-                        Models.Models.NFeSStructure.NFeSProcessingResult.tbnfd NFSe =
+                        Models.Models.NFeSStructure.NFeSProcessingResult.tbnfd NFeSAuth =
                             Functions.XmlFunctions.StringXmlForClass<Models.Models.NFeSStructure.NFeSProcessingResult.tbnfd>(NFSeXmlAuth);
+
+                        //NFSe.nfdok.NewDataSet.NOTA_FISCAL.
 
                         //Consultando a URL de Download do PDF//
                         string NFSeXmlUrl = new NFeS.API.Serra.Util.WSUtilClient().urlNfd(
                             int.Parse(Homologation.CityCod), 
-                            int.Parse(NFSe.nfdok.NewDataSet.NOTA_FISCAL.NumeroNota), 
-                            int.Parse(NFSe.nfdok.NewDataSet.NOTA_FISCAL.CodigoSerie), 
+                            int.Parse(NFeSAuth.nfdok.NewDataSet.NOTA_FISCAL.NumeroNota), 
+                            int.Parse(NFeSAuth.nfdok.NewDataSet.NOTA_FISCAL.CodigoSerie), 
                             Homologation.IM);
 
                         //Finalizando o processo//
@@ -166,8 +176,12 @@ namespace UnclePhill.WebAPI_NFeS.Domain
                                 Functions.XmlFunctions.StringXmlForClass<Models.Models.NFeSStructure.NFeSPreview.util>(NFSeXmlUrl);
                                                         
                             //DownLoad do PDF
-                            Convert.ToBase64String(new WebClient().DownloadData(NFSePreview.urlNfd));
+                            string PDF = Convert.ToBase64String(new WebClient().DownloadData(NFSePreview.urlNfd));
 
+                            //Salva a bagaça toda no banco:
+                            SaveNFeS(Taker, Company, CFPS, ShippingCompany, NFeSAuth, NFSeXmlAuth, PDF);
+
+                            //Retorna as URL's de Autorização
                             return new NFeSRequestPreview(NFSePreview.urlNfd, NFSePreview.urlAutenticidade);
                         }
                         else
@@ -190,6 +204,218 @@ namespace UnclePhill.WebAPI_NFeS.Domain
                 throw ex;
             }
         } 
+
+        private void SaveNFeS(Takers takers, Companys companys, CFPS cFPS, ShippingCompany shippingCompany, 
+            Models.Models.NFeSStructure.NFeSProcessingResult.tbnfd NFeS, string XML = "", string PDF = "")
+        {
+            try
+            {
+                var NFDet = NFeS.nfdok.NewDataSet.NOTA_FISCAL;
+
+                SQL = new StringBuilder();
+
+                SQL.AppendLine("Insert Into NFeS ");
+                SQL.AppendLine("        ( TakerId , ");
+                SQL.AppendLine("          CompanyId , ");
+                SQL.AppendLine("          CFPSId , ");
+                SQL.AppendLine("          ShippingCompanyId , ");
+                SQL.AppendLine("          cae , ");
+                SQL.AppendLine("          dataEmissao , ");
+                SQL.AppendLine("          naturezaOperacao , ");
+                SQL.AppendLine("          numeroNota , ");
+                SQL.AppendLine("          numeroRps , ");
+                SQL.AppendLine("          situacaoNf , ");
+                SQL.AppendLine("          chaveValidacao , ");
+                SQL.AppendLine("          clienteNomeRazaoSocial , ");
+                SQL.AppendLine("          clienteNomeFantasia , ");
+                SQL.AppendLine("          clienteCNPJCPF , ");
+                SQL.AppendLine("          clienteEndereco , ");
+                SQL.AppendLine("          clienteBairro , ");
+                SQL.AppendLine("          clienteNumeroLogradouro , ");
+                SQL.AppendLine("          clienteCidade , ");
+                SQL.AppendLine("          clienteUF , ");
+                SQL.AppendLine("          clientePais , ");
+                SQL.AppendLine("          clienteFone , ");
+                SQL.AppendLine("          clienteFax , ");
+                SQL.AppendLine("          clienteInscricaoMunicipal , ");
+                SQL.AppendLine("          clienteCEP , ");
+                SQL.AppendLine("          clienteEmail , ");
+                SQL.AppendLine("          clienteInscricaoEstadual , ");
+                SQL.AppendLine("          baseCalculo , ");
+                SQL.AppendLine("          iSSQNCliente , ");
+                SQL.AppendLine("          iSSQNSemRetencao , ");
+                SQL.AppendLine("          iSSQNTotal , ");
+                SQL.AppendLine("          irrf , ");
+                SQL.AppendLine("          cofins , ");
+                SQL.AppendLine("          inss , ");
+                SQL.AppendLine("          csll , ");
+                SQL.AppendLine("          pis , ");
+                SQL.AppendLine("          valorTotalNota , ");
+                SQL.AppendLine("          freteCNPJ , ");
+                SQL.AppendLine("          freteRazaoSocial , ");
+                SQL.AppendLine("          freteEndereco , ");
+                SQL.AppendLine("          freteEmitente , ");
+                SQL.AppendLine("          freteDestinatario , ");
+                SQL.AppendLine("          freteQuantidade , ");
+                SQL.AppendLine("          freteEspecie , ");
+                SQL.AppendLine("          fretePesoLiquido , ");
+                SQL.AppendLine("          fretePesoBruto , ");
+                SQL.AppendLine("          serie , ");
+                SQL.AppendLine("          serieSimplificada , ");
+                SQL.AppendLine("          codigoSerie , ");
+                SQL.AppendLine("          observacao , ");
+                SQL.AppendLine("          servicoCidade , ");
+                SQL.AppendLine("          servicoEstado , ");
+                SQL.AppendLine("          TimbreContribstringeLogo , ");
+                SQL.AppendLine("          TimbreContribstringeLinha1 , ");
+                SQL.AppendLine("          TimbreContribstringeLinha2 , ");
+                SQL.AppendLine("          TimbreContribstringeLinha3 , ");
+                SQL.AppendLine("          TimbreContribstringeLinha4 , ");
+                SQL.AppendLine("          timbrePrefeituraLogo , ");
+                SQL.AppendLine("          timbrePrefeituraLinha1 , ");
+                SQL.AppendLine("          timbrePrefeituraLinha2 , ");
+                SQL.AppendLine("          timbrePrefeituraLinha3 , ");
+                SQL.AppendLine("          NotaFiscalPDF , ");
+                SQL.AppendLine("          NotaFiscalXML , ");
+                SQL.AppendLine("          Active , ");
+                SQL.AppendLine("          DateInsert , ");
+                SQL.AppendLine("          DateUpdate ");
+                SQL.AppendLine("        ) ");
+                SQL.AppendLine("Values  ( " + takers.TakerId.ToString() + " , ");
+                SQL.AppendLine("          " + companys.CompanyId.ToString() + " , ");
+                SQL.AppendLine("          " + cFPS.CFPSId.ToString() + " , ");
+                SQL.AppendLine("          " + (shippingCompany.ShippingCompanyId == 0 ? "Null" : shippingCompany.ShippingCompanyId.ToString()) + " , ");
+                SQL.AppendLine("          '" + Functions.NoQuote(NFDet.Cae) + "' , ");
+                SQL.AppendLine("          '" + Functions.NoQuote(NFDet.DataEmissao) + "' , ");
+                SQL.AppendLine("          '" + Functions.NoQuote(NFDet.NaturezaOperacao) + "' , ");
+                SQL.AppendLine("          '" + Functions.NoQuote(NFDet.NumeroNota) + "' , ");
+                SQL.AppendLine("          '" + Functions.NoQuote(NFDet.NumeroRps) + "' , ");
+                SQL.AppendLine("          '" + Functions.NoQuote(NFDet.SituacaoNf) + "' , ");
+                SQL.AppendLine("          '" + Functions.NoQuote(NFDet.ChaveValidacao) + "' , ");
+                SQL.AppendLine("          '" + Functions.NoQuote(NFDet.ClienteNomeRazaoSocial) + "' , ");
+                SQL.AppendLine("          '" + Functions.NoQuote(NFDet.ClienteNomeFantasia) + "' , ");
+                SQL.AppendLine("          '" + Functions.NoQuote(NFDet.ClienteCNPJCPF) + "' , ");
+                SQL.AppendLine("          '" + Functions.NoQuote(NFDet.ClienteEndereco) + "' , ");
+                SQL.AppendLine("          '" + Functions.NoQuote(NFDet.ClienteBairro) + "' , ");
+                SQL.AppendLine("          '" + Functions.NoQuote(NFDet.ClienteNumeroLogradouro) + "' , ");
+                SQL.AppendLine("          '" + Functions.NoQuote(NFDet.ClienteCidade) + "' , ");
+                SQL.AppendLine("          '" + Functions.NoQuote(NFDet.ClienteUF) + "' , ");
+                SQL.AppendLine("          '" + Functions.NoQuote(NFDet.ClientePais) + "' , ");
+                SQL.AppendLine("          '" + Functions.NoQuote(NFDet.ClienteFone) + "' , ");
+                SQL.AppendLine("          '" + Functions.NoQuote(NFDet.ClienteFax) + "' , ");
+                SQL.AppendLine("          '" + Functions.NoQuote(NFDet.ClienteInscricaoMunicipal) + "' , ");
+                SQL.AppendLine("          '" + Functions.NoQuote(NFDet.ClienteCEP) + "' , ");
+                SQL.AppendLine("          '" + Functions.NoQuote(NFDet.ClienteEmail) + "' , ");
+                SQL.AppendLine("          '" + Functions.NoQuote(NFDet.ClienteInscricaoEstadual) + "' , ");
+                SQL.AppendLine("          '" + Functions.NoQuote(NFDet.BaseCalculo) + "' , ");
+                SQL.AppendLine("          '" + Functions.NoQuote(NFDet.ISSQNCliente) + "' , ");
+                SQL.AppendLine("          '" + Functions.NoQuote(NFDet.ISSQNSemRetencao) + "' , ");
+                SQL.AppendLine("          '" + Functions.NoQuote(NFDet.ISSQNTotal) + "' , ");
+                SQL.AppendLine("          '" + Functions.NoQuote(NFDet.Irrf) + "' , ");
+                SQL.AppendLine("          '" + Functions.NoQuote(NFDet.Cofins) + "' , ");
+                SQL.AppendLine("          '" + Functions.NoQuote(NFDet.Inss) + "' , ");
+                SQL.AppendLine("          '" + Functions.NoQuote(NFDet.Csll) + "' , ");
+                SQL.AppendLine("          '" + Functions.NoQuote(NFDet.Pis) + "' , ");
+                SQL.AppendLine("          '" + Functions.NoQuote(NFDet.ValorTotalNota) + "' , ");
+                SQL.AppendLine("          '" + Functions.NoQuote(NFDet.FreteCNPJ) + "' , ");
+                SQL.AppendLine("          '" + Functions.NoQuote(NFDet.FreteRazaoSocial) + "' , ");
+                SQL.AppendLine("          '" + Functions.NoQuote(NFDet.FreteEndereco) + "' , ");
+                SQL.AppendLine("          '" + Functions.NoQuote(NFDet.FreteEmitente) + "' , ");
+                SQL.AppendLine("          '" + Functions.NoQuote(NFDet.FreteDestinatario) + "' , ");
+                SQL.AppendLine("          '" + Functions.NoQuote(NFDet.FreteQuantidade) + "' , ");
+                SQL.AppendLine("          '" + Functions.NoQuote(NFDet.FreteEspecie) + "' , ");
+                SQL.AppendLine("          '" + Functions.NoQuote(NFDet.FretePesoLiquido) + "' , ");
+                SQL.AppendLine("          '" + Functions.NoQuote(NFDet.FretePesoBruto) + "' , ");
+                SQL.AppendLine("          '" + Functions.NoQuote(NFDet.Serie) + "' , ");
+                SQL.AppendLine("          '" + Functions.NoQuote(NFDet.SerieSimplificada) + "' , ");
+                SQL.AppendLine("          '" + Functions.NoQuote(NFDet.CodigoSerie) + "' , ");
+                SQL.AppendLine("          '" + Functions.NoQuote(NFDet.Observacao) + "' , ");
+                SQL.AppendLine("          '" + Functions.NoQuote(NFDet.servicoCidade) + "' , ");
+                SQL.AppendLine("          '" + Functions.NoQuote(NFDet.servicoEstado) + "' , ");
+                SQL.AppendLine("          '" + Functions.NoQuote(NFDet.TimbreContribstringeLogo) + "' , ");
+                SQL.AppendLine("          '" + Functions.NoQuote(NFDet.TimbreContribstringeLinha1) + "' , ");
+                SQL.AppendLine("          '" + Functions.NoQuote(NFDet.TimbreContribstringeLinha2) + "' , ");
+                SQL.AppendLine("          '" + Functions.NoQuote(NFDet.TimbreContribstringeLinha3) + "' , ");
+                SQL.AppendLine("          '" + Functions.NoQuote(NFDet.TimbreContribstringeLinha4) + "' , ");
+                SQL.AppendLine("          '" + Functions.NoQuote(NFDet.TimbrePrefeituraLogo) + "' , ");
+                SQL.AppendLine("          '" + Functions.NoQuote(NFDet.TimbrePrefeituraLinha1) + "' , ");
+                SQL.AppendLine("          '" + Functions.NoQuote(NFDet.TimbrePrefeituraLinha2) + "' , ");
+                SQL.AppendLine("          '" + Functions.NoQuote(NFDet.TimbrePrefeituraLinha3) + "' , ");
+                SQL.AppendLine("          '" + (string.IsNullOrEmpty(XML)? string.Empty:Functions.NoQuote(XML)) + "' , ");
+                SQL.AppendLine("          '" + (string.IsNullOrEmpty(PDF)? string.Empty:Functions.NoQuote(PDF)) + "' , ");
+                SQL.AppendLine("          1 , ");
+                SQL.AppendLine("          GetDate() , ");
+                SQL.AppendLine("          GetDate()  ");
+                SQL.AppendLine("        )");
+                
+                long Id = Functions.Conn.Insert(SQL.ToString());
+
+                if (Id > 0)
+                {
+                    SQL = new StringBuilder();
+
+                    foreach (var Fat in NFDet.FATURA)
+                    {                       
+                        SQL.AppendLine("Insert Into NFeSInvoices ");
+                        SQL.AppendLine("        ( NFSeId , ");
+                        SQL.AppendLine("          numero , ");
+                        SQL.AppendLine("          vencimento , ");
+                        SQL.AppendLine("          valor , ");
+                        SQL.AppendLine("          Active , ");
+                        SQL.AppendLine("          DateInsert , ");
+                        SQL.AppendLine("          DateUpdate ");
+                        SQL.AppendLine("        ) ");
+                        SQL.AppendLine("Values  ( " + Id + " , ");
+                        SQL.AppendLine("          '"+ Functions.NoQuote(Fat.Numero) + "' , ");
+                        SQL.AppendLine("          '"+ Functions.NoQuote(Fat.Vencimento) +"' , ");
+                        SQL.AppendLine("          '"+ Functions.NoQuote(Fat.Valor) +"' , ");
+                        SQL.AppendLine("          1 , ");
+                        SQL.AppendLine("          GetDate() , ");
+                        SQL.AppendLine("          GetDate() ");
+                        SQL.AppendLine("        )");
+                        SQL.AppendLine(" ");                        
+                    }
+
+                    foreach (var Item in NFDet.ITENS)
+                    {                        
+                        SQL.AppendLine("Insert Into NFeSItens ");
+                        SQL.AppendLine("        ( NFSeId , ");
+                        SQL.AppendLine("          quantidade , ");
+                        SQL.AppendLine("          codigoAtividade , ");
+                        SQL.AppendLine("          servico , ");
+                        SQL.AppendLine("          valorUnitario , ");
+                        SQL.AppendLine("          valorTotal , ");
+                        SQL.AppendLine("          impostoRetido , ");
+                        SQL.AppendLine("          aliquota , ");
+                        SQL.AppendLine("          Active , ");
+                        SQL.AppendLine("          DateInsert , ");
+                        SQL.AppendLine("          DateUpdate ");
+                        SQL.AppendLine("        ) ");
+                        SQL.AppendLine("Values  ( " + Id + " , ");
+                        SQL.AppendLine("          '"+ Functions.NoQuote(Item.Quantidade) + "' , ");
+                        SQL.AppendLine("          '"+ Functions.NoQuote(Item.CodigoAtividade) +"' , ");
+                        SQL.AppendLine("          '"+ Functions.NoQuote(Item.Servico) +"' , ");
+                        SQL.AppendLine("          '"+ Functions.NoQuote(Item.ValorUnitario) +"' , ");
+                        SQL.AppendLine("          '"+ Functions.NoQuote(Item.ValorTotal) +"' , ");
+                        SQL.AppendLine("          '"+ Functions.NoQuote(Item.ImpostoRetido) +"' , ");
+                        SQL.AppendLine("          '"+ Functions.NoQuote(Item.Aliquota) +"' , ");
+                        SQL.AppendLine("          1 , ");
+                        SQL.AppendLine("          GetDate() , ");
+                        SQL.AppendLine("          GetDate() ");
+                        SQL.AppendLine("        )");
+                        SQL.AppendLine(" ");
+                    }
+
+                    if ((NFDet.FATURA.Length > 0 | NFDet.ITENS.Length > 0) & SQL.ToString().Length > 0)
+                    {
+                        Functions.Conn.Insert(SQL.ToString());
+                    }                    
+                }
+            }catch(Exception ex)
+            {
+                throw ex;
+            }
+        }
         
         private void Validate(NFeSRequest NFeS)
         {

@@ -86,7 +86,7 @@ namespace UnclePhill.WebAPI_NFeS.Utils.Utils
             }
         }
 
-        public static string NotQuote(string Value)
+        public static string NoQuote(string Value)
         {
             return Value.Replace("'", "''");
         }

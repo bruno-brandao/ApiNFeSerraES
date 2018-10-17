@@ -23,8 +23,8 @@ namespace UnclePhill.WebAPI_NFeS.Domain
                 SQL = new StringBuilder();
                 SQL.AppendLine(" Select * From Users ");
                 SQL.AppendLine(" Where Active = 1 ");
-                SQL.AppendLine(" And Email Like '" + Functions.NotQuote(Email) + "'");
-                SQL.AppendLine(" And Password Like '" + Functions.Encript(Functions.NotQuote(Password)) + "'");
+                SQL.AppendLine(" And Email Like '" + Functions.NoQuote(Email) + "'");
+                SQL.AppendLine(" And Password Like '" + Functions.Encript(Functions.NoQuote(Password)) + "'");
 
                 DataTable data = Functions.Conn.GetDataTable(SQL.ToString(), "Users");
                 if (data != null && data.Rows.Count > 0)
@@ -113,11 +113,11 @@ namespace UnclePhill.WebAPI_NFeS.Domain
                 SQL.AppendLine("    DateInsert, ");
                 SQL.AppendLine("    DateUpdate) ");
                 SQL.AppendLine(" Values( ");
-                SQL.AppendLine("    '" + Functions.NotQuote(users.Name) + "',");
-                SQL.AppendLine("    '" + Functions.NotQuote(users.LastName) + "',");
-                SQL.AppendLine("    '" + Functions.NotQuote(users.CPF) + "',");
-                SQL.AppendLine("    '" + Functions.NotQuote(users.Email) + "',");
-                SQL.AppendLine("    '" + Functions.Encript(Functions.NotQuote(users.Password)) + "',");
+                SQL.AppendLine("    '" + Functions.NoQuote(users.Name) + "',");
+                SQL.AppendLine("    '" + Functions.NoQuote(users.LastName) + "',");
+                SQL.AppendLine("    '" + Functions.NoQuote(users.CPF) + "',");
+                SQL.AppendLine("    '" + Functions.NoQuote(users.Email) + "',");
+                SQL.AppendLine("    '" + Functions.Encript(Functions.NoQuote(users.Password)) + "',");
                 SQL.AppendLine("    1,");
                 SQL.AppendLine("    GetDate(),");
                 SQL.AppendLine("    GetDate() ");
@@ -153,11 +153,11 @@ namespace UnclePhill.WebAPI_NFeS.Domain
 
                 SQL = new StringBuilder();
                 SQL.AppendLine(" Update Users Set ");
-                SQL.AppendLine("    Name = '" + Functions.NotQuote(users.Name) + "',");
-                SQL.AppendLine("    LastName = '" + Functions.NotQuote(users.LastName) + "',");
-                SQL.AppendLine("    CPF = '" + Functions.NotQuote(users.CPF) + "',");
-                SQL.AppendLine("    Email = '" + Functions.NotQuote(users.Email) + "',");
-                SQL.AppendLine("    Password = '" + Functions.Encript(Functions.NotQuote(users.Password)) + "',");
+                SQL.AppendLine("    Name = '" + Functions.NoQuote(users.Name) + "',");
+                SQL.AppendLine("    LastName = '" + Functions.NoQuote(users.LastName) + "',");
+                SQL.AppendLine("    CPF = '" + Functions.NoQuote(users.CPF) + "',");
+                SQL.AppendLine("    Email = '" + Functions.NoQuote(users.Email) + "',");
+                SQL.AppendLine("    Password = '" + Functions.Encript(Functions.NoQuote(users.Password)) + "',");
                 SQL.AppendLine("    DateUpdate = GetDate() ");
                 SQL.AppendLine(" Where Active = 1 ");
                 SQL.AppendLine(" And UserId = " + users.UserId);

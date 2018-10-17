@@ -77,9 +77,9 @@ namespace UnclePhill.WebAPI_NFeS.Domain
                 SQL.AppendLine("    DateInsert, ");
                 SQL.AppendLine("    DateUpdate) ");
                 SQL.AppendLine(" Values ");
-                SQL.AppendLine("    ('" + Functions.NotQuote(services.Unity) + "',");
+                SQL.AppendLine("    ('" + Functions.NoQuote(services.Unity) + "',");
                 SQL.AppendLine("     " + Functions.FormatNumber(services.Value) + ",");
-                SQL.AppendLine("     '" + Functions.NotQuote(services.Description) + "',");
+                SQL.AppendLine("     '" + Functions.NoQuote(services.Description) + "',");
                 SQL.AppendLine("     " + Functions.FormatNumber(services.IRRF) + ",");
                 SQL.AppendLine("     " + Functions.FormatNumber(services.PIS) + ",");
                 SQL.AppendLine("     " + Functions.FormatNumber(services.CSLL) + ",");
@@ -118,9 +118,9 @@ namespace UnclePhill.WebAPI_NFeS.Domain
                 }
 
                 SQL.AppendLine(" Update Services Set ");
-                SQL.AppendLine("    Unity = '" + Functions.NotQuote(services.Unity) + "',");
+                SQL.AppendLine("    Unity = '" + Functions.NoQuote(services.Unity) + "',");
                 SQL.AppendLine("    Value = " + Functions.FormatNumber(services.Value) + ",");
-                SQL.AppendLine("    Description = '" + Functions.NotQuote(services.Description) + "',");
+                SQL.AppendLine("    Description = '" + Functions.NoQuote(services.Description) + "',");
                 SQL.AppendLine("    IRRF = " + Functions.FormatNumber(services.IRRF) + ",");
                 SQL.AppendLine("    PIS = " + Functions.FormatNumber(services.PIS) + ",");
                 SQL.AppendLine("    CSLL = " + Functions.FormatNumber(services.CSLL) + ",");
