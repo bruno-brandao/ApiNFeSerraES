@@ -13,6 +13,7 @@ using System.Xml.Linq;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net;
+using System.Data;
 
 namespace UnclePhill.WebAPI_NFeS.Domain
 {
@@ -22,7 +23,7 @@ namespace UnclePhill.WebAPI_NFeS.Domain
         {
             try
             {
-                Validate(NFeS);
+                ValidateIssue(NFeS);
 
                 Takers Taker = new TakerDomain().Get<Takers>(NFeS.TakerId);
                 Companys Company = new CompanyDomain().Get<Companys>(CompanyDomain.Type.Company,NFeS.CompanyId);
@@ -102,47 +103,48 @@ namespace UnclePhill.WebAPI_NFeS.Domain
                     };
                 }
              
-                string XmlAssign = Assign(NFeSRequest);
-                string XmlRPS = SendRequest(XmlAssign);
+                string XmlAssign = this.Assign(NFeSRequest);
+                string XmlRPS = this.SendRequest(XmlAssign);
 
                 if (Functions.XmlFunctions.IsXml(XmlRPS))
                 {
-                    string XmlAuthorized = SendRPS(XmlRPS);
+                    string XmlAuthorized = this.SendRPS(XmlRPS);
 
                     if (Functions.XmlFunctions.IsXml(XmlAuthorized))
                     {
-                        var NFeSAuthorized = Serealize<Models.Models.NFeSStructure.NFeSProcessingResult.tbnfd>(XmlAuthorized);
-                        string XmlUrl = GetUrl(NFeSAuthorized);
+                        var NFeSAuthorized = Functions.XmlFunctions.StringXmlForClass<Models.Models.NFeSStructure.NFeSProcessingResult.tbnfd>(XmlAuthorized);
+                        string XmlUrl = this.GetUrl(NFeSAuthorized);
 
                         if (Functions.XmlFunctions.IsXml(XmlUrl))
                         {
-                            var NFeSUrl = Serealize<Models.Models.NFeSStructure.NFeSPreview.util>(XmlUrl);                                
-                            string PDF = Download(NFeSUrl.urlNfd);
+                            var NFeSUrl = Functions.XmlFunctions.StringXmlForClass<Models.Models.NFeSStructure.NFeSPreview.util>(XmlUrl);                                
+                            string PDF = this.Download(NFeSUrl.urlNfd);
 
-                            Save(Taker, 
-                                Company, 
-                                CFPS, 
-                                ShippingCompany, 
-                                NFeSAuthorized, 
-                                XmlAuthorized, 
-                                PDF);
+                            this.Save(Taker, 
+                                      Company, 
+                                      CFPS, 
+                                      ShippingCompany, 
+                                      NFeSAuthorized,
+                                      NFeSUrl, 
+                                      XmlAuthorized, 
+                                      PDF);
                             
                             return new NFeSRequestPreview(NFeSUrl.urlNfd, NFeSUrl.urlAutenticidade);
                         }
                         else
                         {
-                            throw new Exception(XmlUrl);
+                            throw new Exception(this.CancelException(XmlUrl));
                         }
                     }
                     else
                     {
-                        throw new Exception(XmlAuthorized);
+                        throw new Exception(this.CancelException(XmlAuthorized));
                     }
                 }
                 else
                 {
-                    throw new Exception(XmlRPS);
-                }                
+                    throw new Exception(this.CancelException(XmlRPS));
+                }
             }
             catch(Exception ex)
             {
@@ -156,14 +158,8 @@ namespace UnclePhill.WebAPI_NFeS.Domain
             {
                 ValidateCancel(NFeSRequestCancel);
 
-                var NFeSRequest = new Models.Models.NFeSStructure.NFeSCancel.nfd();
-                NFeSRequest.inscricaomunicipalemissor = NFeSRequestCancel.IM;
-                NFeSRequest.numeronf = NFeSRequestCancel.NumNF;
-                NFeSRequest.datacancelamento = NFeSRequestCancel.DateCancel;
-                NFeSRequest.motivocancelamento = NFeSRequestCancel.Cause;
-
-                string Request = Functions.XmlFunctions.ClassForStringXml<Models.Models.NFeSStructure.NFeSCancel.nfd>(NFeSRequest);
-                string XmlIssue = new NFeS.API.Serra.Entrada.WSEntradaClient().nfdEntradaCancelar(Homologation.CPF,Homologation.Password, Request);
+                string Xml = GetNFeS(new NFeSRequestXml(NFeSRequestCancel.CompanyId, NFeSRequestCancel.NFNumber));
+                string XmlIssue = new NFeS.API.Serra.Entrada.WSEntradaClient().nfdEntradaCancelar(Homologation.CPF,Homologation.Password, Xml);
                 if (Functions.XmlFunctions.IsXml(XmlIssue))
                 {
                     //Cenas para os próximos capitulos...
@@ -176,13 +172,39 @@ namespace UnclePhill.WebAPI_NFeS.Domain
             }
         }
 
+        public string GetNFeS(NFeSRequestXml NFeSRequestXml)
+        {
+            try
+            {
+                ValidadeNFeS(NFeSRequestXml);
+
+                SQL = new StringBuilder();
+                SQL.AppendLine(" Select Top 1 ");
+                SQL.AppendLine("    NotaFiscalXML ");
+                SQL.AppendLine(" From NFeS ");
+                SQL.AppendLine(" Where numeroNota = '" + Functions.NoQuote(NFeSRequestXml.NFNumber) + "' ");
+                SQL.AppendLine("    And CompanyId = " + NFeSRequestXml.CompanyId);
+                
+                DataTable Data = Functions.Conn.GetDataTable(SQL.ToString(), "NFAuth");
+                if (Data != null && Data.Rows.Count > 0)
+                {
+                    return Data.AsEnumerable().First().Field<string>("NotaFiscalXML");
+                }
+                return string.Empty;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+
         private void Save(Takers takers, Companys companys, CFPS cFPS, ShippingCompany shippingCompany, 
-            Models.Models.NFeSStructure.NFeSProcessingResult.tbnfd NFeS, string XML = "", string PDF = "")
+            Models.Models.NFeSStructure.NFeSProcessingResult.tbnfd NFeS,
+            Models.Models.NFeSStructure.NFeSPreview.util NFeSUrl, string XML = "", string PDF = "")
         {
             try
             {
                 var NFDet = NFeS.nfdok.NewDataSet.NOTA_FISCAL;
-
                 SQL = new StringBuilder();
 
                 SQL.AppendLine("Insert Into NFeS ");
@@ -237,15 +259,17 @@ namespace UnclePhill.WebAPI_NFeS.Domain
                 SQL.AppendLine("          observacao , ");
                 SQL.AppendLine("          servicoCidade , ");
                 SQL.AppendLine("          servicoEstado , ");
-                SQL.AppendLine("          TimbreContribstringeLogo , ");
-                SQL.AppendLine("          TimbreContribstringeLinha1 , ");
-                SQL.AppendLine("          TimbreContribstringeLinha2 , ");
-                SQL.AppendLine("          TimbreContribstringeLinha3 , ");
-                SQL.AppendLine("          TimbreContribstringeLinha4 , ");
+                SQL.AppendLine("          TimbreContribuinteLogo , ");
+                SQL.AppendLine("          TimbreContribuinteLinha1 , ");
+                SQL.AppendLine("          TimbreContribuinteLinha2 , ");
+                SQL.AppendLine("          TimbreContribuinteLinha3 , ");
+                SQL.AppendLine("          TimbreContribuinteLinha4 , ");
                 SQL.AppendLine("          timbrePrefeituraLogo , ");
                 SQL.AppendLine("          timbrePrefeituraLinha1 , ");
                 SQL.AppendLine("          timbrePrefeituraLinha2 , ");
                 SQL.AppendLine("          timbrePrefeituraLinha3 , ");
+                SQL.AppendLine("          URLAutenticidade , ");
+                SQL.AppendLine("          URL , ");
                 SQL.AppendLine("          NotaFiscalPDF , ");
                 SQL.AppendLine("          NotaFiscalXML , ");
                 SQL.AppendLine("          Active , ");
@@ -303,17 +327,19 @@ namespace UnclePhill.WebAPI_NFeS.Domain
                 SQL.AppendLine("          '" + Functions.NoQuote(NFDet.Observacao) + "' , ");
                 SQL.AppendLine("          '" + Functions.NoQuote(NFDet.servicoCidade) + "' , ");
                 SQL.AppendLine("          '" + Functions.NoQuote(NFDet.servicoEstado) + "' , ");
-                SQL.AppendLine("          '" + Functions.NoQuote(NFDet.TimbreContribstringeLogo) + "' , ");
-                SQL.AppendLine("          '" + Functions.NoQuote(NFDet.TimbreContribstringeLinha1) + "' , ");
-                SQL.AppendLine("          '" + Functions.NoQuote(NFDet.TimbreContribstringeLinha2) + "' , ");
-                SQL.AppendLine("          '" + Functions.NoQuote(NFDet.TimbreContribstringeLinha3) + "' , ");
-                SQL.AppendLine("          '" + Functions.NoQuote(NFDet.TimbreContribstringeLinha4) + "' , ");
-                SQL.AppendLine("          '" + Functions.NoQuote(NFDet.TimbrePrefeituraLogo) + "' , ");
-                SQL.AppendLine("          '" + Functions.NoQuote(NFDet.TimbrePrefeituraLinha1) + "' , ");
-                SQL.AppendLine("          '" + Functions.NoQuote(NFDet.TimbrePrefeituraLinha2) + "' , ");
-                SQL.AppendLine("          '" + Functions.NoQuote(NFDet.TimbrePrefeituraLinha3) + "' , ");
-                SQL.AppendLine("          '" + (string.IsNullOrEmpty(XML)? string.Empty:Functions.NoQuote(XML)) + "' , ");
-                SQL.AppendLine("          '" + (string.IsNullOrEmpty(PDF)? string.Empty:Functions.NoQuote(PDF)) + "' , ");
+                SQL.AppendLine("          '' , ");
+                SQL.AppendLine("          '' , ");
+                SQL.AppendLine("          '' , ");
+                SQL.AppendLine("          '' , ");
+                SQL.AppendLine("          '' , ");
+                SQL.AppendLine("          '' , ");
+                SQL.AppendLine("          '' , ");
+                SQL.AppendLine("          '' , ");
+                SQL.AppendLine("          '' , ");
+                SQL.AppendLine("          '" + Functions.NoQuote(NFeSUrl.urlAutenticidade) + "' , ");
+                SQL.AppendLine("          '" + Functions.NoQuote(NFeSUrl.urlNfd) + "' , ");
+                SQL.AppendLine("          '" + (string.IsNullOrEmpty(PDF) ? string.Empty : Functions.NoQuote(PDF)) + "' , ");
+                SQL.AppendLine("          '" + (string.IsNullOrEmpty(XML)? string.Empty:Functions.NoQuote(XML)) + "' , ");               
                 SQL.AppendLine("          1 , ");
                 SQL.AppendLine("          GetDate() , ");
                 SQL.AppendLine("          GetDate()  ");
@@ -328,7 +354,7 @@ namespace UnclePhill.WebAPI_NFeS.Domain
                     foreach (var Fat in NFDet.FATURA)
                     {                       
                         SQL.AppendLine("Insert Into NFeSInvoices ");
-                        SQL.AppendLine("        ( NFSeId , ");
+                        SQL.AppendLine("        ( NFeSId , ");
                         SQL.AppendLine("          numero , ");
                         SQL.AppendLine("          vencimento , ");
                         SQL.AppendLine("          valor , ");
@@ -350,7 +376,7 @@ namespace UnclePhill.WebAPI_NFeS.Domain
                     foreach (var Item in NFDet.ITENS)
                     {                        
                         SQL.AppendLine("Insert Into NFeSItens ");
-                        SQL.AppendLine("        ( NFSeId , ");
+                        SQL.AppendLine("        ( NFeSId , ");
                         SQL.AppendLine("          quantidade , ");
                         SQL.AppendLine("          codigoAtividade , ");
                         SQL.AppendLine("          servico , ");
@@ -387,7 +413,7 @@ namespace UnclePhill.WebAPI_NFeS.Domain
                 throw ex;
             }
         }
-        
+
         private string Assign(Models.Models.NFeSStructure.NFeSIssueRequest.tbnfd NFeSIR)
         {
             try
@@ -486,19 +512,21 @@ namespace UnclePhill.WebAPI_NFeS.Domain
                 throw ex;
             }
         }
-
-        private T Serealize <T>(string Xml)
+                
+        private string CancelException(string Message)
         {
             try
             {
-                return Newtonsoft.Json.JsonConvert.DeserializeObject<T>(Xml);
-            }catch(Exception ex)
+                var Error = Functions.XmlFunctions.StringXmlForClass<Models.Models.NFeSStructure.NFeSError.tbnfd>(Message);
+                return "Não foi possivel cancelar a NFSe código do erro: " + Error.nfderro.codigoerro; 
+            }
+            catch (Exception ex)
             {
                 throw ex;
             }
         }
 
-        private void Validate(NFeSRequest NFeS)
+        private void ValidateIssue(NFeSRequest NFeS)
         {
             //Empresa
             if (NFeS.CompanyId <= 0)
@@ -590,26 +618,29 @@ namespace UnclePhill.WebAPI_NFeS.Domain
             }
         }
 
+        private void ValidadeNFeS(NFeSRequestXml NFeSRequestXml)
+        {
+            if (NFeSRequestXml.CompanyId <= 0)
+            {
+                throw new Exception("Informe a empresa!");
+            }
+
+            if (string.IsNullOrEmpty(NFeSRequestXml.NFNumber))
+            {
+                throw new Exception("Informe o número da nota fiscal!");
+            }
+        }
+
         private void ValidateCancel(NFeSRequestCancel NFeSRequestCancel)
         {
-            if (string.IsNullOrEmpty(NFeSRequestCancel.IM))
+            if (NFeSRequestCancel.CompanyId <= 0)
             {
                 throw new Exception("Informe a inscrição municipal.");
             }
 
-            if (string.IsNullOrEmpty(NFeSRequestCancel.NumNF))
+            if (string.IsNullOrEmpty(NFeSRequestCancel.NFNumber))
             {
                 throw new Exception("Informe o número da nota fiscal.");
-            }
-
-            if (string.IsNullOrEmpty(NFeSRequestCancel.DateCancel))
-            {
-                throw new Exception("Informe a data de cancelamento.");
-            }
-
-            if (string.IsNullOrEmpty(NFeSRequestCancel.Cause))
-            {
-                throw new Exception("Informe a causa do cancelamento.");
             }
         }
     }

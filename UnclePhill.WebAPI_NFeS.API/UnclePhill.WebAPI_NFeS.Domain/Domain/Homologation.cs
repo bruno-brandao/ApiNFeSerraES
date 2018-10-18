@@ -25,3 +25,4 @@ namespace UnclePhill.WebAPI_NFeS.Domain
         public const string INSS = "0,00";
     }
 }
+

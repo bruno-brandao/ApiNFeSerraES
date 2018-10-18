@@ -6,14 +6,14 @@ using System.Threading.Tasks;
 
 namespace UnclePhill.WebAPI_NFeS.Models.Models.NFeSRequestModels
 {
-    public class NFeSRequestCancel
+    public class NFeSRequestXml
     {
-        public NFeSRequestCancel()
+        public NFeSRequestXml()
         {
 
         }
 
-        public NFeSRequestCancel(long CompanyId, string NFNumber)
+        public NFeSRequestXml(long CompanyId, string NFNumber)
         {
             this.CompanyId = CompanyId;
             this.NFNumber = NFNumber;

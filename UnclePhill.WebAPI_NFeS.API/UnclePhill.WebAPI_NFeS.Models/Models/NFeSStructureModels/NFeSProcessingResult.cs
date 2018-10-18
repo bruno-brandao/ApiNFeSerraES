@@ -6,12 +6,8 @@ using System.Threading.Tasks;
 
 namespace UnclePhill.WebAPI_NFeS.Models.Models.NFeSStructure.NFeSProcessingResult
 {
-
-
     // OBSERVAÇÃO: o código gerado pode exigir pelo menos .NET Framework 4.5 ou .NET Core/Standard 2.0.
     /// <remarks/>
-    [System.SerializableAttribute()]
-    [System.ComponentModel.DesignerCategoryAttribute("code")]
     [System.Xml.Serialization.XmlTypeAttribute(AnonymousType = true)]
     [System.Xml.Serialization.XmlRootAttribute(Namespace = "", IsNullable = false)]
     public partial class tbnfd
@@ -34,8 +30,6 @@ namespace UnclePhill.WebAPI_NFeS.Models.Models.NFeSStructure.NFeSProcessingResul
     }
 
     /// <remarks/>
-    [System.SerializableAttribute()]
-    [System.ComponentModel.DesignerCategoryAttribute("code")]
     [System.Xml.Serialization.XmlTypeAttribute(AnonymousType = true)]
     public partial class tbnfdNfdok
     {
@@ -73,8 +67,6 @@ namespace UnclePhill.WebAPI_NFeS.Models.Models.NFeSStructure.NFeSProcessingResul
     }
 
     /// <remarks/>
-    [System.SerializableAttribute()]
-    [System.ComponentModel.DesignerCategoryAttribute("code")]
     [System.Xml.Serialization.XmlTypeAttribute(AnonymousType = true)]
     public partial class tbnfdNfdokNewDataSet
     {
@@ -96,8 +88,6 @@ namespace UnclePhill.WebAPI_NFeS.Models.Models.NFeSStructure.NFeSProcessingResul
     }
 
     /// <remarks/>
-    [System.SerializableAttribute()]
-    [System.ComponentModel.DesignerCategoryAttribute("code")]
     [System.Xml.Serialization.XmlTypeAttribute(AnonymousType = true)]
     public partial class tbnfdNfdokNewDataSetNOTA_FISCAL
     {
@@ -947,6 +937,7 @@ namespace UnclePhill.WebAPI_NFeS.Models.Models.NFeSStructure.NFeSProcessingResul
         }
 
         /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute("FATURA")]
         public tbnfdNfdokNewDataSetNOTA_FISCALFATURA[] FATURA
         {
             get
@@ -960,6 +951,7 @@ namespace UnclePhill.WebAPI_NFeS.Models.Models.NFeSStructure.NFeSProcessingResul
         }
 
         /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute("ITENS")]
         public tbnfdNfdokNewDataSetNOTA_FISCALITENS[] ITENS
         {
             get
@@ -974,8 +966,6 @@ namespace UnclePhill.WebAPI_NFeS.Models.Models.NFeSStructure.NFeSProcessingResul
     }
 
     /// <remarks/>
-    [System.SerializableAttribute()]
-    [System.ComponentModel.DesignerCategoryAttribute("code")]
     [System.Xml.Serialization.XmlTypeAttribute(AnonymousType = true)]
     public partial class tbnfdNfdokNewDataSetNOTA_FISCALFATURA
     {
@@ -1027,8 +1017,6 @@ namespace UnclePhill.WebAPI_NFeS.Models.Models.NFeSStructure.NFeSProcessingResul
     }
 
     /// <remarks/>
-    [System.SerializableAttribute()]
-    [System.ComponentModel.DesignerCategoryAttribute("code")]
     [System.Xml.Serialization.XmlTypeAttribute(AnonymousType = true)]
     public partial class tbnfdNfdokNewDataSetNOTA_FISCALITENS
     {
@@ -1138,6 +1126,8 @@ namespace UnclePhill.WebAPI_NFeS.Models.Models.NFeSStructure.NFeSProcessingResul
             }
         }
     }
+
+
 
 
 }

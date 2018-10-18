@@ -10,12 +10,34 @@ namespace UnclePhill.WebAPI_NFeS.API.Controllers
     [EnableCors(origins: "*", headers: "*", methods: "*")] 
     public class NFeSController : MasterController, Default.IController<NFeSRequest>
     {
-        private NFeSDomain nFeSDomain = new NFeSDomain();         
+        private NFeSDomain nFeSDomain = new NFeSDomain();
+
         [ApiExplorerSettings(IgnoreApi = true)]
         [System.Web.Http.ActionName("Get")]
         public IHttpActionResult Get(long Id = 0)
         {
             throw new NotImplementedException();
+        }
+
+        /// <summary>
+        /// Método para buscar a nota fiscal já autorizada
+        /// </summary>
+        /// <param name="NFeSRequestXml"></param>
+        /// <returns code = "200">Sucesso</returns>
+        /// <returns code = "400">Erro</returns> 
+        [ApiExplorerSettings(IgnoreApi = true)]
+        [System.Web.Http.ActionName("GetNFeS")]
+        public IHttpActionResult GetNFeS([FromBody]NFeSRequestXml NFeSRequestXml)
+        {
+            try
+            {
+                //if (!SessionDomain.CheckSession(base.Sessao())) return BadRequest("Sessão inválida!");
+                return Ok(nFeSDomain.GetNFeS(NFeSRequestXml));
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
         }
 
         /// <summary>
@@ -28,7 +50,7 @@ namespace UnclePhill.WebAPI_NFeS.API.Controllers
         {
             try
             {
-                if (!SessionDomain.CheckSession(base.Sessao())) return BadRequest("Sessão inválida!");
+                //if (!SessionDomain.CheckSession(base.Sessao())) return BadRequest("Sessão inválida!");
                 return Ok(nFeSDomain.Issue(NFeSR));
             }
             catch (Exception ex)
@@ -56,7 +78,7 @@ namespace UnclePhill.WebAPI_NFeS.API.Controllers
         {
             try
             {
-                if (!SessionDomain.CheckSession(base.Sessao())) return BadRequest("Sessão inválida!");
+                //if (!SessionDomain.CheckSession(base.Sessao())) return BadRequest("Sessão inválida!");
                 if (nFeSDomain.Cancel(NFeSRequestCancel))
                 {
                     return Ok();
@@ -74,6 +96,6 @@ namespace UnclePhill.WebAPI_NFeS.API.Controllers
         public IHttpActionResult Delete(long Id)
         {
             throw new NotImplementedException();
-        }
+        }        
     }
 }
