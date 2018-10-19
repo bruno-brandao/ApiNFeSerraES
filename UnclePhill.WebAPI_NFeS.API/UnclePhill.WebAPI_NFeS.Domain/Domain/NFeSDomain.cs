@@ -152,31 +152,36 @@ namespace UnclePhill.WebAPI_NFeS.Domain
             }
         }
 
-        public string GetNFeS(long CompanyId, string NFNumber)
+        public string GetNFeS(long CompanyId, string NFNumber, TypeArchive Tp)
         {
             try
             {
-                if (CompanyId <= 0)
-                {
-                    throw new Exception("Informe a empresa!");
-                }
+                Validate(CompanyId,NFNumber);
 
-                if (string.IsNullOrEmpty(NFNumber))
+                string Field = string.Empty;
+                switch (Tp)
                 {
-                    throw new Exception("Informe o número da nota fiscal!");
+                    case (TypeArchive.Xml):
+                        Field = "NotaFiscalXML";
+                        break;
+                    case (TypeArchive.PDF):
+                        Field = "NotaFiscalPDF";
+                        break;
+                    default:
+                        throw new Exception("Informe o tipo do arquivo!");
                 }
 
                 SQL = new StringBuilder();
                 SQL.AppendLine(" Select Top 1 ");
-                SQL.AppendLine("    NotaFiscalXML ");
+                SQL.AppendLine("    " + Field);       
                 SQL.AppendLine(" From NFeS ");
-                SQL.AppendLine(" Where numeroNota = '" + Functions.NoQuote(NFNumber) + "' ");
+                SQL.AppendLine(" Where NumeroNota = '" + Functions.NoQuote(NFNumber) + "' ");
                 SQL.AppendLine("    And CompanyId = " + CompanyId);
 
                 DataTable Data = Functions.Conn.GetDataTable(SQL.ToString(), "NFAuth");
                 if (Data != null && Data.Rows.Count > 0)
                 {
-                    return Data.AsEnumerable().First().Field<string>("NotaFiscalXML");
+                    return Data.AsEnumerable().First().Field<string>(Field);
                 }
                 throw new Exception("A nota fiscal solicitada não existe na base de dados!");
             }
@@ -190,17 +195,9 @@ namespace UnclePhill.WebAPI_NFeS.Domain
         {
             try
             {
-                if (CompanyId <= 0)
-                {
-                    throw new Exception("Informe a inscrição municipal.");
-                }
+                Validate(CompanyId, NFNumber);
 
-                if (string.IsNullOrEmpty(NFNumber))
-                {
-                    throw new Exception("Informe o número da nota fiscal.");
-                }
-
-                string Xml = GetNFeS(CompanyId, NFNumber);
+                string Xml = GetNFeS(CompanyId, NFNumber,TypeArchive.Xml);
                 string XmlIssue = new NFeS.API.Serra.Entrada.WSEntradaClient().nfdEntradaCancelar(Homologation.CPF,Homologation.Password, Xml);
                 if (Functions.XmlFunctions.IsXml(XmlIssue))
                 {
@@ -633,6 +630,25 @@ namespace UnclePhill.WebAPI_NFeS.Domain
                     }
                 }
             }
+        }
+
+        private void Validate(long CompanyId, string NFNumber)
+        {
+            if (CompanyId <= 0)
+            {
+                throw new Exception("Informe a empresa!");
+            }
+
+            if (string.IsNullOrEmpty(NFNumber))
+            {
+                throw new Exception("Informe o número da nota fiscal!");
+            }
+        }
+
+        public enum TypeArchive
+        {
+            Xml = 1,
+            PDF = 2
         }
         #endregion
     }

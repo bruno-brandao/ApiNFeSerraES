@@ -23,7 +23,7 @@ namespace UnclePhill.WebAPI_NFeS.API.Controllers
         {
             try
             {
-                //if (!SessionDomain.CheckSession(base.Sessao())) return BadRequest("Sessão inválida!");
+                if (!SessionDomain.CheckSession(base.Sessao())) return BadRequest("Sessão inválida!");
                 return Ok(nFeSDomain.Issue(NFeSR));
             }
             catch (Exception ex)
@@ -33,19 +33,19 @@ namespace UnclePhill.WebAPI_NFeS.API.Controllers
         }
 
         /// <summary>
-        /// Método para buscar a nota fiscal já autorizada
+        /// Método para buscar a nota fiscal (XML) já autorizada
         /// </summary>
         /// <param name="NFeSRequestXml"></param>
         /// <returns code = "200">Sucesso</returns>
         /// <returns code = "400">Erro</returns> 
         [System.Web.Http.HttpGet]
-        [System.Web.Http.ActionName("GetNFeS")]
-        public IHttpActionResult GetNFeS(long CompanyId, string NFNumber)
+        [System.Web.Http.ActionName("GetNFeSXml")]
+        public IHttpActionResult GetNFeSXml(long CompanyId, string NFNumber)
         {
             try
             {
-                //if (!SessionDomain.CheckSession(base.Sessao())) return BadRequest("Sessão inválida!");
-                return Ok(nFeSDomain.GetNFeS(CompanyId, NFNumber));
+                if (!SessionDomain.CheckSession(base.Sessao())) return BadRequest("Sessão inválida!");
+                return Ok(nFeSDomain.GetNFeS(CompanyId, NFNumber,NFeSDomain.TypeArchive.Xml));
             }
             catch (Exception ex)
             {
@@ -53,6 +53,27 @@ namespace UnclePhill.WebAPI_NFeS.API.Controllers
             }
         }
 
+        /// <summary>
+        /// Método para buscar a nota fiscal (PDF) já autorizada
+        /// </summary>
+        /// <param name="NFeSRequestXml"></param>
+        /// <returns code = "200">Sucesso</returns>
+        /// <returns code = "400">Erro</returns> 
+        [System.Web.Http.HttpGet]
+        [System.Web.Http.ActionName("GetNFeSPDF")]
+        public IHttpActionResult GetNFeSPDF(long CompanyId, string NFNumber)
+        {
+            try
+            {
+                if (!SessionDomain.CheckSession(base.Sessao())) return BadRequest("Sessão inválida!");
+                return Ok(nFeSDomain.GetNFeS(CompanyId, NFNumber,NFeSDomain.TypeArchive.PDF));
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
+        
         /// <summary>
         /// Método para solicitar o cancelamento de uma nota fiscal
         /// </summary>
@@ -65,7 +86,7 @@ namespace UnclePhill.WebAPI_NFeS.API.Controllers
         {
             try
             {
-                //if (!SessionDomain.CheckSession(base.Sessao())) return BadRequest("Sessão inválida!");
+                if (!SessionDomain.CheckSession(base.Sessao())) return BadRequest("Sessão inválida!");
                 if (nFeSDomain.Cancel(CompanyId,NFNumber))
                 {
                     return Ok();
