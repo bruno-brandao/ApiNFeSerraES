@@ -39,8 +39,8 @@ namespace UnclePhill.WebAPI_NFeS.API.Controllers
         /// <returns code = "200">Sucesso</returns>
         /// <returns code = "400">Erro</returns> 
         [System.Web.Http.HttpGet]
-        [System.Web.Http.ActionName("GetNFeSXml")]
-        public IHttpActionResult GetNFeSXml(long CompanyId, string NFNumber)
+        [System.Web.Http.ActionName("GetXml")]
+        public IHttpActionResult GetXml(long CompanyId, string NFNumber)
         {
             try
             {
@@ -60,8 +60,8 @@ namespace UnclePhill.WebAPI_NFeS.API.Controllers
         /// <returns code = "200">Sucesso</returns>
         /// <returns code = "400">Erro</returns> 
         [System.Web.Http.HttpGet]
-        [System.Web.Http.ActionName("GetNFeSPdf")]
-        public IHttpActionResult GetNFeSPdf(long CompanyId, string NFNumber)
+        [System.Web.Http.ActionName("GetPdf")]
+        public IHttpActionResult GetPdf(long CompanyId, string NFNumber)
         {
             try
             {
@@ -81,8 +81,8 @@ namespace UnclePhill.WebAPI_NFeS.API.Controllers
         /// <returns code = "200">Sucesso</returns>
         /// <returns code = "400">Erro</returns> 
         [System.Web.Http.HttpGet]
-        [System.Web.Http.ActionName("GetNFeSUrl")]
-        public IHttpActionResult GetNFeSUrl(long CompanyId, string NFNumber)
+        [System.Web.Http.ActionName("GetUrl")]
+        public IHttpActionResult GetUrl(long CompanyId, string NFNumber)
         {
             try
             {
@@ -102,8 +102,8 @@ namespace UnclePhill.WebAPI_NFeS.API.Controllers
         /// <returns code = "200">Sucesso</returns>
         /// <returns code = "400">Erro</returns> 
         [System.Web.Http.HttpGet]
-        [System.Web.Http.ActionName("GetNFeSUrlAuth")]
-        public IHttpActionResult GetNFeSUrlAuth(long CompanyId, string NFNumber)
+        [System.Web.Http.ActionName("GetUrlAuth")]
+        public IHttpActionResult GetUrlAuth(long CompanyId, string NFNumber)
         {
             try
             {
