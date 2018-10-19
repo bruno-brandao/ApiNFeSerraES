@@ -122,12 +122,15 @@ namespace UnclePhill.WebAPI_NFeS.API.Controllers
         /// <param name="NFeSRequestCancel"></param>
         /// <returns code = "200">Sucesso</returns>
         /// <returns code = "400">Erro</returns> 
+        [ApiExplorerSettings(IgnoreApi = true)]
         [System.Web.Http.HttpDelete]
         [System.Web.Http.ActionName("Cancel")]
         public IHttpActionResult Cancel(long CompanyId, string NFNumber)
         {
             try
             {
+                throw new NotImplementedException();
+
                 if (!SessionDomain.CheckSession(base.Sessao())) return BadRequest("Sessão inválida!");
                 if (nFeSDomain.Cancel(CompanyId,NFNumber))
                 {
