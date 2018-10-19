@@ -30,7 +30,12 @@ namespace UnclePhill.WebAPI_NFeS.Domain.Domain
                     SQL.AppendLine("   Password = '" + Functions.NoQuote(Certificate.Password) + "' , ");
                     SQL.AppendLine("   Active = 1 , ");
                     SQL.AppendLine("   DateUpdate = GetDate() ");
-                    SQL.AppendLine(" Where Certificates.CertificateId = " + Certificate.CertificateId);
+                    SQL.AppendLine(" Where Certificates.CertificateId =  (Select Top 1 " );
+                    SQL.AppendLine("                                                 IsNull(CertificateId, 0) As CertificateId ");
+                    SQL.AppendLine("                                        From     Certificates ");
+                    SQL.AppendLine("                                        Where    Active = 1 ");
+                    SQL.AppendLine("                                                 And CompanyId = " + Certificate.CompanyId);
+                    SQL.AppendLine("                                      )  ");
 
                     Functions.Conn.Update(SQL.ToString());
                 }
@@ -44,7 +49,7 @@ namespace UnclePhill.WebAPI_NFeS.Domain.Domain
                     SQL.AppendLine("   DateInsert , ");
                     SQL.AppendLine("   DateUpdate) ");
                     SQL.AppendLine(" Values ");
-                    SQL.AppendLine(" ( " + Certificate.CompanyId);
+                    SQL.AppendLine(" ( " + Certificate.CompanyId + ", ");
                     SQL.AppendLine("  '" + Functions.NoQuote(Certificate.Certificate) + "',");
                     SQL.AppendLine("  '" + Functions.NoQuote(Certificate.Password) + "',");
                     SQL.AppendLine("  1, ");
@@ -73,11 +78,8 @@ namespace UnclePhill.WebAPI_NFeS.Domain.Domain
             try
             {
                 //Deserealizando:
-                byte[] bCertificate = new WebClient().DownloadData(Certificate.Certificate);
-                MemoryStream mStream = new MemoryStream();                
-                mStream.Write(bCertificate,0,bCertificate.Length);
-                mStream.Seek(0, SeekOrigin.Begin);
-                X509Certificate2 Cert = (X509Certificate2)new BinaryFormatter().Deserialize(mStream);
+                byte[] bCertificate = Convert.FromBase64String(Certificate.Certificate);
+                X509Certificate2 Cert = new X509Certificate2(bCertificate, Certificate.Password);
                 
                 //Instalando certificado;
                 X509Store Store = new X509Store(StoreName.My,StoreLocation.CurrentUser);

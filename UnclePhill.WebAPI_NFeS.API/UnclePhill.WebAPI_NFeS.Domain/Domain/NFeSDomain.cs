@@ -167,6 +167,12 @@ namespace UnclePhill.WebAPI_NFeS.Domain
                     case (TypeArchive.PDF):
                         Field = "NotaFiscalPDF";
                         break;
+                    case (TypeArchive.URL):
+                        Field = "URL";
+                        break;
+                    case (TypeArchive.URLAuth):
+                        Field = "URLAutenticidade";
+                        break;
                     default:
                         throw new Exception("Informe o tipo do arquivo!");
                 }
@@ -175,7 +181,8 @@ namespace UnclePhill.WebAPI_NFeS.Domain
                 SQL.AppendLine(" Select Top 1 ");
                 SQL.AppendLine("    " + Field);       
                 SQL.AppendLine(" From NFeS ");
-                SQL.AppendLine(" Where NumeroNota = '" + Functions.NoQuote(NFNumber) + "' ");
+                SQL.AppendLine(" Where Active = 1 ");
+                SQL.AppendLine("    And NumeroNota = '" + Functions.NoQuote(NFNumber) + "' ");
                 SQL.AppendLine("    And CompanyId = " + CompanyId);
 
                 DataTable Data = Functions.Conn.GetDataTable(SQL.ToString(), "NFAuth");
@@ -648,7 +655,9 @@ namespace UnclePhill.WebAPI_NFeS.Domain
         public enum TypeArchive
         {
             Xml = 1,
-            PDF = 2
+            PDF = 2,
+            URL = 3,
+            URLAuth = 4
         }
         #endregion
     }
