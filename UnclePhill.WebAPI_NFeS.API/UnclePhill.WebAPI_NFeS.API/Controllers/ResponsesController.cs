@@ -24,6 +24,12 @@ namespace UnclePhill.WebAPI_NFeS.API.Controllers
             throw new NotImplementedException();
         }
 
+        /// <summary>
+        /// Método para enviar respostas de perguntas
+        /// </summary>
+        /// <param name="obj"></param>
+        /// <returns code = "200">Sucesso</returns>
+        /// <returns code = "400">Erro</returns>
         [System.Web.Http.ActionName("Post")]
         public IHttpActionResult Post([FromBody] Responses obj)
         {
