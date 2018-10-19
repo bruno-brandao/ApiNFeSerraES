@@ -8,45 +8,18 @@ using UnclePhill.WebAPI_NFeS.Models.Models.NFeSRequestModels;
 namespace UnclePhill.WebAPI_NFeS.API.Controllers
 {
     [EnableCors(origins: "*", headers: "*", methods: "*")] 
-    public class NFeSController : MasterController, Default.IController<NFeSRequest>
+    public class NFeSController : MasterController
     {
         private NFeSDomain nFeSDomain = new NFeSDomain();
-
-        [ApiExplorerSettings(IgnoreApi = true)]
-        [System.Web.Http.ActionName("Get")]
-        public IHttpActionResult Get(long Id = 0)
-        {
-            throw new NotImplementedException();
-        }
-
-        /// <summary>
-        /// Método para buscar a nota fiscal já autorizada
-        /// </summary>
-        /// <param name="NFeSRequestXml"></param>
-        /// <returns code = "200">Sucesso</returns>
-        /// <returns code = "400">Erro</returns> 
-        [ApiExplorerSettings(IgnoreApi = true)]
-        [System.Web.Http.ActionName("GetNFeS")]
-        public IHttpActionResult GetNFeS([FromBody]NFeSRequestXml NFeSRequestXml)
-        {
-            try
-            {
-                //if (!SessionDomain.CheckSession(base.Sessao())) return BadRequest("Sessão inválida!");
-                return Ok(nFeSDomain.GetNFeS(NFeSRequestXml));
-            }
-            catch (Exception ex)
-            {
-                return BadRequest(ex.Message);
-            }
-        }
 
         /// <summary>
         /// Metodo de emissão de nota fiscal em ambiente de desenvolvimento
         /// </summary>
         /// <returns code = "200">Sucesso</returns>
         /// <returns code = "400">Erro</returns> 
+        [System.Web.Http.HttpPost]
         [System.Web.Http.ActionName("Issue")]
-        public IHttpActionResult Post([FromBody] NFeSRequest NFeSR)
+        public IHttpActionResult Issue([FromBody] NFeSRequest NFeSR)
         {
             try
             {
@@ -59,27 +32,41 @@ namespace UnclePhill.WebAPI_NFeS.API.Controllers
             }
         }
 
-        [ApiExplorerSettings(IgnoreApi = true)]
-        [System.Web.Http.ActionName("Put")]
-        public IHttpActionResult Put([FromBody] NFeSRequest obj)
+        /// <summary>
+        /// Método para buscar a nota fiscal já autorizada
+        /// </summary>
+        /// <param name="NFeSRequestXml"></param>
+        /// <returns code = "200">Sucesso</returns>
+        /// <returns code = "400">Erro</returns> 
+        [System.Web.Http.HttpGet]
+        [System.Web.Http.ActionName("GetNFeS")]
+        public IHttpActionResult GetNFeS(long CompanyId, string NFNumber)
         {
-            throw new NotImplementedException();
+            try
+            {
+                //if (!SessionDomain.CheckSession(base.Sessao())) return BadRequest("Sessão inválida!");
+                return Ok(nFeSDomain.GetNFeS(CompanyId, NFNumber));
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
         }
 
         /// <summary>
-        /// Método para solicitar o cancelamento de uma NFeS
+        /// Método para solicitar o cancelamento de uma nota fiscal
         /// </summary>
         /// <param name="NFeSRequestCancel"></param>
         /// <returns code = "200">Sucesso</returns>
         /// <returns code = "400">Erro</returns> 
         [System.Web.Http.HttpDelete]
         [System.Web.Http.ActionName("Cancel")]
-        public IHttpActionResult Cancel([FromBody]NFeSRequestCancel NFeSRequestCancel)
+        public IHttpActionResult Cancel(long CompanyId, string NFNumber)
         {
             try
             {
                 //if (!SessionDomain.CheckSession(base.Sessao())) return BadRequest("Sessão inválida!");
-                if (nFeSDomain.Cancel(NFeSRequestCancel))
+                if (nFeSDomain.Cancel(CompanyId,NFNumber))
                 {
                     return Ok();
                 }
@@ -90,12 +77,5 @@ namespace UnclePhill.WebAPI_NFeS.API.Controllers
                 return BadRequest(ex.Message);
             }
         }
-
-        [ApiExplorerSettings(IgnoreApi = true)]
-        [System.Web.Http.ActionName("Delete")]
-        public IHttpActionResult Delete(long Id)
-        {
-            throw new NotImplementedException();
-        }        
     }
 }

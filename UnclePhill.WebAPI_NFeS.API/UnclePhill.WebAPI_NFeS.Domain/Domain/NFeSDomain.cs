@@ -150,15 +150,57 @@ namespace UnclePhill.WebAPI_NFeS.Domain
             {
                 throw ex;
             }
-        } 
+        }
 
-        public bool Cancel(NFeSRequestCancel NFeSRequestCancel)
+        public string GetNFeS(long CompanyId, string NFNumber)
         {
             try
             {
-                ValidateCancel(NFeSRequestCancel);
+                if (CompanyId <= 0)
+                {
+                    throw new Exception("Informe a empresa!");
+                }
 
-                string Xml = GetNFeS(new NFeSRequestXml(NFeSRequestCancel.CompanyId, NFeSRequestCancel.NFNumber));
+                if (string.IsNullOrEmpty(NFNumber))
+                {
+                    throw new Exception("Informe o número da nota fiscal!");
+                }
+
+                SQL = new StringBuilder();
+                SQL.AppendLine(" Select Top 1 ");
+                SQL.AppendLine("    NotaFiscalXML ");
+                SQL.AppendLine(" From NFeS ");
+                SQL.AppendLine(" Where numeroNota = '" + Functions.NoQuote(NFNumber) + "' ");
+                SQL.AppendLine("    And CompanyId = " + CompanyId);
+
+                DataTable Data = Functions.Conn.GetDataTable(SQL.ToString(), "NFAuth");
+                if (Data != null && Data.Rows.Count > 0)
+                {
+                    return Data.AsEnumerable().First().Field<string>("NotaFiscalXML");
+                }
+                throw new Exception("A nota fiscal solicitada não existe na base de dados!");
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+
+        public bool Cancel(long CompanyId, string NFNumber)
+        {
+            try
+            {
+                if (CompanyId <= 0)
+                {
+                    throw new Exception("Informe a inscrição municipal.");
+                }
+
+                if (string.IsNullOrEmpty(NFNumber))
+                {
+                    throw new Exception("Informe o número da nota fiscal.");
+                }
+
+                string Xml = GetNFeS(CompanyId, NFNumber);
                 string XmlIssue = new NFeS.API.Serra.Entrada.WSEntradaClient().nfdEntradaCancelar(Homologation.CPF,Homologation.Password, Xml);
                 if (Functions.XmlFunctions.IsXml(XmlIssue))
                 {
@@ -172,32 +214,7 @@ namespace UnclePhill.WebAPI_NFeS.Domain
             }
         }
 
-        public string GetNFeS(NFeSRequestXml NFeSRequestXml)
-        {
-            try
-            {
-                ValidadeNFeS(NFeSRequestXml);
-
-                SQL = new StringBuilder();
-                SQL.AppendLine(" Select Top 1 ");
-                SQL.AppendLine("    NotaFiscalXML ");
-                SQL.AppendLine(" From NFeS ");
-                SQL.AppendLine(" Where numeroNota = '" + Functions.NoQuote(NFeSRequestXml.NFNumber) + "' ");
-                SQL.AppendLine("    And CompanyId = " + NFeSRequestXml.CompanyId);
-                
-                DataTable Data = Functions.Conn.GetDataTable(SQL.ToString(), "NFAuth");
-                if (Data != null && Data.Rows.Count > 0)
-                {
-                    return Data.AsEnumerable().First().Field<string>("NotaFiscalXML");
-                }
-                return string.Empty;
-            }
-            catch (Exception ex)
-            {
-                throw ex;
-            }
-        }
-
+        #region "##-Métodos de Apoio-##"
         private void Save(Takers takers, Companys companys, CFPS cFPS, ShippingCompany shippingCompany, 
             Models.Models.NFeSStructure.NFeSProcessingResult.tbnfd NFeS,
             Models.Models.NFeSStructure.NFeSPreview.util NFeSUrl, string XML = "", string PDF = "")
@@ -205,69 +222,69 @@ namespace UnclePhill.WebAPI_NFeS.Domain
             try
             {
                 var NFDet = NFeS.nfdok.NewDataSet.NOTA_FISCAL;
-                SQL = new StringBuilder();
 
+                SQL = new StringBuilder();
                 SQL.AppendLine("Insert Into NFeS ");
                 SQL.AppendLine("        ( TakerId , ");
                 SQL.AppendLine("          CompanyId , ");
                 SQL.AppendLine("          CFPSId , ");
                 SQL.AppendLine("          ShippingCompanyId , ");
-                SQL.AppendLine("          cae , ");
-                SQL.AppendLine("          dataEmissao , ");
-                SQL.AppendLine("          naturezaOperacao , ");
-                SQL.AppendLine("          numeroNota , ");
-                SQL.AppendLine("          numeroRps , ");
-                SQL.AppendLine("          situacaoNf , ");
-                SQL.AppendLine("          chaveValidacao , ");
-                SQL.AppendLine("          clienteNomeRazaoSocial , ");
-                SQL.AppendLine("          clienteNomeFantasia , ");
-                SQL.AppendLine("          clienteCNPJCPF , ");
-                SQL.AppendLine("          clienteEndereco , ");
-                SQL.AppendLine("          clienteBairro , ");
-                SQL.AppendLine("          clienteNumeroLogradouro , ");
-                SQL.AppendLine("          clienteCidade , ");
-                SQL.AppendLine("          clienteUF , ");
-                SQL.AppendLine("          clientePais , ");
-                SQL.AppendLine("          clienteFone , ");
-                SQL.AppendLine("          clienteFax , ");
-                SQL.AppendLine("          clienteInscricaoMunicipal , ");
-                SQL.AppendLine("          clienteCEP , ");
-                SQL.AppendLine("          clienteEmail , ");
-                SQL.AppendLine("          clienteInscricaoEstadual , ");
-                SQL.AppendLine("          baseCalculo , ");
-                SQL.AppendLine("          iSSQNCliente , ");
-                SQL.AppendLine("          iSSQNSemRetencao , ");
-                SQL.AppendLine("          iSSQNTotal , ");
-                SQL.AppendLine("          irrf , ");
-                SQL.AppendLine("          cofins , ");
-                SQL.AppendLine("          inss , ");
-                SQL.AppendLine("          csll , ");
-                SQL.AppendLine("          pis , ");
-                SQL.AppendLine("          valorTotalNota , ");
-                SQL.AppendLine("          freteCNPJ , ");
-                SQL.AppendLine("          freteRazaoSocial , ");
-                SQL.AppendLine("          freteEndereco , ");
-                SQL.AppendLine("          freteEmitente , ");
-                SQL.AppendLine("          freteDestinatario , ");
-                SQL.AppendLine("          freteQuantidade , ");
-                SQL.AppendLine("          freteEspecie , ");
-                SQL.AppendLine("          fretePesoLiquido , ");
-                SQL.AppendLine("          fretePesoBruto , ");
-                SQL.AppendLine("          serie , ");
-                SQL.AppendLine("          serieSimplificada , ");
-                SQL.AppendLine("          codigoSerie , ");
-                SQL.AppendLine("          observacao , ");
-                SQL.AppendLine("          servicoCidade , ");
-                SQL.AppendLine("          servicoEstado , ");
+                SQL.AppendLine("          Cae , ");
+                SQL.AppendLine("          DataEmissao , ");
+                SQL.AppendLine("          NaturezaOperacao , ");
+                SQL.AppendLine("          NumeroNota , ");
+                SQL.AppendLine("          NumeroRps , ");
+                SQL.AppendLine("          SituacaoNf , ");
+                SQL.AppendLine("          ChaveValidacao , ");
+                SQL.AppendLine("          ClienteNomeRazaoSocial , ");
+                SQL.AppendLine("          ClienteNomeFantasia , ");
+                SQL.AppendLine("          ClienteCNPJCPF , ");
+                SQL.AppendLine("          ClienteEndereco , ");
+                SQL.AppendLine("          ClienteBairro , ");
+                SQL.AppendLine("          ClienteNumeroLogradouro , ");
+                SQL.AppendLine("          ClienteCidade , ");
+                SQL.AppendLine("          ClienteUF , ");
+                SQL.AppendLine("          ClientePais , ");
+                SQL.AppendLine("          ClienteFone , ");
+                SQL.AppendLine("          ClienteFax , ");
+                SQL.AppendLine("          ClienteInscricaoMunicipal , ");
+                SQL.AppendLine("          ClienteCEP , ");
+                SQL.AppendLine("          ClienteEmail , ");
+                SQL.AppendLine("          ClienteInscricaoEstadual , ");
+                SQL.AppendLine("          BaseCalculo , ");
+                SQL.AppendLine("          ISSQNCliente , ");
+                SQL.AppendLine("          ISSQNSemRetencao , ");
+                SQL.AppendLine("          ISSQNTotal , ");
+                SQL.AppendLine("          Irrf , ");
+                SQL.AppendLine("          Cofins , ");
+                SQL.AppendLine("          Inss , ");
+                SQL.AppendLine("          Csll , ");
+                SQL.AppendLine("          Pis , ");
+                SQL.AppendLine("          ValorTotalNota , ");
+                SQL.AppendLine("          FreteCNPJ , ");
+                SQL.AppendLine("          FreteRazaoSocial , ");
+                SQL.AppendLine("          FreteEndereco , ");
+                SQL.AppendLine("          FreteEmitente , ");
+                SQL.AppendLine("          FreteDestinatario , ");
+                SQL.AppendLine("          FreteQuantidade , ");
+                SQL.AppendLine("          FreteEspecie , ");
+                SQL.AppendLine("          FretePesoLiquido , ");
+                SQL.AppendLine("          FretePesoBruto , ");
+                SQL.AppendLine("          Serie , ");
+                SQL.AppendLine("          SerieSimplificada , ");
+                SQL.AppendLine("          CodigoSerie , ");
+                SQL.AppendLine("          Observacao , ");
+                SQL.AppendLine("          ServicoCidade , ");
+                SQL.AppendLine("          ServicoEstado , ");
                 SQL.AppendLine("          TimbreContribuinteLogo , ");
                 SQL.AppendLine("          TimbreContribuinteLinha1 , ");
                 SQL.AppendLine("          TimbreContribuinteLinha2 , ");
                 SQL.AppendLine("          TimbreContribuinteLinha3 , ");
                 SQL.AppendLine("          TimbreContribuinteLinha4 , ");
-                SQL.AppendLine("          timbrePrefeituraLogo , ");
-                SQL.AppendLine("          timbrePrefeituraLinha1 , ");
-                SQL.AppendLine("          timbrePrefeituraLinha2 , ");
-                SQL.AppendLine("          timbrePrefeituraLinha3 , ");
+                SQL.AppendLine("          TimbrePrefeituraLogo , ");
+                SQL.AppendLine("          TimbrePrefeituraLinha1 , ");
+                SQL.AppendLine("          TimbrePrefeituraLinha2 , ");
+                SQL.AppendLine("          TimbrePrefeituraLinha3 , ");
                 SQL.AppendLine("          URLAutenticidade , ");
                 SQL.AppendLine("          URL , ");
                 SQL.AppendLine("          NotaFiscalPDF , ");
@@ -355,9 +372,9 @@ namespace UnclePhill.WebAPI_NFeS.Domain
                     {                       
                         SQL.AppendLine("Insert Into NFeSInvoices ");
                         SQL.AppendLine("        ( NFeSId , ");
-                        SQL.AppendLine("          numero , ");
-                        SQL.AppendLine("          vencimento , ");
-                        SQL.AppendLine("          valor , ");
+                        SQL.AppendLine("          Numero , ");
+                        SQL.AppendLine("          Vencimento , ");
+                        SQL.AppendLine("          Valor , ");
                         SQL.AppendLine("          Active , ");
                         SQL.AppendLine("          DateInsert , ");
                         SQL.AppendLine("          DateUpdate ");
@@ -377,13 +394,13 @@ namespace UnclePhill.WebAPI_NFeS.Domain
                     {                        
                         SQL.AppendLine("Insert Into NFeSItens ");
                         SQL.AppendLine("        ( NFeSId , ");
-                        SQL.AppendLine("          quantidade , ");
-                        SQL.AppendLine("          codigoAtividade , ");
-                        SQL.AppendLine("          servico , ");
-                        SQL.AppendLine("          valorUnitario , ");
-                        SQL.AppendLine("          valorTotal , ");
-                        SQL.AppendLine("          impostoRetido , ");
-                        SQL.AppendLine("          aliquota , ");
+                        SQL.AppendLine("          Quantidade , ");
+                        SQL.AppendLine("          CodigoAtividade , ");
+                        SQL.AppendLine("          Servico , ");
+                        SQL.AppendLine("          ValorUnitario , ");
+                        SQL.AppendLine("          ValorTotal , ");
+                        SQL.AppendLine("          ImpostoRetido , ");
+                        SQL.AppendLine("          Aliquota , ");
                         SQL.AppendLine("          Active , ");
                         SQL.AppendLine("          DateInsert , ");
                         SQL.AppendLine("          DateUpdate ");
@@ -617,31 +634,6 @@ namespace UnclePhill.WebAPI_NFeS.Domain
                 }
             }
         }
-
-        private void ValidadeNFeS(NFeSRequestXml NFeSRequestXml)
-        {
-            if (NFeSRequestXml.CompanyId <= 0)
-            {
-                throw new Exception("Informe a empresa!");
-            }
-
-            if (string.IsNullOrEmpty(NFeSRequestXml.NFNumber))
-            {
-                throw new Exception("Informe o número da nota fiscal!");
-            }
-        }
-
-        private void ValidateCancel(NFeSRequestCancel NFeSRequestCancel)
-        {
-            if (NFeSRequestCancel.CompanyId <= 0)
-            {
-                throw new Exception("Informe a inscrição municipal.");
-            }
-
-            if (string.IsNullOrEmpty(NFeSRequestCancel.NFNumber))
-            {
-                throw new Exception("Informe o número da nota fiscal.");
-            }
-        }
+        #endregion
     }
 }
