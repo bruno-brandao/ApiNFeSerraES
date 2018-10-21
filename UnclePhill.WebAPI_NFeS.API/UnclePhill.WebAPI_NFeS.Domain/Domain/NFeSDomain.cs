@@ -457,6 +457,7 @@ namespace UnclePhill.WebAPI_NFeS.Domain
         {
             try
             {
+
                 return new NFeS.API.Serra.Entrada.WSEntradaClient().nfdEntrada(
                     Homologation.CPF,
                     Homologation.Password,

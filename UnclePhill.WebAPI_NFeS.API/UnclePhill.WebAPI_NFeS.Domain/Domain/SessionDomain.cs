@@ -251,5 +251,21 @@ namespace UnclePhill.WebAPI_NFeS.Domain
                 throw new Exception(ex.Message);
             }
         }
+
+        //public static string Namespace(string Municipio)
+        //{
+        //    if (Municipio == "Serra")
+        //    {
+
+        //    }
+
+        //    if (Municipio == "Cariacica")
+        //    {
+        //        Type T = typeof(NFeS.API.Serra.Entrada.WSEntrada);
+        //        return T.Namespace;
+        //    }
+
+            
+        //}
     }
 }
