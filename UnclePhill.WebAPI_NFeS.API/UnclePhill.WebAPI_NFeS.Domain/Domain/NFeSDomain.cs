@@ -652,7 +652,7 @@ namespace UnclePhill.WebAPI_NFeS.Domain
                 throw new Exception("Informe o número da nota fiscal!");
             }
         }
-
+        
         public enum TypeArchive
         {
             Xml = 1,
