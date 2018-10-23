@@ -5,6 +5,7 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Xml.Serialization;
+using UnclePhill.WebAPI_NFeS.Domain.Domain;
 using UnclePhill.WebAPI_NFeS.Domain.NFeS.API.Serra.Entrada;
 using UnclePhill.WebAPI_NFeS.Models;
 using UnclePhill.WebAPI_NFeS.Models.Models;
@@ -29,9 +30,8 @@ namespace UnclePhill.WebAPI_NFeS.Domain
                 {
                     throw new Exception("Empresa inválida!");
                 }
-
-                WSEntradaClient Entrada = new WSEntradaClient();                
-                string TaxpayerActivities = Entrada.consultarAtividades(CPF, Password, IM, CodeCity);
+                
+                string TaxpayerActivities = API.GetActivities(API.City.Serra,CPF, Password, IM, CodeCity);
                 if (Functions.XmlFunctions.IsXml(TaxpayerActivities))
                 {
                     XmlSerializer xmlSerializer = new XmlSerializer(typeof(AtividadesContribuinte));

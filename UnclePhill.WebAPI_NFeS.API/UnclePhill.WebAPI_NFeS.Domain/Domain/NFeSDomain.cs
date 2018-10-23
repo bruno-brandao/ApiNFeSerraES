@@ -14,6 +14,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Net;
 using System.Data;
+using UnclePhill.WebAPI_NFeS.Domain.Domain;
 
 namespace UnclePhill.WebAPI_NFeS.Domain
 {
@@ -511,7 +512,7 @@ namespace UnclePhill.WebAPI_NFeS.Domain
         {
             try
             {
-                return new NFeS.API.Serra.Util.WSUtilClient().urlNfd(
+                return API.GetUrl(API.City.Serra,
                             int.Parse(Homologation.CityCod),
                             int.Parse(NFeSAuth.nfdok.NewDataSet.NOTA_FISCAL.NumeroNota),
                             int.Parse(NFeSAuth.nfdok.NewDataSet.NOTA_FISCAL.CodigoSerie),
