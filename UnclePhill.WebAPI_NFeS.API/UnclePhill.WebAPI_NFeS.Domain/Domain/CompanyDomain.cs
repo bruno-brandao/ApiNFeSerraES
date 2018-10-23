@@ -137,7 +137,6 @@ namespace UnclePhill.WebAPI_NFeS.Domain
                 if (companys.CompanyId > 0)
                 {
                     TaxpayerActivitiesDomain taxpayerActivitiesDomain = new TaxpayerActivitiesDomain();
-                    //taxpayerActivitiesDomain.Reload(usersSession.CPF,usersSession.Password,companys.IM,3,companys.CompanyId);
                     taxpayerActivitiesDomain.Reload(Homologation.CPF,Homologation.Password,Homologation.IM,int.Parse(Homologation.CityCod),companys.CompanyId);
                     companys.UserId = usersSession.UserId;
                     companys.Active = true;
@@ -191,7 +190,6 @@ namespace UnclePhill.WebAPI_NFeS.Domain
                 if (Functions.Conn.Insert(SQL.ToString()) > 0)
                 {
                     TaxpayerActivitiesDomain taxpayerActivitiesDomain = new TaxpayerActivitiesDomain();
-                    //taxpayerActivitiesDomain.Reload(usersSession.CPF, usersSession.Password, companys.IM, 3, companys.CompanyId);
                     taxpayerActivitiesDomain.Reload(Homologation.CPF, Homologation.Password, Homologation.IM, int.Parse(Homologation.CityCod), companys.CompanyId);
 
                     return companys;
@@ -203,36 +201,7 @@ namespace UnclePhill.WebAPI_NFeS.Domain
                 throw ex;
             }
         }
-
-        public bool Delete(long CompanyId)
-        {
-            try
-            {
-                //Provisório...
-                return false;
-
-                if (CompanyId <= 0)
-                {
-                    throw new Exception("Informe o código da empresa!");
-                }
-
-                SQL.AppendLine(" Update Companys Set ");
-                SQL.AppendLine("    Active = 0 ");
-                SQL.AppendLine(" Where CompanyId = " + CompanyId);
-
-                if (Functions.Conn.Delete(SQL.ToString()))
-                {
-                    return true;
-                }
-
-                return false;
-            }
-            catch(Exception ex)
-            {
-                throw ex;
-            }
-        }
-
+        
         private void Validate(Companys companys)
         {
             if (companys.UserId <= 0)

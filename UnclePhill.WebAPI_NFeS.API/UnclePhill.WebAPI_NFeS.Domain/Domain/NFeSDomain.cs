@@ -104,47 +104,75 @@ namespace UnclePhill.WebAPI_NFeS.Domain
                     };
                 }
              
-                string XmlAssign = this.Assign(NFeSRequest);
-                string XmlRPS = this.SendRequest(XmlAssign);
+                string XmlRPS = API.Send(API.GetCity(Company.City), Homologation.CPF, Homologation.Password, int.Parse(Homologation.CityCod), this.Assign(NFeSRequest));
 
                 if (Functions.XmlFunctions.IsXml(XmlRPS))
-                {
-                    string XmlAuthorized = this.SendRPS(XmlRPS);
+                {                  
+                    //Enviando o RPS para receber a NFSe(5 tentativas)//
+                    int Cont = 0;
+                    string XmlAuthorized = string.Empty;
+
+                    //Primeira tentativa
+                    XmlAuthorized = API.Receive(API.GetCity(Company.City),
+                                    Homologation.CPF,
+                                    Homologation.Password,
+                                    Homologation.IM,
+                                    XmlRPS);
+
+                    bool Auth = Functions.XmlFunctions.IsXml(XmlAuthorized);
+
+                    while (!Auth & Cont <= 5)
+                    {
+                        XmlAuthorized = API.Receive(API.GetCity(Company.City),
+                                   Homologation.CPF,
+                                   Homologation.Password,
+                                   Homologation.IM,
+                                   XmlRPS);
+
+                        Auth = Functions.XmlFunctions.IsXml(XmlAuthorized);
+                        Cont++;
+                        System.Threading.Thread.Sleep(5000);
+                    }
+
 
                     if (Functions.XmlFunctions.IsXml(XmlAuthorized))
                     {
                         var NFeSAuthorized = Functions.XmlFunctions.StringXmlForClass<Models.Models.NFeSStructure.NFeSProcessingResult.tbnfd>(XmlAuthorized);
-                        string XmlUrl = this.GetUrl(NFeSAuthorized);
+                        string XmlUrl = API.GetUrl(API.City.Serra,
+                                        int.Parse(Homologation.CityCod),
+                                        int.Parse(NFeSAuthorized.nfdok.NewDataSet.NOTA_FISCAL.NumeroNota),
+                                        int.Parse(NFeSAuthorized.nfdok.NewDataSet.NOTA_FISCAL.CodigoSerie),
+                                        Homologation.IM);
 
                         if (Functions.XmlFunctions.IsXml(XmlUrl))
                         {
                             var NFeSUrl = Functions.XmlFunctions.StringXmlForClass<Models.Models.NFeSStructure.NFeSPreview.util>(XmlUrl);                                
-                            string PDF = this.Download(NFeSUrl.urlNfd);
+                            string PDF = Download(NFeSUrl.urlNfd);
 
-                            this.Save(Taker, 
-                                      Company, 
-                                      CFPS, 
-                                      ShippingCompany, 
-                                      NFeSAuthorized,
-                                      NFeSUrl, 
-                                      XmlAuthorized, 
-                                      PDF);
+                            Save(Taker, 
+                                Company, 
+                                CFPS, 
+                                ShippingCompany, 
+                                NFeSAuthorized,
+                                NFeSUrl, 
+                                XmlAuthorized, 
+                                PDF);
                             
                             return new NFeSRequestPreview(NFeSUrl.urlNfd, NFeSUrl.urlAutenticidade);
                         }
                         else
                         {
-                            throw new Exception(this.CancelException(XmlUrl));
+                            throw new Exception(XmlUrl);
                         }
                     }
                     else
                     {
-                        throw new Exception(this.CancelException(XmlAuthorized));
+                        throw new Exception(XmlAuthorized);
                     }
                 }
                 else
                 {
-                    throw new Exception(this.CancelException(XmlRPS));
+                    throw new Exception(XmlRPS);
                 }
             }
             catch(Exception ex)
@@ -205,8 +233,10 @@ namespace UnclePhill.WebAPI_NFeS.Domain
             {
                 Validate(CompanyId, NFNumber);
 
+                Companys Company = new CompanyDomain().Get<Companys>(CompanyDomain.Type.Company, CompanyId);
+
                 string Xml = GetNFeS(CompanyId, NFNumber,TypeArchive.Xml);
-                string XmlIssue = new NFeS.API.Serra.Entrada.WSEntradaClient().nfdEntradaCancelar(Homologation.CPF,Homologation.Password, Xml);
+                string XmlIssue = API.Cancel(API.GetCity(Company.City),Homologation.CPF,Homologation.Password, Xml);
                 if (Functions.XmlFunctions.IsXml(XmlIssue))
                 {
                     //Cenas para os próximos capitulos...
@@ -453,77 +483,7 @@ namespace UnclePhill.WebAPI_NFeS.Domain
                 throw ex;
             }
         }
-
-        private string SendRequest(string NFSeXml)
-        {
-            try
-            {
-
-                return new NFeS.API.Serra.Entrada.WSEntradaClient().nfdEntrada(
-                    Homologation.CPF,
-                    Homologation.Password,
-                    int.Parse(Homologation.CityCod),
-                    NFSeXml);
-            }
-            catch (Exception ex)
-            {
-                throw ex;
-            }
-        }
-
-        private string SendRPS(string NFSeXmlRequest)
-        {
-            try
-            {
-                //Enviando o RPS para receber a NFSe(5 tentativas)//
-                int Cont = 0;
-                string NFSeXmlAuth = string.Empty;
-
-                //Primeira tentativa
-                NFSeXmlAuth = new NFeS.API.Serra.Saida.WSSaidaClient().nfdSaida(
-                                Homologation.CPF,
-                                Homologation.Password,
-                                Homologation.IM,
-                                NFSeXmlRequest);
-
-                bool Auth = Functions.XmlFunctions.IsXml(NFSeXmlAuth);
-
-                while (!Auth & Cont <= 5)
-                {
-                    NFSeXmlAuth = new NFeS.API.Serra.Saida.WSSaidaClient().nfdSaida(
-                                    Homologation.CPF,
-                                    Homologation.Password,
-                                    Homologation.IM,
-                                    NFSeXmlRequest);
-
-                    Auth = Functions.XmlFunctions.IsXml(NFSeXmlAuth);
-                    Cont++;
-                    System.Threading.Thread.Sleep(5000);
-                }
-                return NFSeXmlAuth;
-            }
-            catch(Exception ex)
-            {
-                throw ex;
-            }
-        }
-
-        private string GetUrl(Models.Models.NFeSStructure.NFeSProcessingResult.tbnfd NFeSAuth)
-        {
-            try
-            {
-                return API.GetUrl(API.City.Serra,
-                            int.Parse(Homologation.CityCod),
-                            int.Parse(NFeSAuth.nfdok.NewDataSet.NOTA_FISCAL.NumeroNota),
-                            int.Parse(NFeSAuth.nfdok.NewDataSet.NOTA_FISCAL.CodigoSerie),
-                            Homologation.IM);
-            }
-            catch(Exception ex)
-            {
-                throw ex;
-            }
-        }
-
+        
         private string Download(string URL)
         {
             try
@@ -535,20 +495,7 @@ namespace UnclePhill.WebAPI_NFeS.Domain
                 throw ex;
             }
         }
-                
-        private string CancelException(string Message)
-        {
-            try
-            {
-                var Error = Functions.XmlFunctions.StringXmlForClass<Models.Models.NFeSStructure.NFeSError.tbnfd>(Message);
-                return "Não foi possivel cancelar a NFSe código do erro: " + Error.nfderro.codigoerro; 
-            }
-            catch (Exception ex)
-            {
-                throw ex;
-            }
-        }
-
+         
         private void ValidateIssue(NFeSRequest NFeS)
         {
             //Empresa
@@ -646,6 +593,11 @@ namespace UnclePhill.WebAPI_NFeS.Domain
             if (CompanyId <= 0)
             {
                 throw new Exception("Informe a empresa!");
+            }
+
+            if (new CompanyDomain().Get<Companys>(CompanyDomain.Type.Company,CompanyId).CompanyId <= 0)
+            {
+                throw new Exception("A empresa informada não está cadastrada.");
             }
 
             if (string.IsNullOrEmpty(NFNumber))

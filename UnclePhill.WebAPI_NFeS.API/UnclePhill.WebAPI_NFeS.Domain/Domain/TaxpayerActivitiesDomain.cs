@@ -24,14 +24,10 @@ namespace UnclePhill.WebAPI_NFeS.Domain
         {
             try
             {
-                CompanyDomain companyDomain = new CompanyDomain();
+                Validate(CompanyId);
+                Companys Company = new CompanyDomain().Get<Companys>(CompanyDomain.Type.Company, CompanyId);                
+                string TaxpayerActivities = API.GetActivities(API.GetCity(Company.City),CPF, Password, IM, CodeCity);
 
-                if (CompanyId > 0 && companyDomain.Get<List<Companys>>(CompanyDomain.Type.Company,CompanyId).Count() <= 0)
-                {
-                    throw new Exception("Empresa inválida!");
-                }
-                
-                string TaxpayerActivities = API.GetActivities(API.City.Serra,CPF, Password, IM, CodeCity);
                 if (Functions.XmlFunctions.IsXml(TaxpayerActivities))
                 {
                     XmlSerializer xmlSerializer = new XmlSerializer(typeof(AtividadesContribuinte));
@@ -41,10 +37,10 @@ namespace UnclePhill.WebAPI_NFeS.Domain
                     {
                         try
                         {
-                            List<TaxpayerActivities> ltaxpayerActivities = this.Get(CompanyId);
+                            List<TaxpayerActivities> ltaxpayerActivities = Get(CompanyId);
                             foreach (TaxpayerActivities taxpayerActivities in ltaxpayerActivities)
                             {
-                                this.Delete(taxpayerActivities.TaxpayerActivitiesId);
+                                Delete(taxpayerActivities.TaxpayerActivitiesId);
                             }
                         }
                         catch
@@ -94,14 +90,11 @@ namespace UnclePhill.WebAPI_NFeS.Domain
             }
         }
         
-        public List<TaxpayerActivities> Get(long? CompanyId)
+        public List<TaxpayerActivities> Get(long CompanyId = 0)
         {
             try
             {
-                if (CompanyId <= 0)
-                {
-                    throw new Exception("Informe a empresa!");
-                }
+                Validate(CompanyId);
 
                 List<TaxpayerActivities> lTaxpayerActivities = new List<TaxpayerActivities>();
 
@@ -144,8 +137,8 @@ namespace UnclePhill.WebAPI_NFeS.Domain
                 throw ex;
             }
         }
-        
-        public bool Delete(long? TaxpayerActivitiesId)
+              
+        public bool Delete(long TaxpayerActivitiesId = 0)
         {
             try
             {
@@ -158,6 +151,19 @@ namespace UnclePhill.WebAPI_NFeS.Domain
             catch(Exception ex)
             {
                 throw ex;
+            }
+        }
+
+        private void Validate(long CompanyId = 0)
+        {
+            if (CompanyId <= 0)
+            {
+                throw new Exception("Informe a empresa!");
+            }
+
+            if (new CompanyDomain().Get<Companys>(CompanyDomain.Type.Company,CompanyId).CompanyId <= 0)
+            {
+                throw new Exception("A empresa informada não existe na base de dados.");
             }
         }
     }

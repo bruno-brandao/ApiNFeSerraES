@@ -13,6 +13,19 @@ namespace UnclePhill.WebAPI_NFeS.Domain.Domain
             Serra = 0,
             Cariacica = 1
         }
+
+        public static City GetCity(string NameCity)
+        {
+            switch (NameCity.ToUpper())
+            {
+                case "SERRA":
+                    return City.Serra;
+                case "CARIACICA":
+                    return City.Cariacica;
+                default:
+                    throw new Exception("A API não dá suporte a essa cidade!");
+            }
+        }
         
         public static string GetActivities(City City, string CPF, string Password, string IM, int CodeCity)
         {
@@ -23,7 +36,7 @@ namespace UnclePhill.WebAPI_NFeS.Domain.Domain
                 case City.Cariacica:
                     return GetActivitiesCariacica(CPF, Password, IM, CodeCity);
                 default:
-                    return string.Empty;
+                    throw new Exception("A API não dá suporte a essa cidade!");
             }
         }
 
@@ -36,7 +49,7 @@ namespace UnclePhill.WebAPI_NFeS.Domain.Domain
                 case City.Cariacica:
                     return SendCariacica(CPF,Password,CodeCity,Xml);
                 default:
-                    return string.Empty;                    
+                    throw new Exception("A API não dá suporte a essa cidade!");
             }
         }
 
@@ -49,7 +62,20 @@ namespace UnclePhill.WebAPI_NFeS.Domain.Domain
                 case City.Cariacica:
                     return ReceiveCariacica(CPF,Password,IM,Xml);
                 default:
-                    return string.Empty;
+                    throw new Exception("A API não dá suporte a essa cidade!");
+            }
+        }
+
+        public static string Cancel(City City,string CPF, string Password, string Xml)
+        {
+            switch (City)
+            {
+                case City.Serra:
+                    return CancelSerra(CPF, Password, Xml);
+                case City.Cariacica:
+                    return CancelCariacica(CPF, Password, Xml);
+                default:
+                    throw new Exception("A API não dá suporte a essa cidade!");
             }
         }
 
@@ -62,7 +88,7 @@ namespace UnclePhill.WebAPI_NFeS.Domain.Domain
                 case City.Cariacica:
                     return GetUrlsCariacica(CodeCity,NFNumber,NumSerie,IM);
                 default:
-                    return string.Empty;
+                    throw new Exception("A API não dá suporte a essa cidade!");
             }
         }
 
@@ -92,6 +118,14 @@ namespace UnclePhill.WebAPI_NFeS.Domain.Domain
                                     Homologation.Password,
                                     Homologation.IM,
                                     Xml);
+        }
+
+        private static string CancelSerra(string CPF, string Password, string Xml)
+        {
+            return new NFeS.API.Serra.Entrada.WSEntradaClient().nfdEntradaCancelar(
+                CPF,
+                Password,
+                Xml);
         }
 
         private static string GetUrlsSerra(int CodeCity, int NFNumber,int NumSerie, string IM)
@@ -130,6 +164,14 @@ namespace UnclePhill.WebAPI_NFeS.Domain.Domain
                                     Homologation.Password,
                                     Homologation.IM,
                                     Xml);
+        }
+
+        private static string CancelCariacica(string CPF, string Password, string Xml)
+        {
+            return new NFeS.API.Cariacica.Entrada.WSEntradaClient().nfdEntradaCancelar(
+                CPF,
+                Password,
+                Xml);
         }
 
         private static string GetUrlsCariacica(int CodeCity, int NFNumber, int NumSerie, string IM)

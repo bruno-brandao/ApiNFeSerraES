@@ -212,7 +212,6 @@
       <SubType>Designer</SubType>
     </None>
     <None Include="Connected Services\NFeS.API.Serra.Util\WSUtilService.wsdl" />
-    <None Include="NFeS\NFeS01.pdf" />
     <None Include="packages.config" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>

@@ -6,6 +6,7 @@ using System.Web.Http;
 using UnclePhill.WebAPI_NFeS.Models.Models;
 using System.Collections.Generic;
 using System.Web.Http.Cors;
+using System.Web.Http.Description;
 
 namespace UnclePhill.WebAPI_NFeS.API.Controllers
 {
@@ -93,30 +94,11 @@ namespace UnclePhill.WebAPI_NFeS.API.Controllers
             }            
         }
 
-        /// <summary>
-        /// Exclui uma empresa pelo Id
-        /// </summary>
-        /// <param name="SessionHash">Paramentro passado no Header da requisição</param>
-        /// <param name="CompanyId">Id da empresa</param>
-        /// <returns code = "200">Sucesso</returns>
-        /// <returns code = "400">Erro</returns>
+        [ApiExplorerSettings(IgnoreApi = true)]
         [System.Web.Http.ActionName("Delete")]
         public IHttpActionResult Delete(long CompanyId)
         {
-            try
-            {
-                if (!SessionDomain.CheckSession(base.Sessao())) return BadRequest("Sessão inválida!");
-                if (companyDomain.Delete(CompanyId))
-                {
-                    return Ok("Empresa excluido com sucesso!");
-                }
-
-                return BadRequest("Houve um erro ao excluir a empresa. Tente novamente!");
-            }
-            catch (Exception ex)
-            {
-                return BadRequest(ex.Message);
-            }            
+            throw new NotImplementedException();         
         }        
     }
 }
