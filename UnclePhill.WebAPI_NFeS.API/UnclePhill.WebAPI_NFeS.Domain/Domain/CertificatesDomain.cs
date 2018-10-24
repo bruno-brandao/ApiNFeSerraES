@@ -65,7 +65,7 @@ namespace UnclePhill.WebAPI_NFeS.Domain.Domain
                     return true;
                 }
 
-                throw new Exception("Não foi possivel cadastrar o certificado!");
+                throw new InternalProgramException("Não foi possivel cadastrar o certificado!");
             }
             catch(Exception ex)
             {
@@ -98,27 +98,27 @@ namespace UnclePhill.WebAPI_NFeS.Domain.Domain
         {
             if (Certificate.CompanyId <= 0)
             {
-                throw new Exception("Informe a empresa!");
+                throw new InternalProgramException("Informe a empresa!");
             }
 
             if (new CompanyDomain().Get<Companys>(CompanyDomain.Type.Company,Certificate.CompanyId).CompanyId <= 0)
             {
-                throw new Exception("A empresa informada não está cadastrada.");
+                throw new InternalProgramException("A empresa informada não está cadastrada.");
             }
 
             if (String.IsNullOrEmpty(Certificate.Certificate))
             {
-                throw new Exception("Informe o certificado!");
+                throw new InternalProgramException("Informe o certificado!");
             }
 
             if (string.IsNullOrEmpty(Certificate.Password))
             {
-                throw new Exception("Informe a senha do certificado!");
+                throw new InternalProgramException("Informe a senha do certificado!");
             } 
             
             if (!InstallCertOnServer(Certificate))
             {
-                throw new Exception("Não foi possivel instalar o certificado digital no servidor.");
+                throw new InternalProgramException("Não foi possivel instalar o certificado digital no servidor.");
             }
         }
     }

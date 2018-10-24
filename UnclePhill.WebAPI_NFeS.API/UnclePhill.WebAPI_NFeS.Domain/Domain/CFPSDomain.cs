@@ -45,7 +45,7 @@ namespace UnclePhill.WebAPI_NFeS.Domain
 
                     }
                 }
-                throw new Exception("Não foram encontrados registros!");
+                throw new InternalProgramException("Não foram encontrados registros!");
             }
             catch(Exception ex)
             {

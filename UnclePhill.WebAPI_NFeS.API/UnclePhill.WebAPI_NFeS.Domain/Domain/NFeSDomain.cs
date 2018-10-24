@@ -162,17 +162,17 @@ namespace UnclePhill.WebAPI_NFeS.Domain
                         }
                         else
                         {
-                            throw new Exception(XmlUrl);
+                            throw new InternalProgramException(XmlUrl);
                         }
                     }
                     else
                     {
-                        throw new Exception(XmlAuthorized);
+                        throw new InternalProgramException(XmlAuthorized);
                     }
                 }
                 else
                 {
-                    throw new Exception(XmlRPS);
+                    throw new InternalProgramException(XmlRPS);
                 }
             }
             catch(Exception ex)
@@ -203,7 +203,7 @@ namespace UnclePhill.WebAPI_NFeS.Domain
                         Field = "URLAutenticidade";
                         break;
                     default:
-                        throw new Exception("Informe o tipo do arquivo!");
+                        throw new InternalProgramException("Informe o tipo do arquivo!");
                 }
 
                 SQL = new StringBuilder();
@@ -219,7 +219,7 @@ namespace UnclePhill.WebAPI_NFeS.Domain
                 {
                     return Data.AsEnumerable().First().Field<string>(Field);
                 }
-                throw new Exception("A nota fiscal solicitada não existe na base de dados!");
+                throw new InternalProgramException("A nota fiscal solicitada não existe na base de dados!");
             }
             catch (Exception ex)
             {
@@ -501,40 +501,40 @@ namespace UnclePhill.WebAPI_NFeS.Domain
             //Empresa
             if (NFeS.CompanyId <= 0)
             {
-                throw new Exception("Informe o emissor.");
+                throw new InternalProgramException("Informe o emissor.");
             }
 
             if (new CompanyDomain().Get<Companys>(CompanyDomain.Type.Company,NFeS.CompanyId).CompanyId <= 0)
             {
-                throw new Exception("A empresa informada não está cadastrada.");
+                throw new InternalProgramException("A empresa informada não está cadastrada.");
             }
 
             //Tomador
             if (NFeS.TakerId <= 0)
             {
-                throw new Exception("Informe o tomador do serviço.");
+                throw new InternalProgramException("Informe o tomador do serviço.");
             }
 
             if (new TakerDomain().Get<Takers>(NFeS.TakerId).TakerId <= 0)
             {
-                throw new Exception("O tomador informado não está cadastrado.");
+                throw new InternalProgramException("O tomador informado não está cadastrado.");
             }
 
             //Codigo Fiscal de Prestação de Serviços
             if (NFeS.CFPSId <= 0)
             {
-                throw new Exception("Informe o Código Fiscal de Prestação de Serviço (CFPS).");
+                throw new InternalProgramException("Informe o Código Fiscal de Prestação de Serviço (CFPS).");
             }
 
             if (new CFPSDomain().Get<CFPS>(NFeS.CFPSId).CFPSId <= 0)
             {
-                throw new Exception("O Código Fiscal de Prestação de Serviço (CFPS) informado não está cadastrado.");
+                throw new InternalProgramException("O Código Fiscal de Prestação de Serviço (CFPS) informado não está cadastrado.");
             }
 
             //Faturas - Quatidades
             if (NFeS.Invoices.Count <= 0)
             {
-                throw new Exception("Ao menos 1 (Uma) fatura deve ser informada.");
+                throw new InternalProgramException("Ao menos 1 (Uma) fatura deve ser informada.");
             }
 
             //Faturas - Informações
@@ -544,15 +544,15 @@ namespace UnclePhill.WebAPI_NFeS.Domain
                 {
                     if (Invoice.Number <= 0)
                     {
-                        throw new Exception("Informe o número da fatura.");
+                        throw new InternalProgramException("Informe o número da fatura.");
                     }
                     if (string.IsNullOrEmpty(Invoice.Maturity) || !Functions.IsDate(Invoice.Maturity))
                     {
-                        throw new Exception("Informe a data de vencimento da fatura.");
+                        throw new InternalProgramException("Informe a data de vencimento da fatura.");
                     }
                     if (Invoice.Value <= 0)
                     {
-                        throw new Exception("Informe o valor da fatura.");
+                        throw new InternalProgramException("Informe o valor da fatura.");
                     }
                 }
             }
@@ -560,7 +560,7 @@ namespace UnclePhill.WebAPI_NFeS.Domain
             //Serviços - Quantidades
             if (NFeS.Itens.Count <= 0)
             {
-                throw new Exception("Informe ao menos 1 (Um) serviço.");
+                throw new InternalProgramException("Informe ao menos 1 (Um) serviço.");
             }
 
             //Serviços - Informações
@@ -570,19 +570,19 @@ namespace UnclePhill.WebAPI_NFeS.Domain
                 {
                     if (Item.Amount <= 0)
                     {
-                        throw new Exception("Informe a quantidade do serviço prestado.");
+                        throw new InternalProgramException("Informe a quantidade do serviço prestado.");
                     }
                     if (string.IsNullOrEmpty(Item.Description))
                     {
-                        throw new Exception("Informe a descrição do serviço.");
+                        throw new InternalProgramException("Informe a descrição do serviço.");
                     }
                     if (string.IsNullOrEmpty(Item.ActivitiesId))
                     {
-                        throw new Exception("Informe o código da atividade.");
+                        throw new InternalProgramException("Informe o código da atividade.");
                     }
                     if (Item.Value <= 0)
                     {
-                        throw new Exception("Informe o valor do serviço.");
+                        throw new InternalProgramException("Informe o valor do serviço.");
                     }
                 }
             }
@@ -592,17 +592,17 @@ namespace UnclePhill.WebAPI_NFeS.Domain
         {
             if (CompanyId <= 0)
             {
-                throw new Exception("Informe a empresa!");
+                throw new InternalProgramException("Informe a empresa!");
             }
 
             if (new CompanyDomain().Get<Companys>(CompanyDomain.Type.Company,CompanyId).CompanyId <= 0)
             {
-                throw new Exception("A empresa informada não está cadastrada.");
+                throw new InternalProgramException("A empresa informada não está cadastrada.");
             }
 
             if (string.IsNullOrEmpty(NFNumber))
             {
-                throw new Exception("Informe o número da nota fiscal!");
+                throw new InternalProgramException("Informe o número da nota fiscal!");
             }
         }
         

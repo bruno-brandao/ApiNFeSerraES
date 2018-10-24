@@ -76,12 +76,12 @@ namespace UnclePhill.WebAPI_NFeS.Domain
                     }
                     else
                     {
-                        throw new Exception("Não foram encontradas atividades do contribuinte!");
+                        throw new InternalProgramException("Não foram encontradas atividades do contribuinte!");
                     }
                 }
                 else
                 {
-                    throw new Exception(TaxpayerActivities);
+                    throw new InternalProgramException(TaxpayerActivities);
                 }                                
             }
             catch (Exception ex)
@@ -130,7 +130,7 @@ namespace UnclePhill.WebAPI_NFeS.Domain
                     }
                     return lTaxpayerActivities;
                 }
-                throw new Exception("Não foram encontrados registros!");
+                throw new InternalProgramException("Não foram encontrados registros!");
             }
             catch (Exception ex)
             {
@@ -158,12 +158,12 @@ namespace UnclePhill.WebAPI_NFeS.Domain
         {
             if (CompanyId <= 0)
             {
-                throw new Exception("Informe a empresa!");
+                throw new InternalProgramException("Informe a empresa!");
             }
 
             if (new CompanyDomain().Get<Companys>(CompanyDomain.Type.Company,CompanyId).CompanyId <= 0)
             {
-                throw new Exception("A empresa informada não existe na base de dados.");
+                throw new InternalProgramException("A empresa informada não existe na base de dados.");
             }
         }
     }

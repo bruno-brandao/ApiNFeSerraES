@@ -18,7 +18,7 @@ namespace UnclePhill.WebAPI_NFeS.Domain.Domain
                 List<Questions> lQuestions = GetQuestions(QuestionId);
                 if (lQuestions.Count <= 0)
                 {
-                    throw new Exception("Não existe questões cadastradas!");
+                    throw new InternalProgramException("Não existe questões cadastradas!");
                 }
 
                 return lQuestions;
@@ -80,7 +80,7 @@ namespace UnclePhill.WebAPI_NFeS.Domain.Domain
             {
                 if (QuestionId <= 0)
                 {
-                    throw new Exception("Informe a questão!");
+                    throw new InternalProgramException("Informe a questão!");
                 }
 
                 SQL = new StringBuilder();

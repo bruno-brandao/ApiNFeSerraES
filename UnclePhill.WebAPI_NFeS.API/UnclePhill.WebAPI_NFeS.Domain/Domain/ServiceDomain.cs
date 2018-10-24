@@ -50,7 +50,7 @@ namespace UnclePhill.WebAPI_NFeS.Domain
                         return (T)Convert.ChangeType(Fill(data.AsEnumerable().First()), typeof(T));
                     }
                 }
-                throw new Exception("Não foram encontrados registros!");
+                throw new InternalProgramException("Não foram encontrados registros!");
             }
             catch(Exception ex)
             {
@@ -98,7 +98,7 @@ namespace UnclePhill.WebAPI_NFeS.Domain
                     services.DateUpdate = DateTime.Now.ToString("yyyy-MM-dd");
                     return services;
                 }
-                throw new Exception("Houve um problema ao cadastrar a serviço!");
+                throw new InternalProgramException("Houve um problema ao cadastrar a serviço!");
             }
             catch (Exception ex)
             {
@@ -114,7 +114,7 @@ namespace UnclePhill.WebAPI_NFeS.Domain
 
                 if (services.ServicesId <= 0)
                 {
-                    throw new Exception("Informe o código do serviço!");
+                    throw new InternalProgramException("Informe o código do serviço!");
                 }
 
                 SQL.AppendLine(" Update Services Set ");
@@ -133,7 +133,7 @@ namespace UnclePhill.WebAPI_NFeS.Domain
                 {
                     return services;
                 }
-                throw new Exception("Houve um problema ao atualizar o serviço.");
+                throw new InternalProgramException("Houve um problema ao atualizar o serviço.");
             }
             catch(Exception ex)
             {
@@ -170,17 +170,17 @@ namespace UnclePhill.WebAPI_NFeS.Domain
         {
             if (string.IsNullOrEmpty(services.Unity))
             {
-                 throw new Exception("Informe a unidade de medida do serviço!");
+                 throw new InternalProgramException("Informe a unidade de medida do serviço!");
             }
 
             if (services.Value <= 0)
             {
-                 throw new Exception("Informe o valor do serviço!");
+                 throw new InternalProgramException("Informe o valor do serviço!");
             }
 
             if (string.IsNullOrEmpty(services.Description))
             {
-                 throw new Exception("Informe o valor do serviço!");
+                 throw new InternalProgramException("Informe o valor do serviço!");
             }
         }
 

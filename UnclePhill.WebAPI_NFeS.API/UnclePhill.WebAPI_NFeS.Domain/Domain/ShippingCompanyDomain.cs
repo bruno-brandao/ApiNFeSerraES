@@ -51,7 +51,7 @@ namespace UnclePhill.WebAPI_NFeS.Domain
                         return (T)Convert.ChangeType(Fill(data.AsEnumerable().First()), typeof(T));
                     }
                 }
-                throw new Exception("Não foram encontrados registros!");
+                throw new InternalProgramException("Não foram encontrados registros!");
             }catch(Exception ex)
             {
                 throw ex;
@@ -98,7 +98,7 @@ namespace UnclePhill.WebAPI_NFeS.Domain
                     shippingCompany.DateUpdate = DateTime.Now.ToString("yyyy-MM-dd");
                     return shippingCompany;
                 }
-                throw new Exception("Houve um problema ao cadastrar a transportadora!");
+                throw new InternalProgramException("Houve um problema ao cadastrar a transportadora!");
             }
             catch(Exception ex)
             {
@@ -114,7 +114,7 @@ namespace UnclePhill.WebAPI_NFeS.Domain
                 
                 if (shippingCompany.ShippingCompanyId <= 0)
                 {
-                    throw new Exception("Informe o código da transportadora!");
+                    throw new InternalProgramException("Informe o código da transportadora!");
                 }
 
                 SQL.AppendLine(" Update ShippingCompany Set ");
@@ -133,7 +133,7 @@ namespace UnclePhill.WebAPI_NFeS.Domain
                 {
                     return shippingCompany;
                 }
-                throw new Exception("Houve um problema ao atualizar o tomador.");
+                throw new InternalProgramException("Houve um problema ao atualizar o tomador.");
             }
             catch (Exception ex)
             {
@@ -147,7 +147,7 @@ namespace UnclePhill.WebAPI_NFeS.Domain
             {
                 if (ShippingCompanyId <= 0)
                 {
-                    throw new Exception("Informe o código da transportadora!");
+                    throw new InternalProgramException("Informe o código da transportadora!");
                 }
 
                 SQL.AppendLine(" Update ShippingCompany Set ");
@@ -170,47 +170,47 @@ namespace UnclePhill.WebAPI_NFeS.Domain
         {
             if (string.IsNullOrEmpty(shippingCompany.CPF_CNPJ))
             {
-                  throw new Exception("Informe o CPF/CNPJ da transportadora!");
+                  throw new InternalProgramException("Informe o CPF/CNPJ da transportadora!");
             }
 
             if (string.IsNullOrEmpty(shippingCompany.Name))
             {
-                  throw new Exception("Informe a razão social/nome da trasportadora!");
+                  throw new InternalProgramException("Informe a razão social/nome da trasportadora!");
             }
 
             if (string.IsNullOrEmpty(shippingCompany.NameFantasy))
             {
-                  throw new Exception("Informe a nome fantasia/apelido da trasportadora!");
+                  throw new InternalProgramException("Informe a nome fantasia/apelido da trasportadora!");
             }
 
             if (string.IsNullOrEmpty(shippingCompany.CEP))
             {
-                  throw new Exception("Informe o CEP!");
+                  throw new InternalProgramException("Informe o CEP!");
             }
 
             if (Functions.ExistsRegister(shippingCompany.CEP, TypeInput.Texto, "CEP", "ShippingCompany"))
             {
-                throw new Exception("Tomador já existe!");
+                throw new InternalProgramException("Tomador já existe!");
             }
 
             if (string.IsNullOrEmpty(shippingCompany.Street))
             {
-                  throw new Exception("Informe a rua!");
+                  throw new InternalProgramException("Informe a rua!");
             }
 
             if (string.IsNullOrEmpty(shippingCompany.Neighborhood))
             {
-                  throw new Exception("Informe o bairro!");
+                  throw new InternalProgramException("Informe o bairro!");
             }
 
             if (string.IsNullOrEmpty(shippingCompany.City))
             {
-                  throw new Exception("Informe a cidade!");
+                  throw new InternalProgramException("Informe a cidade!");
             }
 
             if (string.IsNullOrEmpty(shippingCompany.State))
             {
-                  throw new Exception("Informe o estado!");
+                  throw new InternalProgramException("Informe o estado!");
             }
         }
 

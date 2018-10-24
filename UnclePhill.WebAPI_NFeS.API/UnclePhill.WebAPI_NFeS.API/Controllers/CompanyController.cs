@@ -22,7 +22,6 @@ namespace UnclePhill.WebAPI_NFeS.API.Controllers
         /// <param name="CompanyId">Opcional: Código da empresa</param>
         /// <returns code = "200">Sucesso</returns>
         /// <returns code = "400">Erro</returns> 
-
         [System.Web.Http.ActionName("Get")]
         public IHttpActionResult Get(long CompanyId = 0)
         {
@@ -33,10 +32,17 @@ namespace UnclePhill.WebAPI_NFeS.API.Controllers
             }
             catch (Exception ex)
             {
-                return BadRequest(ex.Message);
+                return Exceptions(ex);
             }            
         }
 
+        /// <summary>
+        /// Pega o empresa do usuario
+        /// </summary>
+        /// <param name="UserId"></param>
+        /// <returns>200</returns>
+        /// <returns>400</returns>
+        /// <returns>404</returns>
         [System.Web.Http.ActionName("GetByUser")]
         [System.Web.Http.HttpGet]
         public IHttpActionResult GetByUser(long UserId = 0)
@@ -48,7 +54,7 @@ namespace UnclePhill.WebAPI_NFeS.API.Controllers
             }
             catch (Exception ex)
             {
-                return BadRequest(ex.Message);
+                return Exceptions(ex);                
             }
         }
 
@@ -69,7 +75,7 @@ namespace UnclePhill.WebAPI_NFeS.API.Controllers
             }
             catch(Exception ex)
             {
-                return BadRequest(ex.Message);
+                return Exceptions(ex);
             }            
         }
 
@@ -90,7 +96,7 @@ namespace UnclePhill.WebAPI_NFeS.API.Controllers
             }
             catch(Exception ex)
             {
-                return BadRequest(ex.Message);
+                return Exceptions(ex);
             }            
         }
 

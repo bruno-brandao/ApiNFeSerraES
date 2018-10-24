@@ -71,7 +71,7 @@ namespace UnclePhill.WebAPI_NFeS.Domain
 
                     }
                 }
-                throw new Exception("Não foram encontrados registros!");
+                throw new InternalProgramException("Não foram encontrados registros!");
             }
             catch(Exception ex)
             {
@@ -144,7 +144,7 @@ namespace UnclePhill.WebAPI_NFeS.Domain
                     companys.DateUpdate = DateTime.Now.ToString("yyyy-MM-dd");
                     return companys;
                 }
-                throw new Exception("Houve um problema ao cadastrar a empresa!");
+                throw new InternalProgramException("Houve um problema ao cadastrar a empresa!");
             }
             catch (Exception ex)
             {
@@ -194,7 +194,7 @@ namespace UnclePhill.WebAPI_NFeS.Domain
 
                     return companys;
                 }
-                throw new Exception("Houve um problema ao atualizar a empresa.");
+                throw new InternalProgramException("Houve um problema ao atualizar a empresa.");
             }
             catch(Exception ex)
             {
@@ -206,72 +206,72 @@ namespace UnclePhill.WebAPI_NFeS.Domain
         {
             if (companys.UserId <= 0)
             {
-                throw new Exception("Informe o usuário!");
+                throw new InvalidExpressionException("Informe o usuário!");
             }
 
             if (string.IsNullOrEmpty(companys.CNPJ))
             {
-                 throw new Exception("Informe o CNPJ!");
+                 throw new InvalidExpressionException("Informe o CNPJ!");
             }
 
             if (Functions.ExistsRegister(companys.CNPJ, TypeInput.Texto, "CNPJ", "Companys"))
             {
-                throw new Exception("Tomador já existe!");
+                throw new InvalidExpressionException("Tomador já existe!");
             }
 
             if (string.IsNullOrEmpty(companys.IM))
             {
-                 throw new Exception("Informe a inscrição municipal!");
+                 throw new InvalidOperationException("Informe a inscrição municipal!");
             }
 
             if (string.IsNullOrEmpty(companys.IE))
             {
-                 throw new Exception("Informe a inscrição estadual!");
+                 throw new InvalidOperationException("Informe a inscrição estadual!");
             }
 
             if (string.IsNullOrEmpty(companys.Name))
             {
-                 throw new Exception("Informe o nome da empresa!");
+                 throw new InvalidOperationException("Informe o nome da empresa!");
             }
 
             if (string.IsNullOrEmpty(companys.NameFantasy))
             {
-                 throw new Exception("Informe o nome fantasia da empresa!");
+                 throw new InvalidOperationException("Informe o nome fantasia da empresa!");
             }
 
             if (string.IsNullOrEmpty(companys.CEP))
             {
-                 throw new Exception("Informe o CEP!");
+                 throw new InvalidOperationException("Informe o CEP!");
             }
 
             if (string.IsNullOrEmpty(companys.Street))
             {
-                 throw new Exception("Informe a rua!");
+                 throw new InvalidOperationException("Informe a rua!");
             }
 
             if (string.IsNullOrEmpty(companys.Neighborhood))
             {
-                 throw new Exception("Informe o bairro!");
+                 throw new InvalidOperationException("Informe o bairro!");
             }
 
             if (string.IsNullOrEmpty(companys.City))
             {
-                 throw new Exception("Informe a cidade!");
+                 throw new InvalidOperationException("Informe a cidade!");
             }
 
             if (string.IsNullOrEmpty(companys.State))
             {
-                 throw new Exception("Informe o estado!");
+                 throw new InvalidOperationException("Informe o estado!");
             }
 
             if (string.IsNullOrEmpty(companys.Telephone))
             {
-                 throw new Exception("Informe o telefone!");
+                 throw new InvalidOperationException("Informe o telefone!");
             }
 
             if (string.IsNullOrEmpty(companys.Email))
             {
-                 throw new Exception("Informe o email!");
+                 throw new InvalidOperationException("Informe o email!");
             }
         }
 

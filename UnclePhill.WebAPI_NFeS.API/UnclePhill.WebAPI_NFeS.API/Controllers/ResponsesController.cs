@@ -43,7 +43,7 @@ namespace UnclePhill.WebAPI_NFeS.API.Controllers
                 return BadRequest("Não foi possivel registrar a resposta!");
             }catch(Exception ex)
             {
-                return BadRequest(ex.Message);
+                return Exceptions(ex);
             }
         }
 

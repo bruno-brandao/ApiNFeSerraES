@@ -44,6 +44,7 @@
     <Compile Include="Models\CFPS.cs" />
     <Compile Include="Models\Companys.cs" />
     <Compile Include="Models\DefaultModels\Master.cs" />
+    <Compile Include="Models\InternalProgramException.cs" />
     <Compile Include="Models\NFeSRequestModels\NFeSRequest.cs" />
     <Compile Include="Models\NFeSRequestModels\NFeSRequestInvoices.cs" />
     <Compile Include="Models\NFeSRequestModels\NFeSRequestItens.cs" />

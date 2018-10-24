@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using UnclePhill.WebAPI_NFeS.Models.Models;
 
 namespace UnclePhill.WebAPI_NFeS.Domain.Domain
 {
@@ -23,7 +24,7 @@ namespace UnclePhill.WebAPI_NFeS.Domain.Domain
                 case "CARIACICA":
                     return City.Cariacica;
                 default:
-                    throw new Exception("A API não dá suporte a essa cidade!");
+                    throw new InternalProgramException("A API não dá suporte a essa cidade!");
             }
         }
         
@@ -36,7 +37,7 @@ namespace UnclePhill.WebAPI_NFeS.Domain.Domain
                 case City.Cariacica:
                     return GetActivitiesCariacica(CPF, Password, IM, CodeCity);
                 default:
-                    throw new Exception("A API não dá suporte a essa cidade!");
+                    throw new InternalProgramException("A API não dá suporte a essa cidade!");
             }
         }
 
@@ -49,7 +50,7 @@ namespace UnclePhill.WebAPI_NFeS.Domain.Domain
                 case City.Cariacica:
                     return SendCariacica(CPF,Password,CodeCity,Xml);
                 default:
-                    throw new Exception("A API não dá suporte a essa cidade!");
+                    throw new InternalProgramException("A API não dá suporte a essa cidade!");
             }
         }
 
@@ -62,7 +63,7 @@ namespace UnclePhill.WebAPI_NFeS.Domain.Domain
                 case City.Cariacica:
                     return ReceiveCariacica(CPF,Password,IM,Xml);
                 default:
-                    throw new Exception("A API não dá suporte a essa cidade!");
+                    throw new InternalProgramException("A API não dá suporte a essa cidade!");
             }
         }
 
@@ -75,7 +76,7 @@ namespace UnclePhill.WebAPI_NFeS.Domain.Domain
                 case City.Cariacica:
                     return CancelCariacica(CPF, Password, Xml);
                 default:
-                    throw new Exception("A API não dá suporte a essa cidade!");
+                    throw new InternalProgramException("A API não dá suporte a essa cidade!");
             }
         }
 
@@ -88,7 +89,7 @@ namespace UnclePhill.WebAPI_NFeS.Domain.Domain
                 case City.Cariacica:
                     return GetUrlsCariacica(CodeCity,NFNumber,NumSerie,IM);
                 default:
-                    throw new Exception("A API não dá suporte a essa cidade!");
+                    throw new InternalProgramException("A API não dá suporte a essa cidade!");
             }
         }
 

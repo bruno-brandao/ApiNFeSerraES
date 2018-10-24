@@ -66,7 +66,7 @@ namespace UnclePhill.WebAPI_NFeS.Domain
 
                     return true;
                 }
-                throw new Exception("Não foram encontradas sessões para esse usuário!");
+                throw new InternalProgramException("Não foram encontradas sessões para esse usuário!");
             }
             catch (Exception ex)
             {
@@ -99,7 +99,7 @@ namespace UnclePhill.WebAPI_NFeS.Domain
             {
                 if (string.IsNullOrEmpty(SessionHash))
                 {
-                    throw new Exception("Variavel de Sessão não informada!");
+                    throw new InternalProgramException("Variavel de Sessão não informada!");
                 }
 
                 DataTable data;
@@ -139,9 +139,9 @@ namespace UnclePhill.WebAPI_NFeS.Domain
 
                         return users;
                     }
-                    throw new Exception("Usuário não encontrado!");
+                    throw new InternalProgramException("Usuário não encontrado!");
                 }
-                throw new Exception("Sessão não encontrada!");
+                throw new InternalProgramException("Sessão não encontrada!");
             }
             catch (Exception ex)
             {
@@ -153,7 +153,7 @@ namespace UnclePhill.WebAPI_NFeS.Domain
         {
             try
             {
-                if (SessionId <= 0) { throw new Exception("Informe o código da sessão."); }
+                if (SessionId <= 0) { throw new InternalProgramException("Informe o código da sessão."); }
 
                 SQL = new StringBuilder();
                 SQL.AppendLine(" Select ");
@@ -184,7 +184,7 @@ namespace UnclePhill.WebAPI_NFeS.Domain
                     session.DateUpdate = row.Field<DateTime>("DateUpdate").ToString("dd-MM-yyyy");
                     return session;
                 }
-                throw new Exception("Não foi encontrar sessões!");
+                throw new InternalProgramException("Não foi encontrar sessões!");
             }
             catch (Exception ex)
             {
@@ -198,7 +198,7 @@ namespace UnclePhill.WebAPI_NFeS.Domain
             {
                 if (UserId <= 0)
                 {
-                    throw new Exception("Usuario não encontrado!");
+                    throw new InternalProgramException("Usuario não encontrado!");
                 }
 
                 DataTable data;
@@ -244,7 +244,7 @@ namespace UnclePhill.WebAPI_NFeS.Domain
                 {
                     return SessionDomain.GetSessionById(session.SessionId);
                 }
-                throw new Exception("Não foi possivel criar uma sessão para o usuário!");
+                throw new InternalProgramException("Não foi possivel criar uma sessão para o usuário!");
             }
             catch (Exception ex)
             {

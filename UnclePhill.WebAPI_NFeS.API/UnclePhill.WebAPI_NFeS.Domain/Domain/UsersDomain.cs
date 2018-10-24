@@ -17,7 +17,7 @@ namespace UnclePhill.WebAPI_NFeS.Domain
             {
                 if (string.IsNullOrEmpty(Email) || string.IsNullOrEmpty(Password))
                 {
-                    throw new Exception("Email ou senha não informado!");
+                    throw new InternalProgramException("Email ou senha não informado!");
                 }
 
                 SQL = new StringBuilder();
@@ -46,10 +46,10 @@ namespace UnclePhill.WebAPI_NFeS.Domain
                         users.DateUpdate = row.Field<DateTime>("DateUpdate").ToString("dd-MM-yyyy");
                         return users;
                     }
-                    throw new Exception("Não foi possivel gerar uma sessão para o usuário!");
+                    throw new InternalProgramException("Não foi possivel gerar uma sessão para o usuário!");
                 }
 
-                throw new Exception("Email ou senha inválidos!");
+                throw new InternalProgramException("Email ou senha inválidos!");
             }catch (Exception ex)
             {
                 throw ex;
@@ -62,7 +62,7 @@ namespace UnclePhill.WebAPI_NFeS.Domain
             {
                 if (UserId == null || UserId <= 0)
                 {
-                    throw new Exception("Informe o código do usuário!");
+                    throw new InternalProgramException("Informe o código do usuário!");
                 }
 
                 SQL = new StringBuilder();
@@ -88,7 +88,7 @@ namespace UnclePhill.WebAPI_NFeS.Domain
                     users.DateUpdate = row.Field<DateTime>("DateUpdate").ToString("dd-MM-yyyy");
                     return users;                    
                 }
-                throw new Exception("Não foi encontrado usuário!");
+                throw new InternalProgramException("Não foi encontrado usuário!");
             }
             catch(Exception ex)
             {
@@ -133,7 +133,7 @@ namespace UnclePhill.WebAPI_NFeS.Domain
                     users.DateUpdate = DateTime.Now.ToString("yyyy-MM-dd");
                     return users;
                 }
-                throw new Exception("Houve um problema ao cadastrar o usuário.");
+                throw new InternalProgramException("Houve um problema ao cadastrar o usuário.");
             }catch(Exception ex)
             {
                 throw ex;
@@ -146,7 +146,7 @@ namespace UnclePhill.WebAPI_NFeS.Domain
             {
                 if (users.UserId <= 0)
                 {
-                    throw new Exception("Informe o código do usuário!");
+                    throw new InternalProgramException("Informe o código do usuário!");
                 }
 
                 Validate(users);
@@ -166,7 +166,7 @@ namespace UnclePhill.WebAPI_NFeS.Domain
                 {
                     return users;
                 }
-                throw new Exception("Houve um problema ao atualizar o usuário.");
+                throw new InternalProgramException("Houve um problema ao atualizar o usuário.");
             }
             catch (Exception ex)
             {
@@ -178,32 +178,32 @@ namespace UnclePhill.WebAPI_NFeS.Domain
         {
             if (string.IsNullOrEmpty(users.Name))
             {
-                throw new Exception("Informe o nome do usuário!");
+                throw new InternalProgramException("Informe o nome do usuário!");
             }
 
             if (string.IsNullOrEmpty(users.LastName))
             {
-                 throw new Exception("Informe o Sobrenome do usuário!");
+                 throw new InternalProgramException("Informe o Sobrenome do usuário!");
             }
 
             if (string.IsNullOrEmpty(users.CPF))
             {
-                 throw new Exception("Informe o CPF do usuário!");
+                 throw new InternalProgramException("Informe o CPF do usuário!");
             }
 
             if (Functions.ExistsRegister(users.CPF,TypeInput.Texto, "CPF", "Users"))
             {
-                throw new Exception("Usuário já existe!");
+                throw new InternalProgramException("Usuário já existe!");
             }
 
             if (string.IsNullOrEmpty(users.Email))
             {
-                 throw new Exception("Informe o Email do usuário!");
+                 throw new InternalProgramException("Informe o Email do usuário!");
             }
 
             if (string.IsNullOrEmpty(users.Password))
             {
-                 throw new Exception("Informe a senha do usuário!");
+                 throw new InternalProgramException("Informe a senha do usuário!");
             }
         }        
     }

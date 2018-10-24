@@ -96,12 +96,6 @@ namespace UnclePhill.WebAPI_NFeS.Utils.Utils
             return Value.ToString().Replace(".", "").Replace(",", ".");
         }
 
-        public enum TypeInput
-        {
-            Numero = 0,
-            Texto = 1
-        }
-
         public static bool ExistsRegister(string Value, TypeInput Type, string Field, string Table)
         {
             try
@@ -133,6 +127,11 @@ namespace UnclePhill.WebAPI_NFeS.Utils.Utils
                 throw ex;
             }
         }
-  
+               
+        public enum TypeInput
+        {
+            Numero = 0,
+            Texto = 1
+        }       
     }
 }

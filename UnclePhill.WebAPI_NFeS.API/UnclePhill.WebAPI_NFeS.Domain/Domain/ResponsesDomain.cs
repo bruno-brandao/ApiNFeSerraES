@@ -54,28 +54,28 @@ namespace UnclePhill.WebAPI_NFeS.Domain.Domain
             //Validando os dados básicos objeto:
             if (responses.UserId <= 0)
             {
-                throw new Exception("Informe o usuário!");
+                throw new InternalProgramException("Informe o usuário!");
             }
 
             if (responses.QuestionId <= 0)
             {
-                throw new Exception("Informe a questão!");
+                throw new InternalProgramException("Informe a questão!");
             }
 
             if (responses.OptionId <= 0)
             {
-                throw new Exception("Informe a opção!");
+                throw new InternalProgramException("Informe a opção!");
             }
 
             //Validado a integridade dos dados informados:
             if (new UsersDomain().Get(responses.UserId).UserId <= 0)
             {
-                throw new Exception("O usuário informado não está cadastrado!");
+                throw new InternalProgramException("O usuário informado não está cadastrado!");
             }
 
             if (new QuestionsDomain().Get(responses.QuestionId).Count <= 0)
             {
-                throw new Exception("A questão informada não está cadastrada!");
+                throw new InternalProgramException("A questão informada não está cadastrada!");
             }
 
             long Cont = 0;
@@ -90,7 +90,7 @@ namespace UnclePhill.WebAPI_NFeS.Domain.Domain
             
             if (Cont == question.ListOptions.Count)
             {
-                throw new Exception("A opção selecionada não faz parte da lista de respostas da questão!");
+                throw new InternalProgramException("A opção selecionada não faz parte da lista de respostas da questão!");
             }
 
             //Verificando se a questão já foi respondida anteriormente:
@@ -107,7 +107,7 @@ namespace UnclePhill.WebAPI_NFeS.Domain.Domain
             {
                 if (data.AsEnumerable().First().Field<int>("Qtd") > 0)
                 {
-                    throw new Exception("Essa questão já foi respondida!");
+                    throw new InternalProgramException("Essa questão já foi respondida!");
                 }
             }
         }

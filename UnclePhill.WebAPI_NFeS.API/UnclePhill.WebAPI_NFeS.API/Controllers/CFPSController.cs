@@ -31,7 +31,7 @@ namespace UnclePhill.WebAPI_NFeS.API.Controllers
             }
             catch (Exception ex)
             {
-                return BadRequest(ex.Message);
+                return Exceptions(ex);
             }
         }
 

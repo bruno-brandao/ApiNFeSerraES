@@ -59,7 +59,7 @@ namespace UnclePhill.WebAPI_NFeS.Domain
                         
                     }                               
                 }
-                throw new Exception("Não foram encontrados registros!");
+                throw new InternalProgramException("Não foram encontrados registros!");
             }catch(Exception ex)
             {
                 throw ex;
@@ -117,7 +117,7 @@ namespace UnclePhill.WebAPI_NFeS.Domain
                     takers.DateUpdate = DateTime.Now.ToString("yyyy-MM-dd");
                     return takers;
                 }
-                throw new Exception("Não foi possivel cadastar o tomador!");
+                throw new InternalProgramException("Não foi possivel cadastar o tomador!");
             }
             catch (Exception ex)
             {
@@ -133,7 +133,7 @@ namespace UnclePhill.WebAPI_NFeS.Domain
 
                 if (takers.TakerId <= 0)
                 {
-                    throw new Exception("Informe o código do tomador!");
+                    throw new InternalProgramException("Informe o código do tomador!");
                 }
 
                 SQL.AppendLine(" Update Takers Set ");
@@ -158,7 +158,7 @@ namespace UnclePhill.WebAPI_NFeS.Domain
                 {
                     return takers;
                 }
-                throw new Exception("Houve um problema ao atualizar o tomador.");
+                throw new InternalProgramException("Houve um problema ao atualizar o tomador.");
             }
             catch (Exception ex)
             {
@@ -172,7 +172,7 @@ namespace UnclePhill.WebAPI_NFeS.Domain
             {
                 if (TakerId <= 0)
                 {
-                    throw new Exception("Informe o código do tomador!");
+                    throw new InternalProgramException("Informe o código do tomador!");
                 }
 
                 SQL.AppendLine(" Update Takers Set ");
@@ -196,67 +196,67 @@ namespace UnclePhill.WebAPI_NFeS.Domain
         {            
             if (string.IsNullOrEmpty(takers.CPF_CNPJ))
             {
-                 throw new Exception("Informe o CPF/CNPJ!");
+                 throw new InternalProgramException("Informe o CPF/CNPJ!");
             }
 
             if (Functions.ExistsRegister(takers.CPF_CNPJ, TypeInput.Texto, "CPF_CNPJ", "Takers"))
             {
-                throw new Exception("Tomador já existe!");
+                throw new InternalProgramException("Tomador já existe!");
             }
 
             if (string.IsNullOrEmpty(takers.RG_IE))
             {
-                 throw new Exception("Informe a inscrição estadual!");
+                 throw new InternalProgramException("Informe a inscrição estadual!");
             }
             
             if (string.IsNullOrEmpty(takers.Name))
             {
-                 throw new Exception("Informe o nome do tomador!");
+                 throw new InternalProgramException("Informe o nome do tomador!");
             }
 
             if (string.IsNullOrEmpty(takers.NameFantasy))
             {
-                 throw new Exception("Informe o nome nome fantasia do tomador!");
+                 throw new InternalProgramException("Informe o nome nome fantasia do tomador!");
             }
 
             if (string.IsNullOrEmpty(takers.TypePerson))
             {
-                 throw new Exception("Informe o tipo de pessoa do tomador!");
+                 throw new InternalProgramException("Informe o tipo de pessoa do tomador!");
             }
 
             if (string.IsNullOrEmpty(takers.CEP))
             {
-                 throw new Exception("Informe o CEP!");
+                 throw new InternalProgramException("Informe o CEP!");
             }
 
             if (string.IsNullOrEmpty(takers.Street))
             {
-                 throw new Exception("Informe a Rua!");
+                 throw new InternalProgramException("Informe a Rua!");
             }
 
             if (string.IsNullOrEmpty(takers.Neighborhood))
             {
-                 throw new Exception("Informe o bairro!");
+                 throw new InternalProgramException("Informe o bairro!");
             }
 
             if (string.IsNullOrEmpty(takers.City))
             {
-                 throw new Exception("Informe a cidade!");
+                 throw new InternalProgramException("Informe a cidade!");
             }
 
             if (string.IsNullOrEmpty(takers.State))
             {
-                 throw new Exception("Informe a UF!");
+                 throw new InternalProgramException("Informe a UF!");
             }
 
             if (string.IsNullOrEmpty(takers.Telephone))
             {
-                throw new Exception("Informe o Telefone!");
+                throw new InternalProgramException("Informe o Telefone!");
             }
 
             if (string.IsNullOrEmpty(takers.Email))
             {
-                 throw new Exception("Informe o Email!");
+                 throw new InternalProgramException("Informe o Email!");
             }
         }
 
