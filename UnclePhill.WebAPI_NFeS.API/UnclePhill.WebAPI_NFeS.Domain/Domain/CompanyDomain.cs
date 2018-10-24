@@ -111,8 +111,8 @@ namespace UnclePhill.WebAPI_NFeS.Domain
                 SQL.AppendLine(" Values ");
                 SQL.AppendLine("    ( " + usersSession.UserId + ",");
                 SQL.AppendLine("     '" + Functions.NoQuote(companys.CNPJ) + "',");
-                SQL.AppendLine("     " + (companys.IM == null ? "Null," : "'" + Functions.NoQuote(companys.IM.ToString())) + "',");
-                SQL.AppendLine("     " + (companys.IE == null ? "Null,": "'" + Functions.NoQuote(companys.IE.ToString())) + "',");
+                SQL.AppendLine("     " + (companys.IM == null ? "Null," : "'" + Functions.NoQuote(companys.IM.ToString()) + "',"));
+                SQL.AppendLine("     " + (companys.IE == null ? "Null,": "'" + Functions.NoQuote(companys.IE.ToString()) + "',"));
                 SQL.AppendLine("     '" + Functions.NoQuote(companys.Name) + "',");
                 SQL.AppendLine("     '" + Functions.NoQuote(companys.NameFantasy) + "',");
                 SQL.AppendLine("     '" + Functions.NoQuote(companys.CEP) + "',");

@@ -21,7 +21,8 @@ namespace UnclePhill.WebAPI_NFeS.API.Controllers
         /// <param name="SessionHash">Paramentro passado no Header da requisição</param>
         /// <param name="CompanyId">Opcional: Código da empresa</param>
         /// <returns code = "200">Sucesso</returns>
-        /// <returns code = "400">Erro</returns> 
+        /// <returns code = "400">Erro do planejado</returns>
+        /// <returns code = "500">Erro não insperado</returns>
         [System.Web.Http.ActionName("Get")]
         public IHttpActionResult Get(long CompanyId = 0)
         {
@@ -40,9 +41,9 @@ namespace UnclePhill.WebAPI_NFeS.API.Controllers
         /// Pega o empresa do usuario
         /// </summary>
         /// <param name="UserId"></param>
-        /// <returns>200</returns>
-        /// <returns>400</returns>
-        /// <returns>404</returns>
+        /// <returns code = "200">Sucesso</returns>
+        /// <returns code = "400">Erro do planejado</returns>
+        /// <returns code = "500">Erro não insperado</returns>
         [System.Web.Http.ActionName("GetByUser")]
         [System.Web.Http.HttpGet]
         public IHttpActionResult GetByUser(long UserId = 0)
@@ -64,13 +65,14 @@ namespace UnclePhill.WebAPI_NFeS.API.Controllers
         /// <param name="SessionHash">Paramentro passado no Header da requisição</param>
         /// <param name="Company">Objeto empresa</param>
         /// <returns code = "200">Sucesso</returns>
-        /// <returns code = "400">Erro</returns>
+        /// <returns code = "400">Erro do planejado</returns>
+        /// <returns code = "500">Erro não insperado</returns>
         [System.Web.Http.ActionName("Post")]
         public IHttpActionResult Post([FromBody]Companys Company)
         {
             try
             {
-                //if (!SessionDomain.CheckSession(base.Sessao())) return BadRequest("Sessão inválida!");                
+                if (!SessionDomain.CheckSession(base.Sessao())) return BadRequest("Sessão inválida!");                
                 return Ok(companyDomain.Post(Company, SessionDomain.GetUserSession(base.Sessao())));                
             }
             catch(Exception ex)
@@ -85,7 +87,8 @@ namespace UnclePhill.WebAPI_NFeS.API.Controllers
         /// <param name="SessionHash">Paramentro passado no Header da requisição</param>
         /// <param name="Company">Objeto empresa</param>
         /// <returns code = "200">Sucesso</returns>
-        /// <returns code = "400">Erro</returns>
+        /// <returns code = "400">Erro do planejado</returns>
+        /// <returns code = "500">Erro não insperado</returns>
         [System.Web.Http.ActionName("Put")]
         public IHttpActionResult Put([FromBody]Companys Company)
         {

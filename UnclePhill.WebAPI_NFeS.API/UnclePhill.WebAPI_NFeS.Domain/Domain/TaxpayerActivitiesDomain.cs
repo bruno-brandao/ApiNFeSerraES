@@ -37,7 +37,7 @@ namespace UnclePhill.WebAPI_NFeS.Domain
                     {
                         try
                         {
-                            List<TaxpayerActivities> ltaxpayerActivities = Get(CompanyId);
+                            List<TaxpayerActivities> ltaxpayerActivities = GetByCompany(CompanyId);
                             foreach (TaxpayerActivities taxpayerActivities in ltaxpayerActivities)
                             {
                                 Delete(taxpayerActivities.TaxpayerActivitiesId);
@@ -90,7 +90,7 @@ namespace UnclePhill.WebAPI_NFeS.Domain
             }
         }
         
-        public List<TaxpayerActivities> Get(long CompanyId = 0)
+        public List<TaxpayerActivities> GetByCompany(long CompanyId = 0)
         {
             try
             {
@@ -137,7 +137,54 @@ namespace UnclePhill.WebAPI_NFeS.Domain
                 throw ex;
             }
         }
-              
+
+        public TaxpayerActivities Get(long TaxpayerActivitiesId = 0)
+        {
+            try
+            {
+                if (TaxpayerActivitiesId <= 0)
+                {
+                    throw new InternalProgramException("Informe a atividade!");
+                }
+
+                SQL = new StringBuilder();
+                SQL.AppendLine(" Select ");
+                SQL.AppendLine("    TaxpayerActivitiesId, ");
+                SQL.AppendLine("    CompanyId, ");
+                SQL.AppendLine("    CNAE, ");
+                SQL.AppendLine("    Description, ");
+                SQL.AppendLine("    Aliquot, ");
+                SQL.AppendLine("    Active, ");
+                SQL.AppendLine("    DateInsert, ");
+                SQL.AppendLine("    DateUpdate ");
+                SQL.AppendLine(" From TaxpayerActivities ");
+                SQL.AppendLine(" Where Active = 1 ");
+                SQL.AppendLine(" And TaxpayerActivitiesId = " + TaxpayerActivitiesId);
+
+                DataTable data = Functions.Conn.GetDataTable(SQL.ToString(), "TaxpayerActivities");
+                if (data != null && data.Rows.Count > 0)
+                {
+                    var row = data.AsEnumerable().First();
+                    TaxpayerActivities taxpayerActivities = new TaxpayerActivities();
+                    taxpayerActivities.TaxpayerActivitiesId = long.Parse(row["TaxpayerActivitiesId"].ToString());
+                    taxpayerActivities.CompanyId = long.Parse(row["CompanyId"].ToString());
+                    taxpayerActivities.CNAE = row["CNAE"].ToString();
+                    taxpayerActivities.Description = row["Description"].ToString();
+                    taxpayerActivities.Aliquot = decimal.Parse(row["Aliquot"].ToString());
+                    taxpayerActivities.Active = bool.Parse(row["Active"].ToString());
+                    taxpayerActivities.DateInsert = row.Field<DateTime>("DateInsert").ToString("dd-MM-yyyy");
+                    taxpayerActivities.DateUpdate = row.Field<DateTime>("DateUpdate").ToString("dd-MM-yyyy");
+
+                    return taxpayerActivities;
+                }
+                throw new InternalProgramException("Não foram encontrados registros!");
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+
         public bool Delete(long TaxpayerActivitiesId = 0)
         {
             try
@@ -153,7 +200,7 @@ namespace UnclePhill.WebAPI_NFeS.Domain
                 throw ex;
             }
         }
-
+               
         private void Validate(long CompanyId = 0)
         {
             if (CompanyId <= 0)
@@ -161,7 +208,7 @@ namespace UnclePhill.WebAPI_NFeS.Domain
                 throw new InternalProgramException("Informe a empresa!");
             }
 
-            if (new CompanyDomain().Get<Companys>(CompanyDomain.Type.Company,CompanyId).CompanyId <= 0)
+            if (new CompanyDomain().Get<Companys>(CompanyDomain.Type.Company, CompanyId).CompanyId <= 0)
             {
                 throw new InternalProgramException("A empresa informada não existe na base de dados.");
             }

@@ -45,7 +45,7 @@ namespace UnclePhill.WebAPI_NFeS.Domain
                         }
                         return (T)Convert.ChangeType(lServices, typeof(T));
                     }
-                    else if (typeof(T) == typeof(Takers))
+                    else if (typeof(T) == typeof(Services))
                     {
                         return (T)Convert.ChangeType(Fill(data.AsEnumerable().First()), typeof(T));
                     }

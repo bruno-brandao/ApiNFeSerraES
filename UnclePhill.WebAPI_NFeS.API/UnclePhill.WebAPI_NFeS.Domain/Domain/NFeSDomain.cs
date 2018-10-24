@@ -15,6 +15,7 @@ using System.Linq;
 using System.Net;
 using System.Data;
 using UnclePhill.WebAPI_NFeS.Domain.Domain;
+using System.EnterpriseServices;
 
 namespace UnclePhill.WebAPI_NFeS.Domain
 {
@@ -93,14 +94,17 @@ namespace UnclePhill.WebAPI_NFeS.Domain
                 for (int X = 0; X < NFeS.Itens.Count; X++)
                 {
                     NFeSRequestItens Item = NFeS.Itens[X];
+                    TaxpayerActivities TaxpayerActivities = new TaxpayerActivitiesDomain().Get(Item.TaxpayerActivitiesId);
+                    Services Services = new ServiceDomain().Get<Services>(Item.ServicesId);
+
                     NFeSRequest.nfd.tbservico[X] = new Models.Models.NFeSStructure.NFeSIssueRequest.tbnfdNfdServico
                     {
                         quantidade = Item.Amount.ToString(),
-                        descricao = Item.Description,
-                        codatividade = Item.ActivitiesId.ToString(), //Revisar
+                        descricao = Services.Description,
+                        codatividade = TaxpayerActivities.CNAE,
                         valorunitario = Item.Value.ToString(),
-                        aliquota = Item.Aliquot.ToString(),
-                        impostoretido = Item.TaxWithheld.ToString()
+                        aliquota = TaxpayerActivities.Aliquot.ToString(),
+                        impostoretido = Item.TaxWithheld
                     };
                 }
              
@@ -583,11 +587,7 @@ namespace UnclePhill.WebAPI_NFeS.Domain
                     {
                         throw new InternalProgramException("Informe a quantidade do serviço prestado.");
                     }
-                    if (string.IsNullOrEmpty(Item.Description))
-                    {
-                        throw new InternalProgramException("Informe a descrição do serviço.");
-                    }
-                    if (string.IsNullOrEmpty(Item.ActivitiesId))
+                    if (Item.TaxpayerActivitiesId <= 0)
                     {
                         throw new InternalProgramException("Informe o código da atividade.");
                     }
