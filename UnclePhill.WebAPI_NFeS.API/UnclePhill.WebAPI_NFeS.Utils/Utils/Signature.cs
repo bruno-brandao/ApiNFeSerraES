@@ -61,7 +61,6 @@ namespace UnclePhill.WebAPI_NFeS.Utils.Utils
                     reference.DigestMethod = "http://www.w3.org/2000/09/xmldsig#sha1";
 
                     reference.AddTransform(new XmlDsigEnvelopedSignatureTransform());
-                    //reference.AddTransform(new XmlDsigC14NTransform());
 
                     signedXml.AddReference(reference);
 

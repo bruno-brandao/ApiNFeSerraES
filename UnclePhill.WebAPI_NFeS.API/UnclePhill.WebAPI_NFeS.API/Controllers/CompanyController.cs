@@ -70,7 +70,7 @@ namespace UnclePhill.WebAPI_NFeS.API.Controllers
         {
             try
             {
-                if (!SessionDomain.CheckSession(base.Sessao())) return BadRequest("Sessão inválida!");                
+                //if (!SessionDomain.CheckSession(base.Sessao())) return BadRequest("Sessão inválida!");                
                 return Ok(companyDomain.Post(Company, SessionDomain.GetUserSession(base.Sessao())));                
             }
             catch(Exception ex)

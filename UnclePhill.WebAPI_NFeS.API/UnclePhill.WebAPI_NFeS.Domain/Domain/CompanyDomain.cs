@@ -111,8 +111,8 @@ namespace UnclePhill.WebAPI_NFeS.Domain
                 SQL.AppendLine(" Values ");
                 SQL.AppendLine("    ( " + usersSession.UserId + ",");
                 SQL.AppendLine("     '" + Functions.NoQuote(companys.CNPJ) + "',");
-                SQL.AppendLine("     " + (string.IsNullOrEmpty(companys.IM) ? "Null," : "'" + Functions.NoQuote(companys.IM)) + "',");
-                SQL.AppendLine("     " + (string.IsNullOrEmpty(companys.IE)?"Null,": "'" + Functions.NoQuote(companys.IE)) + "',");
+                SQL.AppendLine("     " + (companys.IM == null ? "Null," : "'" + Functions.NoQuote(companys.IM.ToString())) + "',");
+                SQL.AppendLine("     " + (companys.IE == null ? "Null,": "'" + Functions.NoQuote(companys.IE.ToString())) + "',");
                 SQL.AppendLine("     '" + Functions.NoQuote(companys.Name) + "',");
                 SQL.AppendLine("     '" + Functions.NoQuote(companys.NameFantasy) + "',");
                 SQL.AppendLine("     '" + Functions.NoQuote(companys.CEP) + "',");
@@ -122,7 +122,7 @@ namespace UnclePhill.WebAPI_NFeS.Domain
                 SQL.AppendLine("     '" + Functions.NoQuote(companys.State) + "',");
                 SQL.AppendLine("     '" + Functions.NoQuote(companys.Telephone) + "',");
                 SQL.AppendLine("     '" + Functions.NoQuote(companys.Email) + "',");
-                SQL.AppendLine("     '" + Functions.NoQuote(companys.Logo) + "',");
+                SQL.AppendLine("     '" + (companys.Logo == null ? string.Empty:Functions.NoQuote(companys.Logo)) + "',");
                 SQL.AppendLine("     " + Functions.FormatNumber(companys.IRRF) + ",");
                 SQL.AppendLine("     " + Functions.FormatNumber(companys.PIS) + ",");
                 SQL.AppendLine("     " + Functions.FormatNumber(companys.COFINS) + ",");
@@ -206,62 +206,62 @@ namespace UnclePhill.WebAPI_NFeS.Domain
         {
             if (companys.UserId <= 0)
             {
-                throw new InvalidExpressionException("Informe o usuário!");
+                throw new InternalProgramException("Informe o usuário!");
             }
 
             if (string.IsNullOrEmpty(companys.CNPJ))
             {
-                 throw new InvalidExpressionException("Informe o CNPJ!");
+                 throw new InternalProgramException("Informe o CNPJ!");
             }
 
             if (Functions.ExistsRegister(companys.CNPJ, TypeInput.Texto, "CNPJ", "Companys"))
             {
-                throw new InvalidExpressionException("Tomador já existe!");
+                throw new InternalProgramException("Tomador já existe!");
             }                       
 
             if (string.IsNullOrEmpty(companys.Name))
             {
-                 throw new InvalidOperationException("Informe o nome da empresa!");
+                 throw new InternalProgramException("Informe o nome da empresa!");
             }
 
             if (string.IsNullOrEmpty(companys.NameFantasy))
             {
-                 throw new InvalidOperationException("Informe o nome fantasia da empresa!");
+                 throw new InternalProgramException("Informe o nome fantasia da empresa!");
             }
 
             if (string.IsNullOrEmpty(companys.CEP))
             {
-                 throw new InvalidOperationException("Informe o CEP!");
+                 throw new InternalProgramException("Informe o CEP!");
             }
 
             if (string.IsNullOrEmpty(companys.Street))
             {
-                 throw new InvalidOperationException("Informe a rua!");
+                 throw new InternalProgramException("Informe a rua!");
             }
 
             if (string.IsNullOrEmpty(companys.Neighborhood))
             {
-                 throw new InvalidOperationException("Informe o bairro!");
+                 throw new InternalProgramException("Informe o bairro!");
             }
 
             if (string.IsNullOrEmpty(companys.City))
             {
-                 throw new InvalidOperationException("Informe a cidade!");
+                 throw new InternalProgramException("Informe a cidade!");
             }
 
             if (string.IsNullOrEmpty(companys.State))
             {
-                 throw new InvalidOperationException("Informe o estado!");
+                 throw new InternalProgramException("Informe o estado!");
             }
 
             if (string.IsNullOrEmpty(companys.Telephone))
             {
-                 throw new InvalidOperationException("Informe o telefone!");
+                 throw new InternalProgramException("Informe o telefone!");
             }
 
             if (string.IsNullOrEmpty(companys.Email))
             {
-                 throw new InvalidOperationException("Informe o email!");
+                 throw new InternalProgramException("Informe o email!");
             }
         }
 

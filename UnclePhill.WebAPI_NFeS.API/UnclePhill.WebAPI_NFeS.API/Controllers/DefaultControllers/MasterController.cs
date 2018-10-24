@@ -23,7 +23,7 @@ namespace UnclePhill.WebAPI_NFeS.API.Controllers
             }
             catch
             {
-                throw new Exception("É necessário enviar a chave hash da sessão, gerada ao fazer login, no cabeçalho desta requisição.");
+                throw new InternalProgramException("É necessário enviar a chave hash da sessão, gerada ao fazer login, no cabeçalho desta requisição.");
             }            
         }
 
@@ -35,7 +35,7 @@ namespace UnclePhill.WebAPI_NFeS.API.Controllers
             }
             else //Outras exeções
             {
-                return InternalServerError(); 
+                return InternalServerError(ex); 
             }
         }
     }
