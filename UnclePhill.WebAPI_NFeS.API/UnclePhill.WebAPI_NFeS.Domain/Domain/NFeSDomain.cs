@@ -504,9 +504,20 @@ namespace UnclePhill.WebAPI_NFeS.Domain
                 throw new InternalProgramException("Informe o emissor.");
             }
 
-            if (new CompanyDomain().Get<Companys>(CompanyDomain.Type.Company,NFeS.CompanyId).CompanyId <= 0)
+            Companys Comp = new CompanyDomain().Get<Companys>(CompanyDomain.Type.Company, NFeS.CompanyId);
+            if (Comp.CompanyId <= 0)
             {
                 throw new InternalProgramException("A empresa informada não está cadastrada.");
+            }
+
+            if (string.IsNullOrEmpty(Comp.IE))
+            {
+                throw new InternalProgramException("A empresa não tem a inscrição estadual cadastrada.");
+            }
+
+            if (string.IsNullOrEmpty(Comp.IM))
+            {
+                throw new InternalProgramException("A empresa não tem a inscrição municipal cadastrada.");
             }
 
             //Tomador

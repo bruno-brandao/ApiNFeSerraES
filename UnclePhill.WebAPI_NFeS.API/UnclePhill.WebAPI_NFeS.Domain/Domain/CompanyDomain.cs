@@ -111,8 +111,8 @@ namespace UnclePhill.WebAPI_NFeS.Domain
                 SQL.AppendLine(" Values ");
                 SQL.AppendLine("    ( " + usersSession.UserId + ",");
                 SQL.AppendLine("     '" + Functions.NoQuote(companys.CNPJ) + "',");
-                SQL.AppendLine("     '" + Functions.NoQuote(companys.IM) + "',");
-                SQL.AppendLine("     '" + Functions.NoQuote(companys.IE) + "',");
+                SQL.AppendLine("     " + (string.IsNullOrEmpty(companys.IM) ? "Null," : "'" + Functions.NoQuote(companys.IM)) + "',");
+                SQL.AppendLine("     " + (string.IsNullOrEmpty(companys.IE)?"Null,": "'" + Functions.NoQuote(companys.IE)) + "',");
                 SQL.AppendLine("     '" + Functions.NoQuote(companys.Name) + "',");
                 SQL.AppendLine("     '" + Functions.NoQuote(companys.NameFantasy) + "',");
                 SQL.AppendLine("     '" + Functions.NoQuote(companys.CEP) + "',");
@@ -166,8 +166,8 @@ namespace UnclePhill.WebAPI_NFeS.Domain
                 SQL.AppendLine(" Update Companys Set ");
                 SQL.AppendLine("    UserId = " + usersSession.UserId + ",");
                 SQL.AppendLine("    CNPJ = '" + Functions.NoQuote(companys.CNPJ) + "',");
-                SQL.AppendLine("    IM = '" + Functions.NoQuote(companys.IM) + "',");
-                SQL.AppendLine("    IE = '" + Functions.NoQuote(companys.IE) + "',");
+                SQL.AppendLine("    IM = " + (string.IsNullOrEmpty(companys.IM) ? "Null," : "'" + Functions.NoQuote(companys.IM)) + "',");
+                SQL.AppendLine("    IE = " + (string.IsNullOrEmpty(companys.IE) ? "Null," : "'" + Functions.NoQuote(companys.IE)) + "',");
                 SQL.AppendLine("    Name = '" + Functions.NoQuote(companys.Name) + "',");
                 SQL.AppendLine("    NameFantasy = '" + Functions.NoQuote(companys.NameFantasy) + "',");
                 SQL.AppendLine("    CEP = '" + Functions.NoQuote(companys.CEP) + "',");
@@ -217,17 +217,7 @@ namespace UnclePhill.WebAPI_NFeS.Domain
             if (Functions.ExistsRegister(companys.CNPJ, TypeInput.Texto, "CNPJ", "Companys"))
             {
                 throw new InvalidExpressionException("Tomador já existe!");
-            }
-
-            if (string.IsNullOrEmpty(companys.IM))
-            {
-                 throw new InvalidOperationException("Informe a inscrição municipal!");
-            }
-
-            if (string.IsNullOrEmpty(companys.IE))
-            {
-                 throw new InvalidOperationException("Informe a inscrição estadual!");
-            }
+            }                       
 
             if (string.IsNullOrEmpty(companys.Name))
             {
