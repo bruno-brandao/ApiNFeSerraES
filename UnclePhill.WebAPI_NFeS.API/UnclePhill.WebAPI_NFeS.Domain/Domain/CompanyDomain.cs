@@ -216,7 +216,7 @@ namespace UnclePhill.WebAPI_NFeS.Domain
 
             if (Functions.ExistsRegister(companys.CNPJ, TypeInput.Texto, "CNPJ", "Companys"))
             {
-                throw new InternalProgramException("Tomador já existe!");
+                throw new InternalProgramException("Empresa já existe!");
             }                       
 
             if (string.IsNullOrEmpty(companys.Name))
