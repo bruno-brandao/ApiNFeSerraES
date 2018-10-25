@@ -177,7 +177,7 @@ namespace UnclePhill.WebAPI_NFeS.Domain
                 SQL.AppendLine("    State = '" + Functions.NoQuote(companys.State) + "',");
                 SQL.AppendLine("    Telephone = '" + Functions.NoQuote(companys.Telephone) + "',");
                 SQL.AppendLine("    Email = '" + Functions.NoQuote(companys.Email) + "',");
-                SQL.AppendLine("    Logo = '" + Functions.NoQuote(companys.Logo) + "',");
+                SQL.AppendLine("    Logo = '" + (companys.Logo == null ? string.Empty : Functions.NoQuote(companys.Logo)) + "',");
                 SQL.AppendLine("    IRRF = " + Functions.FormatNumber(companys.IRRF) + ",");
                 SQL.AppendLine("    PIS = " + Functions.FormatNumber(companys.PIS) + ",");
                 SQL.AppendLine("    COFINS = " + Functions.FormatNumber(companys.COFINS) + ",");

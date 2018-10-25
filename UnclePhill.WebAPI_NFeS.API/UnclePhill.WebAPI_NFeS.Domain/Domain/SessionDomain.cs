@@ -49,7 +49,7 @@ namespace UnclePhill.WebAPI_NFeS.Domain
                 SQL.AppendLine("    DateUpdate ");
                 SQL.AppendLine(" From Session ");
                 SQL.AppendLine(" Where Active = 1 ");
-                SQL.AppendLine(" And DateDiff(MI, DateStart, GetDate()) <= 5 ");
+                SQL.AppendLine(" And DateDiff(MI, DateStart, GetDate()) <= 30 ");
                 SQL.AppendLine(" And Session.SessionHash Like '" + SessionHash.Replace("'", "''") + "'");
 
                 DataTable data = Functions.Conn.GetDataTable(SQL.ToString(), "Session");
@@ -59,7 +59,7 @@ namespace UnclePhill.WebAPI_NFeS.Domain
                     SQL = new StringBuilder();
                     SQL.AppendLine(" Update Session Set ");
                     SQL.AppendLine("    DateStart = GetDate(), ");
-                    SQL.AppendLine("    DateEnd = DateAdd(MI,5,GetDate()) ");
+                    SQL.AppendLine("    DateEnd = DateAdd(MI,30,GetDate()) ");
                     SQL.AppendLine(" Where SessionId = " + row.Field<long>("SessionId"));
 
                     Functions.Conn.Execute(SQL.ToString());
@@ -82,7 +82,7 @@ namespace UnclePhill.WebAPI_NFeS.Domain
                 SQL.AppendLine(" Update Session Set ");
                 SQL.AppendLine("    Active = 0 ");
                 SQL.AppendLine(" Where Active = 1 ");
-                SQL.AppendLine(" And DateDiff(MI,DateStart,GetDate()) > 5 ");
+                SQL.AppendLine(" And DateDiff(MI,DateStart,GetDate()) > 30 ");
 
                 Functions.Conn.Update(SQL.ToString());
 
@@ -201,6 +201,12 @@ namespace UnclePhill.WebAPI_NFeS.Domain
                     throw new InternalProgramException("Usuario não encontrado!");
                 }
 
+                Users users = new UsersDomain().Get(UserId);
+                if (users.UserId <= 0)
+                {
+                    throw new InternalProgramException("Usuario não cadastrado na base de dados!");
+                }
+
                 DataTable data;
 
                 SQL = new StringBuilder();
@@ -208,7 +214,7 @@ namespace UnclePhill.WebAPI_NFeS.Domain
                 SQL.AppendLine("    SessionId ");
                 SQL.AppendLine(" From Session ");
                 SQL.AppendLine(" Where Active = 1 ");
-                SQL.AppendLine(" And DateDiff(MI, DateStart, Getdate()) <= 5 ");
+                SQL.AppendLine(" And DateDiff(MI, DateStart, Getdate()) <= 30 ");
                 SQL.AppendLine(" And Session.UserId = " + UserId);
 
                 data = Functions.Conn.GetDataTable(SQL.ToString(), "Session");
@@ -217,7 +223,7 @@ namespace UnclePhill.WebAPI_NFeS.Domain
                     return SessionDomain.GetSessionById(data.AsEnumerable().First().Field<long>("SessionId"));
                 }
 
-                string Hash = SessionDomain.GenerateHash(UserId.ToString());
+                string Hash = SessionDomain.GenerateHash(users.UserId.ToString() + users.Password.ToString());
 
                 SQL = new StringBuilder();
                 SQL.AppendLine(" Insert Into Session ");
@@ -232,7 +238,7 @@ namespace UnclePhill.WebAPI_NFeS.Domain
                 SQL.AppendLine("    ( " + UserId + ",");
                 SQL.AppendLine("     '" + Hash + "',");
                 SQL.AppendLine("     GetDate(),");
-                SQL.AppendLine("     DateAdd(MI,5,GetDate()),");
+                SQL.AppendLine("     DateAdd(MI,30,GetDate()),");
                 SQL.AppendLine("     1, ");
                 SQL.AppendLine("     GetDate(), ");
                 SQL.AppendLine("     GetDate()) ");
