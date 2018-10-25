@@ -204,15 +204,15 @@ namespace UnclePhill.WebAPI_NFeS.Domain
                 DataTable data;
 
                 SQL = new StringBuilder();
-                SQL.AppendLine(" Select ");
-                SQL.AppendLine("    Count(SessionId) As Sessions ");
+                SQL.AppendLine(" Select Top 1 ");
+                SQL.AppendLine("    SessionId ");
                 SQL.AppendLine(" From Session ");
                 SQL.AppendLine(" Where Active = 1 ");
                 SQL.AppendLine(" And DateDiff(MI, DateStart, Getdate()) <= 5 ");
                 SQL.AppendLine(" And Session.UserId = " + UserId);
 
                 data = Functions.Conn.GetDataTable(SQL.ToString(), "Session");
-                if (data != null && data.Rows.Count > 0 && data.AsEnumerable().First().Field<int>("Sessions") > 0)
+                if (data != null && data.Rows.Count > 0 && data.AsEnumerable().First().Field<int>("SessionId") > 0)
                 {
                     return SessionDomain.GetSessionById(data.AsEnumerable().First().Field<long>("SessionId"));
                 }
