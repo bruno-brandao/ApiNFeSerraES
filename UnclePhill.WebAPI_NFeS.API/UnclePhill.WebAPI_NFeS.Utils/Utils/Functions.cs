@@ -96,6 +96,11 @@ namespace UnclePhill.WebAPI_NFeS.Utils.Utils
             return Value.ToString().Replace(".", "").Replace(",", ".");
         }
 
+        public static string RemoveCharSpecial(string Value)
+        {
+            return Value.Replace("/", "").Replace("-", "").Replace(".", "").Replace("(", "").Replace(")", "").Replace(" ","");
+        }
+
         public static bool ExistsRegister(string Value, TypeInput Type, string Field, string Table)
         {
             try

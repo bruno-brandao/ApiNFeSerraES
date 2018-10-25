@@ -218,7 +218,7 @@ namespace UnclePhill.WebAPI_NFeS.Domain
                 SQL.AppendLine(" And Session.UserId = " + UserId);
 
                 data = Functions.Conn.GetDataTable(SQL.ToString(), "Session");
-                if (data != null && data.Rows.Count > 0 && data.AsEnumerable().First().Field<int>("SessionId") > 0)
+                if (data != null && data.Rows.Count > 0 && data.AsEnumerable().First().Field<long>("SessionId") > 0)
                 {
                     return SessionDomain.GetSessionById(data.AsEnumerable().First().Field<long>("SessionId"));
                 }

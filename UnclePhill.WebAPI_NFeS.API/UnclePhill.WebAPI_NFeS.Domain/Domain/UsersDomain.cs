@@ -115,7 +115,7 @@ namespace UnclePhill.WebAPI_NFeS.Domain
                 SQL.AppendLine(" Values( ");
                 SQL.AppendLine("    '" + Functions.NoQuote(users.Name) + "',");
                 SQL.AppendLine("    '" + Functions.NoQuote(users.LastName) + "',");
-                SQL.AppendLine("    '" + Functions.NoQuote(users.CPF) + "',");
+                SQL.AppendLine("    '" + Functions.RemoveCharSpecial(Functions.NoQuote(users.CPF)) + "',");
                 SQL.AppendLine("    '" + Functions.NoQuote(users.Email) + "',");
                 SQL.AppendLine("    '" + Functions.Encript(Functions.NoQuote(users.Password)) + "',");
                 SQL.AppendLine("    1,");
@@ -155,7 +155,7 @@ namespace UnclePhill.WebAPI_NFeS.Domain
                 SQL.AppendLine(" Update Users Set ");
                 SQL.AppendLine("    Name = '" + Functions.NoQuote(users.Name) + "',");
                 SQL.AppendLine("    LastName = '" + Functions.NoQuote(users.LastName) + "',");
-                SQL.AppendLine("    CPF = '" + Functions.NoQuote(users.CPF) + "',");
+                SQL.AppendLine("    CPF = '" + Functions.RemoveCharSpecial(Functions.NoQuote(users.CPF)) + "',");
                 SQL.AppendLine("    Email = '" + Functions.NoQuote(users.Email) + "',");
                 SQL.AppendLine("    Password = '" + Functions.Encript(Functions.NoQuote(users.Password)) + "',");
                 SQL.AppendLine("    DateUpdate = GetDate() ");
