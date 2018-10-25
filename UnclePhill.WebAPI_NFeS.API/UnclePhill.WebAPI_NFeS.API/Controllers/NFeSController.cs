@@ -44,7 +44,7 @@ namespace UnclePhill.WebAPI_NFeS.API.Controllers
         {
             try
             {
-                if (!SessionDomain.CheckSession(base.Sessao())) return BadRequest("Sessão inválida!");
+                SessionDomain.CheckSession(base.Sessao());
                 return Ok(nFeSDomain.GetNFeS(CompanyId, NFNumber,NFeSDomain.TypeArchive.Xml));
             }
             catch (Exception ex)
@@ -65,7 +65,7 @@ namespace UnclePhill.WebAPI_NFeS.API.Controllers
         {
             try
             {
-                if (!SessionDomain.CheckSession(base.Sessao())) return BadRequest("Sessão inválida!");
+                SessionDomain.CheckSession(base.Sessao());
                 return Ok(nFeSDomain.GetNFeS(CompanyId, NFNumber,NFeSDomain.TypeArchive.PDF));
             }
             catch (Exception ex)
@@ -86,7 +86,7 @@ namespace UnclePhill.WebAPI_NFeS.API.Controllers
         {
             try
             {
-                if (!SessionDomain.CheckSession(base.Sessao())) return BadRequest("Sessão inválida!");
+                SessionDomain.CheckSession(base.Sessao());
                 return Ok(nFeSDomain.GetNFeS(CompanyId, NFNumber, NFeSDomain.TypeArchive.URL));
             }
             catch (Exception ex)
@@ -107,7 +107,7 @@ namespace UnclePhill.WebAPI_NFeS.API.Controllers
         {
             try
             {
-                if (!SessionDomain.CheckSession(base.Sessao())) return BadRequest("Sessão inválida!");
+                SessionDomain.CheckSession(base.Sessao());
                 return Ok(nFeSDomain.GetNFeS(CompanyId, NFNumber, NFeSDomain.TypeArchive.URLAuth));
             }
             catch (Exception ex)
@@ -131,7 +131,7 @@ namespace UnclePhill.WebAPI_NFeS.API.Controllers
             {
                 throw new NotImplementedException();
 
-                if (!SessionDomain.CheckSession(base.Sessao())) return BadRequest("Sessão inválida!");
+                SessionDomain.CheckSession(base.Sessao());
                 if (nFeSDomain.Cancel(CompanyId,NFNumber))
                 {
                     return Ok();

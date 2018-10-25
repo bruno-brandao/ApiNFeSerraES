@@ -26,7 +26,7 @@ namespace UnclePhill.WebAPI_NFeS.API.Controllers
         {
             try
             {
-                if (!SessionDomain.CheckSession(Sessao())) { return BadRequest("Sessão inválida!"); }
+                SessionDomain.CheckSession(base.Sessao());
                 return Ok(taxpayerActivitiesDomain.GetByCompany(CompanyId));
             }
             catch (Exception ex)

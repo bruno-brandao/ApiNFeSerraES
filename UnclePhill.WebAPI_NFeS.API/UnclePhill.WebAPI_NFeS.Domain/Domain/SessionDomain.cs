@@ -26,7 +26,7 @@ namespace UnclePhill.WebAPI_NFeS.Domain
             }
         }
 
-        public static bool CheckSession(string SessionHash)
+        public static void CheckSession(string SessionHash)
         {
             try
             {
@@ -34,7 +34,7 @@ namespace UnclePhill.WebAPI_NFeS.Domain
 
                 if (string.IsNullOrEmpty(SessionHash))
                 {
-                    return false;
+                    throw new InternalProgramException("Sessão inválida!");
                 }
 
                 SQL = new StringBuilder();
@@ -62,11 +62,9 @@ namespace UnclePhill.WebAPI_NFeS.Domain
                     SQL.AppendLine("    DateEnd = DateAdd(MI,30,GetDate()) ");
                     SQL.AppendLine(" Where SessionId = " + row.Field<long>("SessionId"));
 
-                    Functions.Conn.Execute(SQL.ToString());
-
-                    return true;
+                    Functions.Conn.Execute(SQL.ToString());                    
                 }
-                throw new InternalProgramException("Não foram encontradas sessões para esse usuário!");
+                throw new InvalidOperationException("Não foram encontradas sessões para esse usuário!");
             }
             catch (Exception ex)
             {

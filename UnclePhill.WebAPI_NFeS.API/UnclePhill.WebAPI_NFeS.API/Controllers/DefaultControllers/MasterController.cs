@@ -28,10 +28,13 @@ namespace UnclePhill.WebAPI_NFeS.API.Controllers
         }
 
         protected IHttpActionResult Exceptions(Exception ex)
-        {
+        {            
             if (ex is InternalProgramException) //Exeções internas da aplicação
             {
                 return BadRequest(ex.Message);
+            }else if (ex is InvalidOperationException)
+            {
+                return Unauthorized() ;
             }
             else //Outras exeções
             {

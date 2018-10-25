@@ -28,7 +28,7 @@ namespace UnclePhill.WebAPI_NFeS.API.Controllers
         {
             try
             {
-                if (!SessionDomain.CheckSession(base.Sessao())) return BadRequest("Sessão inválida!");
+                SessionDomain.CheckSession(base.Sessao());
                 return Ok(companyDomain.Get<List<Companys>>(CompanyDomain.Type.Company, CompanyId));
             }
             catch (Exception ex)
@@ -50,7 +50,7 @@ namespace UnclePhill.WebAPI_NFeS.API.Controllers
         {
             try
             {
-                if (!SessionDomain.CheckSession(base.Sessao())) return BadRequest("Sessão inválida!");
+                SessionDomain.CheckSession(base.Sessao());
                 return Ok(companyDomain.Get<List<Companys>>(CompanyDomain.Type.User, UserId));
             }
             catch (Exception ex)
@@ -72,7 +72,7 @@ namespace UnclePhill.WebAPI_NFeS.API.Controllers
         {
             try
             {
-                if (!SessionDomain.CheckSession(base.Sessao())) return BadRequest("Sessão inválida!");                
+                SessionDomain.CheckSession(base.Sessao());
                 return Ok(companyDomain.Post(Company, SessionDomain.GetUserSession(base.Sessao())));                
             }
             catch(Exception ex)
@@ -94,7 +94,7 @@ namespace UnclePhill.WebAPI_NFeS.API.Controllers
         {
             try
             {
-                if (!SessionDomain.CheckSession(base.Sessao())) return BadRequest("Sessão inválida!");
+                SessionDomain.CheckSession(base.Sessao());
                 return Ok(companyDomain.Put(Company, SessionDomain.GetUserSession(base.Sessao())));                
             }
             catch(Exception ex)

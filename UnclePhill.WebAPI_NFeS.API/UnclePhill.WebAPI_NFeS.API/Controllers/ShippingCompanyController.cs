@@ -27,7 +27,7 @@ namespace UnclePhill.WebAPI_NFeS.API.Controllers
         {
             try
             {
-                if (!SessionDomain.CheckSession(Sessao())) { return BadRequest("Sessão inválida!"); }
+                SessionDomain.CheckSession(base.Sessao());
                 return Ok(shippingCompanyDomain.Get<List<ShippingCompany>>(ShippingCompanyId));
             }
             catch (Exception ex)
@@ -48,7 +48,7 @@ namespace UnclePhill.WebAPI_NFeS.API.Controllers
         {
             try
             {
-                if (!SessionDomain.CheckSession(Sessao())) { return BadRequest("Sessão inválida!"); }               
+                SessionDomain.CheckSession(base.Sessao());
                 return Ok(shippingCompanyDomain.Post(ShippingCompany));               
             }
             catch (Exception ex)
@@ -69,7 +69,7 @@ namespace UnclePhill.WebAPI_NFeS.API.Controllers
         {
             try
             {
-                if (!SessionDomain.CheckSession(Sessao())) { return BadRequest("Sessão inválida!"); }
+                SessionDomain.CheckSession(base.Sessao());
                 return Ok(shippingCompanyDomain.Put(ShippingCompany));
             }
             catch (Exception ex)
@@ -90,7 +90,7 @@ namespace UnclePhill.WebAPI_NFeS.API.Controllers
         {
             try
             {
-                if (!SessionDomain.CheckSession(Sessao())) { return BadRequest("Sessão inválida!"); }
+                SessionDomain.CheckSession(base.Sessao());
                 if (shippingCompanyDomain.Delete(ShippingCompanyId))
                 {
                     return Ok("Transportadora excluida com sucesso!");

@@ -47,7 +47,7 @@ namespace UnclePhill.WebAPI_NFeS.API.Controllers
         {
             try
             {
-                if (!SessionDomain.CheckSession(Sessao())) { return BadRequest("Sessão inválida!"); }
+                SessionDomain.CheckSession(base.Sessao());
                 return Ok(usersDomain.Get(UserId));
             }
             catch (Exception ex)
@@ -88,7 +88,7 @@ namespace UnclePhill.WebAPI_NFeS.API.Controllers
         {
             try
             {
-                if (!SessionDomain.CheckSession(Sessao())) { return BadRequest("Sessão inválida!"); }
+                SessionDomain.CheckSession(base.Sessao());
                 return Ok(usersDomain.Put(users));
             }
             catch (Exception ex)

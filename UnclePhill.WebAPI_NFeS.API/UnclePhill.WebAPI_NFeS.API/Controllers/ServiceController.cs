@@ -28,7 +28,7 @@ namespace UnclePhill.WebAPI_NFeS.API.Controllers
         {
             try
             {
-                if (!SessionDomain.CheckSession(Sessao())) { return BadRequest("Sessão inválida!"); }
+                SessionDomain.CheckSession(base.Sessao());
                 return Ok(serviceDomain.Get<List<Services>>(ServicesId));
             }
             catch(Exception ex)
@@ -49,7 +49,7 @@ namespace UnclePhill.WebAPI_NFeS.API.Controllers
         {
             try
             {
-                if (!SessionDomain.CheckSession(Sessao())) { return BadRequest("Sessão inválida!"); }                
+                SessionDomain.CheckSession(base.Sessao());
                 return Ok(serviceDomain.Post(Service));
             }
             catch (Exception ex)
@@ -70,7 +70,7 @@ namespace UnclePhill.WebAPI_NFeS.API.Controllers
         {
             try
             {
-                if (!SessionDomain.CheckSession(Sessao())) { return BadRequest("Sessão inválida!"); }
+                SessionDomain.CheckSession(base.Sessao());
                 return Ok(serviceDomain.Put(Service));
             }
             catch (Exception ex)
@@ -91,7 +91,7 @@ namespace UnclePhill.WebAPI_NFeS.API.Controllers
         {
             try
             {
-                if (!SessionDomain.CheckSession(Sessao())) { return BadRequest("Sessão inválida!"); }
+                SessionDomain.CheckSession(base.Sessao());
                 if (serviceDomain.Delete(ServicesId))
                 {
                     return Ok("Serviço excluido com sucesso!");

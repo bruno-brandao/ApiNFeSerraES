@@ -35,7 +35,7 @@ namespace UnclePhill.WebAPI_NFeS.API.Controllers
         {
             try
             {
-                if (!SessionDomain.CheckSession(base.Sessao())) return BadRequest("Sessão inválida!");
+                SessionDomain.CheckSession(base.Sessao());
                 if (responsesDomain.Post(obj))
                 {
                     return Ok();

@@ -26,7 +26,7 @@ namespace UnclePhill.WebAPI_NFeS.API.Controllers
         {
             try
             {
-                if (!SessionDomain.CheckSession(base.Sessao())) return BadRequest("Sessão inválida!");
+                SessionDomain.CheckSession(base.Sessao());
                 return Ok(cFPSDomain.Get<List<CFPS>>(CFPSId));
             }
             catch (Exception ex)
