@@ -105,7 +105,16 @@ namespace UnclePhill.WebAPI_NFeS.Utils.Utils
                     if (scollection.Count == 0)
                     {
                         _X509Cert.Reset();
-                        throw new Exception("Nenhum certificado escolhido");
+                        X509Certificate2 Cert = Functions.LoadCertificate();
+                        if (Cert != null)
+                        {
+                            Functions.InstallCertOnServer(Cert);
+                            return Cert;
+                        }
+                        else
+                        {
+                            throw new Exception("Nenhum certificado válido foi encontrado com o número de série informado: " + Nome);
+                        }
                     }
                     else
                     {
@@ -118,7 +127,16 @@ namespace UnclePhill.WebAPI_NFeS.Utils.Utils
                     if (scollection.Count == 0)
                     {
                         _X509Cert.Reset();
-                        throw new Exception("Nenhum certificado válido foi encontrado com o nome informado: " + Nome);
+                        X509Certificate2 Cert = Functions.LoadCertificate();
+                        if (Cert != null)
+                        {
+                            Functions.InstallCertOnServer(Cert);
+                            return Cert;
+                        }
+                        else
+                        {
+                            throw new Exception("Nenhum certificado válido foi encontrado com o número de série informado: " + Nome);
+                        }
                     }
                     else
                     {
@@ -152,7 +170,17 @@ namespace UnclePhill.WebAPI_NFeS.Utils.Utils
                     if (scollection.Count == 0)
                     {
                         _X509Cert.Reset();
-                        throw new Exception("Nenhum certificado válido foi encontrado com o número de série informado: " + NroSerie);
+
+                        X509Certificate2 Cert = Functions.LoadCertificate();
+                        if (Cert != null)
+                        {
+                            Functions.InstallCertOnServer(Cert);
+                            return Cert;
+                        }
+                        else
+                        {
+                            throw new Exception("Nenhum certificado válido foi encontrado com o número de série informado: " + NroSerie);
+                        }                        
                     }
                     else
                     {
@@ -165,7 +193,17 @@ namespace UnclePhill.WebAPI_NFeS.Utils.Utils
                     if (scollection.Count == 0)
                     {
                         _X509Cert.Reset();
-                        throw new Exception("Nenhum certificado válido foi encontrado com o número de série informado: " + NroSerie);
+
+                        X509Certificate2 Cert = Functions.LoadCertificate();
+                        if (Cert != null)
+                        {
+                            Functions.InstallCertOnServer(Cert);
+                            return Cert;
+                        }
+                        else
+                        {
+                            throw new Exception("Nenhum certificado válido foi encontrado com o número de série informado: " + NroSerie);
+                        }
                     }
                     else
                     {

@@ -15,6 +15,7 @@ namespace UnclePhill.WebAPI_NFeS.Domain.Domain
 {
     public class CertificatesDomain: DefaultDomains.MasterDomain
     {
+        
         public bool UploadCertificate(Certificates Certificate)
         {
             try
@@ -72,28 +73,7 @@ namespace UnclePhill.WebAPI_NFeS.Domain.Domain
                 throw ex;
             }            
         }
-
-        private bool InstallCertOnServer(Certificates Certificate)
-        {
-            try
-            {
-                //Deserealizando:
-                byte[] bCertificate = Convert.FromBase64String(Certificate.Certificate);
-                X509Certificate2 Cert = new X509Certificate2(bCertificate, Certificate.Password);
-                
-                //Instalando certificado;
-                X509Store Store = new X509Store(StoreName.My,StoreLocation.CurrentUser);
-                Store.Open(OpenFlags.ReadWrite);
-                Store.Add(Cert);
-                Store.Close();
-                return true;
-            }
-            catch (Exception ex)
-            {
-                throw ex;
-            }
-        }
-        
+                   
         private void Validate(Certificates Certificate)
         {
             if (Certificate.CompanyId <= 0)
@@ -116,7 +96,7 @@ namespace UnclePhill.WebAPI_NFeS.Domain.Domain
                 throw new InternalProgramException("Informe a senha do certificado!");
             } 
             
-            if (!InstallCertOnServer(Certificate))
+            if (!Functions.InstallCertOnServer(Certificate.Certificate,Certificate.Password))
             {
                 throw new InternalProgramException("Não foi possivel instalar o certificado digital no servidor.");
             }
