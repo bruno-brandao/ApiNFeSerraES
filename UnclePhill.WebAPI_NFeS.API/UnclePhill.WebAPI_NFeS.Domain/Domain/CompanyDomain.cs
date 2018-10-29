@@ -83,7 +83,12 @@ namespace UnclePhill.WebAPI_NFeS.Domain
         {
             try
             {
-                Validate(companys);               
+                Validate(companys);
+
+                if (Functions.ExistsRegister(companys.CNPJ, TypeInput.Texto, "CNPJ", "Companys"))
+                {
+                    throw new InternalProgramException("Empresa já existe!");
+                }
 
                 SQL.AppendLine(" Insert Into Companys ");
                 SQL.AppendLine("    (UserId, ");
@@ -212,12 +217,7 @@ namespace UnclePhill.WebAPI_NFeS.Domain
             if (string.IsNullOrEmpty(companys.CNPJ))
             {
                  throw new InternalProgramException("Informe o CNPJ!");
-            }
-
-            if (Functions.ExistsRegister(companys.CNPJ, TypeInput.Texto, "CNPJ", "Companys"))
-            {
-                throw new InternalProgramException("Empresa já existe!");
-            }                       
+            }                                   
 
             if (string.IsNullOrEmpty(companys.Name))
             {
