@@ -43,8 +43,8 @@ namespace UnclePhill.WebAPI_NFeS.Utils.Utils
                 SqlCommand Command = new SqlCommand(Query, SqlConnection);
                 if(Command.ExecuteNonQuery() > 0)
                 {
-                    Command = new SqlCommand("Select @@Identity;", SqlConnection);
-                    return long.Parse(Command.ExecuteScalar().ToString());
+                    Command = new SqlCommand("Select @@Identity;", SqlConnection);    
+                    return long.Parse(Command.ExecuteScalar().ToString());                    
                 }
                 return 0;
             }

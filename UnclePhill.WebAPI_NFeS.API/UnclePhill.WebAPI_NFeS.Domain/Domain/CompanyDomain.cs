@@ -32,7 +32,7 @@ namespace UnclePhill.WebAPI_NFeS.Domain
                 SQL.AppendLine("    State, ");
                 SQL.AppendLine("    Telephone, ");
                 SQL.AppendLine("    Email, ");
-                SQL.AppendLine("    Logo, ");
+                SQL.AppendLine("    '' As Logo, ");
                 SQL.AppendLine("    IRRF, ");
                 SQL.AppendLine("    PIS, ");
                 SQL.AppendLine("    COFINS, ");
@@ -192,7 +192,7 @@ namespace UnclePhill.WebAPI_NFeS.Domain
                 SQL.AppendLine(" Where Active = 1 ");
                 SQL.AppendLine(" And CompanyId = " + companys.CompanyId);
 
-                if (Functions.Conn.Insert(SQL.ToString()) > 0)
+                if (Functions.Conn.Update(SQL.ToString()))
                 {
                     TaxpayerActivitiesDomain taxpayerActivitiesDomain = new TaxpayerActivitiesDomain();
                     taxpayerActivitiesDomain.Reload(Homologation.CPF, Homologation.Password, Homologation.IM, int.Parse(Homologation.CityCod), companys.CompanyId);
