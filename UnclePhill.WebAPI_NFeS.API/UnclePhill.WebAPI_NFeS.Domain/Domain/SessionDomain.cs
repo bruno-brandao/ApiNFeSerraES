@@ -13,7 +13,7 @@ namespace UnclePhill.WebAPI_NFeS.Domain
     public static class SessionDomain
     {
         private static StringBuilder SQL = new StringBuilder();
-        private const string Timeout = "30"; 
+        private const string Timeout = "60"; 
         public static string SessionHash;
 
         public static string GenerateHash(string Value)

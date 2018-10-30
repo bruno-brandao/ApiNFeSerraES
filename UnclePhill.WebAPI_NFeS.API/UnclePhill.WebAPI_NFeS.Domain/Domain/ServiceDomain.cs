@@ -38,7 +38,7 @@ namespace UnclePhill.WebAPI_NFeS.Domain
                 DataTable data = Functions.Conn.GetDataTable(SQL.ToString(), "Services");
                 if (data != null && data.Rows.Count > 0)
                 {
-                    if (typeof(T) == typeof(List<Companys>))
+                    if (typeof(T) == typeof(List<Services>))
                     {
                         List<Services> lServices = new List<Services>();
                         foreach (DataRow row in data.Rows)

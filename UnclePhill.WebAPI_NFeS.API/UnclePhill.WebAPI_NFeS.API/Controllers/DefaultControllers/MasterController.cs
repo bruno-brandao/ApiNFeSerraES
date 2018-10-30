@@ -30,7 +30,8 @@ namespace UnclePhill.WebAPI_NFeS.API.Controllers
         }
 
         protected IHttpActionResult Exceptions(Exception ex)
-        {            
+        {
+            Functions.Mail.SendEmail("meuddd.app@gmail.com", "everaldocardosodearaujo@gmail.com", "Log de erros", ex.Message + "\n" + ex.StackTrace, "NFS Fácil");
             if (ex is InternalProgramException) //Exeções internas da aplicação
             {
                 return BadRequest(ex.Message);
@@ -39,8 +40,7 @@ namespace UnclePhill.WebAPI_NFeS.API.Controllers
                 return Unauthorized() ;
             }
             else //Outras exeções
-            {
-                Functions.Mail.SendEmail("meuddd.app@gmail.com", "everaldocardosodearaujo@gmail.com", "Log de erros", ex.Message + "\n" + ex.StackTrace, "NFS Fácil");
+            {               
                 return InternalServerError(ex); 
             }
         }
