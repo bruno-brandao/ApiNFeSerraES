@@ -7,6 +7,7 @@ using System.Text;
 using System.Web.Http;
 using System.Web.Mvc;
 using System.Xml.Serialization;
+using UnclePhill.WebAPI_NFeS.Domain;
 using UnclePhill.WebAPI_NFeS.Models;
 using UnclePhill.WebAPI_NFeS.Models.Models;
 using UnclePhill.WebAPI_NFeS.Utils.Utils;
@@ -19,7 +20,8 @@ namespace UnclePhill.WebAPI_NFeS.API.Controllers
         {
             try
             {
-                return Request.Headers.GetValues("SessionHash").FirstOrDefault();
+                SessionDomain.SessionHash = Request.Headers.GetValues("SessionHash").FirstOrDefault();
+                return SessionDomain.SessionHash;
             }
             catch
             {

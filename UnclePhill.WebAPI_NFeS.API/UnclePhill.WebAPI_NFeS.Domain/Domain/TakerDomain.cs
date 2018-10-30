@@ -40,7 +40,7 @@ namespace UnclePhill.WebAPI_NFeS.Domain
                 SQL.AppendLine("    DateUpdate ");
                 SQL.AppendLine(" From Takers ");
                 SQL.AppendLine(" Where Active = 1 ");
-                SQL.AppendLine(" And CompanyId = " + SessionDomain.CompanySession.CompanyId);
+                SQL.AppendLine(" And CompanyId = " + SessionDomain.GetCompanySession().CompanyId);
                 if (TakerId > 0) { SQL.AppendLine(" And TakerId = " + TakerId); }
 
                 DataTable data = Functions.Conn.GetDataTable(SQL.ToString(), "Takers");
@@ -93,7 +93,7 @@ namespace UnclePhill.WebAPI_NFeS.Domain
                 SQL.AppendLine("    DateInsert, ");
                 SQL.AppendLine("    DateUpdate) ");
                 SQL.AppendLine(" Values ");
-                SQL.AppendLine("    ( " + SessionDomain.CompanySession.CompanyId + ",");
+                SQL.AppendLine("    ( " + takers.CompanyId + ",");
                 SQL.AppendLine("     '" + Functions.RemoveCharSpecial(Functions.NoQuote(takers.IM)) + "',");
                 SQL.AppendLine("     '" + Functions.RemoveCharSpecial(Functions.NoQuote(takers.CPF_CNPJ)) + "',");
                 SQL.AppendLine("     '" + Functions.RemoveCharSpecial(Functions.NoQuote(takers.RG_IE)) + "',");
@@ -141,7 +141,7 @@ namespace UnclePhill.WebAPI_NFeS.Domain
                 }
 
                 SQL.AppendLine(" Update Takers Set ");
-                SQL.AppendLine("    CompanyId = " + SessionDomain.CompanySession.CompanyId + ",");
+                SQL.AppendLine("    CompanyId = " + takers.CompanyId + ",");
                 SQL.AppendLine("    IM = '" + Functions.RemoveCharSpecial(Functions.NoQuote(takers.IM)) + "',");
                 SQL.AppendLine("    CPF_CNPJ = '" + Functions.RemoveCharSpecial(Functions.NoQuote(takers.CPF_CNPJ)) + "',");
                 SQL.AppendLine("    RG_IE = '" + Functions.RemoveCharSpecial(Functions.NoQuote(takers.RG_IE)) + "',");

@@ -12,10 +12,9 @@ namespace UnclePhill.WebAPI_NFeS.Domain
 {
     public static class SessionDomain
     {
-        public static Users UserSession;
-        public static Companys CompanySession;
         private static StringBuilder SQL = new StringBuilder();
         private const string Timeout = "30"; 
+        public static string SessionHash;
 
         public static string GenerateHash(string Value)
         {
@@ -66,7 +65,6 @@ namespace UnclePhill.WebAPI_NFeS.Domain
                     SQL.AppendLine(" Where SessionId = " + row.Field<long>("SessionId"));
 
                     Functions.Conn.Execute(SQL.ToString());
-                    GetDataSession(SessionHash);
                 }
                 else
                 {
@@ -98,7 +96,7 @@ namespace UnclePhill.WebAPI_NFeS.Domain
             }
         }
 
-        public static void GetDataSession(string SessionHash)
+        public static Companys GetCompanySession()
         {
             try
             {
@@ -119,11 +117,11 @@ namespace UnclePhill.WebAPI_NFeS.Domain
                 data = Functions.Conn.GetDataTable(SQL.ToString(), "Session");
 
                 if (data != null && data.Rows.Count > 0)
-                {
-                    UserSession = new UsersDomain().Get(data.AsEnumerable().First().Field<long>("UserId"));    
-                    CompanySession = new CompanyDomain().Get<Companys>(CompanyDomain.Type.User, UserSession.UserId);
+                {                    
+                    return new CompanyDomain().Get<Companys>(CompanyDomain.Type.User, 
+                        new UsersDomain().Get(data.AsEnumerable().First().Field<long>("UserId")).UserId);                    
                 }
-                throw new InternalProgramException("Sessão não encontrada!");
+                throw new InternalProgramException("Empresa não encontrada!");                
             }
             catch (Exception ex)
             {
