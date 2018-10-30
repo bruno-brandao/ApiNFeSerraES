@@ -18,6 +18,7 @@ namespace UnclePhill.WebAPI_NFeS.Domain
                 SQL = new StringBuilder();
                 SQL.AppendLine(" Select ");
                 SQL.AppendLine("    ServicesId, ");
+                SQL.AppendLine("    CompanyId, ");
                 SQL.AppendLine("    Unity, ");
                 SQL.AppendLine("    Value, ");
                 SQL.AppendLine("    Description, ");
@@ -31,6 +32,7 @@ namespace UnclePhill.WebAPI_NFeS.Domain
                 SQL.AppendLine("    DateUpdate ");
                 SQL.AppendLine(" From Services ");
                 SQL.AppendLine(" Where Active = 1 ");
+                SQL.AppendLine(" And CompanyId = " + SessionDomain.CompanySession.CompanyId);
                 if (ServicesId > 0) { SQL.AppendLine(" And ServicesId = " + ServicesId); }
 
                 DataTable data = Functions.Conn.GetDataTable(SQL.ToString(), "Services");
@@ -65,7 +67,8 @@ namespace UnclePhill.WebAPI_NFeS.Domain
                 Validate(services);
                
                 SQL.AppendLine(" Insert Into Services ");
-                SQL.AppendLine("    (Unity, ");
+                SQL.AppendLine("    (CompanyId, ");
+                SQL.AppendLine("    Unity, ");
                 SQL.AppendLine("    Value, ");
                 SQL.AppendLine("    Description, ");
                 SQL.AppendLine("    IRRF, ");
@@ -77,7 +80,8 @@ namespace UnclePhill.WebAPI_NFeS.Domain
                 SQL.AppendLine("    DateInsert, ");
                 SQL.AppendLine("    DateUpdate) ");
                 SQL.AppendLine(" Values ");
-                SQL.AppendLine("    ('" + Functions.NoQuote(services.Unity) + "',");
+                SQL.AppendLine("    (" + SessionDomain.CompanySession.CompanyId + ",");
+                SQL.AppendLine("     '" + Functions.NoQuote(services.Unity) + "',");
                 SQL.AppendLine("     " + Functions.FormatNumber(services.Value) + ",");
                 SQL.AppendLine("     '" + Functions.NoQuote(services.Description) + "',");
                 SQL.AppendLine("     " + Functions.FormatNumber(services.IRRF) + ",");
@@ -118,6 +122,7 @@ namespace UnclePhill.WebAPI_NFeS.Domain
                 }
 
                 SQL.AppendLine(" Update Services Set ");
+                SQL.AppendLine("    CompanyId = " + SessionDomain.CompanySession.CompanyId + ",");
                 SQL.AppendLine("    Unity = '" + Functions.NoQuote(services.Unity) + "',");
                 SQL.AppendLine("    Value = " + Functions.FormatNumber(services.Value) + ",");
                 SQL.AppendLine("    Description = '" + Functions.NoQuote(services.Description) + "',");
@@ -168,6 +173,11 @@ namespace UnclePhill.WebAPI_NFeS.Domain
 
         private void Validate(Services services)
         {
+            if (services.CompanyId <= 0)
+            {
+                throw new InternalProgramException("Informe a empresa!");
+            }
+
             if (string.IsNullOrEmpty(services.Unity))
             {
                  throw new InternalProgramException("Informe a unidade de medida do serviço!");
@@ -188,6 +198,7 @@ namespace UnclePhill.WebAPI_NFeS.Domain
         {
             Services service = new Services();
             service.ServicesId = long.Parse(row["ServicesId"].ToString());
+            service.CompanyId = long.Parse(row["CompanyId"].ToString());
             service.Unity = row["Unity"].ToString();
             service.Value = decimal.Parse(row["Value"].ToString());
             service.Description = row["Description"].ToString();

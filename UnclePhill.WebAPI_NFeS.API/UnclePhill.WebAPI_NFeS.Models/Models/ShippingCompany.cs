@@ -12,12 +12,13 @@ namespace UnclePhill.WebAPI_NFeS.Models.Models
 
         }
 
-        public ShippingCompany(long ShippingCompanyId, string CPF_CNPJ,
+        public ShippingCompany(long ShippingCompanyId, long CompanyId, string CPF_CNPJ,
             string Name, string NameFantasy, string CEP, string Street,
             string Neighborhood, string City, string State, bool Active,
             string DateInsert, string DateUpdate)
         {
             this.ShippingCompanyId = ShippingCompanyId;
+            this.CompanyId = CompanyId;
             this.CPF_CNPJ = CPF_CNPJ;
             this.Name = Name;
             this.NameFantasy = NameFantasy;
@@ -32,6 +33,7 @@ namespace UnclePhill.WebAPI_NFeS.Models.Models
         }
 
         public long ShippingCompanyId { get; set; }
+        public long CompanyId { get; set; }
         public string CPF_CNPJ { get; set; }
         public string Name { get; set; }
         public string NameFantasy { get; set; }

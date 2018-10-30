@@ -26,6 +26,8 @@ namespace UnclePhill.WebAPI_NFeS.Utils.Utils
 
         public static Xml XmlFunctions = new Xml();
 
+        public static MailServer Mail = new MailServer("smtp.gmail.com",587,"meuddd.app@gmail.com", "4cess0!DDD");
+
         public static bool IsDate(string date)
         {
             try

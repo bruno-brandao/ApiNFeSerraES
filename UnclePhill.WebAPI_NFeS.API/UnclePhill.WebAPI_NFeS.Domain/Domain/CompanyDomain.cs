@@ -79,7 +79,7 @@ namespace UnclePhill.WebAPI_NFeS.Domain
             }
         }
 
-        public Companys Post(Companys companys, Users usersSession)
+        public Companys Post(Companys companys)
         {
             try
             {
@@ -114,7 +114,7 @@ namespace UnclePhill.WebAPI_NFeS.Domain
                 SQL.AppendLine("    DateInsert, ");
                 SQL.AppendLine("    DateUpdate) ");
                 SQL.AppendLine(" Values ");
-                SQL.AppendLine("    ( " + usersSession.UserId + ",");
+                SQL.AppendLine("    ( " + companys.UserId + ",");
                 SQL.AppendLine("     '" + Functions.RemoveCharSpecial(Functions.NoQuote(companys.CNPJ)) + "',");
                 SQL.AppendLine("     " + (companys.IM == null ? "Null," : "'" + Functions.RemoveCharSpecial(Functions.NoQuote(companys.IM.ToString())) + "',"));
                 SQL.AppendLine("     " + (companys.IE == null ? "Null,": "'" + Functions.RemoveCharSpecial(Functions.NoQuote(companys.IE.ToString())) + "',"));
@@ -143,7 +143,6 @@ namespace UnclePhill.WebAPI_NFeS.Domain
                 {
                     TaxpayerActivitiesDomain taxpayerActivitiesDomain = new TaxpayerActivitiesDomain();
                     taxpayerActivitiesDomain.Reload(Homologation.CPF,Homologation.Password,Homologation.IM,int.Parse(Homologation.CityCod),companys.CompanyId);
-                    companys.UserId = usersSession.UserId;
                     companys.Active = true;
                     companys.DateInsert = DateTime.Now.ToString("yyyy-MM-dd");
                     companys.DateUpdate = DateTime.Now.ToString("yyyy-MM-dd");
@@ -157,7 +156,7 @@ namespace UnclePhill.WebAPI_NFeS.Domain
             }
         }
 
-        public Companys Put(Companys companys, Users usersSession)
+        public Companys Put(Companys companys)
         {
             try
             {
@@ -169,7 +168,7 @@ namespace UnclePhill.WebAPI_NFeS.Domain
                 }
 
                 SQL.AppendLine(" Update Companys Set ");
-                SQL.AppendLine("    UserId = " + usersSession.UserId + ",");
+                SQL.AppendLine("    UserId = " + companys.UserId + ",");
                 SQL.AppendLine("    CNPJ = '" + Functions.RemoveCharSpecial(Functions.NoQuote(companys.CNPJ)) + "',");
                 SQL.AppendLine("    IM = " + (string.IsNullOrEmpty(companys.IM) ? "Null," : "'" + Functions.RemoveCharSpecial(Functions.NoQuote(companys.IM))) + "',");
                 SQL.AppendLine("    IE = " + (string.IsNullOrEmpty(companys.IE) ? "Null," : "'" + Functions.RemoveCharSpecial(Functions.NoQuote(companys.IE))) + "',");

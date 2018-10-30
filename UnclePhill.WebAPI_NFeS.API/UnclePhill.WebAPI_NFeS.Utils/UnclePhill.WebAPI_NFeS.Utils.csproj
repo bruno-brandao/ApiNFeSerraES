@@ -44,6 +44,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Utils\ConnectionManager.cs" />
     <Compile Include="Utils\Functions.cs" />
+    <Compile Include="Utils\MailServer.cs" />
     <Compile Include="Utils\Signature.cs" />
     <Compile Include="Utils\Xml.cs" />
   </ItemGroup>

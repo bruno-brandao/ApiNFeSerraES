@@ -14,8 +14,7 @@ using UnclePhill.WebAPI_NFeS.Utils.Utils;
 namespace UnclePhill.WebAPI_NFeS.Domain.Domain
 {
     public class CertificatesDomain: DefaultDomains.MasterDomain
-    {
-        
+    {        
         public bool UploadCertificate(Certificates Certificate)
         {
             try

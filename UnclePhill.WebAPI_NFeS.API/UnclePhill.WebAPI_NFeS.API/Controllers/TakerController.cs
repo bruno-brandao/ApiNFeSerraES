@@ -72,7 +72,7 @@ namespace UnclePhill.WebAPI_NFeS.API.Controllers
         {
             try
             {
-                SessionDomain.CheckSession(Sessao());
+                SessionDomain.CheckSession(base.Sessao());
                 return Ok(takerDomain.Put(Taker));
             }
             catch (Exception ex)

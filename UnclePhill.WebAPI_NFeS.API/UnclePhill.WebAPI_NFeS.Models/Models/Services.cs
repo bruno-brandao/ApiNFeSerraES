@@ -12,7 +12,7 @@ namespace UnclePhill.WebAPI_NFeS.Models.Models
 
         }
 
-        public Services(long ServicesId, string Unity, 
+        public Services(long ServicesId, long CompanyId, string Unity, 
             decimal Value, string Description, 
             decimal IRRF, decimal PIS, 
             decimal CSLL, decimal INSS, 
@@ -20,6 +20,7 @@ namespace UnclePhill.WebAPI_NFeS.Models.Models
             string DateInsert, string DateUpdate)
         {
             this.ServicesId = ServicesId;
+            this.CompanyId = CompanyId;
             this.Unity = Unity;
             this.Value = Value;
             this.Description = Description;
@@ -34,6 +35,7 @@ namespace UnclePhill.WebAPI_NFeS.Models.Models
         }
 
         public long ServicesId { get; set; }
+        public long CompanyId { get; set; }
         public string Unity { get; set; }
         public decimal Value { get; set; }
         public string Description { get; set; }

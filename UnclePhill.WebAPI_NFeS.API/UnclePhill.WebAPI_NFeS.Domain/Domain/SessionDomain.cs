@@ -12,6 +12,8 @@ namespace UnclePhill.WebAPI_NFeS.Domain
 {
     public static class SessionDomain
     {
+        public static Users UserSession;
+        public static Companys CompanySession;
         private static StringBuilder SQL = new StringBuilder();
         private const string Timeout = "30"; 
 
@@ -64,6 +66,7 @@ namespace UnclePhill.WebAPI_NFeS.Domain
                     SQL.AppendLine(" Where SessionId = " + row.Field<long>("SessionId"));
 
                     Functions.Conn.Execute(SQL.ToString());
+                    GetDataSession(SessionHash);
                 }
                 else
                 {
@@ -95,13 +98,13 @@ namespace UnclePhill.WebAPI_NFeS.Domain
             }
         }
 
-        public static Users GetUserSession(string SessionHash)
+        public static void GetDataSession(string SessionHash)
         {
             try
             {
                 if (string.IsNullOrEmpty(SessionHash))
                 {
-                    throw new InternalProgramException("Variavel de Sessão não informada!");
+                    throw new InternalProgramException("Variável de Sessão não informada!");
                 }
 
                 DataTable data;
@@ -117,31 +120,8 @@ namespace UnclePhill.WebAPI_NFeS.Domain
 
                 if (data != null && data.Rows.Count > 0)
                 {
-                    SQL = new StringBuilder();
-                    SQL.AppendLine(" Select * From Users ");
-                    SQL.AppendLine(" Where Active = 1 ");
-                    SQL.AppendLine(" And UserId = " + data.AsEnumerable().First().Field<long>("UserId"));
-
-                    data = Functions.Conn.GetDataTable(SQL.ToString(), "Users");
-                    if (data != null && data.Rows.Count > 0)
-                    {
-                        DataRow row = data.AsEnumerable().First();
-
-                        Users users = new Users();
-                        users.UserId = row.Field<long>("UserId");
-                        users.Name = row.Field<string>("Name");
-                        users.LastName = row.Field<string>("LastName");
-                        users.CPF = row.Field<string>("CPF");
-                        users.Email = row.Field<string>("Email");
-                        users.Password = row.Field<string>("Password");
-                        users.SessionHash = string.Empty;
-                        users.Active = row.Field<bool>("Active");
-                        users.DateInsert = row.Field<DateTime>("DateInsert").ToString("dd-MM-yyyy");
-                        users.DateUpdate = row.Field<DateTime>("DateUpdate").ToString("dd-MM-yyyy");
-
-                        return users;
-                    }
-                    throw new InternalProgramException("Usuário não encontrado!");
+                    UserSession = new UsersDomain().Get(data.AsEnumerable().First().Field<long>("UserId"));    
+                    CompanySession = new CompanyDomain().Get<Companys>(CompanyDomain.Type.User, UserSession.UserId);
                 }
                 throw new InternalProgramException("Sessão não encontrada!");
             }

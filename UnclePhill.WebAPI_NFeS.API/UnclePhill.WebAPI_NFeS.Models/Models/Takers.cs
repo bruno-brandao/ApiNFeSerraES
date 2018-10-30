@@ -12,7 +12,7 @@ namespace UnclePhill.WebAPI_NFeS.Models.Models
 
         }
 
-        public Takers(long TakerId, string IM, 
+        public Takers(long TakerId, long CompanyId, string IM, 
             string CPF_CNPJ, string RG_IE, 
             string Name, string NameFantasy, 
             string TypePerson, string CEP, 
@@ -22,6 +22,7 @@ namespace UnclePhill.WebAPI_NFeS.Models.Models
             string DateInsert, string DateUpdate)
         {
             this.TakerId = TakerId;
+            this.CompanyId = CompanyId;
             this.IM = IM;
             this.CPF_CNPJ = CPF_CNPJ;
             this.RG_IE = RG_IE;
@@ -42,6 +43,7 @@ namespace UnclePhill.WebAPI_NFeS.Models.Models
         }
                 
         public long TakerId { get; set; }
+        public long CompanyId { get; set; }
         public string IM { get; set; }
         public string CPF_CNPJ { get; set; }
         public string RG_IE { get; set; }

@@ -19,6 +19,7 @@ namespace UnclePhill.WebAPI_NFeS.Domain
                 SQL = new StringBuilder();
                 SQL.AppendLine(" Select ");
                 SQL.AppendLine("    ShippingCompanyId, ");
+                SQL.AppendLine("    CompanyId, ");
                 SQL.AppendLine("    CPF_CNPJ, ");
                 SQL.AppendLine("    Name, ");
                 SQL.AppendLine("    NameFantasy, ");
@@ -32,6 +33,7 @@ namespace UnclePhill.WebAPI_NFeS.Domain
                 SQL.AppendLine("    DateUpdate ");
                 SQL.AppendLine(" From ShippingCompany ");
                 SQL.AppendLine(" Where Active = 1 ");
+                SQL.AppendLine(" And CompanyId = " + SessionDomain.CompanySession.CompanyId);
                 if (ShippingCompanyId > 0) { SQL.AppendLine(" And ShippingCompanyId = " + ShippingCompanyId); }
 
                 DataTable data = Functions.Conn.GetDataTable(SQL.ToString(), "ShippingCompany");
@@ -65,7 +67,8 @@ namespace UnclePhill.WebAPI_NFeS.Domain
                 Validate(shippingCompany);                
 
                 SQL.AppendLine(" Insert Into ShippingCompany ");
-                SQL.AppendLine("    (CPF_CNPJ, ");
+                SQL.AppendLine("    (CompanyId, ");
+                SQL.AppendLine("    CPF_CNPJ, ");
                 SQL.AppendLine("    Name, ");
                 SQL.AppendLine("    NameFantasy, ");
                 SQL.AppendLine("    CEP, ");
@@ -77,7 +80,8 @@ namespace UnclePhill.WebAPI_NFeS.Domain
                 SQL.AppendLine("    DateInsert, ");
                 SQL.AppendLine("    DateUpdate) ");
                 SQL.AppendLine(" Values ");
-                SQL.AppendLine("    ('" + Functions.RemoveCharSpecial(Functions.NoQuote(shippingCompany.CPF_CNPJ)) + "',");
+                SQL.AppendLine("    ( " + SessionDomain.CompanySession.CompanyId + ",");
+                SQL.AppendLine("     '" + Functions.RemoveCharSpecial(Functions.NoQuote(shippingCompany.CPF_CNPJ)) + "',");
                 SQL.AppendLine("     '" + Functions.NoQuote(shippingCompany.Name) + "',");
                 SQL.AppendLine("     '" + Functions.NoQuote(shippingCompany.NameFantasy) + "',");
                 SQL.AppendLine("     '" + Functions.RemoveCharSpecial(Functions.NoQuote(shippingCompany.CEP)) + "',");
@@ -118,6 +122,7 @@ namespace UnclePhill.WebAPI_NFeS.Domain
                 }
 
                 SQL.AppendLine(" Update ShippingCompany Set ");
+                SQL.AppendLine("    CompanyId = " + SessionDomain.CompanySession.CompanyId + ",");
                 SQL.AppendLine("    CPF_CNPJ = '" + Functions.RemoveCharSpecial(Functions.NoQuote(shippingCompany.CPF_CNPJ)) + "',");
                 SQL.AppendLine("    Name = '" + Functions.NoQuote(shippingCompany.Name) + "',");
                 SQL.AppendLine("    NameFantasy = '" + Functions.NoQuote(shippingCompany.NameFantasy) + "',");
@@ -168,6 +173,11 @@ namespace UnclePhill.WebAPI_NFeS.Domain
 
         private void Validate(ShippingCompany shippingCompany)
         {
+            if (shippingCompany.CompanyId <= 0)
+            {
+                throw new InternalProgramException("Informe a empresa!");
+            }
+
             if (string.IsNullOrEmpty(shippingCompany.CPF_CNPJ))
             {
                   throw new InternalProgramException("Informe o CPF/CNPJ da transportadora!");
@@ -218,6 +228,7 @@ namespace UnclePhill.WebAPI_NFeS.Domain
         {
             ShippingCompany shippingCompany = new ShippingCompany();
             shippingCompany.ShippingCompanyId = long.Parse(row["ShippingCompanyId"].ToString());
+            shippingCompany.CompanyId = long.Parse(row["CompanyId"].ToString());
             shippingCompany.CPF_CNPJ = row["CPF_CNPJ"].ToString();
             shippingCompany.Name = row["Name"].ToString();
             shippingCompany.NameFantasy = row["NameFantasy"].ToString();

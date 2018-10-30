@@ -215,6 +215,7 @@ namespace UnclePhill.WebAPI_NFeS.Domain
                 SQL.AppendLine("    " + Field);       
                 SQL.AppendLine(" From NFeS ");
                 SQL.AppendLine(" Where Active = 1 ");
+                SQL.AppendLine("    And CompanyId = " + SessionDomain.CompanySession.CompanyId);
                 SQL.AppendLine("    And NumeroNota = '" + Functions.NoQuote(NFNumber) + "' ");
                 SQL.AppendLine("    And CompanyId = " + CompanyId);
 

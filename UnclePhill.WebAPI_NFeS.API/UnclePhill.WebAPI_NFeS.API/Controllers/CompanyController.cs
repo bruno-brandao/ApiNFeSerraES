@@ -73,7 +73,7 @@ namespace UnclePhill.WebAPI_NFeS.API.Controllers
             try
             {
                 SessionDomain.CheckSession(base.Sessao());
-                return Ok(companyDomain.Post(Company, SessionDomain.GetUserSession(base.Sessao())));                
+                return Ok(companyDomain.Post(Company));                
             }
             catch(Exception ex)
             {
@@ -95,7 +95,7 @@ namespace UnclePhill.WebAPI_NFeS.API.Controllers
             try
             {
                 SessionDomain.CheckSession(base.Sessao());
-                return Ok(companyDomain.Put(Company, SessionDomain.GetUserSession(base.Sessao())));                
+                return Ok(companyDomain.Put(Company));                
             }
             catch(Exception ex)
             {

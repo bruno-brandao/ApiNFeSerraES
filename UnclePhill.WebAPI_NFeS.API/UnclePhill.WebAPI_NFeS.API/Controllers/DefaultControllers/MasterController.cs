@@ -32,12 +32,13 @@ namespace UnclePhill.WebAPI_NFeS.API.Controllers
             if (ex is InternalProgramException) //Exeções internas da aplicação
             {
                 return BadRequest(ex.Message);
-            }else if (ex is InvalidOperationException)
+            }else if (ex is InvalidOperationException)//Sessão expirada
             {
                 return Unauthorized() ;
             }
             else //Outras exeções
             {
+                Functions.Mail.SendEmail("meuddd.app@gmail.com", "everaldocardosodearaujo@gmail.com", "Log de erros", ex.Message + "\n" + ex.StackTrace, "NFS Fácil");
                 return InternalServerError(ex); 
             }
         }
