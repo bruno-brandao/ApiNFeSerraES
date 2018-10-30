@@ -29,7 +29,8 @@ namespace UnclePhill.WebAPI_NFeS.Domain
 
                 Takers Taker = new TakerDomain().Get<Takers>(NFeS.TakerId);
                 Companys Company = new CompanyDomain().Get<Companys>(CompanyDomain.Type.Company,NFeS.CompanyId);
-                CFPS CFPS = new CFPSDomain().Get<CFPS>(NFeS.CFPSId);                
+                CFPS CFPS = new CFPSDomain().Get<CFPS>(NFeS.CFPSId);
+                TaxpayerActivities TaxpayerActivities = new TaxpayerActivitiesDomain().Get(NFeS.TaxpayerActivitiesId);
                 ShippingCompany ShippingCompany = new ShippingCompanyDomain().Get<ShippingCompany>(NFeS.ShippingCompanyId);
                 var NFeSRequest = new Models.Models.NFeSStructure.NFeSIssueRequest.tbnfd();
                 NFeSRequest.nfd = new Models.Models.NFeSStructure.NFeSIssueRequest.tbnfdNfd();
@@ -93,8 +94,7 @@ namespace UnclePhill.WebAPI_NFeS.Domain
                 NFeSRequest.nfd.tbservico = new Models.Models.NFeSStructure.NFeSIssueRequest.tbnfdNfdServico[NFeS.Itens.Count];
                 for (int X = 0; X < NFeS.Itens.Count; X++)
                 {
-                    NFeSRequestItens Item = NFeS.Itens[X];
-                    TaxpayerActivities TaxpayerActivities = new TaxpayerActivitiesDomain().Get(Item.TaxpayerActivitiesId);
+                    NFeSRequestItens Item = NFeS.Itens[X];                    
                     Services Services = new ServiceDomain().Get<Services>(Item.ServicesId);
 
                     NFeSRequest.nfd.tbservico[X] = new Models.Models.NFeSStructure.NFeSIssueRequest.tbnfdNfdServico
@@ -546,6 +546,17 @@ namespace UnclePhill.WebAPI_NFeS.Domain
             {
                 throw new InternalProgramException("O Código Fiscal de Prestação de Serviço (CFPS) informado não está cadastrado.");
             }
+            
+            //Atividades do contribuinte
+            if (NFeS.TaxpayerActivitiesId <= 0)
+            {
+                throw new InternalProgramException("Informe o código da atividade.");
+            }
+
+            if (new TaxpayerActivitiesDomain().Get(NFeS.TaxpayerActivitiesId).TaxpayerActivitiesId <= 0 )
+            {
+                throw new InternalProgramException("Atividade inexistente.");
+            }
 
             //Faturas - Quatidades
             if (NFeS.Invoices.Count <= 0)
@@ -587,11 +598,7 @@ namespace UnclePhill.WebAPI_NFeS.Domain
                     if (Item.Amount <= 0)
                     {
                         throw new InternalProgramException("Informe a quantidade do serviço prestado.");
-                    }
-                    if (Item.TaxpayerActivitiesId <= 0)
-                    {
-                        throw new InternalProgramException("Informe o código da atividade.");
-                    }
+                    }                    
                     if (Item.Value <= 0)
                     {
                         throw new InternalProgramException("Informe o valor do serviço.");
@@ -611,7 +618,7 @@ namespace UnclePhill.WebAPI_NFeS.Domain
             {
                 throw new InternalProgramException("A empresa informada não está cadastrada.");
             }
-
+            
             if (string.IsNullOrEmpty(NFNumber))
             {
                 throw new InternalProgramException("Informe o número da nota fiscal!");

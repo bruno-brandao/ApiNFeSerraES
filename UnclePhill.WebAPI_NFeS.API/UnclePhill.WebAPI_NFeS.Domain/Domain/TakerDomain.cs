@@ -88,6 +88,7 @@ namespace UnclePhill.WebAPI_NFeS.Domain
                 SQL.AppendLine("    Neighborhood, ");
                 SQL.AppendLine("    City, ");
                 SQL.AppendLine("    State, ");
+                SQL.AppendLine("    Telephone, ");
                 SQL.AppendLine("    Email, ");
                 SQL.AppendLine("    Active, ");
                 SQL.AppendLine("    DateInsert, ");
@@ -102,7 +103,7 @@ namespace UnclePhill.WebAPI_NFeS.Domain
                 SQL.AppendLine("     '" + Functions.NoQuote(takers.TypePerson) + "',");
                 SQL.AppendLine("     '" + Functions.RemoveCharSpecial(Functions.NoQuote(takers.CEP)) + "',");
                 SQL.AppendLine("     '" + Functions.NoQuote(takers.Street) + "',");
-                SQL.AppendLine("     '" + Functions.NoQuote(takers.Number) + "',");
+                SQL.AppendLine("     '" + (takers.Number == null? string.Empty:Functions.NoQuote(takers.Number)) + "',");
                 SQL.AppendLine("     '" + Functions.NoQuote(takers.Neighborhood) + "',");
                 SQL.AppendLine("     '" + Functions.NoQuote(takers.City) + "',");
                 SQL.AppendLine("     '" + Functions.NoQuote(takers.State) + "',");
@@ -234,6 +235,11 @@ namespace UnclePhill.WebAPI_NFeS.Domain
                  throw new InternalProgramException("Informe o tipo de pessoa do tomador!");
             }
 
+            if (takers.TypePerson.Length > 1)
+            {
+                throw new InternalProgramException("Informe o tipo de pessoa F-Fisica /J-Juridica");
+            }            
+
             if (string.IsNullOrEmpty(takers.CEP))
             {
                  throw new InternalProgramException("Informe o CEP!");
@@ -257,6 +263,11 @@ namespace UnclePhill.WebAPI_NFeS.Domain
             if (string.IsNullOrEmpty(takers.State))
             {
                  throw new InternalProgramException("Informe a UF!");
+            }
+
+            if (takers.State.Length > 2)
+            {
+                throw new InternalProgramException("Informe uma UF válida Ex: ES!");
             }
 
             if (string.IsNullOrEmpty(takers.Telephone))

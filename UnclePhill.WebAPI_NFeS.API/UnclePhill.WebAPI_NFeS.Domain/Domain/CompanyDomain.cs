@@ -225,7 +225,7 @@ namespace UnclePhill.WebAPI_NFeS.Domain
 
             if (string.IsNullOrEmpty(companys.NameFantasy))
             {
-                 throw new InternalProgramException("Informe o nome fantasia da empresa!");
+                companys.NameFantasy = companys.Name;
             }
 
             if (string.IsNullOrEmpty(companys.CEP))

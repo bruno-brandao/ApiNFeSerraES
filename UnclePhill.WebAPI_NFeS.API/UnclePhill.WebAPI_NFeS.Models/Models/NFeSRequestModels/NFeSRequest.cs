@@ -11,6 +11,7 @@ namespace UnclePhill.WebAPI_NFeS.Models.Models.NFeSRequestModels
         public long CompanyId { get; set; }
         public long TakerId { get; set; }
         public long CFPSId { get; set; }
+        public long TaxpayerActivitiesId { get; set; }
         public long ShippingCompanyId { get; set; }
         public string Note { get; set; }
         public List<NFeSRequestModels.NFeSRequestItens> Itens { get; set; }
