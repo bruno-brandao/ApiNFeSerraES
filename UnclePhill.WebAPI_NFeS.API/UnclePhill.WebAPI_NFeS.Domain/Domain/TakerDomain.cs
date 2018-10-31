@@ -224,10 +224,10 @@ namespace UnclePhill.WebAPI_NFeS.Domain
             {
                  throw new InternalProgramException("Informe o nome do tomador!");
             }
-
+            
             if (string.IsNullOrEmpty(takers.NameFantasy))
             {
-                 throw new InternalProgramException("Informe o nome nome fantasia do tomador!");
+                takers.NameFantasy = takers.Name;
             }
 
             if (string.IsNullOrEmpty(takers.TypePerson))
