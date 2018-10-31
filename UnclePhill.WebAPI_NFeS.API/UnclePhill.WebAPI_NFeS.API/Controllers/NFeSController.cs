@@ -45,7 +45,7 @@ namespace UnclePhill.WebAPI_NFeS.API.Controllers
             try
             {
                 SessionDomain.CheckSession(base.Sessao());
-                return Ok(nFeSDomain.GetNFeS(CompanyId, NFNumber,NFeSDomain.TypeArchive.Xml));
+                return Ok(nFeSDomain.GetArchives(CompanyId, NFNumber,NFeSDomain.TypeArchive.Xml));
             }
             catch (Exception ex)
             {
@@ -66,7 +66,7 @@ namespace UnclePhill.WebAPI_NFeS.API.Controllers
             try
             {
                 SessionDomain.CheckSession(base.Sessao());
-                return Ok(nFeSDomain.GetNFeS(CompanyId, NFNumber,NFeSDomain.TypeArchive.PDF));
+                return Ok(nFeSDomain.GetArchives(CompanyId, NFNumber,NFeSDomain.TypeArchive.PDF));
             }
             catch (Exception ex)
             {
@@ -87,7 +87,7 @@ namespace UnclePhill.WebAPI_NFeS.API.Controllers
             try
             {
                 SessionDomain.CheckSession(base.Sessao());
-                return Ok(nFeSDomain.GetNFeS(CompanyId, NFNumber, NFeSDomain.TypeArchive.URL));
+                return Ok(nFeSDomain.GetArchives(CompanyId, NFNumber, NFeSDomain.TypeArchive.URL));
             }
             catch (Exception ex)
             {
@@ -108,7 +108,7 @@ namespace UnclePhill.WebAPI_NFeS.API.Controllers
             try
             {
                 SessionDomain.CheckSession(base.Sessao());
-                return Ok(nFeSDomain.GetNFeS(CompanyId, NFNumber, NFeSDomain.TypeArchive.URLAuth));
+                return Ok(nFeSDomain.GetArchives(CompanyId, NFNumber, NFeSDomain.TypeArchive.URLAuth));
             }
             catch (Exception ex)
             {

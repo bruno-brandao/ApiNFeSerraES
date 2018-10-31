@@ -102,7 +102,7 @@ namespace UnclePhill.WebAPI_NFeS.Domain
             {
                 if (string.IsNullOrEmpty(SessionHash))
                 {
-                    throw new InternalProgramException("Variável de Sessão não informada!");
+                    throw new InternalProgramException("Informe a sessão!");
                 }
 
                 DataTable data;

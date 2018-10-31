@@ -31,7 +31,8 @@ namespace UnclePhill.WebAPI_NFeS.Domain
                 Companys Company = new CompanyDomain().Get<Companys>(CompanyDomain.Type.Company,NFeS.CompanyId);
                 CFPS CFPS = new CFPSDomain().Get<CFPS>(NFeS.CFPSId);
                 TaxpayerActivities TaxpayerActivities = new TaxpayerActivitiesDomain().Get(NFeS.TaxpayerActivitiesId);
-                ShippingCompany ShippingCompany = new ShippingCompanyDomain().Get<ShippingCompany>(NFeS.ShippingCompanyId);
+                ShippingCompany ShippingCompany = new ShippingCompany();
+                if (NFeS.ShippingCompanyId > 0){ShippingCompany = new ShippingCompanyDomain().Get<ShippingCompany>(NFeS.ShippingCompanyId);}
                 var NFeSRequest = new Models.Models.NFeSStructure.NFeSIssueRequest.tbnfd();
                 NFeSRequest.nfd = new Models.Models.NFeSStructure.NFeSIssueRequest.tbnfdNfd();
                 
@@ -58,8 +59,8 @@ namespace UnclePhill.WebAPI_NFeS.Domain
                 NFeSRequest.nfd.inscricaoestadualtomador = Taker.RG_IE;
                 NFeSRequest.nfd.inscricaomunicipaltomador = Taker.IM;         
                 NFeSRequest.nfd.observacao = NFeS.Note;
-                NFeSRequest.nfd.razaotransportadora = ShippingCompany.Name;
-                NFeSRequest.nfd.cpfcnpjtransportadora = ShippingCompany.CPF_CNPJ;                               
+                NFeSRequest.nfd.razaotransportadora = Functions.IIf(ShippingCompany.Name);
+                NFeSRequest.nfd.cpfcnpjtransportadora = Functions.IIf(ShippingCompany.CPF_CNPJ);
                 NFeSRequest.nfd.pis = Homologation.PIS;
                 NFeSRequest.nfd.cofins = Homologation.COFINS;
                 NFeSRequest.nfd.csll = Homologation.CSLL;
@@ -74,10 +75,10 @@ namespace UnclePhill.WebAPI_NFeS.Domain
                 NFeSRequest.nfd.dataemissaort = string.Empty;
                 NFeSRequest.nfd.fatorgerador = DateTime.Now.Month + "/" + DateTime.Now.Year;                
                 NFeSRequest.nfd.enderecotransportadora =
-                    ShippingCompany.Street + ","
-                    + ShippingCompany.Neighborhood + ","
-                    + ShippingCompany.City + ","
-                    + ShippingCompany.State;
+                    Functions.IIf(ShippingCompany.Street) + ","
+                    + Functions.IIf(ShippingCompany.Neighborhood) + ","
+                    + Functions.IIf(ShippingCompany.City) + ","
+                    + Functions.IIf(ShippingCompany.State);
                 
                 NFeSRequest.nfd.tbfatura = new Models.Models.NFeSStructure.NFeSIssueRequest.tbnfdNfdFatura[NFeS.Invoices.Count];
                 for (int X = 0; X < NFeS.Invoices.Count; X++)
@@ -185,7 +186,46 @@ namespace UnclePhill.WebAPI_NFeS.Domain
             }
         }
 
-        public string GetNFeS(long CompanyId, string NFNumber, TypeArchive Tp)
+        public void Get()
+        {
+            try
+            {
+//                Select NFeS.TakerId As CLI_ID ,	   
+//	   NFeS.ClienteNomeRazaoSocial As CLI_RAZAO_SOCIAL ,
+//       NFeS.ClienteNomeFantasia As CLI_NOME_FANTASIA,
+//	   NFeS.ClienteCNPJCPF As CLI_CNPJ_CPF ,
+//	   nfES.ClienteInscricaoMunicipal As InscMunicipal,
+//	   NFeS.ClienteInscricaoEstadual As InsEstadual,
+//	   CFPS.CFPS As CodFisPrestServico,
+//	   CFPS.Description As Descricao,
+//       NFeS.ShippingCompanyId As CodTransportadora,
+//	   ShippingCompany.Name As,
+//       NFeS.DataEmissao ,
+//       NFeS.NaturezaOperacao ,
+//       NFeS.NumeroNota ,
+//       NFeS.SituacaoNf ,
+//       NFeS.ChaveValidacao ,
+//       NFeS.ValorTotalNota ,
+//       NFeS.CodigoSerie ,
+//       NFeS.Observacao ,
+//       NFeS.URLAutenticidade ,
+//       NFeS.URL ,
+//       NFeS.NotaFiscalPDF ,
+//       NFeS.NotaFiscalXML
+//From NFeS
+//Inner Join Takers On NFeS.TakerId = Takers.TakerId
+//Inner Join CFPS On NFeS.CFPSId = CFPS.CFPSId
+//Left Join ShippingCompany On NFeS.ShippingCompanyId = ShippingCompany.ShippingCompanyId
+
+
+            }
+            catch(Exception ex)
+            {
+                throw ex;
+            }
+        }
+
+        public string GetArchives(long CompanyId, string NFNumber, TypeArchive Tp)
         {
             try
             {
@@ -240,7 +280,7 @@ namespace UnclePhill.WebAPI_NFeS.Domain
 
                 Companys Company = new CompanyDomain().Get<Companys>(CompanyDomain.Type.Company, CompanyId);
 
-                string Xml = GetNFeS(CompanyId, NFNumber,TypeArchive.Xml);
+                string Xml = GetArchives(CompanyId, NFNumber,TypeArchive.Xml);
                 string XmlIssue = API.Cancel(API.GetCity(Company.City),Homologation.CPF,Homologation.Password, Xml);
                 if (Functions.XmlFunctions.IsXml(XmlIssue))
                 {
