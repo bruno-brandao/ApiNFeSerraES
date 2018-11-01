@@ -186,38 +186,52 @@ namespace UnclePhill.WebAPI_NFeS.Domain
             }
         }
 
-        public void Get()
+        public T Get<T>(long Id = 0)
         {
             try
             {
-//                Select NFeS.TakerId As CLI_ID ,	   
-//	   NFeS.ClienteNomeRazaoSocial As CLI_RAZAO_SOCIAL ,
-//       NFeS.ClienteNomeFantasia As CLI_NOME_FANTASIA,
-//	   NFeS.ClienteCNPJCPF As CLI_CNPJ_CPF ,
-//	   nfES.ClienteInscricaoMunicipal As InscMunicipal,
-//	   NFeS.ClienteInscricaoEstadual As InsEstadual,
-//	   CFPS.CFPS As CodFisPrestServico,
-//	   CFPS.Description As Descricao,
-//       NFeS.ShippingCompanyId As CodTransportadora,
-//	   ShippingCompany.Name As,
-//       NFeS.DataEmissao ,
-//       NFeS.NaturezaOperacao ,
-//       NFeS.NumeroNota ,
-//       NFeS.SituacaoNf ,
-//       NFeS.ChaveValidacao ,
-//       NFeS.ValorTotalNota ,
-//       NFeS.CodigoSerie ,
-//       NFeS.Observacao ,
-//       NFeS.URLAutenticidade ,
-//       NFeS.URL ,
-//       NFeS.NotaFiscalPDF ,
-//       NFeS.NotaFiscalXML
-//From NFeS
-//Inner Join Takers On NFeS.TakerId = Takers.TakerId
-//Inner Join CFPS On NFeS.CFPSId = CFPS.CFPSId
-//Left Join ShippingCompany On NFeS.ShippingCompanyId = ShippingCompany.ShippingCompanyId
+                SQL = new StringBuilder();
 
+                SQL.AppendLine(" Select ");
+                SQL.AppendLine(" 	NumeroNota As 'NumberNF', ");
+                SQL.AppendLine(" 	ChaveValidacao As 'KeyValidation', ");
+                SQL.AppendLine(" 	ValorTotalNota As 'Total', ");
+                SQL.AppendLine(" 	ISSQNTotal As 'TotalISS', ");
+                SQL.AppendLine(" 	ClienteNomeRazaoSocial As 'Name', ");
+                SQL.AppendLine(" 	ClienteNomeFantasia As 'NameFantasy', ");
+                SQL.AppendLine(" 	ClienteCNPJCPF As 'CPF_CNPJ', ");
+                SQL.AppendLine(" 	ClienteInscricaoEstadual As 'IE', ");
+                SQL.AppendLine(" 	ClienteInscricaoMunicipal As 'IM', ");
+                SQL.AppendLine(" 	DataEmissao As 'DateEmission', ");
+                SQL.AppendLine(" 	Observacao As 'Note', ");
+                SQL.AppendLine(" 	NotaFiscalXML As 'XML', ");
+                SQL.AppendLine(" 	NotaFiscalPDF As 'PDF', ");
+                SQL.AppendLine(" 	URL as 'URL', ");
+                SQL.AppendLine(" 	URLAutenticidade As 'URLAuthenticity' ");
+                SQL.AppendLine(" From NFeS ");
+                SQL.AppendLine(" Where Active = 1 ");
+                SQL.AppendLine(" And CompanyId = " + SessionDomain.GetCompanySession().CompanyId);
+                if (Id > 0) { SQL.AppendLine(" And NFeSId = " + Id); }
 
+                DataTable data = Functions.Conn.GetDataTable(SQL.ToString(), "NFeS");
+                
+                if (data != null && data.Rows.Count > 0)
+                {
+                    if (typeof(T) == typeof(List<NFeSRequestQuery>))
+                    {
+                        List<NFeSRequestQuery> lRequestQuery = new List<NFeSRequestQuery>();
+                        foreach (DataRow row in data.Rows)
+                        {
+                            lRequestQuery.Add(Fill(row));
+                        }
+                        return (T)Convert.ChangeType(lRequestQuery, typeof(T));
+                    }
+                    else if (typeof(T) == typeof(NFeSRequestQuery))
+                    {
+                        return (T)Convert.ChangeType(Fill(data.AsEnumerable().First()), typeof(T));
+                    }
+                }
+                throw new InternalProgramException("Não foram encontrados registros!");
             }
             catch(Exception ex)
             {
@@ -663,6 +677,29 @@ namespace UnclePhill.WebAPI_NFeS.Domain
             {
                 throw new InternalProgramException("Informe o número da nota fiscal!");
             }
+        }
+
+        private NFeSRequestQuery Fill(DataRow row)
+        {
+            NFeSRequestQuery Query = new NFeSRequestQuery();
+
+            Query.NumberNF = row["NumberNF"].ToString();
+            Query.KeyValidation = row["KeyValidation"].ToString();
+            Query.Total = row["Total"].ToString();
+            Query.TotalISS = row["TotalISS"].ToString();
+            Query.Name = row["Name"].ToString();
+            Query.NameFantasy = row["NameFantasy"].ToString();
+            Query.CPF_CNPJ = row["CPF_CNPJ"].ToString();
+            Query.IE = row["IE"].ToString();
+            Query.IM = row["IM"].ToString();
+            Query.DateEmission = row["DateEmission"].ToString();
+            Query.Note = row["Note"].ToString();
+            Query.XML = row["XML"].ToString();
+            Query.PDF = row["PDF"].ToString();
+            Query.URL = row["URL"].ToString();
+            Query.URLAuthenticity = row["URLAuthenticity"].ToString();
+
+            return Query;
         }
         
         public enum TypeArchive
