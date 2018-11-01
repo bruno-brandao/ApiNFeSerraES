@@ -95,15 +95,15 @@ namespace UnclePhill.WebAPI_NFeS.Domain
                 SQL.AppendLine("    DateUpdate) ");
                 SQL.AppendLine(" Values ");
                 SQL.AppendLine("    ( " + takers.CompanyId + ",");
-                SQL.AppendLine("     '" + Functions.RemoveCharSpecial(Functions.NoQuote(takers.IM)) + "',");
+                SQL.AppendLine("     '" + Functions.RemoveCharSpecial(Functions.NoQuote(Functions.IIf(takers.IM))) + "',");
                 SQL.AppendLine("     '" + Functions.RemoveCharSpecial(Functions.NoQuote(takers.CPF_CNPJ)) + "',");
-                SQL.AppendLine("     '" + Functions.RemoveCharSpecial(Functions.NoQuote(takers.RG_IE)) + "',");
+                SQL.AppendLine("     '" + Functions.RemoveCharSpecial(Functions.NoQuote(Functions.IIf(takers.RG_IE))) + "',");
                 SQL.AppendLine("     '" + Functions.NoQuote(takers.Name) + "',");
                 SQL.AppendLine("     '" + Functions.NoQuote(takers.NameFantasy) + "',");
                 SQL.AppendLine("     '" + Functions.NoQuote(takers.TypePerson) + "',");
                 SQL.AppendLine("     '" + Functions.RemoveCharSpecial(Functions.NoQuote(takers.CEP)) + "',");
                 SQL.AppendLine("     '" + Functions.NoQuote(takers.Street) + "',");
-                SQL.AppendLine("     '" + (takers.Number == null? string.Empty:Functions.NoQuote(takers.Number)) + "',");
+                SQL.AppendLine("     '" + Functions.NoQuote(Functions.IIf(takers.Number)) + "',");
                 SQL.AppendLine("     '" + Functions.NoQuote(takers.Neighborhood) + "',");
                 SQL.AppendLine("     '" + Functions.NoQuote(takers.City) + "',");
                 SQL.AppendLine("     '" + Functions.NoQuote(takers.State) + "',");
@@ -143,15 +143,15 @@ namespace UnclePhill.WebAPI_NFeS.Domain
 
                 SQL.AppendLine(" Update Takers Set ");
                 SQL.AppendLine("    CompanyId = " + takers.CompanyId + ",");
-                SQL.AppendLine("    IM = '" + Functions.RemoveCharSpecial(Functions.NoQuote(takers.IM)) + "',");
+                SQL.AppendLine("    IM = '" + Functions.RemoveCharSpecial(Functions.NoQuote(Functions.IIf(takers.IM))) + "',");
                 SQL.AppendLine("    CPF_CNPJ = '" + Functions.RemoveCharSpecial(Functions.NoQuote(takers.CPF_CNPJ)) + "',");
-                SQL.AppendLine("    RG_IE = '" + Functions.RemoveCharSpecial(Functions.NoQuote(takers.RG_IE)) + "',");
+                SQL.AppendLine("    RG_IE = '" + Functions.RemoveCharSpecial(Functions.NoQuote(Functions.IIf(takers.RG_IE))) + "',");
                 SQL.AppendLine("    Name = '" + Functions.NoQuote(takers.Name) + "',");
                 SQL.AppendLine("    NameFantasy = '" + Functions.NoQuote(takers.NameFantasy) + "',");
                 SQL.AppendLine("    TypePerson = '" + Functions.NoQuote(takers.TypePerson) + "',");
                 SQL.AppendLine("    CEP = '" + Functions.RemoveCharSpecial(Functions.NoQuote(takers.CEP)) + "',");
                 SQL.AppendLine("    Street = '" + Functions.NoQuote(takers.Street) + "',");
-                SQL.AppendLine("    Number = '" + Functions.NoQuote(takers.Number) + "',");
+                SQL.AppendLine("    Number = '" + Functions.NoQuote(Functions.IIf(takers.Number)) + "',");
                 SQL.AppendLine("    Neighborhood = '" + Functions.NoQuote(takers.Neighborhood) + "',");
                 SQL.AppendLine("    City = '" + Functions.NoQuote(takers.City) + "', ");
                 SQL.AppendLine("    State = '" + Functions.NoQuote(takers.State) + "',");
