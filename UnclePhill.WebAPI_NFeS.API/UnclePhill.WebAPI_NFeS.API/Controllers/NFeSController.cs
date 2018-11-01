@@ -54,7 +54,6 @@ namespace UnclePhill.WebAPI_NFeS.API.Controllers
             }
         }
 
-
         /// <summary>
         /// Método para buscar a nota fiscal (XML) já autorizada
         /// </summary>
