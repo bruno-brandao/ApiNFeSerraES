@@ -40,7 +40,7 @@ namespace UnclePhill.WebAPI_NFeS.Utils.Utils
             return Test.ToString();
         }
 
-        public static MailServer Mail = new MailServer("smtp.gmail.com",587,"meuddd.app@gmail.com", "4cess0!DDD");
+        public static MailServer Mail = new MailServer("smtp.gmail.com",587, "nfsefacil.app@gmail.com", "M1n3Rv@7");
 
         public static bool IsDate(string date)
         {
@@ -76,6 +76,49 @@ namespace UnclePhill.WebAPI_NFeS.Utils.Utils
             catch
             {
                 return false;
+            }
+        }
+
+        public static long ComputeError(Exception Exception)
+        {
+            try
+            {
+                //Envia o email de log:
+                Mail.SendEmail("nfsefacil.app@gmail.com",
+                    "everaldocardosodearaujo@gmail.com",
+                    "Log de erros",
+                    "Hora: " + Functions.DateTimeBr().ToString("yyyy-MM-dd HH:mm:ss") + " \nErro: " + Exception.Message + " \nOrigem: " + Exception.StackTrace,
+                    "NFS Fácil");
+
+                //Grava a exceção:
+                var SQL = new StringBuilder();
+
+                SQL.AppendLine(" Insert Into Exceptions ");
+                SQL.AppendLine("            (HelpLink ");
+                SQL.AppendLine("            ,HResult ");
+                SQL.AppendLine("            ,InnerException ");
+                SQL.AppendLine("            ,Message ");
+                SQL.AppendLine("            ,Source ");
+                SQL.AppendLine("            ,StackTrace ");
+                SQL.AppendLine("            ,Active ");
+                SQL.AppendLine("            ,DateInsert ");
+                SQL.AppendLine("            ,DateUpdate) ");
+                SQL.AppendLine("      Values ");
+                SQL.AppendLine("            ('" + Exception.HelpLink + "', ");
+                SQL.AppendLine("             '" + Exception.HResult + "', ");
+                SQL.AppendLine("             '" + Exception.InnerException +"', ");
+                SQL.AppendLine("             '" + Exception.Message +"', ");
+                SQL.AppendLine("             '" + Exception.Source +"', ");
+                SQL.AppendLine("             '" + Exception.StackTrace +"', ");
+                SQL.AppendLine("             1, ");
+                SQL.AppendLine("             '" + Functions.DateTimeBr().ToString("yyyy-MM-dd HH:mm:ss") + "', ");
+                SQL.AppendLine("             '" + Functions.DateTimeBr().ToString("yyyy-MM-dd HH:mm:ss") + "') ");
+
+                return Conn.Insert(SQL.ToString());
+            }
+            catch(Exception ex)
+            {
+                throw ex;
             }
         }
 

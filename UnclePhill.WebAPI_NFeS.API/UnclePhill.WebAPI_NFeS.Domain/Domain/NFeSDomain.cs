@@ -27,64 +27,69 @@ namespace UnclePhill.WebAPI_NFeS.Domain
             {
                 ValidateIssue(NFeS);
 
-                Takers Taker = new TakerDomain().Get<Takers>(NFeS.TakerId);
-                Companys Company = new CompanyDomain().Get<Companys>(CompanyDomain.Type.Company,NFeS.CompanyId);
-                CFPS CFPS = new CFPSDomain().Get<CFPS>(NFeS.CFPSId);
-                TaxpayerActivities TaxpayerActivities = new TaxpayerActivitiesDomain().Get(NFeS.TaxpayerActivitiesId);
-                ShippingCompany ShippingCompany = new ShippingCompany();
+                //Objetos da Nota Fiscal:
+                var Taker = new TakerDomain().Get<Takers>(NFeS.TakerId);
+                var Company = new CompanyDomain().Get<Companys>(CompanyDomain.Type.Company,NFeS.CompanyId);
+                var CFPS = new CFPSDomain().Get<CFPS>(NFeS.CFPSId);
+                var TaxpayerActivities = new TaxpayerActivitiesDomain().Get(NFeS.TaxpayerActivitiesId);
+                var ShippingCompany = new ShippingCompany();
                 if (NFeS.ShippingCompanyId > 0){ShippingCompany = new ShippingCompanyDomain().Get<ShippingCompany>(NFeS.ShippingCompanyId);}
+
+                //Nota Fiscal:
                 var NFeSRequest = new Models.Models.NFeSStructure.NFeSIssueRequest.tbnfd();
-                NFeSRequest.nfd = new Models.Models.NFeSStructure.NFeSIssueRequest.tbnfdNfd();
+                var NotaFiscal = new Models.Models.NFeSStructure.NFeSIssueRequest.tbnfdNfd()
+                {
+                    numeronfd = Homologation.NumberNF,
+                    codseriedocumento = Homologation.Serie,
+                    codnaturezaoperacao = CFPS.CFPSCod,
+                    codigocidade = Homologation.CityCod,
+                    inscricaomunicipalemissor = Homologation.IM,
+                    dataemissao = Functions.DateTimeBr().ToString("dd/MM/yyyy"),
+                    razaotomador = Taker.Name,
+                    nomefantasiatomador = Taker.NameFantasy,
+                    enderecotomador = Taker.Street,
+                    numeroendereco = Taker.Number,
+                    cidadetomador = Taker.City,
+                    estadotomador = Taker.State,
+                    paistomador = Homologation.Country,
+                    fonetomador = Taker.Telephone,
+                    faxtomador = Taker.Telephone,
+                    ceptomador = Taker.CEP,
+                    bairrotomador = Taker.Neighborhood,
+                    emailtomador = Taker.Email,
+                    tppessoa = Taker.TypePerson,
+                    cpfcnpjtomador = Taker.CPF_CNPJ,
+                    inscricaoestadualtomador = Taker.RG_IE,
+                    inscricaomunicipaltomador = Taker.IM,
+                    observacao = NFeS.Note,
+                    razaotransportadora = Functions.IIf(ShippingCompany.Name),
+                    cpfcnpjtransportadora = Functions.IIf(ShippingCompany.CPF_CNPJ),
+                    pis = Homologation.PIS,
+                    cofins = Homologation.COFINS,
+                    csll = Homologation.CSLL,
+                    irrf = Homologation.IRRF,
+                    inss = Homologation.INSS,
+                    descdeducoesconstrucao = string.Empty,
+                    totaldeducoesconstrucao = string.Empty,
+                    tributadonomunicipio = string.Empty,
+                    vlroutros = string.Empty,
+                    numerort = string.Empty,
+                    codigoseriert = string.Empty,
+                    dataemissaort = string.Empty,
+                    fatorgerador = Functions.DateTimeBr().Month + "/" + Functions.DateTimeBr().Year,
+                    enderecotransportadora =
+                        Functions.IIf(ShippingCompany.Street) + ","
+                        + Functions.IIf(ShippingCompany.Neighborhood) + ","
+                        + Functions.IIf(ShippingCompany.City) + ","
+                        + Functions.IIf(ShippingCompany.State),
+                };           
                 
-                NFeSRequest.nfd.numeronfd = Homologation.NumberNF; 
-                NFeSRequest.nfd.codseriedocumento = Homologation.Serie; 
-                NFeSRequest.nfd.codnaturezaoperacao = CFPS.CFPSCod;
-                NFeSRequest.nfd.codigocidade = Homologation.CityCod;
-                NFeSRequest.nfd.inscricaomunicipalemissor = Homologation.IM;
-                NFeSRequest.nfd.dataemissao = Functions.DateTimeBr().ToString("dd/MM/yyyy");
-                NFeSRequest.nfd.razaotomador = Taker.Name;
-                NFeSRequest.nfd.nomefantasiatomador = Taker.NameFantasy;
-                NFeSRequest.nfd.enderecotomador = Taker.Street;
-                NFeSRequest.nfd.numeroendereco = Taker.Number;
-                NFeSRequest.nfd.cidadetomador = Taker.City;
-                NFeSRequest.nfd.estadotomador = Taker.State;
-                NFeSRequest.nfd.paistomador = Homologation.Country;
-                NFeSRequest.nfd.fonetomador = Taker.Telephone;
-                NFeSRequest.nfd.faxtomador = Taker.Telephone;
-                NFeSRequest.nfd.ceptomador = Taker.CEP;
-                NFeSRequest.nfd.bairrotomador = Taker.Neighborhood;
-                NFeSRequest.nfd.emailtomador = Taker.Email;
-                NFeSRequest.nfd.tppessoa = Taker.TypePerson;
-                NFeSRequest.nfd.cpfcnpjtomador = Taker.CPF_CNPJ;
-                NFeSRequest.nfd.inscricaoestadualtomador = Taker.RG_IE;
-                NFeSRequest.nfd.inscricaomunicipaltomador = Taker.IM;         
-                NFeSRequest.nfd.observacao = NFeS.Note;
-                NFeSRequest.nfd.razaotransportadora = Functions.IIf(ShippingCompany.Name);
-                NFeSRequest.nfd.cpfcnpjtransportadora = Functions.IIf(ShippingCompany.CPF_CNPJ);
-                NFeSRequest.nfd.pis = Homologation.PIS;
-                NFeSRequest.nfd.cofins = Homologation.COFINS;
-                NFeSRequest.nfd.csll = Homologation.CSLL;
-                NFeSRequest.nfd.irrf = Homologation.IRRF;
-                NFeSRequest.nfd.inss = Homologation.INSS;
-                NFeSRequest.nfd.descdeducoesconstrucao = string.Empty;
-                NFeSRequest.nfd.totaldeducoesconstrucao = string.Empty;
-                NFeSRequest.nfd.tributadonomunicipio = string.Empty;
-                NFeSRequest.nfd.vlroutros = string.Empty;
-                NFeSRequest.nfd.numerort = string.Empty;
-                NFeSRequest.nfd.codigoseriert = string.Empty;
-                NFeSRequest.nfd.dataemissaort = string.Empty;
-                NFeSRequest.nfd.fatorgerador = DateTime.Now.Month + "/" + DateTime.Now.Year;                
-                NFeSRequest.nfd.enderecotransportadora =
-                    Functions.IIf(ShippingCompany.Street) + ","
-                    + Functions.IIf(ShippingCompany.Neighborhood) + ","
-                    + Functions.IIf(ShippingCompany.City) + ","
-                    + Functions.IIf(ShippingCompany.State);
-                
-                NFeSRequest.nfd.tbfatura = new Models.Models.NFeSStructure.NFeSIssueRequest.tbnfdNfdFatura[NFeS.Invoices.Count];
+                //Faturas:
+                NotaFiscal.tbfatura = new Models.Models.NFeSStructure.NFeSIssueRequest.tbnfdNfdFatura[NFeS.Invoices.Count];
                 for (int X = 0; X < NFeS.Invoices.Count; X++)
                 {
                     NFeSRequestInvoices Invoice = NFeS.Invoices[X];
-                    NFeSRequest.nfd.tbfatura[X] = new Models.Models.NFeSStructure.NFeSIssueRequest.tbnfdNfdFatura
+                    NotaFiscal.tbfatura[X] = new Models.Models.NFeSStructure.NFeSIssueRequest.tbnfdNfdFatura
                     {
                         numfatura = Invoice.Number.ToString(),
                         vencimentofatura = DateTime.Parse(Invoice.Maturity).ToString("dd/MM/yyyy"),
@@ -92,13 +97,14 @@ namespace UnclePhill.WebAPI_NFeS.Domain
                     };
                 }
                 
-                NFeSRequest.nfd.tbservico = new Models.Models.NFeSStructure.NFeSIssueRequest.tbnfdNfdServico[NFeS.Itens.Count];
+                //Serviços:
+                NotaFiscal.tbservico = new Models.Models.NFeSStructure.NFeSIssueRequest.tbnfdNfdServico[NFeS.Itens.Count];
                 for (int X = 0; X < NFeS.Itens.Count; X++)
                 {
                     NFeSRequestItens Item = NFeS.Itens[X];                    
                     Services Services = new ServiceDomain().Get<Services>(Item.ServicesId);
 
-                    NFeSRequest.nfd.tbservico[X] = new Models.Models.NFeSStructure.NFeSIssueRequest.tbnfdNfdServico
+                    NotaFiscal.tbservico[X] = new Models.Models.NFeSStructure.NFeSIssueRequest.tbnfdNfdServico
                     {
                         quantidade = Item.Amount.ToString(),
                         descricao = Services.Description,
@@ -108,7 +114,9 @@ namespace UnclePhill.WebAPI_NFeS.Domain
                         impostoretido = CFPS.TaxWithheld
                     };
                 }
-             
+
+                NFeSRequest.nfd = NotaFiscal;
+
                 string XmlRPS = API.Send(API.GetCity(Company.City), Homologation.CPF, Homologation.Password, int.Parse(Homologation.CityCod), this.Assign(NFeSRequest));
 
                 if (Functions.XmlFunctions.IsXml(XmlRPS))
@@ -154,6 +162,7 @@ namespace UnclePhill.WebAPI_NFeS.Domain
                             var NFeSUrl = Functions.XmlFunctions.StringXmlForClass<Models.Models.NFeSStructure.NFeSPreview.util>(XmlUrl);                                
                             string PDF = Download(NFeSUrl.urlNfd);
 
+                            //Salvando no banco os dados da nota fiscal
                             Save(Taker, 
                                 Company, 
                                 CFPS, 
@@ -162,6 +171,9 @@ namespace UnclePhill.WebAPI_NFeS.Domain
                                 NFeSUrl, 
                                 XmlAuthorized, 
                                 PDF);
+
+                            //Enviando email para o tomador
+                            SendEmail(Taker, Company, NFeSAuthorized, NFeSUrl);
                             
                             return new NFeSRequestPreview(NFeSUrl.urlNfd, PDF);
                         }
@@ -451,8 +463,8 @@ namespace UnclePhill.WebAPI_NFeS.Domain
                 SQL.AppendLine("          '" + (string.IsNullOrEmpty(PDF) ? string.Empty : Functions.NoQuote(PDF)) + "' , ");
                 SQL.AppendLine("          '" + (string.IsNullOrEmpty(XML)? string.Empty:Functions.NoQuote(XML)) + "' , ");               
                 SQL.AppendLine("          1 , ");
-                SQL.AppendLine("          GetDate() , ");
-                SQL.AppendLine("          GetDate()  ");
+                SQL.AppendLine("          '" + Functions.DateTimeBr().ToString("yyyy-MM-dd HH:mm:ss") + "' , ");
+                SQL.AppendLine("          '" + Functions.DateTimeBr().ToString("yyyy-MM-dd HH:mm:ss") + "'  ");
                 SQL.AppendLine("        )");
                 
                 long Id = Functions.Conn.Insert(SQL.ToString());
@@ -477,8 +489,8 @@ namespace UnclePhill.WebAPI_NFeS.Domain
                         SQL.AppendLine("          '"+ Functions.NoQuote(Fat.Vencimento) +"' , ");
                         SQL.AppendLine("          '"+ Functions.NoQuote(Fat.Valor) +"' , ");
                         SQL.AppendLine("          1 , ");
-                        SQL.AppendLine("          GetDate() , ");
-                        SQL.AppendLine("          GetDate() ");
+                        SQL.AppendLine("          '" + Functions.DateTimeBr().ToString("yyyy-MM-dd HH:mm:ss") + "' , ");
+                        SQL.AppendLine("          '" + Functions.DateTimeBr().ToString("yyyy-MM-dd HH:mm:ss") + "'  ");
                         SQL.AppendLine("        )");
                         SQL.AppendLine(" ");                        
                     }
@@ -507,8 +519,8 @@ namespace UnclePhill.WebAPI_NFeS.Domain
                         SQL.AppendLine("          '"+ Functions.NoQuote(Item.ImpostoRetido) +"' , ");
                         SQL.AppendLine("          '"+ Functions.NoQuote(Item.Aliquota) +"' , ");
                         SQL.AppendLine("          1 , ");
-                        SQL.AppendLine("          GetDate() , ");
-                        SQL.AppendLine("          GetDate() ");
+                        SQL.AppendLine("          '" + Functions.DateTimeBr().ToString("yyyy-MM-dd HH:mm:ss") + "' , ");
+                        SQL.AppendLine("          '" + Functions.DateTimeBr().ToString("yyyy-MM-dd HH:mm:ss") + "'  ");
                         SQL.AppendLine("        )");
                         SQL.AppendLine(" ");
                     }
@@ -648,6 +660,14 @@ namespace UnclePhill.WebAPI_NFeS.Domain
             {
                 foreach (NFeSRequestItens Item in NFeS.Itens)
                 {
+                    if (Item.ServicesId <= 0)
+                    {
+                        throw new InternalProgramException("Informe o serviço prestado.");
+                    }
+                    if (new ServiceDomain().Get<Services>(Item.ServicesId).ServicesId <= 0)
+                    {
+                        throw new InternalProgramException("O serviço informado não existe na base de dados.");
+                    }
                     if (Item.Amount <= 0)
                     {
                         throw new InternalProgramException("Informe a quantidade do serviço prestado.");
@@ -678,6 +698,22 @@ namespace UnclePhill.WebAPI_NFeS.Domain
             }
         }
 
+        private void SendEmail(Takers Taker, Companys Company,
+            Models.Models.NFeSStructure.NFeSProcessingResult.tbnfd NFeSAuthorized,             
+            Models.Models.NFeSStructure.NFeSPreview.util NFeSUrl)
+        {
+            Functions.Mail.SendEmail("nfsefacil.app@gmail.com",
+                Taker.Email,
+                "NFSe N° " + NFeSAuthorized.nfdok.numeronfd + " emitida!",
+                "A nota fiscal <b>N° " + NFeSAuthorized.nfdok.numeronfd + "</b> " +
+                "foi emitida pela empresa <b>" + Company.Name.ToUpper() + "</b> portadora do CNPJ <b>" + Company.CNPJ + "</b>,<br/>" +
+                "em favor de sua empresa/pessoa <b>" + Taker.Name.ToUpper() + "</b> portadora do CNPJ/CPF <b>" + Taker.CPF_CNPJ + "</b><br/>" +
+                "no dia " + Functions.DateTimeBr().ToString("dd/MM/yyyy HH:mm") +
+                " com o <b>Valor Total de R$ " + Functions.FormatNumber(decimal.Parse(NFeSAuthorized.nfdok.NewDataSet.NOTA_FISCAL.ValorTotalNota.Replace(".", ","))) + "</b>.<br/><br/>" +
+                "<b>A nota fiscal pode ser consultada em:</b> " + NFeSUrl.urlNfd,
+                "NFSe Fácil - Emp: " + Company.Name.ToUpper());
+        }
+
         private NFeSRequestQuery Fill(DataRow row)
         {
             NFeSRequestQuery Query = new NFeSRequestQuery();
@@ -706,7 +742,7 @@ namespace UnclePhill.WebAPI_NFeS.Domain
             PDF = 2,
             URL = 3,
             URLAuth = 4
-        }
+        }   
         #endregion
     }
 }

@@ -25,14 +25,15 @@ namespace UnclePhill.WebAPI_NFeS.Utils.Utils
         {
             try
             {
-                MailMessage email = new MailMessage(new MailAddress(Sender, DisplayName), new MailAddress(Receiver));
-                email.Subject = Subject;
-                email.SubjectEncoding = Encoding.UTF8;
-                email.Body = Message;
-                email.BodyEncoding = Encoding.UTF8;
-                email.IsBodyHtml = true;
+                MailMessage Email = new MailMessage(new MailAddress(Sender, DisplayName), new MailAddress(Receiver));
+
+                Email.Subject = Subject;
+                Email.SubjectEncoding = Encoding.UTF8;
+                Email.Body = Message;
+                Email.BodyEncoding = Encoding.UTF8;
+                Email.IsBodyHtml = true;
             
-                MailClient.Send(email);
+                MailClient.Send(Email);
             }
             catch
             {

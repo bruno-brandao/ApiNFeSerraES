@@ -30,19 +30,20 @@ namespace UnclePhill.WebAPI_NFeS.API.Controllers
         }
 
         protected IHttpActionResult Exceptions(Exception ex)
-        {
-            Functions.Mail.SendEmail("meuddd.app@gmail.com", "everaldocardosodearaujo@gmail.com", "Log de erros", ex.Message + "\n" + ex.StackTrace, "NFS Fácil");
+        {            
             if (ex is InternalProgramException) //Exeções internas da aplicação
             {
                 return BadRequest(ex.Message);
-            }else if (ex is InvalidOperationException)//Sessão expirada
+            }
+                else if (ex is InvalidOperationException)//Sessão expirada
             {
-                return Unauthorized() ;
+                return Unauthorized();
             }
             else //Outras exeções
-            {               
-                return InternalServerError(ex); 
+            {
+                Functions.ComputeError(ex);
+                return InternalServerError(ex);
             }
-        }
+        }        
     }
 }
