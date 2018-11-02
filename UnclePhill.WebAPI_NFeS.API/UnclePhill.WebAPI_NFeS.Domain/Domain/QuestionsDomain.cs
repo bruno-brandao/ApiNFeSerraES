@@ -41,7 +41,11 @@ namespace UnclePhill.WebAPI_NFeS.Domain.Domain
                 SQL.AppendLine("         Questions.DateInsert , ");
                 SQL.AppendLine("         Questions.DateUpdate ");
                 SQL.AppendLine(" From    Questions ");
-                SQL.AppendLine(" Where   Questions.Active = 1 ");
+                SQL.AppendLine(" Where   Questions.Active = 1 ");                
+                SQL.AppendLine(" And QuestionId Not In (Select Responses.QuestionId ");
+                SQL.AppendLine("                        From Responses ");
+                SQL.AppendLine("                        Where Responses.Active = 1 ");
+                SQL.AppendLine("                        And Responses.CompanyId = " + SessionDomain.GetCompanySession().CompanyId + ")");
                 if (QuestionId > 0) { SQL.AppendLine(" And Questions.QuestionId = " + QuestionId); }
                 SQL.AppendLine(" Order By Questions.[Order] ");
 
@@ -96,6 +100,7 @@ namespace UnclePhill.WebAPI_NFeS.Domain.Domain
                 SQL.AppendLine(" From Options ");
                 SQL.AppendLine(" Where Options.Active = 1 ");
                 SQL.AppendLine(" And Options.QuestionId = " + QuestionId);
+                SQL.AppendLine(" Order By Options.[Order] ");
                 
                 DataTable data = Functions.Conn.GetDataTable(SQL.ToString(), "Options");
                 List<Options> lOptions = new List<Options>();

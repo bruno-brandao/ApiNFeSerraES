@@ -65,7 +65,7 @@ namespace UnclePhill.WebAPI_NFeS.Domain
                             SQL.AppendLine("      " + CompanyId + ",");
                             SQL.AppendLine("      '" + Functions.NoQuote(atividade.CodigoCnae) + "', ");
                             SQL.AppendLine("      '" + Functions.NoQuote(atividade.Descricao) + "', ");
-                            SQL.AppendLine("       " + Functions.FormatNumber(decimal.Parse((atividade.Aliquota == string.Empty ? "0" : atividade.Aliquota))) + ", ");
+                            SQL.AppendLine("       " + Functions.FormatNumber(decimal.Parse((atividade.Aliquota == string.Empty ? "0" : atividade.Aliquota.Replace(".",",")))) + ", ");
                             SQL.AppendLine("       1, ");
                             SQL.AppendLine("       Getdate(), ");
                             SQL.AppendLine("       Getdate() ");

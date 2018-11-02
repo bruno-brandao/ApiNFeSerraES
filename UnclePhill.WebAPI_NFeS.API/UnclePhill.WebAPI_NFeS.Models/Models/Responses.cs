@@ -13,10 +13,10 @@ namespace UnclePhill.WebAPI_NFeS.Models.Models
 
         }
 
-        public Responses(long ResponseId, long UserId, long QuestionId, long OptionId, bool Correct, bool Active, string DateInsert, string DateUpdate)
+        public Responses(long ResponseId, long CompanyId, long QuestionId, long OptionId, bool Correct, bool Active, string DateInsert, string DateUpdate)
         {
             this.ResponseId = ResponseId;
-            this.UserId = UserId;
+            this.CompanyId = CompanyId;
             this.QuestionId = QuestionId;
             this.OptionId = OptionId;
             this.Correct = Correct;
@@ -26,7 +26,7 @@ namespace UnclePhill.WebAPI_NFeS.Models.Models
         }
 
         public long ResponseId { get; set; }
-        public long UserId { get; set; }
+        public long CompanyId { get; set; }
         public long QuestionId { get; set; }
         public long OptionId { get; set; }
         public bool Correct { get; set; }

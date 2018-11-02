@@ -19,7 +19,7 @@ namespace UnclePhill.WebAPI_NFeS.Domain.Domain
                               
                 SQL = new StringBuilder();
                 SQL.AppendLine(" Insert Into Responses ");
-                SQL.AppendLine("   (UserId, ");
+                SQL.AppendLine("   (CompanyId, ");
                 SQL.AppendLine("    QuestionId, ");
                 SQL.AppendLine("    OptionId, ");
                 SQL.AppendLine("    Correct, ");
@@ -28,7 +28,7 @@ namespace UnclePhill.WebAPI_NFeS.Domain.Domain
                 SQL.AppendLine("    DateUpdate ");
                 SQL.AppendLine("    ) ");
                 SQL.AppendLine(" Values ");
-                SQL.AppendLine("   (" + responses.UserId.ToString() + ",");
+                SQL.AppendLine("   (" + responses.CompanyId.ToString() + ",");
                 SQL.AppendLine("    " + responses.QuestionId.ToString() + ",");
                 SQL.AppendLine("    " + responses.OptionId.ToString() + ",");
                 SQL.AppendLine("    " + (responses.Correct? 1:0) + ",");
@@ -52,7 +52,7 @@ namespace UnclePhill.WebAPI_NFeS.Domain.Domain
         private void Validate(Responses responses)
         {
             //Validando os dados básicos objeto:
-            if (responses.UserId <= 0)
+            if (responses.CompanyId <= 0)
             {
                 throw new InternalProgramException("Informe o usuário!");
             }
@@ -68,9 +68,9 @@ namespace UnclePhill.WebAPI_NFeS.Domain.Domain
             }
 
             //Validado a integridade dos dados informados:
-            if (new UsersDomain().Get(responses.UserId).UserId <= 0)
+            if (new CompanyDomain().Get<Companys>(CompanyDomain.Type.Company,responses.CompanyId).CompanyId <= 0)
             {
-                throw new InternalProgramException("O usuário informado não está cadastrado!");
+                throw new InternalProgramException("A empresa informada não está cadastrada!");
             }
 
             if (new QuestionsDomain().Get(responses.QuestionId).Count <= 0)
@@ -99,7 +99,7 @@ namespace UnclePhill.WebAPI_NFeS.Domain.Domain
             SQL.AppendLine("    Count(Responses.ResponseId) As Qtd ");
             SQL.AppendLine(" From Responses    ");
             SQL.AppendLine(" Where Responses.Active = 1 ");
-            SQL.AppendLine("    And Responses.UserId = " + responses.UserId.ToString());
+            SQL.AppendLine("    And Responses.CompanyId = " + responses.CompanyId.ToString());
             SQL.AppendLine("    And Responses.QuestionId = " + responses.QuestionId.ToString());
 
             DataTable data = Functions.Conn.GetDataTable(SQL.ToString(), "QtdResp");
