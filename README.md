@@ -1,2 +1,2 @@
-# API NFSe
-API em desenvolvimento para emissão de NFSe para a prefeitura de Serra e Cariacica/ES
+# NFSe Fácil
+API para emissão de notas fiscais de serviço
