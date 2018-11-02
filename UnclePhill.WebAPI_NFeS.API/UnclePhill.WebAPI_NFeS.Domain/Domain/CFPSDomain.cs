@@ -20,6 +20,7 @@ namespace UnclePhill.WebAPI_NFeS.Domain
                 SQL.AppendLine("    CFPSId, ");
                 SQL.AppendLine("    CFPS, ");
                 SQL.AppendLine("    Description, ");
+                SQL.AppendLine("    TaxWithheld,");
                 SQL.AppendLine("    Active, ");
                 SQL.AppendLine("    DateInsert, ");
                 SQL.AppendLine("    DateUpdate ");
@@ -59,6 +60,7 @@ namespace UnclePhill.WebAPI_NFeS.Domain
             CFPS.CFPSId = long.Parse(row["CFPSId"].ToString());
             CFPS.CFPSCod = row["CFPS"].ToString();
             CFPS.Description = row["Description"].ToString();
+            CFPS.TaxWithheld = row["TaxWithheld"].ToString();
             CFPS.Active = bool.Parse(row["Active"].ToString());
             CFPS.DateInsert = row.Field<DateTime>("DateInsert").ToString("dd-MM-yyyy");
             CFPS.DateUpdate = row.Field<DateTime>("DateUpdate").ToString("dd-MM-yyyy");

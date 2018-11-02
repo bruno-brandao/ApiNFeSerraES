@@ -11,6 +11,5 @@ namespace UnclePhill.WebAPI_NFeS.Models.Models.NFeSRequestModels
         public long ServicesId { get; set; }        
         public decimal Amount { get; set; }        
         public decimal Value { get; set; }
-        public string TaxWithheld { get; set; }
     }
 }

@@ -74,6 +74,11 @@ namespace UnclePhill.WebAPI_NFeS.Domain
             {
                 Validate(takers);
 
+                if (Functions.ExistsRegister(takers.CPF_CNPJ, TypeInput.Texto, "CPF_CNPJ", "Takers"))
+                {
+                    throw new InternalProgramException("Tomador já existe!");
+                }
+
                 SQL.AppendLine(" Insert Into Takers ");
                 SQL.AppendLine("    (CompanyId, ");
                 SQL.AppendLine("    IM, ");
@@ -208,12 +213,7 @@ namespace UnclePhill.WebAPI_NFeS.Domain
             if (string.IsNullOrEmpty(takers.CPF_CNPJ))
             {
                  throw new InternalProgramException("Informe o CPF/CNPJ!");
-            }            
-
-            if (Functions.ExistsRegister(takers.CPF_CNPJ, TypeInput.Texto, "CPF_CNPJ", "Takers"))
-            {
-                throw new InternalProgramException("Tomador já existe!");
-            }
+            }         
 
             if (string.IsNullOrEmpty(takers.RG_IE))
             {

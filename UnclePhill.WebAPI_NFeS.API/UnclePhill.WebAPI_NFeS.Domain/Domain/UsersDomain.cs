@@ -201,6 +201,11 @@ namespace UnclePhill.WebAPI_NFeS.Domain
                  throw new InternalProgramException("Informe o Email do usuário!");
             }
 
+            if (Functions.ExistsRegister(users.Email,TypeInput.Texto,"Email","Users"))
+            {
+                throw new InternalProgramException("Email já cadastrado!");
+            }
+
             if (string.IsNullOrEmpty(users.Password))
             {
                  throw new InternalProgramException("Informe a senha do usuário!");

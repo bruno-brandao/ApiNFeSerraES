@@ -43,6 +43,7 @@ namespace UnclePhill.WebAPI_NFeS.Domain.Domain
                 SQL.AppendLine(" From    Questions ");
                 SQL.AppendLine(" Where   Questions.Active = 1 ");
                 if (QuestionId > 0) { SQL.AppendLine(" And Questions.QuestionId = " + QuestionId); }
+                SQL.AppendLine(" Order By Questions.[Order] ");
 
                 DataTable data = Functions.Conn.GetDataTable(SQL.ToString(), "Questions");
                 List<Questions> lQuestions = new List<Questions>();

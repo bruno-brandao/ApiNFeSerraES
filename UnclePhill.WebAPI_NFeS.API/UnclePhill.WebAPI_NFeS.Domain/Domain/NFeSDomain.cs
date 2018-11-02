@@ -41,7 +41,7 @@ namespace UnclePhill.WebAPI_NFeS.Domain
                 NFeSRequest.nfd.codnaturezaoperacao = CFPS.CFPSCod;
                 NFeSRequest.nfd.codigocidade = Homologation.CityCod;
                 NFeSRequest.nfd.inscricaomunicipalemissor = Homologation.IM;
-                NFeSRequest.nfd.dataemissao = DateTime.Now.ToString("dd/MM/yyyy");
+                NFeSRequest.nfd.dataemissao = Functions.DateTimeBr().ToString("dd/MM/yyyy");
                 NFeSRequest.nfd.razaotomador = Taker.Name;
                 NFeSRequest.nfd.nomefantasiatomador = Taker.NameFantasy;
                 NFeSRequest.nfd.enderecotomador = Taker.Street;
@@ -105,7 +105,7 @@ namespace UnclePhill.WebAPI_NFeS.Domain
                         codatividade = TaxpayerActivities.CNAE,
                         valorunitario = Item.Value.ToString(),
                         aliquota = TaxpayerActivities.Aliquot.ToString(),
-                        impostoretido = Item.TaxWithheld
+                        impostoretido = CFPS.TaxWithheld
                     };
                 }
              
@@ -163,7 +163,7 @@ namespace UnclePhill.WebAPI_NFeS.Domain
                                 XmlAuthorized, 
                                 PDF);
                             
-                            return new NFeSRequestPreview(NFeSUrl.urlNfd, NFeSUrl.urlAutenticidade);
+                            return new NFeSRequestPreview(NFeSUrl.urlNfd, PDF);
                         }
                         else
                         {
@@ -204,7 +204,6 @@ namespace UnclePhill.WebAPI_NFeS.Domain
                 SQL.AppendLine(" 	ClienteInscricaoMunicipal As 'IM', ");
                 SQL.AppendLine(" 	DataEmissao As 'DateEmission', ");
                 SQL.AppendLine(" 	Observacao As 'Note', ");
-                SQL.AppendLine(" 	NotaFiscalXML As 'XML', ");
                 SQL.AppendLine(" 	NotaFiscalPDF As 'PDF', ");
                 SQL.AppendLine(" 	URL as 'URL', ");
                 SQL.AppendLine(" 	URLAutenticidade As 'URLAuthenticity' ");
@@ -694,7 +693,6 @@ namespace UnclePhill.WebAPI_NFeS.Domain
             Query.IM = row["IM"].ToString();
             Query.DateEmission = row["DateEmission"].ToString();
             Query.Note = row["Note"].ToString();
-            Query.XML = row["XML"].ToString();
             Query.PDF = row["PDF"].ToString();
             Query.URL = row["URL"].ToString();
             Query.URLAuthenticity = row["URLAuthenticity"].ToString();

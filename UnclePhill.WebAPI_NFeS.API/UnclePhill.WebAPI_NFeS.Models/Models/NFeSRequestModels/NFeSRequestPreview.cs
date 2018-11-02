@@ -13,13 +13,13 @@ namespace UnclePhill.WebAPI_NFeS.Models.Models.NFeSRequestModels
 
         }
 
-        public NFeSRequestPreview(string UrlNFeS, string UrlNFeSAutenticidade)
+        public NFeSRequestPreview(string UrlNFeS, string PDF)
         {
             this.UrlNFeS = UrlNFeS;
-            this.UrlNFeSAutenticidade = UrlNFeSAutenticidade;
+            this.PDF = PDF;
         }
 
         public string UrlNFeS { get; set; }
-        public string UrlNFeSAutenticidade { get; set; }
+        public string PDF { get; set; }
     }
 }

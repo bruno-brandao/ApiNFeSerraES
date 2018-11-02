@@ -26,6 +26,11 @@ namespace UnclePhill.WebAPI_NFeS.Utils.Utils
 
         public static Xml XmlFunctions = new Xml();
 
+        public static DateTime DateTimeBr()
+        {
+            return TimeZoneInfo.ConvertTimeFromUtc(DateTime.UtcNow, TimeZoneInfo.FindSystemTimeZoneById("E. South America Standard Time"));
+        }
+
         public static string IIf<T>(T Test)
         {
             if (Test == null)
