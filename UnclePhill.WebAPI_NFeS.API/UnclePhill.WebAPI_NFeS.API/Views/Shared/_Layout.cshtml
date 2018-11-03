@@ -13,8 +13,9 @@
     <div class="navbar navbar-inverse navbar-fixed-top">
         <div class="container">
             <div class="navbar-header">
-                <li>@Html.ActionLink("NFSe Fácil - API", "Index", "Home", new { area = "" }, new { @class = "navbar-brand" })</li>
-                <li>@Html.ActionLink("Métodos", "Index", "Help", new { area = "" }, new { @class = "navbar-brand" })</li>
+                @Html.ActionLink("NFSe Fácil - API", "Index", "Home", new { area = "" }, new { @class = "navbar-brand" })
+                
+                @Html.ActionLink("Métodos", "Index", "Help", new { area = "" }, new { @class = "navbar-brand" })
             </div>
         </div>
     </div>
