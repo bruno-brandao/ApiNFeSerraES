@@ -125,8 +125,8 @@ namespace UnclePhill.WebAPI_NFeS.Domain
                 SQL.AppendLine("     '" + Functions.NoQuote(companys.Neighborhood) + "',");
                 SQL.AppendLine("     '" + Functions.NoQuote(companys.City) + "',");
                 SQL.AppendLine("     '" + Functions.NoQuote(companys.State) + "',");
-                SQL.AppendLine("     '" + Functions.RemoveCharSpecial(Functions.NoQuote(companys.Telephone)) + "',");
-                SQL.AppendLine("     '" + Functions.NoQuote(companys.Email) + "',");
+                SQL.AppendLine("      " + (companys.Telephone == null ? "Null," : "'" + Functions.RemoveCharSpecial(Functions.NoQuote(companys.Telephone.ToString())) + "',"));
+                SQL.AppendLine("      " + (companys.Email == null ? "Null," : "'" + Functions.RemoveCharSpecialEmail(Functions.NoQuote(companys.Email.ToString())) + "',"));
                 SQL.AppendLine("     '" + (companys.Logo == null ? string.Empty:Functions.NoQuote(companys.Logo)) + "',");
                 SQL.AppendLine("     " + Functions.FormatNumber(companys.IRRF) + ",");
                 SQL.AppendLine("     " + Functions.FormatNumber(companys.PIS) + ",");
@@ -170,8 +170,8 @@ namespace UnclePhill.WebAPI_NFeS.Domain
                 SQL.AppendLine(" Update Companys Set ");
                 SQL.AppendLine("    UserId = " + companys.UserId + ",");
                 SQL.AppendLine("    CNPJ = '" + Functions.RemoveCharSpecial(Functions.NoQuote(companys.CNPJ)) + "',");
-                SQL.AppendLine("    IM = " + (string.IsNullOrEmpty(companys.IM) ? "Null," : "'" + Functions.RemoveCharSpecial(Functions.NoQuote(companys.IM))) + "',");
-                SQL.AppendLine("    IE = " + (string.IsNullOrEmpty(companys.IE) ? "Null," : "'" + Functions.RemoveCharSpecial(Functions.NoQuote(companys.IE))) + "',");
+                SQL.AppendLine("    IM = " + (string.IsNullOrEmpty(companys.IM) ? "Null," : "'" + Functions.RemoveCharSpecial(Functions.NoQuote(companys.IM)) + "',"));
+                SQL.AppendLine("    IE = " + (string.IsNullOrEmpty(companys.IE) ? "Null," : "'" + Functions.RemoveCharSpecial(Functions.NoQuote(companys.IE)) + "',"));
                 SQL.AppendLine("    Name = '" + Functions.NoQuote(companys.Name) + "',");
                 SQL.AppendLine("    NameFantasy = '" + Functions.NoQuote(companys.NameFantasy) + "',");
                 SQL.AppendLine("    CEP = '" + Functions.RemoveCharSpecial(Functions.NoQuote(companys.CEP)) + "',");
@@ -179,8 +179,8 @@ namespace UnclePhill.WebAPI_NFeS.Domain
                 SQL.AppendLine("    Neighborhood = '" + Functions.NoQuote(companys.Neighborhood) + "',");
                 SQL.AppendLine("    City = '" + Functions.NoQuote(companys.City) + "', ");
                 SQL.AppendLine("    State = '" + Functions.NoQuote(companys.State) + "',");
-                SQL.AppendLine("    Telephone = '" + Functions.RemoveCharSpecial(Functions.NoQuote(companys.Telephone)) + "',");
-                SQL.AppendLine("    Email = '" + Functions.NoQuote(companys.Email) + "',");
+                SQL.AppendLine("    Telephone =  " + (string.IsNullOrEmpty(companys.Telephone) ? "Null," : "'" + Functions.RemoveCharSpecial(Functions.NoQuote(companys.Telephone)) + "',"));
+                SQL.AppendLine("    Email = " + (string.IsNullOrEmpty(companys.Email) ? "Null," : "'" + Functions.RemoveCharSpecialEmail(Functions.NoQuote(companys.Email)) + "',"));
                 SQL.AppendLine("    Logo = '" + (companys.Logo == null ? string.Empty : Functions.NoQuote(companys.Logo)) + "',");
                 SQL.AppendLine("    IRRF = " + Functions.FormatNumber(companys.IRRF) + ",");
                 SQL.AppendLine("    PIS = " + Functions.FormatNumber(companys.PIS) + ",");
@@ -213,10 +213,15 @@ namespace UnclePhill.WebAPI_NFeS.Domain
                 throw new InternalProgramException("Informe o usuário!");
             }
 
-            if (string.IsNullOrEmpty(companys.CNPJ))
+            if (string.IsNullOrEmpty(Functions.RemoveCharSpecial(companys.CNPJ)))
             {
                  throw new InternalProgramException("Informe o CNPJ!");
-            }                                   
+            }
+
+            if (Functions.RemoveCharSpecial(companys.CNPJ).Length != 14)
+            {
+                throw new InternalProgramException("O CNPJ deve ter 14 digitos!");
+            }
 
             if (string.IsNullOrEmpty(companys.Name))
             {
@@ -231,6 +236,11 @@ namespace UnclePhill.WebAPI_NFeS.Domain
             if (string.IsNullOrEmpty(companys.CEP))
             {
                  throw new InternalProgramException("Informe o CEP!");
+            }
+
+            if (companys.CEP.Length != 8)
+            {
+                throw new InternalProgramException("O cep deve conter 8 digitos!");
             }
 
             if (string.IsNullOrEmpty(companys.Street))
@@ -252,16 +262,7 @@ namespace UnclePhill.WebAPI_NFeS.Domain
             {
                  throw new InternalProgramException("Informe o estado!");
             }
-
-            if (string.IsNullOrEmpty(companys.Telephone))
-            {
-                 throw new InternalProgramException("Informe o telefone!");
-            }
-
-            if (string.IsNullOrEmpty(companys.Email))
-            {
-                 throw new InternalProgramException("Informe o email!");
-            }
+           
         }
 
         private Companys Fill(DataRow row)

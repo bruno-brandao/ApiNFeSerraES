@@ -198,7 +198,7 @@ namespace UnclePhill.WebAPI_NFeS.Domain
                   throw new InternalProgramException("Informe o CEP!");
             }
 
-            if (Functions.ExistsRegister(shippingCompany.CEP, TypeInput.Texto, "CEP", "ShippingCompany"))
+            if (Functions.ExistsRegister(shippingCompany.CEP, TypeInput.Texto, "CEP", "ShippingCompany", shippingCompany.CompanyId))
             {
                 throw new InternalProgramException("Tomador já existe!");
             }

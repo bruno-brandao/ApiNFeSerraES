@@ -74,7 +74,7 @@ namespace UnclePhill.WebAPI_NFeS.Domain
             {
                 Validate(takers);
 
-                if (Functions.ExistsRegister(takers.CPF_CNPJ, TypeInput.Texto, "CPF_CNPJ", "Takers"))
+                if (Functions.ExistsRegister(takers.CPF_CNPJ, TypeInput.Texto, "CPF_CNPJ", "Takers",takers.CompanyId))
                 {
                     throw new InternalProgramException("Tomador já existe!");
                 }

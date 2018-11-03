@@ -69,10 +69,12 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="SQL\Script_BD_NFeS.sql" />
+    <WCFMetadata Include="Connected Services\" />
   </ItemGroup>
   <ItemGroup>
-    <WCFMetadata Include="Connected Services\" />
+    <Content Include="SQL\ScriptLimpaBanco.sql" />
+    <Content Include="SQL\ScriptCriaBDBasico.sql" />
+    <Content Include="SQL\ScriptCriaQuestoes.sql" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

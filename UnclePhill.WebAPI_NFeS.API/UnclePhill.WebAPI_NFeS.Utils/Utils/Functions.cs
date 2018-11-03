@@ -165,7 +165,12 @@ namespace UnclePhill.WebAPI_NFeS.Utils.Utils
             return Value.Replace("/", "").Replace("-", "").Replace(".", "").Replace("(", "").Replace(")", "").Replace(" ","");
         }
 
-        public static bool ExistsRegister(string Value, TypeInput Type, string Field, string Table)
+        public static string RemoveCharSpecialEmail(string Value)
+        {
+            return Value.Replace("/", "").Replace("-", "").Replace("(", "").Replace(")", "").Replace(" ", "");
+        }
+
+        public static bool ExistsRegister(string Value, TypeInput Type, string Field, string Table, long CompanyId = 0)
         {
             try
             {
@@ -183,6 +188,7 @@ namespace UnclePhill.WebAPI_NFeS.Utils.Utils
                 SQL.AppendLine(" From " + Table);
                 SQL.AppendLine(" Where Active = 1 ");
                 SQL.AppendLine(" And " + Field + " = " + Value);
+                if (CompanyId > 0) { SQL.AppendLine(" And CompanyId = " + CompanyId); }
 
                 DataTable data = Conn.GetDataTable(SQL.ToString(), Table);
                 if (data != null && data.Rows.Count > 0 && int.Parse(data.AsEnumerable().First().Field<int>("Qtd").ToString()) > 0)

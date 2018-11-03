@@ -24,7 +24,8 @@ namespace UnclePhill.WebAPI_NFeS.Domain.Domain
                 case "CARIACICA":
                     return City.Cariacica;
                 default:
-                    throw new InternalProgramException("A API não dá suporte a essa cidade!");
+                    return City.Serra;
+                    //throw new InternalProgramException("A API não dá suporte a essa cidade!");
             }
         }
         
